@@ -1,0 +1,9 @@
+.root{
+    -fx-background-image: url("../images/Blue.jpg");
+    -fx-background-size: cover;
+}
+
+.loginForm{
+    -fx-background-color: white;
+    -fx-background-radius: 100px;
+}
