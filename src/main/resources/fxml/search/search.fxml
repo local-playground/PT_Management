@@ -4,53 +4,41 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="1366.0" style="-fx-background-color: #0d47a1;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="1250.0" styleClass="root" stylesheets="@search-style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.search.SearchController">
    <children>
-      <AnchorPane layoutX="20.0" layoutY="18.0" prefHeight="786.0" prefWidth="1326.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10px;">
+      <Pane layoutX="10.0" layoutY="14.0" prefHeight="73.0" prefWidth="1230.0" styleClass="search-pane" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="14.0">
          <children>
-            <Pane layoutX="7.0" layoutY="8.0" prefHeight="52.0" prefWidth="1326.0" style="-fx-background-color: #2196f3;" AnchorPane.bottomAnchor="734.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label layoutX="440.0" layoutY="9.0" prefHeight="39.0" prefWidth="441.0" text="Phone Tree Database Search" textFill="#000000bf">
-                     <font>
-                        <Font name="Ebrima Bold" size="30.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Pane layoutY="73.0" prefHeight="70.0" prefWidth="1326.0" style="-fx-background-color: #ffffff;">
-               <children>
-                  <Label layoutX="80.0" layoutY="25.0" prefHeight="21.0" prefWidth="90.0" text="Search By: " />
-                  <JFXTextField layoutX="644.0" layoutY="26.0" prefHeight="29.0" prefWidth="387.0" />
-                  <JFXComboBox layoutX="188.0" layoutY="14.0" prefHeight="40.0" prefWidth="366.0" />
-                  <JFXButton layoutX="1085.0" layoutY="15.0" prefHeight="40.0" prefWidth="177.0" />
-               </children>
-            </Pane>
-            <Separator layoutY="69.0" prefHeight="0.0" prefWidth="1325.0" />
-            <Separator layoutY="138.0" prefHeight="21.0" prefWidth="1322.0" />
-            <Pane layoutY="159.0" prefHeight="615.0" prefWidth="1326.0">
-               <children>
-                  <TableView prefHeight="615.0" prefWidth="1327.0">
-                    <columns>
-                      <TableColumn prefWidth="165.0" text="Team Lead" />
-                        <TableColumn prefWidth="153.0" text="Sevadar" />
-                        <TableColumn minWidth="0.0" prefWidth="138.99996948242188" text="First Name" />
-                        <TableColumn minWidth="0.0" prefWidth="200.0" text="Last Name" />
-                        <TableColumn minWidth="0.0" prefWidth="184.0" text="Cell Phone" />
-                        <TableColumn minWidth="-Infinity" prefWidth="184.0" text="Home Phone" />
-                        <TableColumn minWidth="-Infinity" prefWidth="123.0" text="Zip Code" />
-                        <TableColumn minWidth="-1.0" prefWidth="184.0" text="Town" />
-                    </columns>
-                  </TableView>
-               </children>
-            </Pane>
-         </children>
-      </AnchorPane>
+            <Label fx:id="searchByLabel" layoutX="75.0" layoutY="32.0" prefHeight="23.0" prefWidth="96.0" text="Search By: " textFill="#0d47a1">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <JFXComboBox fx:id="searchComboBox" focusColor="#002171" labelFloat="true" layoutX="182.0" layoutY="31.0" prefHeight="25.0" prefWidth="212.0" unFocusColor="#0d47a1" />
+            <JFXTextField fx:id="searchTextField" focusColor="#002171" layoutX="471.0" layoutY="31.0" prefHeight="25.0" prefWidth="411.0" unFocusColor="#0d47a1" />
+            <JFXButton fx:id="searchButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" layoutX="935.0" layoutY="19.0" minHeight="46.0" onAction="#searchResults" opacity="0.96" prefHeight="46.0" prefWidth="212.0" styleClass="search-button" text="Search" textAlignment="CENTER" textFill="#0d47a1">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </JFXButton>
+         </children></Pane>
+      <TableView fx:id="tableView" layoutX="10.0" layoutY="103.0" prefHeight="705.0" prefWidth="1230.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="103.0">
+        <columns>
+          <TableColumn fx:id="teamLeadColumn" prefWidth="140.0" text="Team Lead" />
+          <TableColumn fx:id="sevadarColumn" prefWidth="140.0" text="Sevadar" />
+            <TableColumn fx:id="firstNameColumn" prefWidth="160.0" text="First Name" />
+            <TableColumn fx:id="lastNameColumn" prefWidth="170.0" text="Last Name" />
+            <TableColumn fx:id="cellPhoneColumn" prefWidth="150.0" text="Cell Phone" />
+            <TableColumn fx:id="homePhoneColumn" prefWidth="150.0" text="Home Phone" />
+            <TableColumn fx:id="zipCodeColumn" prefWidth="95.0" text="Zip Code" />
+            <TableColumn fx:id="townColumn" minWidth="0.0" prefWidth="120.0" text="Town" />
+            <TableColumn fx:id="phoneStatusColumn" prefWidth="102.0" text="Status" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

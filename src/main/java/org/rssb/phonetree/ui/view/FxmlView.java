@@ -9,10 +9,9 @@ public enum FxmlView {
         String getTitle() {
             return getStringFromResourceBundle("main.app.title");
         }
-
         @Override
         String getFxmlFile() {
-            return "/fxml/Scene.fxml";
+            return "/fxml/search/search.fxml";
         }
     }, LOGIN {
         @Override

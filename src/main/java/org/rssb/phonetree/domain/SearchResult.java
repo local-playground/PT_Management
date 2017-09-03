@@ -13,6 +13,7 @@ public class SearchResult {
     private String workPhone;
     private String zipCode;
     private String town;
+    private String status;
 
     public SearchResult(int memberId, int familyId, String firstName,
                         String lastName,String cellPhone,
@@ -118,6 +119,15 @@ public class SearchResult {
 
     public void setTown(String town) {
         this.town = town;
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

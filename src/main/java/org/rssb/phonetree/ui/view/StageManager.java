@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.rssb.phonetree.repository.FamilyJpaRepository;
 import org.rssb.phonetree.spring.config.SpringFXMLLoader;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class StageManager {
     
     private void show(final Parent rootnode, String title) {
         Scene scene = prepareScene(rootnode);
-        
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle(title);
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
@@ -61,6 +62,7 @@ public class StageManager {
             rootNode = springFXMLLoader.load(fxmlFilePath);
             Objects.requireNonNull(rootNode, "A Root FXML node must not be null");
         } catch (Exception exception) {
+            exception.printStackTrace();
             logAndExit("Unable to load FXML view" + fxmlFilePath, exception);
         }
         return rootNode;
