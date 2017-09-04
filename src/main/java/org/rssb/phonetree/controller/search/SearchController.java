@@ -6,24 +6,33 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import org.rssb.phonetree.common.CommonUtil;
+import org.rssb.phonetree.common.SearchCriteria;
 import org.rssb.phonetree.domain.SearchResult;
 import org.rssb.phonetree.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
-public class SearchController implements Initializable{
+public class SearchController implements Initializable {
     @Autowired
     private SearchService searchService;
 
@@ -34,7 +43,7 @@ public class SearchController implements Initializable{
     private Label searchByLabel;
 
     @FXML
-    private JFXComboBox<?> searchComboBox;
+    private JFXComboBox<String> searchComboBox;
 
     @FXML
     private JFXTextField searchTextField;
@@ -73,9 +82,18 @@ public class SearchController implements Initializable{
     private TableColumn<SearchResult, String> phoneStatusColumn;
 
     @FXML
-    void searchResults(ActionEvent event) {
+    private Label closeButton;
 
+    @FXML
+    private Label recordsLabel;
+
+    @FXML
+    void closeScreen(MouseEvent event) {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.close();
     }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -88,8 +106,64 @@ public class SearchController implements Initializable{
         zipCodeColumn.setCellValueFactory(new PropertyValueFactory<>("zipCode"));
         townColumn.setCellValueFactory(new PropertyValueFactory<>("town"));
         phoneStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        List<SearchResult> data = searchService.findFamiliesByFirstName("Raj");
-        ObservableList<SearchResult> searchResultsList= FXCollections.observableList(data);
+        /*
+        Initialize combo box
+         */
+
+        Arrays.stream(SearchCriteria.values()).
+                forEach(searchCriteria -> searchComboBox.getItems().add(searchCriteria.getType()));
+        searchComboBox.getSelectionModel().select(0);
+
+        tableView.setOnMousePressed(event -> {
+            if(event.isPrimaryButtonDown() && event.getClickCount()==2){
+                System.out.println(tableView.getSelectionModel().getSelectedItem());
+            }
+        });
+
+    }
+
+    @FXML
+    void searchResults(Event event) {
+        String searchText = searchTextField.getText();
+        if (CommonUtil.isEmptyOrNull(searchText)) {
+            return;
+        }
+
+        SearchCriteria searchCriteria = Arrays.stream(SearchCriteria.values()).filter(criteria ->
+                criteria.getType().equals(searchComboBox.getSelectionModel().getSelectedItem())
+        ).findFirst().orElse(null);
+
+        List<SearchResult> searchResultsFound = new ArrayList<>();
+
+        switch (searchCriteria) {
+            case FIRST_NAME:
+                searchResultsFound = searchService.findFamiliesByFirstName(searchText);
+                break;
+            case LAST_NAME:
+                searchResultsFound = searchService.findFamiliesByLastName(searchText);
+                break;
+            case TEAM_LEAD:
+                searchResultsFound = searchService.findFamiliesByTeamLeadName(searchText);
+                break;
+            case SEVADAR:
+                searchResultsFound = searchService.findFamiliesBySevadarName(searchText);
+                break;
+            case PHONE_NUMBER:
+                searchResultsFound = searchService.findFamiliesByPhoneNumber(searchText);
+                break;
+            case PHONE_STATUS:
+                searchResultsFound = searchService.findFamiliesByPhoneNumber(searchText);
+                break;
+            case TOWN:
+                searchResultsFound = searchService.findFamiliesByTown(searchText);
+                break;
+            case ZIP_CODE:
+                searchResultsFound = searchService.findFamiliesByZipCode(searchText);
+                break;
+        }
+        ObservableList<SearchResult> searchResultsList = FXCollections.observableList(searchResultsFound);
+        recordsLabel.setText("" + searchResultsFound.size());
         tableView.setItems(searchResultsList);
     }
+
 }
