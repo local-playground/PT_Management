@@ -6,7 +6,8 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.rssb.phonetree.repository.FamilyJpaRepository;
+import org.rssb.phonetree.common.ContextHolder;
+import org.rssb.phonetree.common.Delegator;
 import org.rssb.phonetree.spring.config.SpringFXMLLoader;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
@@ -29,48 +30,37 @@ public class StageManager {
         this.primaryStage.setOnCloseRequest(event -> System.out.println("primary stage on close"));
     }
 
-    public void switchScene(final FxmlView view) {
-        Parent viewRootNodeHierarchy = loadViewNodeHierarchy(view.getFxmlFile());
-        show(viewRootNodeHierarchy, view.getTitle(),primaryStage,false);
+    public void switchScene(final FxmlView view, Delegator delegator,
+                            ContextHolder<?,?> contextHolder, boolean popUpNewScreen) {
+        Parent rootNode = loadFxmlFileFromClasspath(view.getFxmlFile(),delegator,contextHolder);
+
+        Stage stage = primaryStage;
+        if (popUpNewScreen) {
+            stage = new Stage();
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setOnCloseRequest(event -> System.out.println("Closing child stage.."));
+            stage.setOnHidden(event -> System.out.println("hiding child stage.."));
+        }
+        show(rootNode, view.getTitle(), stage);
     }
 
-    public void switchScene(final FxmlView view,boolean popUpNewScreen){
-        Parent viewRootNodeHierarchy = loadViewNodeHierarchy(view.getFxmlFile());
-        Stage stage = new Stage();
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.setOnCloseRequest(event -> System.out.println("Closing child stage.."));
-        stage.setOnHidden(event -> System.out.println("hiding child stage.."));
-        show(viewRootNodeHierarchy,view.getTitle(),stage,true);
-    }
-    
-   /* private void show(final Parent rootNode, String title) {
-        show(rootNode,title,primaryStage);
-    }
-*/
-    private void show(final Parent rootNode, String title,Stage stage,boolean showAndWait) {
-        Scene scene = prepareScene(rootNode,stage);
-        //stage.initStyle(StageStyle.UNDECORATED);
+    private void show(final Parent rootNode, String title, Stage stage) {
+        Scene scene = prepareScene(rootNode, stage);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle(title);
         stage.setScene(scene);
         stage.sizeToScene();
         stage.centerOnScreen();
 
         try {
-            if(showAndWait) {
-                System.out.println("showing and waiting...");
-                stage.showAndWait();
-                System.out.println("out of wait stage...");
-            }else{
-                stage.show();
-            }
+            stage.show();
         } catch (Exception exception) {
-            logAndExit ("Unable to show scene for title" + title,  exception);
+            logAndExit("Unable to show scene for title" + title, exception);
         }
     }
-    
-    public Scene prepareScene(Parent rootNode,Stage stage){
-        Scene scene = stage.getScene();
 
+    private Scene prepareScene(Parent rootNode, Stage stage) {
+        Scene scene = stage.getScene();
         if (scene == null) {
             scene = new Scene(rootNode);
         }
@@ -78,10 +68,10 @@ public class StageManager {
         return scene;
     }
 
-    public Parent loadViewNodeHierarchy(String fxmlFilePath) {
+    private Parent loadFxmlFileFromClasspath(String fxmlFilePath,Delegator delegator,ContextHolder<?,?> contextHolder) {
         Parent rootNode = null;
         try {
-            rootNode = springFXMLLoader.load(fxmlFilePath);
+            rootNode = springFXMLLoader.load(fxmlFilePath,delegator,contextHolder);
             Objects.requireNonNull(rootNode, "A Root FXML node must not be null");
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -89,8 +79,8 @@ public class StageManager {
         }
         return rootNode;
     }
-    
-    
+
+
     private void logAndExit(String errorMsg, Exception exception) {
         LOG.error(errorMsg, exception, exception.getCause());
         Platform.exit();

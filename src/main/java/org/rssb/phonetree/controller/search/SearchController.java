@@ -5,13 +5,11 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,7 +17,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.rssb.phonetree.common.CommonUtil;
+import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.SearchCriteria;
+import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.domain.SearchResult;
 import org.rssb.phonetree.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
-public class SearchController implements Initializable {
+public class SearchController extends AbstractController implements Initializable  {
     @Autowired
     private SearchService searchService;
 
@@ -116,14 +116,19 @@ public class SearchController implements Initializable {
 
         tableView.setOnMousePressed(event -> {
             if(event.isPrimaryButtonDown() && event.getClickCount()==2){
-                System.out.println(tableView.getSelectionModel().getSelectedItem());
+                contextHolder.setResponse(tableView.getSelectionModel().getSelectedItem());
+                this.delegator.delegate(contextHolder);
             }
         });
-
     }
 
     @FXML
     void searchResults(Event event) {
+        refresh();
+    }
+
+    @Override
+    public void refresh() {
         String searchText = searchTextField.getText();
         if (CommonUtil.isEmptyOrNull(searchText)) {
             return;
@@ -132,6 +137,7 @@ public class SearchController implements Initializable {
         SearchCriteria searchCriteria = Arrays.stream(SearchCriteria.values()).filter(criteria ->
                 criteria.getType().equals(searchComboBox.getSelectionModel().getSelectedItem())
         ).findFirst().orElse(null);
+
 
         List<SearchResult> searchResultsFound = new ArrayList<>();
 
@@ -161,9 +167,14 @@ public class SearchController implements Initializable {
                 searchResultsFound = searchService.findFamiliesByZipCode(searchText);
                 break;
         }
+
         ObservableList<SearchResult> searchResultsList = FXCollections.observableList(searchResultsFound);
         recordsLabel.setText("" + searchResultsFound.size());
         tableView.setItems(searchResultsList);
     }
 
+    @Override
+    public void delegate(ContextHolder contextHolder) {
+
+    }
 }

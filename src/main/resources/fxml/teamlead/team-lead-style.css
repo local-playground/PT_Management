@@ -1,0 +1,44 @@
+.root{
+    -fx-background-color: #e8f5e9;
+}
+
+.button-bar{
+    -fx-background-color: #a5d6a7;
+}
+
+.team-lead-action-button {
+    -fx-text-fill: #1b5e20;
+    -fx-border-color:#1b5e20;
+    -fx-border-width:2px;
+    -fx-border-radius: 30px;
+    -fx-background-color: #e8f5e9;
+    -fx-background-radius: 30px;
+    -fx-font-family: "Calibri";
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.team-lead-action-button:hover, .team-lead-action-button:focused{
+    -fx-text-fill: #e8f5e9;
+    -fx-border-color:#e8f5e9;
+    -fx-border-width:2px;
+    -fx-border-radius: 30px;
+    -fx-background-color: #1b5e20;
+    -fx-background-radius: 30px;
+}
+
+.add-user{
+    -fx-graphic: url("../../images/add_user_icon.png");
+}
+
+.delete-user{
+    -fx-graphic: url("../../images/remove_user_icon.png");
+}
+
+.swap-user{
+    -fx-graphic: url("../../images/swap_user_icon.png");
+}
+
+.replace-user{
+    -fx-graphic: url("../../images/replace_user_icon.png");
+}

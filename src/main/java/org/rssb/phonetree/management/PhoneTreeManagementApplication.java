@@ -28,7 +28,7 @@ public class PhoneTreeManagementApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stageManager = applicationContext.getBean(StageManager.class, stage);
-        stageManager.switchScene(FxmlView.LOGIN);
+        stageManager.switchScene(FxmlView.LOGIN,null,null,false);
     }
         
     private ConfigurableApplicationContext bootstrapSpringApplicationContext(){
