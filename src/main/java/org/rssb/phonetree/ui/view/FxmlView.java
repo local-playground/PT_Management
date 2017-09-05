@@ -4,7 +4,7 @@ import java.util.ResourceBundle;
 
 public enum FxmlView {
 
-    MAIN {
+    SEARCH {
         @Override
         String getTitle() {
             return getStringFromResourceBundle("main.app.title");
@@ -21,7 +21,7 @@ public enum FxmlView {
 
         @Override
         String getFxmlFile() {
-            return "/fxml/Login.fxml";
+            return "/fxml/login/login.fxml";
         }
     };
     

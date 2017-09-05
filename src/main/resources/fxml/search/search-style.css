@@ -3,12 +3,12 @@
 }
 
 .table-view{
-    -fx-background-color: #E3F2FD;
+    -fx-background-color: #f5fbfe;
     -fx-background-radius: 10px;
 }
 .table-view .table-column{
     -fx-background-radius: 10px;
-    -fx-border-color:#E3F2FD #BBDEFB #BBDEFB #E3F2FD;
+    -fx-border-color:#f5fbfe #E3F2FD #E3F2FD #f5fbfe;
 }
 
 .table-view .table-column .label{
@@ -20,14 +20,14 @@
     -fx-cell-size: 30px;
     -fx-font-family: "Calibri";
     -fx-font-size: 16px;
-    -fx-background: #E3F2FD;
+    -fx-background: #f5fbfe;
 }
 .table-row-cell:odd {
-    -fx-background: #BBDEFB;
+    -fx-background: #E3F2FD;
 }
 
 .search-pane{
-    -fx-background-color: #E3F2FD;
+    -fx-background-color: #f5fbfe;
     -fx-background-radius: 10px;
 }
 .search-result-pane{
@@ -69,9 +69,10 @@
     -fx-border-color: #0d47a1;
     -fx-border-width:2px;
     -fx-border-radius: 10px;
+    -fx-padding: 0 0 0 20px;
 }
 
 .close-button{
-    -fx-background-color: white;
+    -fx-background-color: #f5fbfe;
     -fx-background-radius: 25px;
 }
