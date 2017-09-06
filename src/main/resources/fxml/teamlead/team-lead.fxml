@@ -18,7 +18,8 @@
             <JFXButton fx:id="addTeamLeadButton" buttonType="RAISED" contentDisplay="TOP" onAction="#addTeamLead" prefHeight="106.0" prefWidth="105.0" styleClass="team-lead-action-button,add-user" text="Add" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
-               </font></JFXButton>
+               </font>
+            </JFXButton>
             <JFXButton fx:id="removeTeamLeadButton" buttonType="RAISED" contentDisplay="TOP" layoutX="20.0" layoutY="20.0" onAction="#removeTeamLead" prefHeight="106.0" prefWidth="105.0" text="Remove" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
