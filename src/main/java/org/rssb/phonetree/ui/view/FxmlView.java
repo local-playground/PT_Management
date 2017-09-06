@@ -13,6 +13,16 @@ public enum FxmlView {
         String getFxmlFile() {
             return "/fxml/search/search.fxml";
         }
+
+        @Override
+        boolean isFullScreen() {
+            return false;
+        }
+
+        @Override
+        boolean isAlwaysOnTop() {
+            return true;
+        }
     }, LOGIN {
         @Override
         String getTitle() {
@@ -22,6 +32,15 @@ public enum FxmlView {
         @Override
         String getFxmlFile() {
             return "/fxml/login/login.fxml";
+        }
+
+        @Override
+        boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        boolean isAlwaysOnTop() {
+            return true;
         }
     },
     TEAM_LEAD_MANAGEMENT{
@@ -34,10 +53,21 @@ public enum FxmlView {
         String getFxmlFile() {
             return "/fxml/teammanagement/team-management.fxml";
         }
+
+        @Override
+        boolean isFullScreen() {
+            return true;
+        }
+        @Override
+        boolean isAlwaysOnTop() {
+            return true;
+        }
     };
     
     abstract String getTitle();
     abstract String getFxmlFile();
+    abstract boolean isFullScreen();
+    abstract boolean isAlwaysOnTop();
     
     String getStringFromResourceBundle(String key){
         return ResourceBundle.getBundle("messages").getString(key);

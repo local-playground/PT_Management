@@ -1,5 +1,8 @@
 package org.rssb.phonetree.controller;
 
+import javafx.event.Event;
+import javafx.scene.Node;
+import javafx.stage.Stage;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.Delegator;
 import org.rssb.phonetree.common.Refreshable;
@@ -32,5 +35,11 @@ public abstract class AbstractController implements Delegator,Refreshable{
 
     protected <T,R> ContextHolder<T,R> createContextHolder(T request,R response){
         return new ContextHolder<>(request,response);
+    }
+
+    protected void closeScreen(Event event){
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.close();
     }
 }

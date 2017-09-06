@@ -8,14 +8,12 @@ import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.SearchCriteria;
@@ -88,12 +86,9 @@ public class SearchController extends AbstractController implements Initializabl
     private Label recordsLabel;
 
     @FXML
-    void closeScreen(MouseEvent event) {
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        stage.close();
+    void close(MouseEvent event) {
+        closeScreen(event);
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -117,6 +112,7 @@ public class SearchController extends AbstractController implements Initializabl
         tableView.setOnMousePressed(event -> {
             if(event.isPrimaryButtonDown() && event.getClickCount()==2){
                 contextHolder.setResponse(tableView.getSelectionModel().getSelectedItem());
+                closeScreen(event);
                 this.delegator.delegate(contextHolder);
             }
         });

@@ -34,7 +34,12 @@ public class TestController extends AbstractController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        testButton.setOnAction(event -> testMe());
+        testButton.setOnAction(event -> {
+            testMe();
+            System.out.println("closing window now....");
+            closeScreen(event);
+            System.out.println("done closing window now....");
+        });
     }
 
     @Override

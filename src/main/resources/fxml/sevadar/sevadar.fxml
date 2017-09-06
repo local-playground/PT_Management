@@ -3,58 +3,58 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="600.0" styleClass="root" stylesheets="@sevadar-style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root" stylesheets="@sevadar-style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <Label styleClass="top-label" text="Sevadar Management" BorderPane.alignment="CENTER">
+      <HBox prefHeight="120.0" prefWidth="800.0" spacing="50.0" styleClass="button-bar" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <children>
+            <JFXButton buttonType="RAISED" contentDisplay="TOP" prefHeight="107.0" prefWidth="119.0" styleClass="sevadar-action-button,add-user" text="Add" wrapText="true" />
+            <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="15.0" layoutY="15.0" prefHeight="107.0" prefWidth="119.0" text="Delete" wrapText="true">
+               <styleClass>
+                  <String fx:value="sevadar-action-button" />
+                  <String fx:value="delete-user" />
+               </styleClass>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="144.0" layoutY="15.0" prefHeight="107.0" prefWidth="119.0" text="Replace" wrapText="true">
+               <styleClass>
+                  <String fx:value="sevadar-action-button" />
+                  <String fx:value="replace-user" />
+               </styleClass>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="273.0" layoutY="15.0" prefHeight="107.0" prefWidth="119.0" text="Swap" wrapText="true">
+               <styleClass>
+                  <String fx:value="sevadar-action-button" />
+                  <String fx:value="swap-user" />
+               </styleClass>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="402.0" layoutY="15.0" prefHeight="107.0" prefWidth="119.0" text="Move" wrapText="true">
+               <styleClass>
+                  <String fx:value="sevadar-action-button" />
+                  <String fx:value="move-user" />
+               </styleClass>
+            </JFXButton>
+         </children>
          <BorderPane.margin>
-            <Insets bottom="10.0" top="5.0" />
+            <Insets bottom="15.0" />
          </BorderPane.margin>
-      </Label>
+      </HBox>
    </top>
    <center>
-      <SplitPane dividerPositions="0.5016233766233766" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="304.0" prefWidth="598.0">
-               <children>
-                  <HBox prefHeight="93.0" prefWidth="600.0" spacing="10.0" styleClass="button-bar">
-                     <children>
-                        <JFXButton alignment="BOTTOM_CENTER" buttonType="RAISED" contentDisplay="TOP" graphicTextGap="1.0" prefHeight="82.0" prefWidth="80.0" text="Add " wrapText="true">
-                           <styleClass>
-                              <String fx:value="sevadar-action-button" />
-                              <String fx:value="add-user" />
-                           </styleClass>
-                        </JFXButton>
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-                  <TableView layoutY="99.0" prefHeight="207.0" prefWidth="600.0">
-                    <columns>
-                      <TableColumn prefWidth="128.0" text="Sevadar Name" />
-                      <TableColumn prefWidth="118.0" text="Cell Phone" />
-                        <TableColumn prefWidth="127.0" text="Home Phone" />
-                        <TableColumn prefWidth="224.0" text="Email Id" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="287.0" prefWidth="598.0">
-               <children>
-                  <Pane prefHeight="303.0" prefWidth="600.0" styleClass="bottom-split-pane" />
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
+      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn prefWidth="194.0" text="First Name" />
+          <TableColumn minWidth="0.0" prefWidth="213.0" text="Last Name" />
+            <TableColumn prefWidth="200.0" text="Cell Phone" />
+            <TableColumn minWidth="0.0" prefWidth="190.0" text="Home Phone" />
+        </columns>
+      </TableView>
    </center>
 </BorderPane>

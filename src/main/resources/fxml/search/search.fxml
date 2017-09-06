@@ -45,7 +45,7 @@
             <TableColumn fx:id="phoneStatusColumn" prefWidth="102.0" text="Status" />
         </columns>
       </TableView>
-      <Label fx:id="closeButton" alignment="CENTER" layoutX="1222.0" layoutY="6.0" onMouseClicked="#closeScreen" prefHeight="25.0" prefWidth="25.0" styleClass="close-button" text="X" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label fx:id="closeButton" alignment="CENTER" layoutX="1222.0" layoutY="6.0" onMouseClicked="#close" prefHeight="25.0" prefWidth="25.0" styleClass="close-button" text="X" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

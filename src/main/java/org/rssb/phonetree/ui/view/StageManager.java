@@ -1,11 +1,12 @@
 package org.rssb.phonetree.ui.view;
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.Delegator;
 import org.rssb.phonetree.spring.config.SpringFXMLLoader;
@@ -22,6 +23,8 @@ public class StageManager {
     private static final Logger LOG = getLogger(StageManager.class);
     private final Stage primaryStage;
     private final SpringFXMLLoader springFXMLLoader;
+    private double xOffset;
+    private double yOffset;
 
     public StageManager(SpringFXMLLoader springFXMLLoader, Stage stage) {
         this.springFXMLLoader = springFXMLLoader;
@@ -32,30 +35,49 @@ public class StageManager {
 
     public void switchScene(final FxmlView view, Delegator delegator,
                             ContextHolder<?,?> contextHolder, boolean popUpNewScreen) {
-        Parent rootNode = loadFxmlFileFromClasspath(view.getFxmlFile(),delegator,contextHolder);
 
+        Parent rootNode = loadFxmlFileFromClasspath(view.getFxmlFile(),delegator,contextHolder);
         Stage stage = primaryStage;
         if (popUpNewScreen) {
             stage = new Stage();
-            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setOnCloseRequest(event -> System.out.println("Closing child stage.."));
             stage.setOnHidden(event -> System.out.println("hiding child stage.."));
         }
-        show(rootNode, view.getTitle(), stage);
+
+        rootNode.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+
+        final Stage stageToUse = stage;
+        rootNode.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stageToUse.setX(event.getScreenX() - xOffset);
+                stageToUse.setY(event.getScreenY() - yOffset);
+            }
+        });
+        show(rootNode, view, stageToUse);
     }
 
-    private void show(final Parent rootNode, String title, Stage stage) {
+    private void show(final Parent rootNode, FxmlView view, Stage stage) {
         Scene scene = prepareScene(rootNode, stage);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle(title);
+        //stage.initStyle(StageStyle.UNDECORATED);
+        stage.setTitle(view.getTitle());
         stage.setScene(scene);
-        stage.sizeToScene();
+        stage.setFullScreen(view.isFullScreen());
+        stage.setAlwaysOnTop(view.isAlwaysOnTop());
+        //stage.sizeToScene();
         stage.centerOnScreen();
 
         try {
             stage.show();
         } catch (Exception exception) {
-            logAndExit("Unable to show scene for title" + title, exception);
+            logAndExit("Unable to show scene for title" + view.getTitle(), exception);
         }
     }
 
