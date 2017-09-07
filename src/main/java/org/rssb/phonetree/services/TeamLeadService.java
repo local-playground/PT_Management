@@ -1,6 +1,7 @@
 package org.rssb.phonetree.services;
 
 import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.domain.FamilyCount;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
 
@@ -18,4 +19,5 @@ public interface TeamLeadService {
    Optional<TeamLead> findTeamLeadByFamilyId(int familyId);
    List<Sevadar> findSevadarListByTeamLeadName(String teamLeadName);
    List<Sevadar> findSevadarListByTeamLeadId(int teamLeadId);
+
 }

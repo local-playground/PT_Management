@@ -31,7 +31,13 @@ import java.util.List;
                 query = Constants.SEARCH_CRITERIA_BASIC_QUERY +
                         "WHERE m.cellPhone LIKE :phoneNumber " +
                         "OR m.homePhone LIKE :phoneNumber " +
-                        "OR m.workPhone LIKE :phoneNumber")
+                        "OR m.workPhone LIKE :phoneNumber"),
+        @NamedQuery(name = "Family.getSevadarsCallingFamilyCountByTeamLeadId",
+                query = "SELECT NEW org.rssb.phonetree.domain.FamilyCount(s.sevadarName,count(f)) FROM " +
+                        " Family f " +
+                        " JOIN f.sevadar s " +
+                        " WHERE f.teamLead.teamLeadId = :teamLeadId " +
+                        " GROUP BY s.sevadarName")
 })
 public class Family implements Serializable {
     private static final long serialVersionUID = 1L;

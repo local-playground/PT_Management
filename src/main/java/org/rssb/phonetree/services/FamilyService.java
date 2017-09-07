@@ -1,6 +1,7 @@
 package org.rssb.phonetree.services;
 
 import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.domain.FamilyCount;
 import org.rssb.phonetree.entity.Family;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface FamilyService {
     Response saveToDatabase(Family family);
     Response moveMemberUnderOtherFamily(int memberId,int otherFamilyId);
     List<Family> getFamiliesByTeamLeadAndSevadarName(String teamLeadName,String sevadarName);
+
 }

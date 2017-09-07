@@ -2,59 +2,54 @@ package org.rssb.phonetree.services.impl;
 
 
 import org.rssb.phonetree.domain.SearchResult;
+import org.rssb.phonetree.repository.NamedQueryExecutor;
 import org.rssb.phonetree.services.SearchService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Service
 public class SearchServiceImpl implements SearchService{
-    @PersistenceContext
-    private EntityManager entityManager;
+
+    @Autowired
+    private NamedQueryExecutor namedQueryExecutor;
+   /* @PersistenceContext
+    private EntityManager entityManager;*/
 
     @Override
     public List<SearchResult> findFamiliesByZipCode(String zipCode) {
-        return getFamilyInformation("Family.findFamilyByZipCode","zipCode",zipCode);
+        return namedQueryExecutor.executeNamedQuery("Family.findFamilyByZipCode","zipCode","%"+zipCode+"%",SearchResult.class);
     }
 
     @Override
     public List<SearchResult> findFamiliesByFirstName(String firstName) {
-        TypedQuery<SearchResult> typedQuery = entityManager.createNamedQuery("Family.findFamilyByFirstName",SearchResult.class);
-        typedQuery.setParameter("firstName","%"+firstName+"%");
-        return typedQuery.getResultList();
+        return namedQueryExecutor.executeNamedQuery("Family.findFamilyByFirstName","firstName","%"+firstName+"%",SearchResult.class);
     }
 
     @Override
     public List<SearchResult> findFamiliesByLastName(String lastName) {
-        return getFamilyInformation("Family.findFamilyByLastName","lastName",lastName);
+        return namedQueryExecutor.executeNamedQuery("Family.findFamilyByLastName","lastName","%"+lastName+"%",SearchResult.class);
     }
 
     @Override
     public List<SearchResult> findFamiliesBySevadarName(String sevadarName) {
-        return getFamilyInformation("Family.findFamilyBySevadarName","sevadarName",sevadarName);
+        return namedQueryExecutor.executeNamedQuery("Family.findFamilyBySevadarName","sevadarName","%"+sevadarName+"%",SearchResult.class);
     }
 
     @Override
     public List<SearchResult> findFamiliesByTeamLeadName(String teamLeadName) {
-        return getFamilyInformation("Family.findFamilyByTeamLeadName","teamLeadName",teamLeadName);
+        return namedQueryExecutor.executeNamedQuery("Family.findFamilyByTeamLeadName","teamLeadName","%"+teamLeadName+"%",SearchResult.class);
     }
 
     @Override
     public List<SearchResult> findFamiliesByPhoneNumber(String phoneNumber) {
-        return getFamilyInformation("Family.findFamilyByPhoneNumber","phoneNumber",phoneNumber);
+        return namedQueryExecutor.executeNamedQuery("Family.findFamilyByPhoneNumber","phoneNumber","%"+phoneNumber+"%",SearchResult.class);
     }
 
     @Override
     public List<SearchResult> findFamiliesByTown(String town) {
-        return getFamilyInformation("Family.findFamilyByTown","town",town);
+        return namedQueryExecutor.executeNamedQuery("Family.findFamilyByTown","town","%"+town+"%",SearchResult.class);
     }
 
-    private List<SearchResult> getFamilyInformation(String namedQuery,String parameterName,String parameterValue){
-        TypedQuery<SearchResult> typedQuery = entityManager.createNamedQuery(namedQuery,SearchResult.class);
-        typedQuery.setParameter(parameterName,"%"+parameterValue+"%");
-        return typedQuery.getResultList();
-    }
 }

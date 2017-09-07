@@ -3,6 +3,7 @@ package org.rssb.phonetree.services;
 import org.junit.Test;
 import org.rssb.phonetree.ApplicationSetup;
 import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.domain.FamilyCount;
 import org.rssb.phonetree.entity.Sevadar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -98,4 +99,11 @@ public class SevadarServiceTest extends ApplicationSetup{
         Response response = sevadarService.moveSevadarUnderOtherTeamLead(1,3);
         System.out.println("Response = "+ (response!=null?response.getMessage():"Null Response"));
     }
+
+    @Test
+    public void getFamilyCountByTeamLeadId(){
+        List<FamilyCount> familyCountList = sevadarService.getSevadarsCallingFamilyCountByTeamLeadId(1);
+        familyCountList.stream().forEach(familyCount -> System.out.println(familyCount));
+    }
+
 }

@@ -8,6 +8,7 @@ import org.rssb.phonetree.entity.Family;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
+import org.rssb.phonetree.repository.NamedQueryExecutor;
 import org.rssb.phonetree.repository.TeamLeadJpaRepository;
 import org.rssb.phonetree.services.BackupSevadarService;
 import org.rssb.phonetree.services.MemberService;
@@ -24,6 +25,9 @@ import java.util.Optional;
 public class TeamLeadServiceImpl implements TeamLeadService {
 
     @Autowired
+    private NamedQueryExecutor namedQueryExecutor;
+
+    @Autowired
     private TeamLeadJpaRepository teamLeadJpaRepository;
 
     @Autowired
@@ -34,8 +38,9 @@ public class TeamLeadServiceImpl implements TeamLeadService {
 
     @Override
     public List<TeamLead> findAllTeamLeads() {
-        return teamLeadJpaRepository.findAll();
+        return namedQueryExecutor.executeNamedQuery("TeamLead.findAllTeamLeads",null,null,TeamLead.class);
     }
+
 
     @Override
     public Optional<TeamLead> findTeamLeadById(int teamLeadId) {

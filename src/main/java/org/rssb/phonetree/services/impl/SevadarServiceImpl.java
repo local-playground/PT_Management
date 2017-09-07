@@ -3,10 +3,12 @@ package org.rssb.phonetree.services.impl;
 
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.domain.FamilyCount;
 import org.rssb.phonetree.entity.Family;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
+import org.rssb.phonetree.repository.NamedQueryExecutor;
 import org.rssb.phonetree.repository.SevadarJpaRepository;
 import org.rssb.phonetree.services.*;
 import org.rssb.phonetree.status.ActionAlertType;
@@ -19,6 +21,10 @@ import java.util.Optional;
 
 @Service
 public class SevadarServiceImpl implements SevadarService {
+
+    @Autowired
+    private NamedQueryExecutor namedQueryExecutor;
+
     @Autowired
     private SevadarJpaRepository sevadarJpaRepository;
 
@@ -228,4 +234,11 @@ public class SevadarServiceImpl implements SevadarService {
                 new Object[]{sevadarName,sevadarNameS},
                 ActionAlertType.INFORMATION);
     }
+
+    @Override
+    public List<FamilyCount> getSevadarsCallingFamilyCountByTeamLeadId(int teamLeadId) {
+        return namedQueryExecutor.executeNamedQuery("Family.getSevadarsCallingFamilyCountByTeamLeadId","teamLeadId",teamLeadId,FamilyCount.class);
+    }
+
+
 }

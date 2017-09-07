@@ -5,6 +5,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "TeamLeads")
+@NamedQueries({
+        @NamedQuery(name = "TeamLead.findAllTeamLeads",
+                query = "SELECT t from TeamLead t " +
+                        "JOIN FETCH t.family " +
+                        "JOIN FETCH t.member " +
+                        "JOIN FETCH t.sevadarsList")
+
+})
 public class TeamLead {
 
     @Id
@@ -18,7 +26,7 @@ public class TeamLead {
     private List<Sevadar> sevadarsList;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="FamilyId")
+    @JoinColumn(name = "FamilyId")
     private Family family;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -57,6 +65,7 @@ public class TeamLead {
     public void setFamily(Family family) {
         this.family = family;
     }
+
     public Member getMember() {
         return member;
     }

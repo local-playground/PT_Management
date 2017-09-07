@@ -55,4 +55,5 @@ public class FamilyServiceTest extends ApplicationSetup{
         List<Family> familyList =  familyService.getFamiliesByTeamLeadAndSevadarName("Mina Patel","Kamal Singh");
         familyList.stream().forEach(family -> System.out.println(family));
     }
+
 }

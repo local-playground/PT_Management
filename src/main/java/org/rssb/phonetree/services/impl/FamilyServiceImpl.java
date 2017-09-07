@@ -6,6 +6,7 @@ import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.entity.Family;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.repository.FamilyJpaRepository;
+import org.rssb.phonetree.repository.NamedQueryExecutor;
 import org.rssb.phonetree.services.FamilyService;
 import org.rssb.phonetree.services.MemberService;
 import org.rssb.phonetree.services.UtilityService;
@@ -134,4 +135,5 @@ public class FamilyServiceImpl implements FamilyService {
     public List<Family> getFamiliesByTeamLeadAndSevadarName(String teamLeadName, String sevadarName) {
         return familyJpaRepository.findByTeamLeadTeamLeadNameAndSevadarSevadarName(teamLeadName,sevadarName);
     }
+
 }
