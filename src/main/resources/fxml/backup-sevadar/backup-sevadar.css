@@ -6,6 +6,13 @@
     -fx-background-radius: 10px;
 }
 
+.header-title{
+    -fx-font-family: "Calibri";
+    -fx-font-size: 22px;
+    -fx-text-fill: "#1b5e20";
+    -fx-font-weight: bold;
+}
+
 .button-bar{
     -fx-background-color: #a5d6a7;
 }

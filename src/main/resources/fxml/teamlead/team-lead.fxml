@@ -3,43 +3,52 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" styleClass="root" stylesheets="@team-lead-style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <HBox prefHeight="120.0" prefWidth="200.0" spacing="80.0" styleClass="button-bar" BorderPane.alignment="CENTER">
-         <children>
-            <JFXButton buttonType="RAISED" contentDisplay="TOP" prefHeight="111.0" prefWidth="132.0" styleClass="team-lead-action-button,add-user" text="Add" />
-            <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="15.0" layoutY="15.0" prefHeight="111.0" prefWidth="132.0" text="Delete">
-               <styleClass>
-                  <String fx:value="team-lead-action-button" />
-                  <String fx:value="delete-user" />
-               </styleClass>
-            </JFXButton>
-            <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="197.0" layoutY="15.0" prefHeight="111.0" prefWidth="132.0" text="Replace">
-               <styleClass>
-                  <String fx:value="team-lead-action-button" />
-                  <String fx:value="replace-user" />
-               </styleClass>
-            </JFXButton>
-            <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="197.0" layoutY="15.0" prefHeight="111.0" prefWidth="132.0" text="Swap">
-               <styleClass>
-                  <String fx:value="team-lead-action-button" />
-                  <String fx:value="swap-user" />
-               </styleClass>
-            </JFXButton>
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="15.0" />
          </BorderPane.margin>
-      </HBox>
+         <children>
+            <Label styleClass="header-title" text="Team Lead Management">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin></Label>
+            <HBox prefHeight="116.0" prefWidth="796.0" spacing="120.0" styleClass="button-bar">
+               <children>
+                  <JFXButton buttonType="RAISED" contentDisplay="TOP" prefHeight="102.0" prefWidth="102.0" styleClass="team-lead-action-button,add-user" text="Add" />
+                  <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="15.0" layoutY="15.0" prefHeight="102.0" prefWidth="102.0" text="Delete">
+                     <styleClass>
+                        <String fx:value="team-lead-action-button" />
+                        <String fx:value="delete-user" />
+                     </styleClass>
+                  </JFXButton>
+                  <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="197.0" layoutY="15.0" prefHeight="102.0" prefWidth="102.0" text="Replace">
+                     <styleClass>
+                        <String fx:value="team-lead-action-button" />
+                        <String fx:value="replace-user" />
+                     </styleClass>
+                  </JFXButton>
+                  <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="197.0" layoutY="15.0" prefHeight="102.0" prefWidth="102.0" text="Swap">
+                     <styleClass>
+                        <String fx:value="team-lead-action-button" />
+                        <String fx:value="swap-user" />
+                     </styleClass>
+                  </JFXButton>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
    </top>
    <center>
       <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
