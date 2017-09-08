@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.Delegator;
 import org.rssb.phonetree.spring.config.SpringFXMLLoader;
@@ -66,7 +67,7 @@ public class StageManager {
 
     private void show(final Parent rootNode, FxmlView view, Stage stage) {
         Scene scene = prepareScene(rootNode, stage);
-        //stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle(view.getTitle());
         stage.setScene(scene);
         stage.setFullScreen(view.isFullScreen());

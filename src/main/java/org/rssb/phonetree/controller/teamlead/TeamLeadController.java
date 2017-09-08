@@ -1,20 +1,22 @@
 package org.rssb.phonetree.controller.teamlead;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.common.SevaType;
 import org.rssb.phonetree.controller.AbstractController;
+import org.rssb.phonetree.controller.sevadar.SevadarController;
 import org.rssb.phonetree.domain.SearchResult;
 import org.rssb.phonetree.entity.TeamLead;
 import org.rssb.phonetree.services.TeamLeadService;
@@ -29,10 +31,13 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
-public class TeamLeadController extends AbstractController implements Initializable {
+public class TeamLeadController extends AbstractController{
 
     @Autowired
     private TeamLeadService teamLeadService;
+
+    @Autowired
+    private SevadarController sevadarController;
 
     @FXML
     private JFXButton addTeamLeadButton;
@@ -41,16 +46,25 @@ public class TeamLeadController extends AbstractController implements Initializa
     private JFXButton removeTeamLeadButton;
 
     @FXML
-    private JFXButton swapTeamLeadButton;
+    private JFXButton replaceTeamLeadButton;
 
     @FXML
-    private JFXButton replaceTeamLeadButton;
+    private JFXButton swapTeamLeadButton;
 
     @FXML
     private TableView<TeamLead> teamLeadTableView;
 
     @FXML
-    private TableColumn<TeamLead, String> teamLeadNameTextField;
+    private TableColumn<TeamLead, String> firstNameTableColumn;
+
+    @FXML
+    private TableColumn<TeamLead, String> lastNameTableColumn;
+
+    @FXML
+    private TableColumn<TeamLead, String> cellPhoneTableColumn;
+
+    @FXML
+    private TableColumn<TeamLead, String> homePhoneTableColumn;
 
     @FXML
     void addTeamLead(ActionEvent event) {
@@ -77,11 +91,48 @@ public class TeamLeadController extends AbstractController implements Initializa
     public void initialize(URL location, ResourceBundle resources) {
         teamLeadTableView.setOnMousePressed(event -> {
             if(event.isPrimaryButtonDown()){
-                System.out.println(teamLeadTableView.getSelectionModel().getSelectedItem());
+                triggerChangeEvent();
             }
         });
-        teamLeadNameTextField.setCellValueFactory(new PropertyValueFactory<TeamLead,String>("teamLeadName"));
+        firstNameTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<TeamLead, String>,
+                ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<TeamLead, String> param) {
+                return new SimpleStringProperty(param.getValue().getMember().getFirstName());
+            }
+        });
+
+        lastNameTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<TeamLead, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<TeamLead, String> param) {
+                return new SimpleStringProperty(param.getValue().getMember().getLastName());
+            }
+        });
+
+        cellPhoneTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<TeamLead, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<TeamLead, String> param) {
+                return new SimpleStringProperty(param.getValue().getMember().getCellPhone());
+            }
+        });
+
+        homePhoneTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<TeamLead, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<TeamLead, String> param) {
+                return new SimpleStringProperty(param.getValue().getMember().getHomePhone());
+            }
+        });
+
         refresh();
+        teamLeadTableView.getSelectionModel().select(0);
+        //triggerChangeEvent();
+    }
+
+    private void triggerChangeEvent() {
+        TeamLead teamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
+        ContextHolder contextHolder = new ContextHolder(teamLead,null);
+        sevadarController.setContextHolder(contextHolder);
+        sevadarController.refresh();
     }
 
     @Override
@@ -117,7 +168,7 @@ public class TeamLeadController extends AbstractController implements Initializa
 
     }
 
-    private enum TeamLeadAction{
+    private enum TeamLeadAction {
         ADD_TEAM_LEAD,
         REPLACE_TEAM_LEAD,
         SWAP_TEAM_LEAD,

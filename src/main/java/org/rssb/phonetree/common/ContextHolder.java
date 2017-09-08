@@ -1,6 +1,6 @@
 package org.rssb.phonetree.common;
 
-public class ContextHolder<T,R extends Object>{
+public class ContextHolder<T,R>{
     private T request;
     private R response;
 

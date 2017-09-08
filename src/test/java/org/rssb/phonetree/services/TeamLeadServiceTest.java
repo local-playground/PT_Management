@@ -3,7 +3,6 @@ package org.rssb.phonetree.services;
 import org.junit.Test;
 import org.rssb.phonetree.ApplicationSetup;
 import org.rssb.phonetree.common.Response;
-import org.rssb.phonetree.domain.FamilyCount;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,9 @@ public class TeamLeadServiceTest extends ApplicationSetup{
     public void findAllTeamLeads(){
         List<TeamLead> teamLeadList = teamLeadService.findAllTeamLeads();
         teamLeadList.stream().forEach(teamLead -> System.out.println(teamLead.getTeamLeadName()));
-        teamLeadList.stream().forEach(teamLead -> {
+        /*teamLeadList.stream().forEach(teamLead -> {
             teamLead.getSevadarsList().stream().forEach(sevadar -> System.out.println(sevadar.getSevadarName()));
-        });
+        });*/
     }
 
     @Test

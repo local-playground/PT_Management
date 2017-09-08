@@ -8,9 +8,8 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "TeamLead.findAllTeamLeads",
                 query = "SELECT t from TeamLead t " +
-                        "JOIN FETCH t.family " +
-                        "JOIN FETCH t.member " +
-                        "JOIN FETCH t.sevadarsList")
+                        "JOIN t.member " +
+                        "JOIN t.sevadarsList")
 
 })
 public class TeamLead {

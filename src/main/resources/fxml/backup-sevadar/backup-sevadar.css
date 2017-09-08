@@ -45,6 +45,32 @@
     -fx-background-radius: 30px;
 }
 
+.table-view{
+    -fx-background-color: #e8f5e9;
+    -fx-background-radius: 10px;
+}
+.table-view .table-column{
+    -fx-background-radius: 10px;
+    -fx-border-color:#e8f5e9 #c8e6c9 #e8f5e9 #c8e6c9;
+}
+
+.table-view .table-column .label{
+    -fx-text-fill: #e8f5e9;
+    -fx-background-color:#1b5e20;
+}
+
+.table-row-cell{
+    -fx-cell-size: 35px;
+    -fx-font-family: "Calibri";
+    -fx-font-size: 16px;
+    -fx-font-weight:bold;
+    -fx-background: #e8f5e9;
+    -fx-padding: 3px;
+}
+.table-row-cell:odd {
+    -fx-background: #c8e6c9;
+}
+
 .add-user{
     -fx-graphic: url("../../images/add_user.png");
 }

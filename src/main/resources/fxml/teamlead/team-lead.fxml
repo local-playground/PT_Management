@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" styleClass="root" stylesheets="@team-lead-style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="800.0" styleClass="root" stylesheets="@team-lead-style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teamlead.TeamLeadController">
    <top>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -23,20 +23,20 @@
                </VBox.margin></Label>
             <HBox prefHeight="116.0" prefWidth="796.0" spacing="120.0" styleClass="button-bar">
                <children>
-                  <JFXButton buttonType="RAISED" contentDisplay="TOP" prefHeight="102.0" prefWidth="102.0" styleClass="team-lead-action-button,add-user" text="Add" />
-                  <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="15.0" layoutY="15.0" prefHeight="102.0" prefWidth="102.0" text="Delete">
+                  <JFXButton fx:id="addTeamLeadButton" buttonType="RAISED" contentDisplay="TOP" onAction="#addTeamLead" prefHeight="102.0" prefWidth="102.0" styleClass="team-lead-action-button,add-user" text="Add" />
+                  <JFXButton fx:id="removeTeamLeadButton" buttonType="RAISED" contentDisplay="TOP" layoutX="15.0" layoutY="15.0" onAction="#removeTeamLead" prefHeight="102.0" prefWidth="102.0" text="Delete">
                      <styleClass>
                         <String fx:value="team-lead-action-button" />
                         <String fx:value="delete-user" />
                      </styleClass>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="197.0" layoutY="15.0" prefHeight="102.0" prefWidth="102.0" text="Replace">
+                  <JFXButton fx:id="replaceTeamLeadButton" buttonType="RAISED" contentDisplay="TOP" layoutX="197.0" layoutY="15.0" onAction="#replaceTeamLead" prefHeight="102.0" prefWidth="102.0" text="Replace">
                      <styleClass>
                         <String fx:value="team-lead-action-button" />
                         <String fx:value="replace-user" />
                      </styleClass>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="197.0" layoutY="15.0" prefHeight="102.0" prefWidth="102.0" text="Swap">
+                  <JFXButton fx:id="swapTeamLeadButton" buttonType="RAISED" contentDisplay="TOP" layoutX="197.0" layoutY="15.0" onAction="#swapTeamLead" prefHeight="102.0" prefWidth="102.0" text="Swap">
                      <styleClass>
                         <String fx:value="team-lead-action-button" />
                         <String fx:value="swap-user" />
@@ -51,12 +51,12 @@
       </VBox>
    </top>
    <center>
-      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="teamLeadTableView" prefHeight="251.0" prefWidth="796.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="194.0" text="First Name" />
-          <TableColumn minWidth="0.0" prefWidth="224.0" text="Last Name" />
-            <TableColumn prefWidth="191.0" text="Cell Phone" />
-            <TableColumn minWidth="0.0" prefWidth="189.0" text="Home Phone" />
+          <TableColumn fx:id="firstNameTableColumn" prefWidth="194.0" text="First Name" />
+          <TableColumn fx:id="lastNameTableColumn" minWidth="0.0" prefWidth="224.0" text="Last Name" />
+            <TableColumn fx:id="cellPhoneTableColumn" prefWidth="191.0" text="Cell Phone" />
+            <TableColumn fx:id="homePhoneTableColumn" minWidth="0.0" prefWidth="189.0" text="Home Phone" />
         </columns>
       </TableView>
    </center>

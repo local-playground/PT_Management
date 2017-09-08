@@ -7,7 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,7 +14,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.rssb.phonetree.common.CommonUtil;
-import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.SearchCriteria;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.domain.SearchResult;
@@ -30,7 +28,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
-public class SearchController extends AbstractController implements Initializable  {
+public class SearchController extends AbstractController  {
     @Autowired
     private SearchService searchService;
 
@@ -111,9 +109,11 @@ public class SearchController extends AbstractController implements Initializabl
 
         tableView.setOnMousePressed(event -> {
             if(event.isPrimaryButtonDown() && event.getClickCount()==2){
-                contextHolder.setResponse(tableView.getSelectionModel().getSelectedItem());
+                this.contextHolder.setResponse(tableView.getSelectionModel().getSelectedItem());
                 closeScreen(event);
                 this.delegator.delegate(contextHolder);
+                this.contextHolder = null;
+                this.delegator = null;
             }
         });
     }
@@ -167,10 +167,5 @@ public class SearchController extends AbstractController implements Initializabl
         ObservableList<SearchResult> searchResultsList = FXCollections.observableList(searchResultsFound);
         recordsLabel.setText("" + searchResultsFound.size());
         tableView.setItems(searchResultsList);
-    }
-
-    @Override
-    public void delegate(ContextHolder contextHolder) {
-
     }
 }
