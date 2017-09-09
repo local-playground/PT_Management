@@ -2,6 +2,7 @@ package org.rssb.phonetree.controller.teamlead;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
+import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.common.SevaType;
@@ -23,6 +25,7 @@ import org.rssb.phonetree.services.TeamLeadService;
 import org.rssb.phonetree.status.ActionAlertType;
 import org.rssb.phonetree.ui.view.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -31,7 +34,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
-public class TeamLeadController extends AbstractController{
+@Lazy
+public class TeamLeadController extends AbstractController {
 
     @Autowired
     private TeamLeadService teamLeadService;
@@ -68,12 +72,31 @@ public class TeamLeadController extends AbstractController{
 
     @FXML
     void addTeamLead(ActionEvent event) {
-        ContextHolder<TeamLeadAction,SearchResult> contextHolder = createContextHolder(TeamLeadAction.ADD_TEAM_LEAD,null);
-        stageManager.switchScene(FxmlView.SEARCH,this,contextHolder,true);
+        ContextHolder<TeamLeadAction, SearchResult> contextHolder = createContextHolder(TeamLeadAction.ADD_TEAM_LEAD, null);
+        stageManager.switchScene(FxmlView.SEARCH, this, contextHolder, true);
     }
 
     @FXML
     void removeTeamLead(ActionEvent event) {
+        TeamLead teamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
+        Alert alert;
+        if (teamLead == null) {
+            alert = CommonUtil.getAlert("Please select Team Lead you want to delete.", ActionAlertType.ERROR);
+            alert.showAndWait();
+            return;
+        }
+
+        alert = CommonUtil.getAlert("Are you sure you want to remove " +
+                teamLead.getTeamLeadName() + " from the list?", ActionAlertType.CONFIRMATION);
+
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == ButtonType.YES) {
+                Response response = teamLeadService.deleteTeamLead(teamLead.getTeamLeadId());
+                Alert newAlert = CommonUtil.getAlert(response);
+                newAlert.showAndWait();
+                refresh();
+            }
+        });
 
     }
 
@@ -89,48 +112,41 @@ public class TeamLeadController extends AbstractController{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        teamLeadTableView.setOnMousePressed(event -> {
-            if(event.isPrimaryButtonDown()){
+        teamLeadTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TeamLead>() {
+            @Override
+            public void changed(ObservableValue<? extends TeamLead> observable, TeamLead oldValue, TeamLead newValue) {
+                if (oldValue == null && newValue == null)
+                    return;
+
+                if (oldValue != null && (oldValue.getTeamLeadId() == newValue.getTeamLeadId())){
+                        return;
+                }
+
                 triggerChangeEvent();
             }
         });
-        firstNameTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<TeamLead, String>,
-                ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<TeamLead, String> param) {
-                return new SimpleStringProperty(param.getValue().getMember().getFirstName());
-            }
-        });
+        firstNameTableColumn.setCellValueFactory(param ->
+                new SimpleStringProperty(param.getValue().getMember().getFirstName()));
 
-        lastNameTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<TeamLead, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<TeamLead, String> param) {
-                return new SimpleStringProperty(param.getValue().getMember().getLastName());
-            }
-        });
+        lastNameTableColumn.setCellValueFactory(param ->
+                new SimpleStringProperty(param.getValue().getMember().getLastName()));
 
-        cellPhoneTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<TeamLead, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<TeamLead, String> param) {
-                return new SimpleStringProperty(param.getValue().getMember().getCellPhone());
-            }
-        });
+        cellPhoneTableColumn.setCellValueFactory(param ->
+                new SimpleStringProperty(param.getValue().getMember().getCellPhone()));
 
-        homePhoneTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<TeamLead, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<TeamLead, String> param) {
-                return new SimpleStringProperty(param.getValue().getMember().getHomePhone());
-            }
-        });
-
+        homePhoneTableColumn.setCellValueFactory(param ->
+                new SimpleStringProperty(param.getValue().getMember().getHomePhone()));
         refresh();
+    }
+
+    @Override
+    public void postProcess() {
         teamLeadTableView.getSelectionModel().select(0);
-        //triggerChangeEvent();
     }
 
     private void triggerChangeEvent() {
         TeamLead teamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
-        ContextHolder contextHolder = new ContextHolder(teamLead,null);
+        ContextHolder contextHolder = new ContextHolder(teamLead, null);
         sevadarController.setContextHolder(contextHolder);
         sevadarController.refresh();
     }
@@ -147,18 +163,27 @@ public class TeamLeadController extends AbstractController{
         TeamLeadAction action = (TeamLeadAction) contextHolder.getRequest();
         SearchResult selectedResult = (SearchResult) contextHolder.getResponse();
 
-        switch (action){
+        switch (action) {
             case REPLACE_TEAM_LEAD:
                 break;
             case ADD_TEAM_LEAD:
                 Response response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_TEAM_LEAD);
-                if(response.getActionAlertType()!= ActionAlertType.NONE){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Testing");
-                    alert.setContentText(response.getMessage());
-                    Optional<ButtonType> result = alert.showAndWait();
-
+                if (response.getActionAlertType() == ActionAlertType.NONE) {
+                    addTeamLead(selectedResult.getMemberId());
+                    return;
                 }
+                Alert alert = CommonUtil.getAlert(response);
+                alert.showAndWait().ifPresent(buttonType -> {
+                    if (alert.getAlertType() != Alert.AlertType.CONFIRMATION) {
+                        return;
+                    }
+
+                    if(buttonType == ButtonType.NO){
+                        return;
+                    }
+
+                    addTeamLead(selectedResult.getMemberId());
+                });
                 break;
             case SWAP_TEAM_LEAD:
                 break;
@@ -166,6 +191,13 @@ public class TeamLeadController extends AbstractController{
                 break;
         }
 
+    }
+
+    private void addTeamLead(int memberId){
+        Response response = teamLeadService.addTeamLead(memberId);
+        Alert alert = CommonUtil.getAlert(response);
+        alert.showAndWait();
+        refresh();
     }
 
     private enum TeamLeadAction {

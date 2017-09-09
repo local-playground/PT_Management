@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.Delegator;
+import org.rssb.phonetree.common.PostLoader;
 import org.rssb.phonetree.common.Refreshable;
 import org.rssb.phonetree.services.UtilityService;
 import org.rssb.phonetree.ui.view.StageManager;
@@ -13,11 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.PostLoad;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 @Component
-public abstract class AbstractController implements Delegator,Refreshable,Initializable{
+public abstract class AbstractController implements Delegator,Refreshable,Initializable,PostLoader {
 
     protected Delegator delegator;
     protected ContextHolder contextHolder;
@@ -53,6 +55,11 @@ public abstract class AbstractController implements Delegator,Refreshable,Initia
     @Override
     public void refresh(){
 
+    }
+
+    @Override
+    public void postProcess(){
+        System.out.println("abstract post process called "+this.getClass().getSimpleName());
     }
 
     protected <T,R> ContextHolder<T,R> createContextHolder(T request, R response){

@@ -119,11 +119,18 @@
 }
 
 .chart-pie-label {
-    -fx-fill: black;
+    -fx-text-fill: black;
     -fx-font-size: 16px;
     -fx-font-family: "Calibri";
     -fx-font: bold;
 }
+
+
+.chart-pie-label-line{
+    -fx-fill: black;
+    -fx-stroke: black;
+}
+
 /*.chart-legend {
     -fx-background-color:  #e8f5e9;
     -fx-stroke: #daa520;
@@ -136,12 +143,13 @@
 .chart-legend {
     -fx-background-color:  transparent;
     -fx-padding: 20px;
+    -fx-stroke: red;
 }
 
 .chart-legend-item-symbol{
     -fx-background-radius: 0;
 }
 
-.chart-legend-item{
+.chart-legend-item .label{
     -fx-text-fill: black;
 }

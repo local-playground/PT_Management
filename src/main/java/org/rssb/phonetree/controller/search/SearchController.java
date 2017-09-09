@@ -111,7 +111,7 @@ public class SearchController extends AbstractController  {
             if(event.isPrimaryButtonDown() && event.getClickCount()==2){
                 this.contextHolder.setResponse(tableView.getSelectionModel().getSelectedItem());
                 closeScreen(event);
-                this.delegator.delegate(contextHolder);
+                this.delegator.delegate(this.contextHolder);
                 this.contextHolder = null;
                 this.delegator = null;
             }

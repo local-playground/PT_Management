@@ -34,6 +34,7 @@ public class SpringFXMLLoader {
         loader.setLocation(getClass().getResource(fxmlPath));
         Parent parent = loader.load();
         ((AbstractController)loader.getController()).setDelegator(delegator,contextHolder);
+        ((AbstractController)loader.getController()).postProcess();
         return parent;
     }
 }

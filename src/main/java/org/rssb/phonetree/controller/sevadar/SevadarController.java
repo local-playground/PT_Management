@@ -127,8 +127,13 @@ public class SevadarController extends AbstractController {
     @Override
     public void refresh() {
         TeamLead teamLead = (TeamLead) contextHolder.getRequest();
+        System.out.println("Sevadar controller found selected item = "+teamLead.getTeamLeadName());
         List<Sevadar> sevadarList = teamLead.getSevadarsList();
+        System.out.println("total number of sevadars = "+sevadarList.size());
         ObservableList<Sevadar> sevadarObservableList = FXCollections.observableArrayList(sevadarList);
+        if(sevadarsTableView == null){
+            System.out.println("table view is null");
+        }
         sevadarsTableView.setItems(sevadarObservableList);
 
         refreshBarChart(teamLead);
