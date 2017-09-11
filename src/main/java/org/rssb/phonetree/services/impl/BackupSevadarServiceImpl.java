@@ -25,20 +25,21 @@ public class BackupSevadarServiceImpl implements BackupSevadarService {
     @Override
     public Response addAsBackupSevadar(int memberId) {
         BackupSevadar backupSevadar = backupSevadarJpaRepository.findByMemberMemberId(memberId);
-        if(backupSevadar!=null){
+        if (backupSevadar != null) {
             return CommonUtil.createResponse(BackupSevadarActionResponse.BACKUP_SEVADAR_ALREADY_EXISTS,
                     new Object[]{backupSevadar.getSevadarName()},
                     ActionAlertType.ERROR);
         }
         Member member = memberService.findMember(memberId).get();
-        Integer maxBackupSevadarId = backupSevadarJpaRepository.getMaxBackupSevadarId();
+        /*Integer maxBackupSevadarId = backupSevadarJpaRepository.getMaxBackupSevadarId();
         if(maxBackupSevadarId == null){
             maxBackupSevadarId =0;
-        }
+        }*/
+        backupSevadar = new BackupSevadar();
         backupSevadar.setSevadarName(CommonUtil.getFullName(member));
         backupSevadar.setFamily(member.getFamily());
         backupSevadar.setMember(member);
-        backupSevadar.setBackupSevadarsId(maxBackupSevadarId+1);
+        //backupSevadar.setBackupSevadarsId(maxBackupSevadarId+1);
         backupSevadarJpaRepository.save(backupSevadar);
 
         return CommonUtil.createResponse(BackupSevadarActionResponse.BACKUP_SEVADAR_SUCCESSFULLY_ADDED,
@@ -49,13 +50,13 @@ public class BackupSevadarServiceImpl implements BackupSevadarService {
     @Override
     public Response removeBackupSevadar(int memberId) {
         BackupSevadar backupSevadar = backupSevadarJpaRepository.findByMemberMemberId(memberId);
-        if(backupSevadar!=null){
+        if (backupSevadar != null) {
             backupSevadarJpaRepository.delete(backupSevadar);
             return CommonUtil.createResponse(BackupSevadarActionResponse.BACKUP_SEVADAR_SUCCESSFULLY_DELETED,
                     new Object[]{backupSevadar.getSevadarName()},
                     ActionAlertType.INFORMATION);
         }
-       return CommonUtil.createResponse(BackupSevadarActionResponse.BACKUP_SEVADAR_NOT_FOUND,
+        return CommonUtil.createResponse(BackupSevadarActionResponse.BACKUP_SEVADAR_NOT_FOUND,
                 new Object[]{},
                 ActionAlertType.INFORMATION);
     }

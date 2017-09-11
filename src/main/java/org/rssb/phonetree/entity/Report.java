@@ -1,10 +1,7 @@
 
 package org.rssb.phonetree.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -13,6 +10,7 @@ public class Report implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ReportId")
     private int reportId;
     @Column(name = "ReportName")

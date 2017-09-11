@@ -11,6 +11,7 @@ public class BackupSevadar implements Serializable {
     
     @Column(name = "BackupSevadarsId")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int backupSevadarsId;
     @Column(name = "SevadarName")
     private String sevadarName;

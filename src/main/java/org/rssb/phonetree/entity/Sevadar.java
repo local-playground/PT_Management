@@ -10,6 +10,7 @@ public class Sevadar implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SevadarsId")
     private int sevadarsId;
     @Column(name = "SevadarName")

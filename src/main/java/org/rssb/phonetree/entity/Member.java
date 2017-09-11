@@ -1,6 +1,11 @@
 
 package org.rssb.phonetree.entity;
 
+import org.rssb.phonetree.entity.converters.PreferredPhoneTypeConverter;
+import org.rssb.phonetree.entity.converters.YesNoConverter;
+import org.rssb.phonetree.entity.emums.PreferredPhoneType;
+import org.rssb.phonetree.entity.emums.YesNo;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -22,6 +27,7 @@ public class Member implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MemberId")
     private int memberId;
     @Column(name = "FirstName")
@@ -48,6 +54,20 @@ public class Member implements Serializable {
     private Integer preferredPhone;
     @Column(name = "EmailId")
     private String emailId;
+    @Column(name = "homeNoVM")
+    @Convert(converter = YesNoConverter.class)
+    private YesNo homeNoVM;
+    @Column(name = "cellNoVM")
+    @Convert(converter = YesNoConverter.class)
+    private YesNo cellNoVM;
+    @Column(name = "workNoVM")
+    @Convert(converter = YesNoConverter.class)
+    private YesNo workNoVM;
+    @Column(name="PreferredPhoneType")
+    @Convert(converter = PreferredPhoneTypeConverter.class)
+    private PreferredPhoneType preferredPhoneType;
+
+
     /*@Column(name = "FamilyId",insertable = false,updatable = false)
     private int familyId;*/
 
@@ -167,13 +187,41 @@ public class Member implements Serializable {
         this.family = family;
     }
 
-    /*public int getFamilyId() {
-        return familyId;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setFamilyId(int familyId) {
-        this.familyId = familyId;
-    }*/
+    public YesNo getHomeNoVM() {
+        return homeNoVM;
+    }
+
+    public void setHomeNoVM(YesNo homeNoVM) {
+        this.homeNoVM = homeNoVM;
+    }
+
+    public YesNo getCellNoVM() {
+        return cellNoVM;
+    }
+
+    public void setCellNoVM(YesNo cellNoVM) {
+        this.cellNoVM = cellNoVM;
+    }
+
+    public YesNo getWorkNoVM() {
+        return workNoVM;
+    }
+
+    public void setWorkNoVM(YesNo workNoVM) {
+        this.workNoVM = workNoVM;
+    }
+
+    public PreferredPhoneType getPreferredPhoneType() {
+        return preferredPhoneType;
+    }
+
+    public void setPreferredPhoneType(PreferredPhoneType preferredPhoneType) {
+        this.preferredPhoneType = preferredPhoneType;
+    }
 
     @Override
     public String toString() {
@@ -189,7 +237,12 @@ public class Member implements Serializable {
         sb.append(", leaveCellVM=").append(leaveCellVM);
         sb.append(", priority=").append(priority);
         sb.append(", isOnCallingList=").append(isOnCallingList);
+        sb.append(", homeNoVM=").append(homeNoVM);
+        sb.append(", cellNoVM=").append(cellNoVM);
+        sb.append(", workNoVM=").append(workNoVM);
+        sb.append(", preferredPhoneType=").append(preferredPhoneType);
         sb.append(", preferredPhone=").append(preferredPhone);
+
        /* sb.append(", FamilyId='").append(familyId).append('\'');*/
         sb.append(", emailId='").append(emailId).append('\'');
         sb.append('}');

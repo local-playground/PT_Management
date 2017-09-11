@@ -1,6 +1,12 @@
 package org.rssb.phonetree.entity;
 
 import org.rssb.phonetree.common.Constants;
+import org.rssb.phonetree.entity.converters.BusRideConverter;
+import org.rssb.phonetree.entity.converters.CallStatusConverter;
+import org.rssb.phonetree.entity.converters.YesNoConverter;
+import org.rssb.phonetree.entity.emums.BusRide;
+import org.rssb.phonetree.entity.emums.CallStatus;
+import org.rssb.phonetree.entity.emums.YesNo;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -43,6 +49,7 @@ public class Family implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(name = "FamilyId")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int familyId;
     @Column(name = "ContactType")
     private String contactType;
@@ -72,7 +79,21 @@ public class Family implements Serializable {
     private String internalNote;
     @Column(name = "isContactOK")
     private Integer isContactOK;
-
+    @Column(name = "BusRide")
+    @Convert(converter = BusRideConverter.class)
+    private BusRide busRide;
+    @Column(name = "ContactStatus")
+    @Convert(converter = CallStatusConverter.class)
+    private CallStatus callStatus;
+    @Column(name = "Active")
+    @Convert(converter = YesNoConverter.class)
+    private YesNo active;
+    @Column(name = "CanCallAnytime")
+    @Convert(converter = YesNoConverter.class)
+    private YesNo canCallAnytime;
+    @Column(name = "SNVGuidelines")
+    @Convert(converter = YesNoConverter.class)
+    private YesNo SNVGuidelines;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TeamLeadId", referencedColumnName = "TeamLeadId")
     private TeamLead teamLead;
@@ -212,6 +233,46 @@ public class Family implements Serializable {
         this.isContactOK = isContactOK;
     }
 
+    public BusRide getBusRide() {
+        return busRide;
+    }
+
+    public void setBusRide(BusRide busRide) {
+        this.busRide = busRide;
+    }
+
+    public CallStatus getCallStatus() {
+        return callStatus;
+    }
+
+    public void setCallStatus(CallStatus callStatus) {
+        this.callStatus = callStatus;
+    }
+
+    public YesNo getActive() {
+        return active;
+    }
+
+    public void setActive(YesNo active) {
+        this.active = active;
+    }
+
+    public YesNo getSNVGuidelines() {
+        return SNVGuidelines;
+    }
+
+    public void setSNVGuidelines(YesNo SNVGuidelines) {
+        this.SNVGuidelines = SNVGuidelines;
+    }
+
+    public YesNo getCanCallAnytime() {
+        return canCallAnytime;
+    }
+
+    public void setCanCallAnytime(YesNo canCallAnytime) {
+        this.canCallAnytime = canCallAnytime;
+    }
+
     public TeamLead getTeamLead() {
         return teamLead;
     }
@@ -254,6 +315,11 @@ public class Family implements Serializable {
         sb.append(", comments='").append(comments).append('\'');
         sb.append(", internalNote='").append(internalNote).append('\'');
         sb.append(", isContactOK=").append(isContactOK);
+        sb.append(", BusRide=").append(busRide);
+        sb.append(", SNVGuidelines=").append(SNVGuidelines);
+        sb.append(", CanCallAnytime=").append(canCallAnytime);
+        sb.append(", Active=").append(active);
+        sb.append(", CallStatus=").append(callStatus);
         sb.append(", membersCollection=").append(membersList);
         sb.append('}');
         return sb.toString();

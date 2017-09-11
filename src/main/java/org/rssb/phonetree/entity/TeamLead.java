@@ -15,6 +15,7 @@ import java.util.List;
 public class TeamLead {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TeamLeadId")
     private int teamLeadId;
 
