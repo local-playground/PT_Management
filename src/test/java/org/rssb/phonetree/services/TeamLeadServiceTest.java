@@ -2,6 +2,7 @@ package org.rssb.phonetree.services;
 
 import org.junit.Test;
 import org.rssb.phonetree.ApplicationSetup;
+import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
@@ -27,7 +28,12 @@ public class TeamLeadServiceTest extends ApplicationSetup{
     @Test
     public void findAllTeamLeads(){
         List<TeamLead> teamLeadList = teamLeadService.findAllTeamLeads();
-        teamLeadList.stream().forEach(teamLead -> System.out.println(teamLead.getTeamLeadName()));
+        teamLeadList.stream().forEach(teamLead -> {
+            System.out.println(CommonUtil.getFullName(teamLead.getMember()));
+            teamLead.getSevadarsList().stream().forEach(sevadar -> {
+                System.out.println("\t"+CommonUtil.getFullName(sevadar.getMember()));
+            });
+        });
         /*teamLeadList.stream().forEach(teamLead -> {
             teamLead.getSevadarsList().stream().forEach(sevadar -> System.out.println(sevadar.getSevadarName()));
         });*/

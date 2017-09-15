@@ -23,7 +23,7 @@ public class SearchServiceTest extends ApplicationSetup{
 
     @Test
     public void findFamiliesByFirstName(){
-        List<SearchResult> familyList = searchService.findFamiliesByFirstName("Raj");
+        List<SearchResult> familyList = searchService.findFamiliesByFirstName("Rajes");
         familyList.stream().forEach(family -> {
             System.out.println(family);
         });

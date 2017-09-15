@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:sqlite:C:\Rajesh\Personal\Satsang\SQLite\PhoneTree
+    url: jdbc:sqlite:C:\Rajesh\Personal\Satsang\Test.db
     password:
     username:
     driver-class-name: org.sqlite.JDBC

@@ -1,6 +1,7 @@
 
 package org.rssb.phonetree.entity;
 
+import org.rssb.phonetree.entity.converters.PhoneNumberConverter;
 import org.rssb.phonetree.entity.converters.PreferredPhoneTypeConverter;
 import org.rssb.phonetree.entity.converters.YesNoConverter;
 import org.rssb.phonetree.entity.emums.PreferredPhoneType;
@@ -20,7 +21,7 @@ public SearchResult(int memberId, int familyId, String firstName,
 @Table(name = "Members")
 @NamedQueries({
         @NamedQuery(name = "Member.putSevadarBackToCallingList",
-                query = "Update Member m set m.isOnCallingList=?1 where m.family.familyId=?2")
+                query = "Update Member m set m.onCallingList=?1 where m.family.familyId=?2")
 })
 
 public class Member implements Serializable {
@@ -35,23 +36,16 @@ public class Member implements Serializable {
     @Column(name = "LastName")
     private String lastName;
     @Column(name = "HomePhone")
+    @Convert(converter = PhoneNumberConverter.class)
     private String homePhone;
-    @Column(name = "leaveHomeVM")
-    private Integer leaveHomeVM;
     @Column(name = "WorkPhone")
+    //@Convert(converter = PhoneNumberConverter.class)
     private String workPhone;
-    @Column(name = "leaveWorkVM")
-    private Integer leaveWorkVM;
     @Column(name = "CellPhone")
+    @Convert(converter = PhoneNumberConverter.class)
     private String cellPhone;
-    @Column(name = "leaveCellVM")
-    private Integer leaveCellVM;
     @Column(name = "PRIORITY")
     private Integer priority;
-    @Column(name = "IsOnCallingList")
-    private Integer isOnCallingList;
-    @Column(name = "PreferredPhone")
-    private Integer preferredPhone;
     @Column(name = "EmailId")
     private String emailId;
     @Column(name = "homeNoVM")
@@ -66,10 +60,17 @@ public class Member implements Serializable {
     @Column(name="PreferredPhoneType")
     @Convert(converter = PreferredPhoneTypeConverter.class)
     private PreferredPhoneType preferredPhoneType;
+    @Column(name = "OnCallingList")
+    @Convert(converter = YesNoConverter.class)
+    private YesNo onCallingList;
 
+    public YesNo getOnCallingList() {
+        return onCallingList;
+    }
 
-    /*@Column(name = "FamilyId",insertable = false,updatable = false)
-    private int familyId;*/
+    public void setOnCallingList(YesNo onCallingList) {
+        this.onCallingList = onCallingList;
+    }
 
     @JoinColumn(name = "FamilyId", referencedColumnName = "FamilyId")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -107,28 +108,12 @@ public class Member implements Serializable {
         this.homePhone = homePhone;
     }
 
-    public Integer getLeaveHomeVM() {
-        return leaveHomeVM;
-    }
-
-    public void setLeaveHomeVM(Integer leaveHomeVM) {
-        this.leaveHomeVM = leaveHomeVM;
-    }
-
     public String getWorkPhone() {
         return workPhone;
     }
 
     public void setWorkPhone(String workPhone) {
         this.workPhone = workPhone;
-    }
-
-    public Integer getLeaveWorkVM() {
-        return leaveWorkVM;
-    }
-
-    public void setLeaveWorkVM(Integer leaveWorkVM) {
-        this.leaveWorkVM = leaveWorkVM;
     }
 
     public String getCellPhone() {
@@ -139,36 +124,12 @@ public class Member implements Serializable {
         this.cellPhone = cellPhone;
     }
 
-    public Integer getLeaveCellVM() {
-        return leaveCellVM;
-    }
-
-    public void setLeaveCellVM(Integer leaveCellVM) {
-        this.leaveCellVM = leaveCellVM;
-    }
-
     public Integer getPriority() {
         return priority;
     }
 
     public void setPriority(Integer priority) {
         this.priority = priority;
-    }
-
-    public Integer getIsOnCallingList() {
-        return isOnCallingList;
-    }
-
-    public void setIsOnCallingList(Integer isOnCallingList) {
-        this.isOnCallingList = isOnCallingList;
-    }
-
-    public Integer getPreferredPhone() {
-        return preferredPhone;
-    }
-
-    public void setPreferredPhone(Integer preferredPhone) {
-        this.preferredPhone = preferredPhone;
     }
 
     public String getEmailId() {
@@ -230,20 +191,14 @@ public class Member implements Serializable {
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", homePhone='").append(homePhone).append('\'');
-        sb.append(", leaveHomeVM=").append(leaveHomeVM);
         sb.append(", workPhone='").append(workPhone).append('\'');
-        sb.append(", leaveWorkVM=").append(leaveWorkVM);
         sb.append(", cellPhone='").append(cellPhone).append('\'');
-        sb.append(", leaveCellVM=").append(leaveCellVM);
         sb.append(", priority=").append(priority);
-        sb.append(", isOnCallingList=").append(isOnCallingList);
         sb.append(", homeNoVM=").append(homeNoVM);
         sb.append(", cellNoVM=").append(cellNoVM);
         sb.append(", workNoVM=").append(workNoVM);
         sb.append(", preferredPhoneType=").append(preferredPhoneType);
-        sb.append(", preferredPhone=").append(preferredPhone);
-
-       /* sb.append(", FamilyId='").append(familyId).append('\'');*/
+        sb.append(", onCallingList=").append(onCallingList);
         sb.append(", emailId='").append(emailId).append('\'');
         sb.append('}');
         return sb.toString();

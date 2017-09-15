@@ -31,15 +31,10 @@ public class BackupSevadarServiceImpl implements BackupSevadarService {
                     ActionAlertType.ERROR);
         }
         Member member = memberService.findMember(memberId).get();
-        /*Integer maxBackupSevadarId = backupSevadarJpaRepository.getMaxBackupSevadarId();
-        if(maxBackupSevadarId == null){
-            maxBackupSevadarId =0;
-        }*/
         backupSevadar = new BackupSevadar();
         backupSevadar.setSevadarName(CommonUtil.getFullName(member));
         backupSevadar.setFamily(member.getFamily());
         backupSevadar.setMember(member);
-        //backupSevadar.setBackupSevadarsId(maxBackupSevadarId+1);
         backupSevadarJpaRepository.save(backupSevadar);
 
         return CommonUtil.createResponse(BackupSevadarActionResponse.BACKUP_SEVADAR_SUCCESSFULLY_ADDED,

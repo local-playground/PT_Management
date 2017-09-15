@@ -38,8 +38,8 @@ public class TeamLeadServiceImpl implements TeamLeadService {
 
     @Override
     public List<TeamLead> findAllTeamLeads() {
-        return teamLeadJpaRepository.findAll();
-        //return namedQueryExecutor.executeNamedQuery("TeamLead.findAllTeamLeads",null,null,TeamLead.class);
+        //return teamLeadJpaRepository.findAll();
+        return namedQueryExecutor.executeNamedQuery("TeamLead.findAllTeamLeads",null,null,TeamLead.class);
     }
 
 

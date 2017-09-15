@@ -51,34 +51,22 @@ public class Family implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int familyId;
-    @Column(name = "ContactType")
-    private String contactType;
     @Column(name = "ZipCode")
     private String zipCode;
     @Column(name = "NoOfAdults")
     private Integer noOfAdults;
     @Column(name = "NoOfChildren")
     private Integer noOfChildren;
-    @Column(name = "IsActive")
-    private Integer isActive;
     @Column(name = "TOWN")
     private String town;
-    @Column(name = "HasSNVGuidelines")
-    private Integer hasSNVGuidelines;
-    @Column(name = "CanCallBetween")
-    private Integer canCallBetween;
     @Column(name = "callSpecificTime")
     private String callSpecificTime;
-    @Column(name = "NeedBusRide")
-    private Integer needBusRide;
     @Column(name = "NoOfPassengers")
     private Integer noOfPassengers;
     @Column(name = "Comments")
     private String comments;
     @Column(name = "InternalNote")
     private String internalNote;
-    @Column(name = "isContactOK")
-    private Integer isContactOK;
     @Column(name = "BusRide")
     @Convert(converter = BusRideConverter.class)
     private BusRide busRide;
@@ -121,14 +109,6 @@ public class Family implements Serializable {
         this.familyId = familyId;
     }
 
-    public String getContactType() {
-        return contactType;
-    }
-
-    public void setContactType(String contactType) {
-        this.contactType = contactType;
-    }
-
     public String getZipCode() {
         return zipCode;
     }
@@ -153,14 +133,6 @@ public class Family implements Serializable {
         this.noOfChildren = noOfChildren;
     }
 
-    public Integer getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Integer isActive) {
-        this.isActive = isActive;
-    }
-
     public String getTown() {
         return town;
     }
@@ -169,36 +141,12 @@ public class Family implements Serializable {
         this.town = town;
     }
 
-    public Integer getHasSNVGuidelines() {
-        return hasSNVGuidelines;
-    }
-
-    public void setHasSNVGuidelines(Integer hasSNVGuidelines) {
-        this.hasSNVGuidelines = hasSNVGuidelines;
-    }
-
-    public Integer getCanCallBetween() {
-        return canCallBetween;
-    }
-
-    public void setCanCallBetween(Integer canCallBetween) {
-        this.canCallBetween = canCallBetween;
-    }
-
     public String getCallSpecificTime() {
         return callSpecificTime;
     }
 
     public void setCallSpecificTime(String callSpecificTime) {
         this.callSpecificTime = callSpecificTime;
-    }
-
-    public Integer getNeedBusRide() {
-        return needBusRide;
-    }
-
-    public void setNeedBusRide(Integer needBusRide) {
-        this.needBusRide = needBusRide;
     }
 
     public Integer getNoOfPassengers() {
@@ -223,14 +171,6 @@ public class Family implements Serializable {
 
     public void setInternalNote(String internalNote) {
         this.internalNote = internalNote;
-    }
-
-    public Integer getIsContactOK() {
-        return isContactOK;
-    }
-
-    public void setIsContactOK(Integer isContactOK) {
-        this.isContactOK = isContactOK;
     }
 
     public BusRide getBusRide() {
@@ -301,20 +241,14 @@ public class Family implements Serializable {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Family{");
         sb.append("familyId=").append(familyId);
-        sb.append(", contactType='").append(contactType).append('\'');
         sb.append(", zipCode='").append(zipCode).append('\'');
         sb.append(", noOfAdults=").append(noOfAdults);
         sb.append(", noOfChildren=").append(noOfChildren);
-        sb.append(", isActive=").append(isActive);
         sb.append(", town='").append(town).append('\'');
-        sb.append(", hasSNVGuidelines=").append(hasSNVGuidelines);
-        sb.append(", canCallBetween=").append(canCallBetween);
         sb.append(", callSpecificTime='").append(callSpecificTime).append('\'');
-        sb.append(", needBusRide=").append(needBusRide);
         sb.append(", noOfPassengers=").append(noOfPassengers);
         sb.append(", comments='").append(comments).append('\'');
         sb.append(", internalNote='").append(internalNote).append('\'');
-        sb.append(", isContactOK=").append(isContactOK);
         sb.append(", BusRide=").append(busRide);
         sb.append(", SNVGuidelines=").append(SNVGuidelines);
         sb.append(", CanCallAnytime=").append(canCallAnytime);

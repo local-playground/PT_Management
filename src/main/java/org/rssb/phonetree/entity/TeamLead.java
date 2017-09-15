@@ -7,9 +7,10 @@ import java.util.List;
 @Table(name = "TeamLeads")
 @NamedQueries({
         @NamedQuery(name = "TeamLead.findAllTeamLeads",
-                query = "SELECT t from TeamLead t " +
-                        "JOIN t.member " +
-                        "JOIN t.sevadarsList")
+                query = "SELECT distinct t from TeamLead t" +
+                        " JOIN FETCH t.sevadarsList s" +
+                        " JOIN FETCH t.member " +
+                        " JOIN FETCH s.member " )
 
 })
 public class TeamLead {

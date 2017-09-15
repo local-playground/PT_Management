@@ -64,6 +64,18 @@ public class CommonUtil {
         return sb.toString();
     }
 
+    public static int convertStringToInt(String value,int defaultValue){
+        if(CommonUtil.isEmptyOrNull(value)){
+            return defaultValue;
+        }
+
+        try{
+            return Integer.parseInt(value);
+        }catch (NumberFormatException ex){
+            return defaultValue;
+        }
+    }
+
     public static List<String> convertStringToList(String str, String delimiter) {
         if (CommonUtil.isEmptyOrNull(str)) {
             return new ArrayList<>();
@@ -71,6 +83,23 @@ public class CommonUtil {
 
         return Arrays.asList(str.split(delimiter));
     }
+
+    public static List<Integer> convertStringToIntegerList(String value, String delimiter) {
+        List<Integer> intList = new ArrayList<>();
+
+        if (CommonUtil.isEmptyOrNull(value)) {
+            return intList;
+        }
+
+        String str[] = value.split(delimiter);
+        for (String st : str) {
+            int val = Integer.parseInt(st);
+            intList.add(val);
+        }
+
+        return intList;
+    }
+
 
     public static Response createResponse(ActionResponseType actionResponseType, Object[] messageParams, ActionAlertType actionAlertType){
         Response response = new Response();
