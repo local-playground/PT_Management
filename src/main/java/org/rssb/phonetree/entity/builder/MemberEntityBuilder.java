@@ -103,6 +103,7 @@ public class MemberEntityBuilder implements EntityBuilder {
     }
 
     @Override
+    @SuppressWarnings(value = "unchecked")
     public <T> List<T> getData() {
         return (List<T>) memberList;
     }

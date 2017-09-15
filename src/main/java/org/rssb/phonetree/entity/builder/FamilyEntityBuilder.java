@@ -126,6 +126,7 @@ public class FamilyEntityBuilder implements EntityBuilder{
     }
 
     @Override
+    @SuppressWarnings(value = "unchecked")
     public <T> List<T> getData() {
         return (List<T>) familyList;
     }
