@@ -64,6 +64,12 @@ public class Member implements Serializable {
     @Convert(converter = YesNoConverter.class)
     private YesNo onCallingList;
 
+    @Column(name="CsvFileFamilyId")
+    private int csvFileFamilyId;
+    @Column(name="CsvFileMemberId")
+    private int csvFileMemberId;
+
+
     public YesNo getOnCallingList() {
         return onCallingList;
     }
@@ -184,10 +190,28 @@ public class Member implements Serializable {
         this.preferredPhoneType = preferredPhoneType;
     }
 
+    public int getCsvFileFamilyId() {
+        return csvFileFamilyId;
+    }
+
+    public void setCsvFileFamilyId(int csvFileFamilyId) {
+        this.csvFileFamilyId = csvFileFamilyId;
+    }
+
+    public int getCsvFileMemberId() {
+        return csvFileMemberId;
+    }
+
+    public void setCsvFileMemberId(int csvFileMemberId) {
+        this.csvFileMemberId = csvFileMemberId;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Member{");
         sb.append("memberId=").append(memberId);
+        sb.append(", csvFileFamilyId='").append(csvFileFamilyId).append('\'');
+        sb.append(", csvFileMemberId='").append(csvFileMemberId).append('\'');
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", homePhone='").append(homePhone).append('\'');

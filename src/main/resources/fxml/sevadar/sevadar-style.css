@@ -84,6 +84,14 @@
     -fx-background: #c8e6c9;
 }
 
+.table-row-cell:selected {
+    -fx-background-color: #f44336;
+}
+.table-row-cell:selected .text {
+    -fx-fill: #e8f5e9 ;
+
+}
+
 .add-user{
     -fx-graphic: url("../../images/add_user.png");
 }
@@ -152,4 +160,31 @@
 
 .chart-legend-item .label{
     -fx-text-fill: black;
+}
+
+
+
+.outer{
+    -fx-background-color: #1b5e20;
+}
+
+.swap-combo-box{
+    -fx-border-color: #1b5e20;
+    -fx-border-width:2px;
+    -fx-font-family: "Calibri";
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-border-radius: 10px;
+}
+
+.text-label{
+    -fx-font-family: "Calibri";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+}
+
+.close-button{
+    -fx-background-color: #e8f5e9;
+    -fx-background-radius: 25px;
+    -fx-text-alignment: center;
 }

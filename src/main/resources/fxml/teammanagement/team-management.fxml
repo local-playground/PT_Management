@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="1100.0" prefWidth="1500.0" styleClass="root" stylesheets="@team-management.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teammanagement.TeamManagementController">
+<AnchorPane fx:id="teamManagementRootPane" prefHeight="1100.0" prefWidth="1500.0" styleClass="root" stylesheets="@team-management.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teammanagement.TeamManagementController">
    <children>
       <SplitPane dividerPositions="0.4723282442748092" layoutX="14.0" layoutY="21.0" orientation="VERTICAL" prefHeight="661.0" prefWidth="1468.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
         <items>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="796.0" styleClass="outer" stylesheets="@sevadar-style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.sevadar.SwapSevadarController">
+   <children>
+      <AnchorPane layoutX="6.0" prefHeight="200.0" prefWidth="200.0" styleClass="root" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+         <children>
+            <Label layoutX="126.0" layoutY="73.0" styleClass="text-label"  text="Swap Sevadar" />
+            <Label layoutX="126.0" layoutY="175.0" styleClass="text-label" text="Swap Sevadar With" />
+            <JFXComboBox fx:id="swapSevadarComboBox" focusColor="#405aa800" layoutX="358.0" layoutY="68.0" prefHeight="31.0" prefWidth="249.0" styleClass="swap-combo-box" unFocusColor="#4d4d4d00" />
+            <JFXComboBox fx:id="swapSevadarWithComboBox" layoutX="358.0" layoutY="168.0" prefHeight="31.0" prefWidth="249.0" styleClass="swap-combo-box" unFocusColor="#4d4d4d00" />
+            <JFXButton fx:id="swapSevadarsButton" buttonType="RAISED" contentDisplay="TOP" layoutX="440.0" layoutY="239.0" onAction="#swapSevadars" prefHeight="51.0" prefWidth="167.0" styleClass="sevadar-action-button,swap-user" text="Swap Sevadars" />
+         </children>
+      </AnchorPane>
+      <Label fx:id="closeButton" alignment="CENTER" contentDisplay="CENTER" layoutX="765.0" layoutY="4.0" onMouseClicked="#closeButton" prefHeight="25.0" prefWidth="25.0" styleClass="close-button" text="X" textAlignment="CENTER" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+         <font>
+            <Font name="Calibri Bold" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Label>
+   </children>
+</AnchorPane>

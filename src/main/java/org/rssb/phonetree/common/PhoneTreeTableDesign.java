@@ -1,7 +1,7 @@
 package org.rssb.phonetree.common;
 
 public interface PhoneTreeTableDesign {
-    String FAMILY_TABLE_CREATE_DDL="CREATE TABLE IF NOT EXISTS Family (\n" +
+    String FAMILY_TABLE_CREATE_DDL="CREATE TABLE Family (\n" +
             "    FamilyId         INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
             "    TeamLeadId       INTEGER REFERENCES TeamLeads (TeamLeadId),\n" +
             "    SevadarId        INTEGER REFERENCES Sevadars (SevadarsId),\n" +
@@ -17,10 +17,11 @@ public interface PhoneTreeTableDesign {
             "    Active           VARCHAR,\n" +
             "    SNVGuidelines    VARCHAR,\n" +
             "    Comments         VARCHAR,\n" +
-            "    InternalNote     VARCHAR\n" +
+            "    InternalNote     VARCHAR,\n" +
+            "    CsvFileFamilyId  INTEGER\n" +
             ");";
 
-    String MEMBERS_TABLE_CREATE_DDL="CREATE TABLE IF NOT EXISTS Members (\n" +
+    String MEMBERS_TABLE_CREATE_DDL="CREATE TABLE Members (\n" +
             "    MemberId           INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
             "    FamilyId           INTEGER REFERENCES Family (FamilyId) ON DELETE CASCADE,\n" +
             "    FirstName          TEXT,\n" +
@@ -34,7 +35,9 @@ public interface PhoneTreeTableDesign {
             "    PRIORITY           INTEGER,\n" +
             "    OnCallingList      VARCHAR,\n" +
             "    EmailId            TEXT,\n" +
-            "    PreferredPhoneType VARCHAR\n" +
+            "    PreferredPhoneType VARCHAR,\n" +
+            "    CsvFileMemberId    INTEGER,\n" +
+            "    CsvFileFamilyId    INTEGER\n" +
             ");\n";
 
     String TEAM_LEADS_TABLE_CREATE_DDL="CREATE TABLE IF NOT EXISTS TeamLeads (\n" +

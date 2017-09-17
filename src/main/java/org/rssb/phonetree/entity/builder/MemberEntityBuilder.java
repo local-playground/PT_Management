@@ -43,6 +43,8 @@ public class MemberEntityBuilder implements EntityBuilder {
             Member member = new Member();
             member.setMemberId(memberId);
 
+            member.setCsvFileMemberId(memberId);
+
             member.setFirstName(firstName);
             member.setLastName(lastName);
 
@@ -70,6 +72,7 @@ public class MemberEntityBuilder implements EntityBuilder {
             Family family = new Family();
             family.setFamilyId(familyId);
             member.setFamily(family);
+            member.setCsvFileFamilyId(familyId);
 
             if(isOnCallingList == 1){
                 member.setOnCallingList(YesNo.YES);

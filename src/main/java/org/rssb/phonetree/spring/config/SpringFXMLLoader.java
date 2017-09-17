@@ -27,7 +27,7 @@ public class SpringFXMLLoader {
         return loader.load();
     }
 
-    public Parent load(String fxmlPath, Delegator delegator, ContextHolder<?, ?> contextHolder) throws IOException {
+    public Parent load(String fxmlPath, Delegator delegator, ContextHolder contextHolder) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setControllerFactory(context::getBean);
         loader.setResources(resourceBundle);

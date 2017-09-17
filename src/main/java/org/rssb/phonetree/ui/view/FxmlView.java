@@ -62,6 +62,45 @@ public enum FxmlView {
         boolean isAlwaysOnTop() {
             return true;
         }
+    },
+    SWAP_TEAM_LEAD{
+        @Override
+        String getTitle() {
+            return getStringFromResourceBundle("login.title");
+        }
+
+        @Override
+        String getFxmlFile() {
+            return "/fxml/teamlead/swap-team-lead.fxml";
+        }
+
+        @Override
+        boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        boolean isAlwaysOnTop() {
+            return true;
+        }
+    }, SWAP_SEVADAR{
+        @Override
+        String getTitle() {
+            return getStringFromResourceBundle("login.title");
+        }
+
+        @Override
+        String getFxmlFile() {
+            return "/fxml/sevadar/swap-sevadar.fxml";
+        }
+
+        @Override
+        boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        boolean isAlwaysOnTop() {
+            return true;
+        }
     };
     
     abstract String getTitle();

@@ -50,6 +50,7 @@ public class FamilyEntityBuilder implements EntityBuilder{
 
             Family family = new Family();
             family.setFamilyId(familyId);
+            family.setCsvFileFamilyId(familyId);
 
             TeamLead teamLead = new TeamLead();
             teamLead.setTeamLeadId(teamLeadId);

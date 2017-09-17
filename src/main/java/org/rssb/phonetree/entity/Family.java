@@ -94,6 +94,9 @@ public class Family implements Serializable {
             cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Member> membersList;
 
+    @Column(name="CsvFileFamilyId")
+    private int csvFileFamilyId;
+
     public Family() {
     }
 
@@ -237,10 +240,19 @@ public class Family implements Serializable {
         this.membersList = membersCollection;
     }
 
+    public int getCsvFileFamilyId() {
+        return csvFileFamilyId;
+    }
+
+    public void setCsvFileFamilyId(int csvFileFamilyId) {
+        this.csvFileFamilyId = csvFileFamilyId;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Family{");
         sb.append("familyId=").append(familyId);
+        sb.append(", CsvFileFamilyId='").append(csvFileFamilyId).append('\'');
         sb.append(", zipCode='").append(zipCode).append('\'');
         sb.append(", noOfAdults=").append(noOfAdults);
         sb.append(", noOfChildren=").append(noOfChildren);

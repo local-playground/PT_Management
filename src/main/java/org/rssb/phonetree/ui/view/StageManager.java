@@ -35,7 +35,7 @@ public class StageManager {
     }
 
     public void switchScene(final FxmlView view, Delegator delegator,
-                            ContextHolder<?,?> contextHolder, boolean popUpNewScreen) {
+                            ContextHolder contextHolder, boolean popUpNewScreen) {
 
         Parent rootNode = loadFxmlFileFromClasspath(view.getFxmlFile(),delegator,contextHolder);
         Stage stage = primaryStage;
@@ -91,7 +91,7 @@ public class StageManager {
         return scene;
     }
 
-    private Parent loadFxmlFileFromClasspath(String fxmlFilePath,Delegator delegator,ContextHolder<?,?> contextHolder) {
+    private Parent loadFxmlFileFromClasspath(String fxmlFilePath,Delegator delegator,ContextHolder contextHolder) {
         Parent rootNode = null;
         try {
             rootNode = springFXMLLoader.load(fxmlFilePath,delegator,contextHolder);

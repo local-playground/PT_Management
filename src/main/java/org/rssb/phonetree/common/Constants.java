@@ -27,6 +27,10 @@ public interface Constants {
     String SEVADARS_TABLE_CSV_FILE_NAME=CSV_DATA_FILES_BASE_DIR+"Sevadars.csv";
     String BACKUP_SEVADARS_TABLE_CSV_FILE_NAME=CSV_DATA_FILES_BASE_DIR+"BackupSevadars.csv";
     String SQLITE_DB_FILE_NAME="C:\\Rajesh\\Personal\\Satsang\\Test.db";
-
-
+    String REQUEST_OBJ="REQUEST_OBJ";
+    String RESPONSE_OBJ="RESPONSE_OBJ";
+    String ACTION="ACTION";
+    String PARENT_PANE = "PARENT_PANE";
+    double LOW_OPACITY=0.25;
+    double FULL_OPACITY=1.0;
 }

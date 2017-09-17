@@ -4,6 +4,7 @@ package org.rssb.phonetree.services.impl;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.entity.Member;
+import org.rssb.phonetree.entity.emums.YesNo;
 import org.rssb.phonetree.repository.MemberJpaRepository;
 import org.rssb.phonetree.services.MemberService;
 import org.rssb.phonetree.services.UtilityService;
@@ -26,8 +27,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = false)
-    public void putSevadarBackToCallingList(int onCallingList, int familyId) {
-        memberJpaRepository.putSevadarBackToCallingList(onCallingList,familyId);
+    public void putSevadarBackToCallingList(YesNo yesNo, int familyId) {
+        memberJpaRepository.putSevadarBackToCallingList(yesNo,familyId);
     }
 
     @Override

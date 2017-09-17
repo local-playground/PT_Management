@@ -2,12 +2,12 @@ package org.rssb.phonetree.services.impl;
 
 
 import org.rssb.phonetree.common.CommonUtil;
-import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.entity.Family;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
+import org.rssb.phonetree.entity.emums.YesNo;
 import org.rssb.phonetree.repository.NamedQueryExecutor;
 import org.rssb.phonetree.repository.TeamLeadJpaRepository;
 import org.rssb.phonetree.services.BackupSevadarService;
@@ -38,8 +38,8 @@ public class TeamLeadServiceImpl implements TeamLeadService {
 
     @Override
     public List<TeamLead> findAllTeamLeads() {
-        //return teamLeadJpaRepository.findAll();
-        return namedQueryExecutor.executeNamedQuery("TeamLead.findAllTeamLeads",null,null,TeamLead.class);
+        return teamLeadJpaRepository.findAll();
+        //return namedQueryExecutor.executeNamedQuery("TeamLead.findAllTeamLeads",null,null,TeamLead.class);
     }
 
 
@@ -64,9 +64,9 @@ public class TeamLeadServiceImpl implements TeamLeadService {
         oldTeamLead.setTeamLeadName(CommonUtil.getFullName(member));
         teamLeadJpaRepository.save(oldTeamLead);
         //STEP 2 - Put new TeamLead Family NOT on calling list
-        memberService.putSevadarBackToCallingList(2,newTeamLeadFamilyId);
+        memberService.putSevadarBackToCallingList(YesNo.NO,newTeamLeadFamilyId);
         //STEP 3 - Put old TeamLead back on calling list, so that he/she can get SNV info
-        memberService.putSevadarBackToCallingList(1,oldTeamLeadFamilyId);
+        memberService.putSevadarBackToCallingList(YesNo.YES,oldTeamLeadFamilyId);
         //STEP 4 - If new Team was on Backup Sevadars List, then remove from there
         backupSevadarService.removeBackupSevadar(newTeamLeadMemberId);
 
@@ -91,7 +91,7 @@ public class TeamLeadServiceImpl implements TeamLeadService {
 
         //Reached here means its safe to delete team lead
         int familyId = teamLead.get().getFamily().getFamilyId();
-        memberService.putSevadarBackToCallingList(Constants.ON_CALLING_LIST,familyId);
+        memberService.putSevadarBackToCallingList(YesNo.YES,familyId);
         System.out.println(teamLeadName+": members have been put back on calling list for family id "+familyId);
         int rowsUpdated = teamLeadJpaRepository.deleteTeamLead(teamLead.get().getTeamLeadId());
         return CommonUtil.createResponse(TeamLeadActionResponse.TEAM_LEAD_SUCCESSFULLY_DELETED,
@@ -167,7 +167,7 @@ public class TeamLeadServiceImpl implements TeamLeadService {
         System.out.println("Saved successfully");
 
         int familyId = family.getFamilyId();
-        memberService.putSevadarBackToCallingList(2,familyId);
+        memberService.putSevadarBackToCallingList(YesNo.NO,familyId);
         return CommonUtil.createResponse(TeamLeadActionResponse.TEAM_LEAD_SUCCESSFULLY_ADDED,
                 new Object[]{CommonUtil.getFullName(member.get())},
                 ActionAlertType.INFORMATION);

@@ -1,25 +1,25 @@
 package org.rssb.phonetree.common;
 
-public class ContextHolder<T,R>{
-    private T request;
-    private R response;
+import java.util.HashMap;
+import java.util.Map;
 
-    public ContextHolder(T request,R response){
-        this.request = request;
-        this.response = response;
-    }
-    public T getRequest(){
-        return request;
-    }
-    public R getResponse(){
-        return response;
+public class ContextHolder{
+    private Map<String,Object> requestMap = new HashMap<>();
+
+    public void set(String key,Object value){
+        this.requestMap.put(key,value);
     }
 
-    public void setRequest(T request){
-        this.request = request;
+    public void set(String[] keys,Object[] values){
+        for(int index=0;index<keys.length;index++){
+            String key = keys[index];
+            Object value = values[index];
+            set(key,value);
+        }
     }
 
-    public void setResponse(R response){
-        this.response = response;
+    public Object get(String key){
+        return this.requestMap.get(key);
     }
+
 }

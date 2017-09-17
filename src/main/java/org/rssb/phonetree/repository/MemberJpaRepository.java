@@ -2,6 +2,7 @@ package org.rssb.phonetree.repository;
 
 
 import org.rssb.phonetree.entity.Member;
+import org.rssb.phonetree.entity.emums.YesNo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +17,7 @@ public interface MemberJpaRepository extends JpaRepository<Member,Integer> {
     void putSevadarBackToCallingList(@Param("onCallingList") int onCallingList,
                                     @Param("familyId") int familyId);*/
     @Modifying
-    void putSevadarBackToCallingList(int onCallingList,int familyId);
+    void putSevadarBackToCallingList(YesNo yesNo, int familyId);
 
     @Query("SELECT max (m.memberId) from Member m")
     int getMaxMemberId();

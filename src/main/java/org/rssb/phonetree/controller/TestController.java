@@ -37,7 +37,7 @@ public class TestController extends AbstractController implements Initializable{
         testButton.setOnAction(event -> {
             testMe();
             System.out.println("closing window now....");
-            closeScreen(event);
+            closeScreen(event,null);
             System.out.println("done closing window now....");
         });
     }

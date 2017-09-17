@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.rssb.phonetree.common.CommonUtil;
+import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.common.SearchCriteria;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.domain.SearchResult;
@@ -85,7 +86,7 @@ public class SearchController extends AbstractController  {
 
     @FXML
     void close(MouseEvent event) {
-        closeScreen(event);
+        closeScreen(event,this.contextHolder);
     }
 
     @Override
@@ -109,8 +110,8 @@ public class SearchController extends AbstractController  {
 
         tableView.setOnMousePressed(event -> {
             if(event.isPrimaryButtonDown() && event.getClickCount()==2){
-                this.contextHolder.setResponse(tableView.getSelectionModel().getSelectedItem());
-                closeScreen(event);
+                this.contextHolder.set(Constants.RESPONSE_OBJ,tableView.getSelectionModel().getSelectedItem());
+                closeScreen(event,contextHolder);
                 this.delegator.delegate(this.contextHolder);
                 this.contextHolder = null;
                 this.delegator = null;

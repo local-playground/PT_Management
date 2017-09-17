@@ -8,6 +8,7 @@ import org.rssb.phonetree.entity.Family;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
+import org.rssb.phonetree.entity.emums.YesNo;
 import org.rssb.phonetree.repository.NamedQueryExecutor;
 import org.rssb.phonetree.repository.SevadarJpaRepository;
 import org.rssb.phonetree.services.*;
@@ -42,7 +43,7 @@ public class SevadarServiceImpl implements SevadarService {
 
     @Override
     public List<Sevadar> findAllSevadars() {
-        return null;
+        return sevadarJpaRepository.findAll();
     }
 
     @Override
@@ -84,7 +85,7 @@ public class SevadarServiceImpl implements SevadarService {
         sevadar.setIsBackupForTeamLead(0);
         sevadarJpaRepository.save(sevadar);
         //Mark newly added Sevadar Family to NOT to get SNV calls.
-        memberService.putSevadarBackToCallingList(2,member.get().getFamily().getFamilyId());
+        memberService.putSevadarBackToCallingList(YesNo.NO,member.get().getFamily().getFamilyId());
         //Remove from BackupSevadars table if already exists
         backupSevadarService.removeBackupSevadar(memberId);
         return CommonUtil.createResponse(SevadarActionResponse.SEVADAR_SUCCESSFULLY_ADDED,
@@ -108,7 +109,7 @@ public class SevadarServiceImpl implements SevadarService {
         }
 
         //Put Sevadar back on calling list, so that he/she can get SNV info
-        memberService.putSevadarBackToCallingList(1,sevadar.get().getFamily().getFamilyId());
+        memberService.putSevadarBackToCallingList(YesNo.YES,sevadar.get().getFamily().getFamilyId());
 
         //DELETE team from Sevadars table
         sevadarJpaRepository.delete(sevadar.get());
@@ -148,9 +149,9 @@ public class SevadarServiceImpl implements SevadarService {
         sevadarJpaRepository.save(oldSevadar);
 
         //STEP 2 - Put new Sevadar's Family NOT on calling list
-        memberService.putSevadarBackToCallingList(2,newSevadarFamilyId);
+        memberService.putSevadarBackToCallingList(YesNo.NO,newSevadarFamilyId);
         //STEP 3 - Put old Sevadar's family back on calling list, so that he/she can get SNV info
-        memberService.putSevadarBackToCallingList(1,oldSevadarFamilyId);
+        memberService.putSevadarBackToCallingList(YesNo.YES,oldSevadarFamilyId);
         //STEP 4 - If new Team was on Backup Sevadars List, then remove from there
         backupSevadarService.removeBackupSevadar(newSevadarMemberId);
 

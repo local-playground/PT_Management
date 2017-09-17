@@ -1,3 +1,4 @@
+
 .root{
     -fx-background-color: #e8f5e9;
     -fx-border-color: #1b5e20;
@@ -84,4 +85,29 @@
 
 .replace-user{
     -fx-graphic: url("../../images/replace_user_icon.png");
+}
+
+.outer{
+    -fx-background-color: #1b5e20;
+}
+
+.swap-combo-box{
+    -fx-border-color: #1b5e20;
+    -fx-border-width:2px;
+    -fx-font-family: "Calibri";
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-border-radius: 10px;
+}
+
+.text-label{
+    -fx-font-family: "Calibri";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+}
+
+.close-button{
+    -fx-background-color: #e8f5e9;
+    -fx-background-radius: 25px;
+    -fx-text-alignment: center;
 }
