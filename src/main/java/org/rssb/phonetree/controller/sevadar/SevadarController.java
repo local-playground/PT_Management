@@ -10,12 +10,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
-import org.rssb.phonetree.common.*;
+import org.rssb.phonetree.common.CommonUtil;
+import org.rssb.phonetree.common.Constants;
+import org.rssb.phonetree.common.ContextHolder;
+import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.common.SevaType;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.controller.teamlead.TeamLeadController;
 import org.rssb.phonetree.controller.teammanagement.TeamManagementController;
@@ -25,7 +27,7 @@ import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
 import org.rssb.phonetree.services.SevadarService;
 import org.rssb.phonetree.services.TeamLeadService;
-import org.rssb.phonetree.status.ActionAlertType;
+import org.rssb.phonetree.status.SevadarActionResponse;
 import org.rssb.phonetree.ui.view.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -36,7 +38,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 @Component("Sevadar")
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused","unchecked"})
 @Lazy
 public class SevadarController extends AbstractController {
 
@@ -121,8 +123,7 @@ public class SevadarController extends AbstractController {
     void addSevadar(ActionEvent event) {
         TeamLead teamLead = teamLeadController.getSelected();
         if (teamLead == null) {
-            Alert alert = CommonUtil.getAlert("Please select Team Lead to add Sevadar", ActionAlertType.ERROR);
-            alert.showAndWait();
+            CommonUtil.showNoActionNeededJFXDialog(this, null, SevadarActionResponse.SEVADAR_SELECT_TEAM_LEAD_BEFORE_ACTION);
             return;
         }
 
@@ -137,23 +138,20 @@ public class SevadarController extends AbstractController {
     @FXML
     void deleteSevadar(ActionEvent event) {
         Sevadar sevadar = sevadarsTableView.getSelectionModel().getSelectedItem();
-        Alert alert;
         if (sevadar == null) {
-            alert = CommonUtil.getAlert("Please select Sevadar you want to delete.", ActionAlertType.ERROR);
-            alert.showAndWait();
+            CommonUtil.showNoActionNeededJFXDialog(this, null, SevadarActionResponse.SEVADAR_SELECT_BEFORE_ACTION);
             return;
         }
 
-        alert = CommonUtil.getAlert("Are you sure you want to remove " +
-                sevadar.getSevadarName() + " from the list?", ActionAlertType.CONFIRMATION);
-
-        alert.showAndWait().ifPresent(buttonType -> {
-            if (buttonType == ButtonType.YES) {
-                Response response = sevadarService.deleteSevadar(sevadar.getSevadarsId());
-                CommonUtil.handleResponse(this,response, null, null);
-                refresh();
-            }
-        });
+        CommonUtil.showConfirmationJFXDialog(this,
+                new Object[]{sevadar.getSevadarName()},
+                SevadarActionResponse.SEVADAR_CONFIRM_BEFORE_REMOVE,
+                null,
+                contextHolder1 -> {
+                    Response response = sevadarService.deleteSevadar(sevadar.getSevadarsId());
+                    refresh();
+                    return response;
+                });
     }
 
     @FXML
@@ -165,8 +163,7 @@ public class SevadarController extends AbstractController {
     void replaceSevadar(ActionEvent event) {
         Sevadar sevadar = sevadarsTableView.getSelectionModel().getSelectedItem();
         if (sevadar == null) {
-            Alert alert = CommonUtil.getAlert("Please select Sevadar you want to replace.", ActionAlertType.ERROR);
-            alert.showAndWait();
+            CommonUtil.showNoActionNeededJFXDialog(this, null, SevadarActionResponse.SEVADAR_SELECT_BEFORE_ACTION);
             return;
         }
         ContextHolder contextHolder = createContextHolder(
@@ -199,14 +196,13 @@ public class SevadarController extends AbstractController {
     private void refreshBarChart(TeamLead teamLead) {
         List<FamilyCount> familyCountList = sevadarService.getSevadarsCallingFamilyCountByTeamLeadId(teamLead.getTeamLeadId());
         pieChart.getData().clear();
-        familyCountList.stream().forEach(familyCount -> {
+        familyCountList.forEach(familyCount -> {
             PieChart.Data data = new PieChart.Data(familyCount.getName(), familyCount.getCount());
             pieChart.getData().add(data);
         });
 
-        pieChart.getData().stream().forEach(data -> {
-            data.nameProperty().bind(Bindings.concat(data.getName() + " , " + (int) data.getPieValue()));
-        });
+        pieChart.getData().forEach(data -> data.nameProperty()
+                .bind(Bindings.concat(data.getName() + " , " + (int) data.getPieValue())));
     }
 
     private void addSevadar(ContextHolder contextHolder) {

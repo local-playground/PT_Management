@@ -6,16 +6,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
 import javafx.util.StringConverter;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.services.SevadarService;
-import org.rssb.phonetree.status.ActionAlertType;
+import org.rssb.phonetree.status.SevadarActionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -28,6 +28,11 @@ import java.util.ResourceBundle;
 @Lazy
 @SuppressWarnings("unused")
 public class SwapSevadarController extends AbstractController{
+
+    @FXML
+    private StackPane swapSevadarsRootPane;
+
+
     @Autowired
     private SevadarService sevadarService;
 
@@ -96,15 +101,23 @@ public class SwapSevadarController extends AbstractController{
 
     @FXML
     void swapSevadars(ActionEvent event) {
-        System.out.println("Event happened in swap sevadars");
         Sevadar swapSevadar = swapSevadarComboBox.getSelectionModel().getSelectedItem();
         Sevadar swapSevadarWith = swapSevadarWithComboBox.getSelectionModel().getSelectedItem();
         if(swapSevadar.getSevadarsId() == swapSevadarWith.getSevadarsId()){
-            System.out.println("both sevadars are same");
-            Alert alert = CommonUtil.getAlert("Please choose different Sevadars to Swap.", ActionAlertType.ERROR);
+           /* Alert alert = CommonUtil.getAlert("Please choose different Sevadars to Swap.", ActionAlertType.ERROR);
             Stage stage = (Stage)alert.getDialogPane().getScene().getWindow();
             stage.setAlwaysOnTop(true);
-            alert.showAndWait();
+            alert.showAndWait();*/
+            CommonUtil.showNoActionNeededJFXDialog(this::getRootPanel,
+                    null,
+                    SevadarActionResponse.SEVADAR_SELECT_DIFFERENT_SEVADARS_TO_SWAP);
+            return;
+        }
+
+        if(swapSevadar.getTeamLead().getTeamLeadId() == swapSevadarWith.getTeamLead().getTeamLeadId()){
+            CommonUtil.showNoActionNeededJFXDialog(this::getRootPanel,
+                    null,
+                    SevadarActionResponse.SEVADAR_CANNOT_SWAP_SEVADARS_UNDER_SAME_TEAM_LEAD);
             return;
         }
 
@@ -116,5 +129,10 @@ public class SwapSevadarController extends AbstractController{
         this.delegator.delegate(this.contextHolder);
         this.contextHolder = null;
         this.delegator = null;
+    }
+
+    @Override
+    public Parent getRootPanel(){
+        return swapSevadarsRootPane;
     }
 }

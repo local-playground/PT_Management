@@ -13,7 +13,7 @@
     -fx-border-radius: 10px;
 }
 
-.jfx-layout-actions{
+.jfx-layout-actions > *.jfx-button{
     -fx-text-fill: #1b5e20;
     -fx-pref-width: 75px;
     -fx-pref-height: 35px;

@@ -9,22 +9,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import org.rssb.phonetree.common.CommonUtil;
-import org.rssb.phonetree.common.Constants;
-import org.rssb.phonetree.common.ContextHolder;
-import org.rssb.phonetree.common.Response;
-import org.rssb.phonetree.common.SevaType;
+import org.rssb.phonetree.common.*;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.controller.sevadar.SevadarController;
 import org.rssb.phonetree.controller.teammanagement.TeamManagementController;
 import org.rssb.phonetree.domain.SearchResult;
 import org.rssb.phonetree.entity.TeamLead;
 import org.rssb.phonetree.services.TeamLeadService;
-import org.rssb.phonetree.status.ActionAlertType;
+import org.rssb.phonetree.status.TeamLeadActionResponse;
 import org.rssb.phonetree.ui.view.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -36,7 +30,7 @@ import java.util.ResourceBundle;
 
 @Component
 @Lazy
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused","unchecked"})
 public class TeamLeadController extends AbstractController {
 
     @Autowired
@@ -87,32 +81,27 @@ public class TeamLeadController extends AbstractController {
     @FXML
     void removeTeamLead(ActionEvent event) {
         TeamLead teamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
-        Alert alert;
         if (teamLead == null) {
-            alert = CommonUtil.getAlert("Please select Team Lead you want to delete.", ActionAlertType.ERROR);
-            alert.showAndWait();
+            CommonUtil.showNoActionNeededJFXDialog(this, null,TeamLeadActionResponse.TEAM_LEAD_SELECT_BEFORE_ACTION);
             return;
         }
 
-        alert = CommonUtil.getAlert("Are you sure you want to remove " +
-                teamLead.getTeamLeadName() + " from the list?", ActionAlertType.CONFIRMATION);
-
-        alert.showAndWait().ifPresent(buttonType -> {
-            if (buttonType == ButtonType.YES) {
-                Response response = teamLeadService.deleteTeamLead(teamLead.getTeamLeadId());
-                CommonUtil.handleResponse(this,response,null,null);
-                refresh();
-            }
-        });
-
+        CommonUtil.showConfirmationJFXDialog(this,
+                new Object[]{teamLead.getTeamLeadName()},
+                TeamLeadActionResponse.TEAM_LEAD_CONFIRM_BEFORE_REMOVE,
+                null,
+                contextHolder1 -> {
+                    Response response = teamLeadService.deleteTeamLead(teamLead.getTeamLeadId());
+                    refresh();
+                    return response;
+                });
     }
 
     @FXML
     void replaceTeamLead(ActionEvent event) {
         TeamLead teamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
         if (teamLead == null) {
-            Alert alert = CommonUtil.getAlert("Please select Team Lead you want to replace.", ActionAlertType.ERROR);
-            alert.showAndWait();
+            CommonUtil.showNoActionNeededJFXDialog(this, null,TeamLeadActionResponse.TEAM_LEAD_SELECT_BEFORE_ACTION);
             return;
         }
 
@@ -227,25 +216,5 @@ public class TeamLeadController extends AbstractController {
     public Parent getRootPanel() {
         return teamManagementController.getRootPanel();
     }
-   /* private void replaceTeamLead(int teamLeadId, int memberId) {
-        Response response = teamLeadService.replaceTeamLead(teamLeadId, memberId);
-        *//*NotificationPane notificationPane = (NotificationPane) teamManagementController.getTeamManagementRootPane().getScene().getRoot();
-        notificationPane.setText(response.getMessage());
-        notificationPane.show();*//*
-        Notifications.create()
-                .darkStyle()
-                .hideAfter(Duration.seconds(10))
-                .text(response.getMessage())
-                .title("Testing")
-                .position(Pos.CENTER)
-                .owner(teamManagementController.getTeamManagementRootPane())
-                .action(new Action("Yes", actionEvent -> {
-                    System.out.println("Yes was clicked");
-                }), new Action("No", actionEvent1 -> {
-                    System.out.println("No was clicked");
-                }))
-                .showConfirm();
 
-        refresh();
-    }*/
 }

@@ -31,6 +31,6 @@ public interface Constants {
     String RESPONSE_OBJ="RESPONSE_OBJ";
     String ACTION="ACTION";
     String PARENT_PANE = "PARENT_PANE";
-    double LOW_OPACITY=0.25;
+    double LOW_OPACITY=0.1;
     double FULL_OPACITY=1.0;
 }

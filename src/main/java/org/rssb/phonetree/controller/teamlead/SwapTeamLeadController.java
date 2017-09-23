@@ -6,15 +6,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.util.StringConverter;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.entity.TeamLead;
 import org.rssb.phonetree.services.TeamLeadService;
-import org.rssb.phonetree.status.ActionAlertType;
+import org.rssb.phonetree.status.TeamLeadActionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,9 @@ import java.util.ResourceBundle;
 @Component
 @Lazy
 public class SwapTeamLeadController extends AbstractController{
+    @FXML
+    private StackPane swapTeamLeadRootPane;
+
     @FXML
     private JFXComboBox<TeamLead> swapTeamLeadComboBox;
 
@@ -92,11 +96,11 @@ public class SwapTeamLeadController extends AbstractController{
         TeamLead swapTeamLead = swapTeamLeadComboBox.getSelectionModel().getSelectedItem();
         TeamLead swapTeamLeadWith = swapTeamLeadWithComboBox.getSelectionModel().getSelectedItem();
         if(swapTeamLead.getTeamLeadId() == swapTeamLeadWith.getTeamLeadId()){
-            Alert alert = CommonUtil.getAlert("Please choose different Team Leads to Swap.", ActionAlertType.ERROR);
-            alert.showAndWait();
+            CommonUtil.showNoActionNeededJFXDialog(this::getRootPanel,
+                    null,
+                    TeamLeadActionResponse.TEAM_LEAD_SELECT_DIFFERENT_TEAMLEADS_TO_SWAP);
             return;
         }
-
 
         this.contextHolder.set(
                 new String[]{"SWAP_TEAM_LEAD","SWAP_TEAM_LEAD_WITH"},
@@ -110,6 +114,11 @@ public class SwapTeamLeadController extends AbstractController{
     @FXML
     void closeButton(MouseEvent event) {
         closeScreen(event,this.contextHolder);
+    }
+
+    @Override
+    public Parent getRootPanel(){
+        return swapTeamLeadRootPane;
     }
 
 }

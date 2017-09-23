@@ -3,9 +3,6 @@ package org.rssb.phonetree.common;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import org.rssb.phonetree.entity.Member;
@@ -125,7 +122,7 @@ public class CommonUtil {
         return backupSevadar;
     }*/
 
-    public static Alert getAlert(Response response){
+    /*public static Alert getAlert(Response response){
         Alert alert=null;
         if(response.getActionAlertType()==ActionAlertType.ERROR){
             alert = new Alert(Alert.AlertType.ERROR,response.getMessage(), ButtonType.OK);
@@ -145,9 +142,9 @@ public class CommonUtil {
         dialogPane.getStyleClass().add("alert-box");
 
         return alert;
-    }
+    }*/
 
-    public static Alert getAlert(String message,ActionAlertType actionAlertType){
+    /*public static Alert getAlert(String message,ActionAlertType actionAlertType){
         Alert alert=null;
         if(actionAlertType==ActionAlertType.ERROR){
             alert = new Alert(Alert.AlertType.ERROR,message, ButtonType.OK);
@@ -167,26 +164,73 @@ public class CommonUtil {
         dialogPane.getStyleClass().add("alert-box");
 
         return alert;
-    }
+    }*/
 
-
-    public static void showNoActionNeededJFXDialog(StackPane stackPane,Response response){
+    private static JFXDialogLayout createJFXDialogLayout(Response response){
         JFXDialogLayout jfxDialogLayout = new JFXDialogLayout();
         Text text = new Text(response.getMessage());
         text.setStyle("-fx-font-family: \"Calibri\";-fx-font-size: 20px;-fx-font-weight: bold;-fx-fill: white;");
         jfxDialogLayout.setBody(text);
-        JFXDialog jfxDialog = new JFXDialog(stackPane,jfxDialogLayout, JFXDialog.DialogTransition.TOP);
+        return jfxDialogLayout;
+    }
+
+    public static void showNoActionNeededJFXDialog(RootPanel rootPanel,
+                                                   Object[] messageParams,
+                                                   ActionResponseType actionResponseType){
+        Response response = createResponse(actionResponseType,messageParams,null);
+        showNoActionNeededJFXDialog(rootPanel,response);
+    }
+
+    public static void showConfirmationJFXDialog(RootPanel rootPanel,
+                                                 Object[] messageParams,
+                                                 ActionResponseType actionResponseType,
+                                                 ContextHolder contextHolder,
+                                                 ResponseHandler responseHandler){
+        Response response = createResponse(actionResponseType,messageParams,null);
+        showConfirmationJFXDialog(rootPanel,response,contextHolder,responseHandler);
+    }
+
+    private static void showNoActionNeededJFXDialog(RootPanel rootPanel,Response response){
+        JFXDialogLayout jfxDialogLayout = createJFXDialogLayout(response);
+        JFXDialog jfxDialog = new JFXDialog((StackPane) rootPanel.getRootPanel(),jfxDialogLayout, JFXDialog.DialogTransition.TOP);
         JFXButton okayButton = new JFXButton("Ok");
-        okayButton.setOnAction(event -> jfxDialog.close());
+        okayButton.setOnAction(event -> {
+            jfxDialog.close();
+        });
         jfxDialogLayout.setActions(okayButton);
+        jfxDialog.show();
+    }
+
+    public static void showConfirmationJFXDialog(RootPanel rootPanel,
+                                                 Response response,
+                                                 ContextHolder contextHolder,
+                                                 ResponseHandler responseHandler){
+
+        JFXDialogLayout jfxDialogLayout = createJFXDialogLayout(response);
+        JFXDialog jfxDialog = new JFXDialog((StackPane) rootPanel.getRootPanel(),jfxDialogLayout, JFXDialog.DialogTransition.TOP);
+        JFXButton yesButton = new JFXButton("Yes");
+        yesButton.setOnAction(event -> {
+            jfxDialog.close();
+            if(responseHandler!=null) {
+                Response resp = responseHandler.handlerResponse(contextHolder);
+                handleResponse(rootPanel, resp, contextHolder, responseHandler);
+            }
+        });
+        JFXButton noButton = new JFXButton("No");
+        noButton.setOnAction(event -> {
+            jfxDialog.close();
+        });
+
+        jfxDialogLayout.setActions(yesButton,noButton);
         jfxDialog.show();
     }
 
 
     public static void handleResponse(RootPanel rootPanel,Response response,
-                                      ContextHolder contextHolder,ResponseHandler responseHandler) {
+                                      ContextHolder contextHolder,
+                                      ResponseHandler responseHandler) {
         if (NO_ACTION_NEEDED_ALERT_TYPES.contains(response.getActionAlertType())) {
-            showNoActionNeededJFXDialog((StackPane) rootPanel.getRootPanel(),response);
+            showNoActionNeededJFXDialog(rootPanel,response);
             return;
         }
 
@@ -199,17 +243,7 @@ public class CommonUtil {
         }
 
         if (response.getActionAlertType() == ActionAlertType.CONFIRMATION) {
-            Alert alert = CommonUtil.getAlert(response);
-            alert.showAndWait().ifPresent(buttonType -> {
-                if (buttonType == ButtonType.NO) {
-                    return;
-                }
-                if(responseHandler!=null) {
-                    Response resp = responseHandler.handlerResponse(contextHolder);
-                    handleResponse(rootPanel,resp, null, null);
-                    return;
-                }
-            });
+            showConfirmationJFXDialog(rootPanel,response,contextHolder,responseHandler);
         }
     }
     public static String getFullName(Member member){
