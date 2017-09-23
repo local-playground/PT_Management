@@ -8,11 +8,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import org.rssb.phonetree.common.*;
+import org.rssb.phonetree.common.CommonUtil;
+import org.rssb.phonetree.common.Constants;
+import org.rssb.phonetree.common.ContextHolder;
+import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.common.SevaType;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.controller.sevadar.SevadarController;
 import org.rssb.phonetree.controller.teammanagement.TeamManagementController;
@@ -72,11 +77,11 @@ public class TeamLeadController extends AbstractController {
 
     @FXML
     void addTeamLead(ActionEvent event) {
-        ContextHolder contextHolder = createContextHolder(Constants.ACTION,
-                TeamLeadAction.ADD_TEAM_LEAD,
-                teamManagementController.getTeamManagementRootPane());
-        setOpacity(Constants.LOW_OPACITY,contextHolder);
-        stageManager.switchScene(FxmlView.SEARCH, this, contextHolder, true);
+        ContextHolder contextHolder = createContextHolder("",
+                null,
+                getRootPanel());
+        setOpacity(Constants.LOW_OPACITY, contextHolder);
+        stageManager.switchScene(FxmlView.SEARCH, this::addTeamLead, contextHolder, true);
     }
 
     @FXML
@@ -95,8 +100,7 @@ public class TeamLeadController extends AbstractController {
         alert.showAndWait().ifPresent(buttonType -> {
             if (buttonType == ButtonType.YES) {
                 Response response = teamLeadService.deleteTeamLead(teamLead.getTeamLeadId());
-                Alert newAlert = CommonUtil.getAlert(response);
-                newAlert.showAndWait();
+                CommonUtil.handleResponse(this,response,null,null);
                 refresh();
             }
         });
@@ -113,20 +117,19 @@ public class TeamLeadController extends AbstractController {
         }
 
         ContextHolder contextHolder = createContextHolder(
-                new String[]{Constants.ACTION, Constants.REQUEST_OBJ},
-                new Object[]{TeamLeadAction.REPLACE_TEAM_LEAD, teamLead},
-                teamManagementController.getTeamManagementRootPane());
-        setOpacity(Constants.LOW_OPACITY,contextHolder);
-        stageManager.switchScene(FxmlView.SEARCH, this, contextHolder, true);
+                new String[]{Constants.REQUEST_OBJ},
+                new Object[]{teamLead},
+                getRootPanel());
+        setOpacity(Constants.LOW_OPACITY, contextHolder);
+        stageManager.switchScene(FxmlView.SEARCH, this::replaceTeamLead, contextHolder, true);
     }
 
     @FXML
     void swapTeamLead(ActionEvent event) {
-        ContextHolder contextHolder = createContextHolder(Constants.ACTION,
-                TeamLeadAction.SWAP_TEAM_LEAD,
-                teamManagementController.getTeamManagementRootPane());
-        setOpacity(Constants.LOW_OPACITY,contextHolder);
-        stageManager.switchScene(FxmlView.SWAP_TEAM_LEAD, this, contextHolder, true);
+        ContextHolder contextHolder = createContextHolder("", null,
+                getRootPanel());
+        setOpacity(Constants.LOW_OPACITY, contextHolder);
+        stageManager.switchScene(FxmlView.SWAP_TEAM_LEAD, this::swapTeamLead, contextHolder, true);
     }
 
     @Override
@@ -137,7 +140,7 @@ public class TeamLeadController extends AbstractController {
                 if (oldValue == null && newValue == null)
                     return;
 
-                if (oldValue != null && (oldValue.getTeamLeadId() == newValue.getTeamLeadId())) {
+                if (oldValue != null && newValue!=null && (oldValue.getTeamLeadId() == newValue.getTeamLeadId())) {
                     return;
                 }
 
@@ -165,7 +168,7 @@ public class TeamLeadController extends AbstractController {
 
     private void triggerChangeEvent() {
         TeamLead teamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
-        ContextHolder contextHolder = createContextHolder(Constants.REQUEST_OBJ, teamLead,null);
+        ContextHolder contextHolder = createContextHolder(Constants.REQUEST_OBJ, teamLead, null);
         sevadarController.setContextHolder(contextHolder);
         sevadarController.refresh();
     }
@@ -178,93 +181,71 @@ public class TeamLeadController extends AbstractController {
     }
 
     @Override
-    public <T> T getSelected(){
+    public <T> T getSelected() {
         return (T) teamLeadTableView.getSelectionModel().getSelectedItem();
     }
 
-    @Override
-    public void delegate(ContextHolder contextHolder) {
-        TeamLeadAction action = (TeamLeadAction) contextHolder.get(Constants.ACTION);
+
+    private void addTeamLead(ContextHolder contextHolder) {
         SearchResult selectedResult = (SearchResult) contextHolder.get(Constants.RESPONSE_OBJ);
-        Response response = null;
-        Alert alert;
-        switch (action) {
-            case REPLACE_TEAM_LEAD:
-                TeamLead teamLead = (TeamLead) contextHolder.get(Constants.REQUEST_OBJ);
-                response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_TEAM_LEAD);
-                if (response.getActionAlertType() == ActionAlertType.NONE) {
-                    replaceTeamLead(teamLead.getTeamLeadId(), selectedResult.getMemberId());
-                    return;
-                }
-                alert = CommonUtil.getAlert(response);
-                alert.showAndWait().ifPresent(buttonType -> {
-                    if (alert.getAlertType() != Alert.AlertType.CONFIRMATION) {
-                        return;
-                    }
-
-                    if (buttonType == ButtonType.NO) {
-                        return;
-                    }
-
-                    replaceTeamLead(teamLead.getTeamLeadId(), selectedResult.getMemberId());
+        Response response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_TEAM_LEAD);
+        CommonUtil.handleResponse(this,response, contextHolder,
+                contextHolder1 -> {
+                    Response newResponse = teamLeadService.addTeamLead(selectedResult.getMemberId());
+                    refresh();
+                    return newResponse;
                 });
-                break;
-            case ADD_TEAM_LEAD:
-                response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_TEAM_LEAD);
-                if (response.getActionAlertType() == ActionAlertType.NONE) {
-                    addTeamLead(selectedResult.getMemberId());
-                    return;
-                }
-                alert = CommonUtil.getAlert(response);
-                alert.showAndWait().ifPresent(buttonType -> {
-                    if (alert.getAlertType() != Alert.AlertType.CONFIRMATION) {
-                        return;
-                    }
 
-                    if (buttonType == ButtonType.NO) {
-                        return;
-                    }
-
-                    addTeamLead(selectedResult.getMemberId());
-                });
-                break;
-            case SWAP_TEAM_LEAD:
-                TeamLead swapTeamLead = (TeamLead) contextHolder.get("SWAP_TEAM_LEAD");
-                TeamLead swapTeamLeadWith = (TeamLead) contextHolder.get("SWAP_TEAM_LEAD_WITH");
-                swapTeamLead(swapTeamLead.getTeamLeadId(), swapTeamLeadWith.getTeamLeadId());
-                break;
-        }
-
-        setOpacity(Constants.FULL_OPACITY,contextHolder);
-
+        setOpacity(Constants.FULL_OPACITY, contextHolder);
     }
 
-    private void addTeamLead(int memberId) {
-        Response response = teamLeadService.addTeamLead(memberId);
-        Alert alert = CommonUtil.getAlert(response);
-        alert.showAndWait();
+    private void replaceTeamLead(ContextHolder contextHolder) {
+        SearchResult selectedResult = (SearchResult) contextHolder.get(Constants.RESPONSE_OBJ);
+        TeamLead teamLead = (TeamLead) contextHolder.get(Constants.REQUEST_OBJ);
+        Response response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_TEAM_LEAD);
+
+        CommonUtil.handleResponse(this,response, contextHolder,
+                contextHolder1 -> {
+                    Response newResponse = teamLeadService.replaceTeamLead(teamLead.getTeamLeadId(), selectedResult.getMemberId());
+                    refresh();
+                    return newResponse;
+                });
+
+        setOpacity(Constants.FULL_OPACITY, contextHolder);
+    }
+
+    private void swapTeamLead(ContextHolder contextHolder) {
+        TeamLead swapTeamLead = (TeamLead) contextHolder.get("SWAP_TEAM_LEAD");
+        TeamLead swapTeamLeadWith = (TeamLead) contextHolder.get("SWAP_TEAM_LEAD_WITH");
+        Response response = teamLeadService.swapTeamLead(swapTeamLead.getTeamLeadId(), swapTeamLeadWith.getTeamLeadId());
+        CommonUtil.handleResponse(this,response,null,null);
         refresh();
+        setOpacity(Constants.FULL_OPACITY, contextHolder);
     }
 
-    private void replaceTeamLead(int teamLeadId, int memberId) {
+    @Override
+    public Parent getRootPanel() {
+        return teamManagementController.getRootPanel();
+    }
+   /* private void replaceTeamLead(int teamLeadId, int memberId) {
         Response response = teamLeadService.replaceTeamLead(teamLeadId, memberId);
-        Alert alert = CommonUtil.getAlert(response);
-        alert.showAndWait();
+        *//*NotificationPane notificationPane = (NotificationPane) teamManagementController.getTeamManagementRootPane().getScene().getRoot();
+        notificationPane.setText(response.getMessage());
+        notificationPane.show();*//*
+        Notifications.create()
+                .darkStyle()
+                .hideAfter(Duration.seconds(10))
+                .text(response.getMessage())
+                .title("Testing")
+                .position(Pos.CENTER)
+                .owner(teamManagementController.getTeamManagementRootPane())
+                .action(new Action("Yes", actionEvent -> {
+                    System.out.println("Yes was clicked");
+                }), new Action("No", actionEvent1 -> {
+                    System.out.println("No was clicked");
+                }))
+                .showConfirm();
+
         refresh();
-    }
-
-    private void swapTeamLead(int swapTeamLeadId, int swapTeamLeadIdWith) {
-        Response response = teamLeadService.swapTeamLead(swapTeamLeadId, swapTeamLeadIdWith);
-        Alert alert = CommonUtil.getAlert(response);
-        alert.showAndWait();
-        refresh();
-    }
-
-
-
-    private enum TeamLeadAction {
-        ADD_TEAM_LEAD,
-        REPLACE_TEAM_LEAD,
-        SWAP_TEAM_LEAD;
-    }
+    }*/
 }

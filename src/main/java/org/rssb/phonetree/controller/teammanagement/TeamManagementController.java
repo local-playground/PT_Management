@@ -1,7 +1,8 @@
 package org.rssb.phonetree.controller.teammanagement;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.Parent;
+import javafx.scene.layout.StackPane;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.controller.teamlead.TeamLeadController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class TeamManagementController extends AbstractController{
     private TeamLeadController teamLeadController;
 
     @FXML
-    private AnchorPane teamManagementRootPane;
+    private StackPane teamManagementRootPane;
 
 
     @Override
@@ -24,8 +25,8 @@ public class TeamManagementController extends AbstractController{
         teamLeadController.postProcess();
     }
 
-    public AnchorPane getTeamManagementRootPane() {
+    @Override
+    public Parent getRootPanel() {
         return teamManagementRootPane;
     }
-
 }

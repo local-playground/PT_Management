@@ -1,8 +1,13 @@
 package org.rssb.phonetree.common;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.status.ActionAlertType;
 import org.rssb.phonetree.status.ActionResponseType;
@@ -13,6 +18,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class CommonUtil {
+    private static final List<ActionAlertType> NO_ACTION_NEEDED_ALERT_TYPES=
+            Arrays.asList(ActionAlertType.INFORMATION,ActionAlertType.ERROR,ActionAlertType.WARNING);
     private CommonUtil() {
 
     }
@@ -162,6 +169,49 @@ public class CommonUtil {
         return alert;
     }
 
+
+    public static void showNoActionNeededJFXDialog(StackPane stackPane,Response response){
+        JFXDialogLayout jfxDialogLayout = new JFXDialogLayout();
+        Text text = new Text(response.getMessage());
+        text.setStyle("-fx-font-family: \"Calibri\";-fx-font-size: 20px;-fx-font-weight: bold;-fx-fill: white;");
+        jfxDialogLayout.setBody(text);
+        JFXDialog jfxDialog = new JFXDialog(stackPane,jfxDialogLayout, JFXDialog.DialogTransition.TOP);
+        JFXButton okayButton = new JFXButton("Ok");
+        okayButton.setOnAction(event -> jfxDialog.close());
+        jfxDialogLayout.setActions(okayButton);
+        jfxDialog.show();
+    }
+
+
+    public static void handleResponse(RootPanel rootPanel,Response response,
+                                      ContextHolder contextHolder,ResponseHandler responseHandler) {
+        if (NO_ACTION_NEEDED_ALERT_TYPES.contains(response.getActionAlertType())) {
+            showNoActionNeededJFXDialog((StackPane) rootPanel.getRootPanel(),response);
+            return;
+        }
+
+        if (response.getActionAlertType() == ActionAlertType.NONE) {
+            if(responseHandler!=null) {
+                Response resp = responseHandler.handlerResponse(contextHolder);
+                handleResponse(rootPanel,resp, null, null);
+                return;
+            }
+        }
+
+        if (response.getActionAlertType() == ActionAlertType.CONFIRMATION) {
+            Alert alert = CommonUtil.getAlert(response);
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == ButtonType.NO) {
+                    return;
+                }
+                if(responseHandler!=null) {
+                    Response resp = responseHandler.handlerResponse(contextHolder);
+                    handleResponse(rootPanel,resp, null, null);
+                    return;
+                }
+            });
+        }
+    }
     public static String getFullName(Member member){
         return member.getFirstName() + " " + member.getLastName();
     }

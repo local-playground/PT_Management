@@ -84,10 +84,18 @@ public class StageManager {
 
     private Scene prepareScene(Parent rootNode, Stage stage) {
         Scene scene = stage.getScene();
+        /*NotificationPane notificationPane = new NotificationPane(rootNode);
+        if (scene == null) {
+            scene = new Scene(notificationPane);
+        }*/
         if (scene == null) {
             scene = new Scene(rootNode);
         }
+        //scene.setRoot(notificationPane);
         scene.setRoot(rootNode);
+        /*notificationPane.setShowFromTop(true);
+        notificationPane.getStyleClass().add(NotificationPane.STYLE_CLASS_DARK);
+        notificationPane.setCloseButtonVisible(true);*/
         return scene;
     }
 

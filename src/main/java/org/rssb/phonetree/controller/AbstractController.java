@@ -5,7 +5,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import org.rssb.phonetree.common.*;
+import org.rssb.phonetree.common.CommonUtil;
+import org.rssb.phonetree.common.Constants;
+import org.rssb.phonetree.common.ContextHolder;
+import org.rssb.phonetree.common.Delegator;
+import org.rssb.phonetree.common.PostLoader;
+import org.rssb.phonetree.common.Refreshable;
+import org.rssb.phonetree.common.RootPanel;
+import org.rssb.phonetree.common.Selection;
 import org.rssb.phonetree.services.UtilityService;
 import org.rssb.phonetree.ui.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +23,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 @Component
-public abstract class AbstractController implements Delegator,Refreshable,Initializable,PostLoader,Selection {
+public abstract class AbstractController implements Refreshable,Initializable,PostLoader,Selection,RootPanel {
 
     protected Delegator delegator;
     protected ContextHolder contextHolder;
@@ -39,11 +46,6 @@ public abstract class AbstractController implements Delegator,Refreshable,Initia
     }
 
     @Override
-    public void delegate(ContextHolder contextHolder) {
-
-    }
-
-    @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
@@ -51,6 +53,11 @@ public abstract class AbstractController implements Delegator,Refreshable,Initia
     @Override
     public void refresh(){
 
+    }
+
+    @Override
+    public Parent getRootPanel(){
+        return null;
     }
 
     @Override
@@ -65,7 +72,9 @@ public abstract class AbstractController implements Delegator,Refreshable,Initia
 
     protected ContextHolder createContextHolder(String key,Object value,Parent parentPane){
         ContextHolder contextHolder = new ContextHolder();
-        contextHolder.set(key,value);
+        if(CommonUtil.isNotEmptyOrNull(key) && value !=null) {
+            contextHolder.set(key, value);
+        }
         if(parentPane!=null){
             contextHolder.set(Constants.PARENT_PANE,parentPane);
         }
@@ -77,7 +86,9 @@ public abstract class AbstractController implements Delegator,Refreshable,Initia
         for(int index=0;index<keys.length;index++){
             String key = keys[index];
             Object value = values[index];
-            contextHolder.set(key,value);
+            if(CommonUtil.isNotEmptyOrNull(key) && value !=null) {
+                contextHolder.set(key, value);
+            }
         }
         if(parentPane!=null){
             contextHolder.set(Constants.PARENT_PANE,parentPane);

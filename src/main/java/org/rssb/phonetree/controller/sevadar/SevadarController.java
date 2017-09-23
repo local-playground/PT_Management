@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -27,6 +28,7 @@ import org.rssb.phonetree.services.TeamLeadService;
 import org.rssb.phonetree.status.ActionAlertType;
 import org.rssb.phonetree.ui.view.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -35,6 +37,7 @@ import java.util.ResourceBundle;
 
 @Component("Sevadar")
 @SuppressWarnings("unused")
+@Lazy
 public class SevadarController extends AbstractController {
 
     @Autowired
@@ -117,18 +120,18 @@ public class SevadarController extends AbstractController {
     @FXML
     void addSevadar(ActionEvent event) {
         TeamLead teamLead = teamLeadController.getSelected();
-        if(teamLead==null){
+        if (teamLead == null) {
             Alert alert = CommonUtil.getAlert("Please select Team Lead to add Sevadar", ActionAlertType.ERROR);
             alert.showAndWait();
             return;
         }
 
         ContextHolder contextHolder = createContextHolder(
-                new String[]{Constants.ACTION,Constants.REQUEST_OBJ},
-                new Object[]{SevadarAction.ADD_SEVADAR,teamLead},
-                teamManagementController.getTeamManagementRootPane());
-        setOpacity(Constants.LOW_OPACITY,contextHolder);
-        stageManager.switchScene(FxmlView.SEARCH, this, contextHolder, true);
+                new String[]{Constants.REQUEST_OBJ},
+                new Object[]{teamLead},
+                getRootPanel());
+        setOpacity(Constants.LOW_OPACITY, contextHolder);
+        stageManager.switchScene(FxmlView.SEARCH, this::addSevadar, contextHolder, true);
     }
 
     @FXML
@@ -147,8 +150,7 @@ public class SevadarController extends AbstractController {
         alert.showAndWait().ifPresent(buttonType -> {
             if (buttonType == ButtonType.YES) {
                 Response response = sevadarService.deleteSevadar(sevadar.getSevadarsId());
-                Alert newAlert = CommonUtil.getAlert(response);
-                newAlert.showAndWait();
+                CommonUtil.handleResponse(this,response, null, null);
                 refresh();
             }
         });
@@ -168,20 +170,20 @@ public class SevadarController extends AbstractController {
             return;
         }
         ContextHolder contextHolder = createContextHolder(
-                new String[]{Constants.ACTION, Constants.REQUEST_OBJ,"TEAM_LEAD"},
-                new Object[]{SevadarAction.REPLACE_SEVADAR, sevadar,teamLeadController.getSelected()},
-                teamManagementController.getTeamManagementRootPane());
-        setOpacity(Constants.LOW_OPACITY,contextHolder);
-        stageManager.switchScene(FxmlView.SEARCH, this, contextHolder, true);
+                new String[]{"", Constants.REQUEST_OBJ, "TEAM_LEAD"},
+                new Object[]{null, sevadar, teamLeadController.getSelected()},
+                getRootPanel());
+        setOpacity(Constants.LOW_OPACITY, contextHolder);
+        stageManager.switchScene(FxmlView.SEARCH, this::replaceSevadar, contextHolder, true);
     }
 
     @FXML
     void swapSevadar(ActionEvent event) {
-        ContextHolder contextHolder = createContextHolder(Constants.ACTION,
-                SevadarAction.SWAP_SEVADAR,
-                teamManagementController.getTeamManagementRootPane());
-        setOpacity(Constants.LOW_OPACITY,contextHolder);
-        stageManager.switchScene(FxmlView.SWAP_SEVADAR, this, contextHolder, true);
+        ContextHolder contextHolder = createContextHolder("",
+                null,
+                getRootPanel());
+        setOpacity(Constants.LOW_OPACITY, contextHolder);
+        stageManager.switchScene(FxmlView.SWAP_SEVADAR, this::swapSevadar, contextHolder, true);
     }
 
 
@@ -194,101 +196,55 @@ public class SevadarController extends AbstractController {
         refreshBarChart(teamLead);
     }
 
-    private void refreshBarChart(TeamLead teamLead){
+    private void refreshBarChart(TeamLead teamLead) {
         List<FamilyCount> familyCountList = sevadarService.getSevadarsCallingFamilyCountByTeamLeadId(teamLead.getTeamLeadId());
         pieChart.getData().clear();
         familyCountList.stream().forEach(familyCount -> {
-            PieChart.Data data = new PieChart.Data(familyCount.getName(),familyCount.getCount());
+            PieChart.Data data = new PieChart.Data(familyCount.getName(), familyCount.getCount());
             pieChart.getData().add(data);
         });
 
         pieChart.getData().stream().forEach(data -> {
-            data.nameProperty().bind(Bindings.concat(data.getName() + " , "+ (int)data.getPieValue()));
+            data.nameProperty().bind(Bindings.concat(data.getName() + " , " + (int) data.getPieValue()));
         });
     }
 
-    @Override
-    public void delegate(ContextHolder contextHolder) {
-        SevadarAction action = (SevadarAction) contextHolder.get(Constants.ACTION);
+    private void addSevadar(ContextHolder contextHolder) {
+        TeamLead teamLead = (TeamLead) contextHolder.get(Constants.REQUEST_OBJ);
         SearchResult selectedResult = (SearchResult) contextHolder.get(Constants.RESPONSE_OBJ);
-        Response response = null;
-        Alert alert;
-        switch (action) {
-            case REPLACE_SEVADAR:
-                Sevadar sevadar = (Sevadar) contextHolder.get(Constants.REQUEST_OBJ);
-                response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_SEVADAR);
-                if (response.getActionAlertType() == ActionAlertType.NONE) {
-                    replaceSevadar(sevadar.getSevadarsId(), selectedResult.getMemberId());
-                    return;
-                }
-                alert = CommonUtil.getAlert(response);
-                alert.showAndWait().ifPresent(buttonType -> {
-                    if (alert.getAlertType() != Alert.AlertType.CONFIRMATION) {
-                        return;
-                    }
-
-                    if (buttonType == ButtonType.NO) {
-                        return;
-                    }
-
-                    replaceSevadar(sevadar.getSevadarsId(), selectedResult.getMemberId());
-                });
-                break;
-            case ADD_SEVADAR:
-                TeamLead teamLead = (TeamLead)contextHolder.get(Constants.REQUEST_OBJ);
-                response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_SEVADAR);
-                if (response.getActionAlertType() == ActionAlertType.NONE) {
-                    addSevadar(selectedResult.getMemberId(),teamLead.getTeamLeadId());
-                    return;
-                }
-                alert = CommonUtil.getAlert(response);
-                alert.showAndWait().ifPresent(buttonType -> {
-                    if (alert.getAlertType() != Alert.AlertType.CONFIRMATION) {
-                        return;
-                    }
-
-                    if (buttonType == ButtonType.NO) {
-                        return;
-                    }
-                    addSevadar(selectedResult.getMemberId(),teamLead.getTeamLeadId());
-                });
-                break;
-            case SWAP_SEVADAR:
-                Sevadar swapSevadar = (Sevadar) contextHolder.get("SWAP_SEVADAR");
-                Sevadar swapSevadarWith = (Sevadar) contextHolder.get("SWAP_SEVADAR_WITH");
-                swapSevadar(swapSevadar.getSevadarsId(), swapSevadarWith.getSevadarsId());
-                break;
-        }
-
-        setOpacity(Constants.FULL_OPACITY,contextHolder);
-
+        Response response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_SEVADAR);
+        CommonUtil.handleResponse(this,response, contextHolder, contextHolder1 -> {
+            Response newResponse = sevadarService.addSevadar(selectedResult.getMemberId(), teamLead.getTeamLeadId());
+            refresh();
+            return newResponse;
+        });
+        setOpacity(Constants.FULL_OPACITY, contextHolder);
     }
 
-    private void addSevadar(int memberId,int teamLeadId) {
-        Response response = sevadarService.addSevadar(memberId,teamLeadId);
-        Alert alert = CommonUtil.getAlert(response);
-        alert.showAndWait();
+    private void replaceSevadar(ContextHolder contextHolder) {
+        Sevadar sevadar = (Sevadar) contextHolder.get(Constants.REQUEST_OBJ);
+        SearchResult selectedResult = (SearchResult) contextHolder.get(Constants.RESPONSE_OBJ);
+        Response response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_SEVADAR);
+
+        CommonUtil.handleResponse(this,response, contextHolder, contextHolder1 -> {
+            Response newResponse = sevadarService.replaceSevadar(sevadar.getSevadarsId(), selectedResult.getMemberId());
+            refresh();
+            return newResponse;
+        });
+        setOpacity(Constants.FULL_OPACITY, contextHolder);
+    }
+
+    private void swapSevadar(ContextHolder contextHolder) {
+        Sevadar swapSevadar = (Sevadar) contextHolder.get("SWAP_SEVADAR");
+        Sevadar swapSevadarWith = (Sevadar) contextHolder.get("SWAP_SEVADAR_WITH");
+        Response response = sevadarService.swapSevadar(swapSevadar.getSevadarsId(), swapSevadarWith.getSevadarsId());
+        CommonUtil.handleResponse(this,response, null, null);
         refresh();
+        setOpacity(Constants.FULL_OPACITY, contextHolder);
     }
 
-    private void replaceSevadar(int sevadarId, int memberId) {
-        Response response = sevadarService.replaceSevadar(sevadarId, memberId);
-        Alert alert = CommonUtil.getAlert(response);
-        alert.showAndWait();
-        refresh();
-    }
-
-    private void swapSevadar(int swapSevadarId, int swapSevadarWith) {
-        Response response = sevadarService.swapSevadar(swapSevadarId, swapSevadarWith);
-        Alert alert = CommonUtil.getAlert(response);
-        alert.showAndWait();
-        refresh();
-    }
-
-    private enum SevadarAction {
-        ADD_SEVADAR,
-        REPLACE_SEVADAR,
-        DELETE_SEVADAR,
-        SWAP_SEVADAR;
+    @Override
+    public Parent getRootPanel() {
+        return teamManagementController.getRootPanel();
     }
 }
