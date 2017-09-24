@@ -156,6 +156,16 @@ public class SevadarController extends AbstractController {
 
     @FXML
     void moveSevadar(ActionEvent event) {
+        Sevadar sevadar = sevadarsTableView.getSelectionModel().getSelectedItem();
+        if (sevadar == null) {
+            CommonUtil.showNoActionNeededJFXDialog(this, null, SevadarActionResponse.SEVADAR_SELECT_BEFORE_ACTION);
+            return;
+        }
+        ContextHolder contextHolder = createContextHolder("",
+                null,
+                getRootPanel());
+        setOpacity(Constants.LOW_OPACITY, contextHolder);
+        stageManager.switchScene(FxmlView.MOVE_SEVADAR, this::moveSevadar, contextHolder, true);
 
     }
 
@@ -239,8 +249,22 @@ public class SevadarController extends AbstractController {
         setOpacity(Constants.FULL_OPACITY, contextHolder);
     }
 
+    private void moveSevadar(ContextHolder contextHolder) {
+        Sevadar sevadarToBeMoved = (Sevadar) contextHolder.get("MOVE_SEVADAR");
+        TeamLead teamLead = (TeamLead) contextHolder.get("MOVE_UNDER_TEAM_LEAD");
+        Response response = sevadarService.moveSevadarUnderOtherTeamLead(sevadarToBeMoved.getSevadarsId(),teamLead.getTeamLeadId());
+        CommonUtil.handleResponse(this,response, null, null);
+        refresh();
+        setOpacity(Constants.FULL_OPACITY, contextHolder);
+    }
+
     @Override
     public Parent getRootPanel() {
         return teamManagementController.getRootPanel();
+    }
+
+    @Override
+    public <T> T getSelected() {
+        return (T) sevadarsTableView.getSelectionModel().getSelectedItem();
     }
 }

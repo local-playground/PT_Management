@@ -101,6 +101,25 @@ public enum FxmlView {
         boolean isAlwaysOnTop() {
             return true;
         }
+    },MOVE_SEVADAR{
+        @Override
+        String getTitle() {
+            return getStringFromResourceBundle("login.title");
+        }
+
+        @Override
+        String getFxmlFile() {
+            return "/fxml/sevadar/move-sevadar.fxml";
+        }
+
+        @Override
+        boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        boolean isAlwaysOnTop() {
+            return true;
+        }
     };
     
     abstract String getTitle();
