@@ -3,12 +3,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
 
-
-<BorderPane fx:id="phoneTreeBorderPane" maxHeight="960.0" maxWidth="1700.0" minHeight="960.0" minWidth="-Infinity" prefHeight="960.0" prefWidth="1700.0" styleClass="rootPane" stylesheets="@phonetree-management.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.phonetreemanagement.PhoneTreeManagementController">
+<BorderPane fx:id="phoneTreeBorderPane" maxHeight="960.0" maxWidth="1700.0" minHeight="960.0" minWidth="1700.0" prefHeight="960.0" prefWidth="1700.0" styleClass="root" stylesheets="@phonetree-management.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.phonetreemanagement.PhoneTreeManagementController">
    <left>
       <fx:include source="phonetree-management-actions.fxml" />
    </left>
    <padding>
-      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>
 </BorderPane>

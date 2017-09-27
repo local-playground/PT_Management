@@ -6,32 +6,32 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="teamManagementRootPane" prefHeight="1100.0" prefWidth="1500.0" stylesheets="@team-management.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teammanagement.TeamManagementController">
+<StackPane fx:id="teamManagementRootPane" prefHeight="960.0" prefWidth="1300.0" stylesheets="@team-management.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teammanagement.TeamManagementController">
    <children>
       <AnchorPane styleClass="root">
          <children>
-            <SplitPane dividerPositions="0.4723282442748092" layoutX="14.0" layoutY="21.0" orientation="VERTICAL" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+            <SplitPane dividerPositions="0.47780126849894294" layoutX="14.0" layoutY="21.0" orientation="VERTICAL" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="6.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
+                <AnchorPane minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false">
                      <children>
-                        <HBox layoutX="129.0" layoutY="115.0" spacing="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <HBox layoutX="129.0" layoutY="115.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </padding>
                            <children>
                               <fx:include source="../teamlead/team-lead.fxml" />
                               <fx:include source="../backup-sevadar/backup-sevadar.fxml" />
                            </children>
-                           <padding>
+                           <!--<padding>
                               <Insets top="10.0" />
-                           </padding>
+                           </padding>-->
                         </HBox>
                      </children>
-                     <padding>
+                     <!--<padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
+                     </padding>-->
                   </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="1448.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0">
                      <children>
                         <fx:include source="../sevadar/sevadar.fxml" />
                      </children>

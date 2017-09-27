@@ -101,7 +101,7 @@ public enum FxmlView {
         }
         @Override
         public boolean isFullScreen() {
-            return true;
+            return false;
         }
         @Override
         public boolean isAlwaysOnTop() {
