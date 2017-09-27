@@ -68,7 +68,6 @@ public class StageManager {
     private void show(final Parent rootNode, FxmlView view, Stage stage) {
         Scene scene = prepareScene(rootNode, stage);
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle(view.getTitle());
         stage.setScene(scene);
         stage.setFullScreen(view.isFullScreen());
         stage.setAlwaysOnTop(view.isAlwaysOnTop());
@@ -78,7 +77,7 @@ public class StageManager {
         try {
             stage.show();
         } catch (Exception exception) {
-            logAndExit("Unable to show scene for title" + view.getTitle(), exception);
+            logAndExit("Unable to show scene ", exception);
         }
     }
 

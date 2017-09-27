@@ -8,7 +8,7 @@
 
 <AnchorPane fx:id="phoneTreeManagementActionsRootPane" prefHeight="960.0" prefWidth="200.0" styleClass="root" stylesheets="@phonetree-management-actions.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.phonetreemanagement.PhoneTreeManagementActionsController">
    <children>
-      <VBox layoutX="78.0" layoutY="143.0" prefHeight="1200.0" prefWidth="300.0" spacing="35.0" styleClass="button-bar" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <VBox layoutX="78.0" layoutY="143.0" spacing="35.0" styleClass="button-bar" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
          <children>
             <JFXButton fx:id="dashboardButton" buttonType="RAISED" contentDisplay="TOP" onAction="#showDashboard" prefHeight="300.0" prefWidth="300.0" text="Dashboard" textAlignment="CENTER" wrapText="true">
                <styleClass>

@@ -26,7 +26,7 @@ public class TestController extends AbstractController implements Initializable{
 
     void testMe() {
         System.out.println("Test Me is called..");
-        stageManager.switchScene(FxmlView.TEAM_LEAD_MANAGEMENT,null,null,true);
+        stageManager.switchScene(FxmlView.PHONE_TREE_MANAGEMENT_MAIN,null,null,true);
         System.out.println("done calling test me..");
     }
 

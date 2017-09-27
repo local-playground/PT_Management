@@ -27,7 +27,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
-                  <HBox prefHeight="120.0" prefWidth="800.0" spacing="80.0" styleClass="button-bar">
+                  <HBox spacing="80.0" styleClass="button-bar">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>

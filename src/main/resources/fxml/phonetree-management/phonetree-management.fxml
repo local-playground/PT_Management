@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane fx:id="rootAnchorPane" prefHeight="1010.0" prefWidth="1750.0" styleClass="root" stylesheets="@phonetree-management.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.phonetreemanagement.PhoneTreeManagementController">
-   <children>
-      <BorderPane fx:id="phoneTreeBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="960.0" prefWidth="1700.0" styleClass="rootPane" stylesheets="@phonetree-management.css" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
-         <left>
-            <fx:include source="phonetree-management-actions.fxml" />
-         </left>
-      </BorderPane>
-   </children>
-</AnchorPane>
+
+<BorderPane fx:id="phoneTreeBorderPane" maxHeight="960.0" maxWidth="1700.0" minHeight="960.0" minWidth="-Infinity" prefHeight="960.0" prefWidth="1700.0" styleClass="rootPane" stylesheets="@phonetree-management.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.phonetreemanagement.PhoneTreeManagementController">
+   <left>
+      <fx:include source="phonetree-management-actions.fxml" />
+   </left>
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
+</BorderPane>

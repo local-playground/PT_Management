@@ -3,13 +3,27 @@ package org.rssb.phonetree.controller.phonetreemanagement;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import org.rssb.phonetree.controller.AbstractController;
+import org.rssb.phonetree.spring.config.SpringFXMLLoader;
+import org.rssb.phonetree.ui.view.FxmlView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 @Lazy
-public class PhoneTreeManagementActionsController {
+public class PhoneTreeManagementActionsController extends AbstractController{
+    @Autowired
+    private SpringFXMLLoader springFXMLLoader;
+
+    @Autowired
+    private PhoneTreeManagementController phoneTreeManagementController;
+
     @FXML
     private AnchorPane phoneTreeManagementActionsRootPane;
 
@@ -58,6 +72,21 @@ public class PhoneTreeManagementActionsController {
 
     @FXML
     void showTeamManagement(ActionEvent event) {
+        switchScreen(FxmlView.TEAM_LEAD_MANAGEMENT.getFxmlFile());
+    }
 
+    private void switchScreen(String fxmlFile) {
+        try {
+            Parent parent = springFXMLLoader.load(fxmlFile);
+            BorderPane borderPane = (BorderPane) phoneTreeManagementController.getRootPanel();
+            borderPane.setCenter(parent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Parent getRootPanel() {
+        return phoneTreeManagementActionsRootPane;
     }
 }

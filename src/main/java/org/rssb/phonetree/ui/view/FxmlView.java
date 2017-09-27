@@ -6,126 +6,112 @@ public enum FxmlView {
 
     SEARCH {
         @Override
-        String getTitle() {
-            return getStringFromResourceBundle("main.app.title");
-        }
-        @Override
-        String getFxmlFile() {
+        public String getFxmlFile() {
             return "/fxml/search/search.fxml";
         }
 
         @Override
-        boolean isFullScreen() {
+        public boolean isFullScreen() {
             return false;
         }
 
         @Override
-        boolean isAlwaysOnTop() {
+        public boolean isAlwaysOnTop() {
             return true;
         }
-    }, LOGIN {
+    },
+    LOGIN {
         @Override
-        String getTitle() {
-            return getStringFromResourceBundle("login.title");
-        }
-
-        @Override
-        String getFxmlFile() {
+        public String getFxmlFile() {
             return "/fxml/login/login.fxml";
         }
 
         @Override
-        boolean isFullScreen() {
+        public boolean isFullScreen() {
             return false;
         }
         @Override
-        boolean isAlwaysOnTop() {
+        public boolean isAlwaysOnTop() {
             return true;
         }
     },
     TEAM_LEAD_MANAGEMENT{
         @Override
-        String getTitle() {
-            return getStringFromResourceBundle("login.title");
-        }
-
-        @Override
-        String getFxmlFile() {
+        public String getFxmlFile() {
             return "/fxml/teammanagement/team-management.fxml";
         }
 
         @Override
-        boolean isFullScreen() {
+        public boolean isFullScreen() {
             return true;
         }
         @Override
-        boolean isAlwaysOnTop() {
+        public boolean isAlwaysOnTop() {
             return true;
         }
     },
     SWAP_TEAM_LEAD{
         @Override
-        String getTitle() {
-            return getStringFromResourceBundle("login.title");
-        }
-
-        @Override
-        String getFxmlFile() {
+        public String getFxmlFile() {
             return "/fxml/teamlead/swap-team-lead.fxml";
         }
 
         @Override
-        boolean isFullScreen() {
+        public boolean isFullScreen() {
             return false;
         }
         @Override
-        boolean isAlwaysOnTop() {
+        public boolean isAlwaysOnTop() {
             return true;
         }
     }, SWAP_SEVADAR{
         @Override
-        String getTitle() {
-            return getStringFromResourceBundle("login.title");
-        }
-
-        @Override
-        String getFxmlFile() {
+        public String getFxmlFile() {
             return "/fxml/sevadar/swap-sevadar.fxml";
         }
 
         @Override
-        boolean isFullScreen() {
+        public boolean isFullScreen() {
             return false;
         }
         @Override
-        boolean isAlwaysOnTop() {
+        public boolean isAlwaysOnTop() {
             return true;
         }
-    },MOVE_SEVADAR{
+    },
+    MOVE_SEVADAR{
         @Override
-        String getTitle() {
-            return getStringFromResourceBundle("login.title");
-        }
-
-        @Override
-        String getFxmlFile() {
+        public String getFxmlFile() {
             return "/fxml/sevadar/move-sevadar.fxml";
         }
 
         @Override
-        boolean isFullScreen() {
+        public boolean isFullScreen() {
             return false;
         }
         @Override
-        boolean isAlwaysOnTop() {
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
+    },
+    PHONE_TREE_MANAGEMENT_MAIN{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/phonetree-management/phonetree-management.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return true;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
             return true;
         }
     };
     
-    abstract String getTitle();
-    abstract String getFxmlFile();
-    abstract boolean isFullScreen();
-    abstract boolean isAlwaysOnTop();
+    public abstract String getFxmlFile();
+    public abstract boolean isFullScreen();
+    public abstract boolean isAlwaysOnTop();
     
     String getStringFromResourceBundle(String key){
         return ResourceBundle.getBundle("messages").getString(key);
