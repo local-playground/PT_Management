@@ -19,4 +19,5 @@ public interface SevadarService {
     Response replaceSevadar(int sevadarId,int memberId);
     Response swapSevadar(int sevadarIdToBeSwapped, int sevadarIdSwappedWith);
     List<FamilyCount> getSevadarsCallingFamilyCountByTeamLeadId(int teamLeadId);
+    String getSevadarStrigyfyInformation(String sevadarName);
 }

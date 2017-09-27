@@ -120,5 +120,16 @@ public class TeamLeadServiceTest extends ApplicationSetup{
         System.out.println("Response = "+ (response!=null?response.getMessage():"Null Response"));
     }
 
+    @Test
+    public void getTeamLeadStrigyfyInformation(){
+        String information = teamLeadService.getTeamLeadStrigyfyInformation("Naren Shah");
+        System.out.println("Got info\n"+information);
+    }
+
+    @Test
+    public void getBackupTeamLeadStrigyfyInformation(){
+        String information = teamLeadService.getBackupTeamLeadStringyfyInformation("Jyoti Israni");
+        System.out.println("Got info\n"+information);
+    }
 
 }

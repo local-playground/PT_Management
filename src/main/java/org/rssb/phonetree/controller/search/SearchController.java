@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -29,7 +30,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
-public class SearchController extends AbstractController  {
+public class SearchController extends AbstractController {
     @Autowired
     private SearchService searchService;
 
@@ -87,6 +88,15 @@ public class SearchController extends AbstractController  {
     @FXML
     void close(MouseEvent event) {
         closeScreen(event,this.contextHolder);
+        /*FadeTransition ft = new FadeTransition(Duration.seconds(1),getRootPanel());
+        ft.setFromValue(1.0);
+        ft.setToValue(0.0);
+        ft.play();
+        ft.setOnFinished(event1 -> {
+            System.out.println("calling on fade transition ended");
+            closeScreen(event, this.contextHolder);
+        });*/
+
     }
 
     @Override
@@ -109,14 +119,15 @@ public class SearchController extends AbstractController  {
         searchComboBox.getSelectionModel().select(0);
 
         tableView.setOnMousePressed(event -> {
-            if(event.isPrimaryButtonDown() && event.getClickCount()==2){
-                this.contextHolder.set(Constants.RESPONSE_OBJ,tableView.getSelectionModel().getSelectedItem());
-                closeScreen(event,contextHolder);
+            if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                this.contextHolder.set(Constants.RESPONSE_OBJ, tableView.getSelectionModel().getSelectedItem());
+                closeScreen(event, contextHolder);
                 this.delegator.delegate(this.contextHolder);
                 this.contextHolder = null;
                 this.delegator = null;
             }
         });
+
     }
 
     @FXML
@@ -168,5 +179,10 @@ public class SearchController extends AbstractController  {
         ObservableList<SearchResult> searchResultsList = FXCollections.observableList(searchResultsFound);
         recordsLabel.setText("" + searchResultsFound.size());
         tableView.setItems(searchResultsList);
+    }
+
+    @Override
+    public Parent getRootPanel() {
+        return rootPane;
     }
 }

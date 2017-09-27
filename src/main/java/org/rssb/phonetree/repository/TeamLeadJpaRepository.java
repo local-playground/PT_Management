@@ -23,6 +23,8 @@ public interface TeamLeadJpaRepository extends JpaRepository<TeamLead,Integer>{
     @Query("DELETE FROM TeamLead t WHERE t.teamLeadId = :id")
     int deleteTeamLead(@Param("id") int id);
 
+    TeamLead findByTeamLeadName(String teamLeadName);
+
     TeamLead findByMemberMemberId(int memberId);
 
     TeamLead findByFamilyFamilyId(int familyid);

@@ -1,10 +1,12 @@
 package org.rssb.phonetree.controller;
 
+import javafx.animation.FadeTransition;
 import javafx.event.Event;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.common.ContextHolder;
@@ -99,6 +101,15 @@ public abstract class AbstractController implements Refreshable,Initializable,Po
     protected void closeScreen(Event event,ContextHolder contextHolder){
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
+        FadeTransition ft = new FadeTransition(Duration.seconds(1),getRootPanel());
+        ft.setFromValue(1.0);
+        ft.setToValue(0.0);
+        ft.play();
+        ft.setOnFinished(event1 -> {
+            System.out.println("parent calling on fade transition ended");
+
+        });
+
         stage.close();
         setOpacity(Constants.FULL_OPACITY,contextHolder);
     }

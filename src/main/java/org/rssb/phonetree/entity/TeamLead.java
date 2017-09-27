@@ -10,9 +10,22 @@ import java.util.List;
                 query = "SELECT distinct t from TeamLead t" +
                         " JOIN FETCH t.sevadarsList s" +
                         " JOIN FETCH t.member " +
-                        " JOIN FETCH s.member " )
-
+                        " JOIN FETCH s.member " ),
+        @NamedQuery(name = "TeamLead.personalInformation",
+                query= "SELECT NEW org.rssb.phonetree.domain.SevadarPersonalInformation(" +
+                        "t.teamLeadName,m.cellPhone,m.homePhone,m.emailId) FROM TeamLead t " +
+                        " JOIN t.member m " +
+                        " WHERE t.teamLeadName = :teamLeadName"),
+        @NamedQuery(name ="TeamLead.BackupTeamLeadPersonalInformation",
+                query= "SELECT NEW org.rssb.phonetree.domain.SevadarPersonalInformation(" +
+                        "s.sevadarName,s.member.cellPhone,s.member.homePhone,s.member.emailId) FROM TeamLead t " +
+                        " JOIN t.member m " +
+                        " JOIN t.sevadarsList s " +
+                        " WHERE t.teamLeadId = s.teamLead.teamLeadId " +
+                        " AND t.teamLeadName = :teamLeadName" +
+                        " AND s.isBackupForTeamLead = 1")
 })
+
 public class TeamLead {
 
     @Id

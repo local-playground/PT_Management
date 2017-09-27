@@ -102,8 +102,14 @@ public class SevadarServiceTest extends ApplicationSetup{
 
     @Test
     public void getFamilyCountByTeamLeadId(){
-        List<FamilyCount> familyCountList = sevadarService.getSevadarsCallingFamilyCountByTeamLeadId(1);
+        List<FamilyCount> familyCountList = sevadarService.getSevadarsCallingFamilyCountByTeamLeadId(5);
         familyCountList.stream().forEach(familyCount -> System.out.println(familyCount));
+    }
+
+    @Test
+    public void getSevadarStrigyfyInformation(){
+        String information = sevadarService.getSevadarStrigyfyInformation("Kamal Singh");
+        System.out.println("Got info\n"+information);
     }
 
 }

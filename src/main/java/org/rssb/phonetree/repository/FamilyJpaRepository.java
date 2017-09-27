@@ -9,8 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Repository
 @Transactional(readOnly = true)
 public interface FamilyJpaRepository extends JpaRepository<Family,Integer> {
@@ -35,5 +33,4 @@ public interface FamilyJpaRepository extends JpaRepository<Family,Integer> {
                                                @Param(value = "newTeamLeadId") int newTeamLeadId,
                                                @Param(value = "whereFamilyId") int whereFamilyId);
 
-    List<Family> findByTeamLeadTeamLeadNameAndSevadarSevadarName(String teamLeadName,String sevadarName);
 }

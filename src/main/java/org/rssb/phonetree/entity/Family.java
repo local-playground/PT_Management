@@ -39,12 +39,54 @@ import java.util.List;
                         "OR m.homePhone LIKE :phoneNumber " +
                         "OR m.workPhone LIKE :phoneNumber"),
         @NamedQuery(name = "Family.getSevadarsCallingFamilyCountByTeamLeadId",
-                query = "SELECT NEW org.rssb.phonetree.domain.FamilyCount(s.sevadarName,count(f)) FROM " +
+                query = "SELECT  NEW org.rssb.phonetree.domain.FamilyCount(s.sevadarName,count(f)) FROM " +
                         " Family f " +
                         " JOIN f.sevadar s " +
+                        //" JOIN f.membersList m " +
                         " WHERE f.teamLead.teamLeadId = :teamLeadId " +
-                        " GROUP BY s.sevadarName")
+                        //" AND m.onCallingList = org.rssb.phonetree.entity.emums.YesNo.YES" +
+                        " AND f.familyId = (SELECT distinct (mf.family.familyId) FROM f.membersList mf" +
+                        " WHERE mf.onCallingList = org.rssb.phonetree.entity.emums.YesNo.YES)" +
+                        " GROUP BY s.sevadarName"),
+        @NamedQuery(name = "Family.findCalledFamiliesByTeamLeadAndSevadar",
+                query = "SELECT NEW org.rssb.phonetree.domain.CalledFamilyDetails(" +
+                        "m.memberId,f.familyId,m.firstName,m.lastName," +
+                        "m.cellPhone, m.homePhone,m.workPhone,f.zipCode,f.callStatus," +
+                        "f.busRide,f.noOfPassengers,f.SNVGuidelines) " +
+                        " FROM Member m " +
+                        " JOIN m.family f " +
+                        " WHERE f.teamLead.teamLeadName = :teamLeadName" +
+                        " AND f.sevadar.sevadarName = :sevadarName" +
+                        " AND m.onCallingList = org.rssb.phonetree.entity.emums.YesNo.YES" +
+                        " ORDER BY f.familyId, m.priority"),
+        @NamedQuery(name="Family.findCalledFamiliesCountByTeamLeadAndSevadar",
+                query = "SELECT distinct count(f) FROM Family f" +
+                        " JOIN f.sevadar s" +
+                        " JOIN f.teamLead t " +
+                        " WHERE t.teamLeadName = :teamLeadName" +
+                        " AND s.sevadarName = :sevadarName" +
+                        " AND f.familyId = (SELECT distinct (mf.family.familyId) FROM f.membersList mf" +
+                        " WHERE mf.onCallingList = org.rssb.phonetree.entity.emums.YesNo.YES)" +
+                        " GROUP BY t.teamLeadName,s.sevadarName")
+        /*@NamedQuery(name = "Family.getSevadarsCallingFamilyCountByTeamLeadIdNew",
+                query = "SELECT NEW org.rssb.phonetree.domain.FamilyCount(m.family.sevadar.sevadarName,count(m)) FROM " +
+                        " Member m " +
+                        " WHERE (SELECT org.rssb.phonetree.domain.FamilyCount(f.family.sevadar.sevadarName,count(f)) " +
+                        " FROM Member f WHERE " +
+                        " f.onCallingList = org.rssb.phonetree.entity.emums.YesNo.YES" +
+                        " AND f.family.teamLead.teamLeadId = :teamLeadId" +
+                        " GROUP BY f.family.sevadar.sevadarName)"
+                        )*/
+
 })
+
+
+/*
+ public CalledFamilyDetails(int memberId,int familyId, String firstName, String lastName,
+                               String cellPhone, String homePhone, String workPhone,
+                               String zipCode, CallStatus callStatus, BusRide busRide,
+                               int noOfPassengers, YesNo SNVGuideLines) {
+ */
 public class Family implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(name = "FamilyId")

@@ -3,12 +3,16 @@ package org.rssb.phonetree.services.impl;
 
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.domain.CalledFamilyDetails;
+import org.rssb.phonetree.domain.SevadarPhoneTreeList;
 import org.rssb.phonetree.entity.Family;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.repository.FamilyJpaRepository;
 import org.rssb.phonetree.repository.NamedQueryExecutor;
 import org.rssb.phonetree.services.FamilyService;
 import org.rssb.phonetree.services.MemberService;
+import org.rssb.phonetree.services.SevadarService;
+import org.rssb.phonetree.services.TeamLeadService;
 import org.rssb.phonetree.services.UtilityService;
 import org.rssb.phonetree.status.ActionAlertType;
 import org.rssb.phonetree.status.FamilyActionResponse;
@@ -18,6 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,9 +40,26 @@ public class FamilyServiceImpl implements FamilyService {
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    private NamedQueryExecutor namedQueryExecutor;
+
+    @Autowired
+    private TeamLeadService teamLeadService;
+
+    @Autowired
+    private SevadarService sevadarService;
+
     @Override
     public int getTotalFamiliesBySevadarId(int sevadarId) {
         return familyJpaRepository.getTotalFamiliesBySevadarId(sevadarId);
+    }
+
+    @Override
+    public long getTotalFamiliesByTeamLeadAndSevadar(String teamLeadName, String sevadarName) {
+       return namedQueryExecutor.executeSingleResultQuery("Family.findCalledFamiliesCountByTeamLeadAndSevadar",
+                new String[]{"teamLeadName","sevadarName"},
+                new String[]{teamLeadName,sevadarName},
+                Long.class);
     }
 
     @Override
@@ -132,8 +157,48 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
-    public List<Family> getFamiliesByTeamLeadAndSevadarName(String teamLeadName, String sevadarName) {
-        return familyJpaRepository.findByTeamLeadTeamLeadNameAndSevadarSevadarName(teamLeadName,sevadarName);
+    public List<CalledFamilyDetails> getFamiliesByTeamLeadAndSevadarName(String teamLeadName, String sevadarName) {
+        List<CalledFamilyDetails> calledFamilyDetailsList = namedQueryExecutor.executeNamedQuery("Family.findCalledFamiliesByTeamLeadAndSevadar",
+                new String[]{"teamLeadName","sevadarName"},
+                new String[]{teamLeadName,sevadarName},
+                CalledFamilyDetails.class);
+        int previousFamilyId=0;
+        int familyCounter=0;
+        for (CalledFamilyDetails calledFamilyDetail:calledFamilyDetailsList){
+            if(calledFamilyDetail.getFamilyId() !=previousFamilyId){
+                calledFamilyDetail.setFamilySeqNumner(familyCounter+1);
+                previousFamilyId=calledFamilyDetail.getFamilyId();
+                familyCounter++;
+            }
+        }
+        return calledFamilyDetailsList;
+    }
+
+    private <T> Predicate<T> distinctByKey(Function<? super T,Object> keyExtractor){
+        Map<Object,Boolean> found = new ConcurrentHashMap<>();
+        return t -> found.putIfAbsent(keyExtractor.apply(t),Boolean.TRUE)==null;
+    }
+
+    @Override
+    public SevadarPhoneTreeList getSevadarPhoneTreeListByTeamLeadAndSevadarName(String teamLeadName,
+                                                                                String sevadarName) {
+        String teamLeadDetails = teamLeadService.getTeamLeadStrigyfyInformation(teamLeadName);
+        String backupTeamLeadDetails = teamLeadService.getBackupTeamLeadStringyfyInformation(teamLeadName);
+        String sevadarDetails = sevadarService.getSevadarStrigyfyInformation(sevadarName);
+        List<CalledFamilyDetails> calledFamilyDetailsList = getFamiliesByTeamLeadAndSevadarName(teamLeadName,sevadarName);
+
+        /*long familiesCount = calledFamilyDetailsList.stream()
+                .filter(distinctByKey(calledFamilyDetails -> calledFamilyDetails.getFamilyId()))
+                .count();*/
+        long familiesCount = getTotalFamiliesByTeamLeadAndSevadar(teamLeadName,sevadarName);
+        SevadarPhoneTreeList sevadarPhoneTreeList = new SevadarPhoneTreeList();
+        sevadarPhoneTreeList.setTotalFamiliesToCall((int) familiesCount);
+        sevadarPhoneTreeList.setTeamLeadDetails(teamLeadDetails);
+        sevadarPhoneTreeList.setBackupTeamLeadDetails(backupTeamLeadDetails);
+        sevadarPhoneTreeList.setSevadarDetails(sevadarDetails);
+        sevadarPhoneTreeList.setCalledFamilyDetailsList(calledFamilyDetailsList);
+
+        return sevadarPhoneTreeList;
     }
 
 }

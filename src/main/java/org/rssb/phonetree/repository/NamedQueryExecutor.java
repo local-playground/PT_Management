@@ -32,4 +32,39 @@ public class NamedQueryExecutor {
         return typedQuery.getResultList();
     }
 
+    public <T> List<T> executeNamedQuery(String namedQuery,String[] parameterNames,
+                                         String[] parameterValues,Class<T> returnType){
+        TypedQuery<T> typedQuery = entityManager.createNamedQuery(namedQuery,returnType);
+        for (int index = 0; index < parameterNames.length; index++) {
+            String parameterName = parameterNames[index];
+            if(CommonUtil.isNotEmptyOrNull(parameterName)) {
+                typedQuery.setParameter(parameterName, parameterValues[index]);
+            }
+        }
+
+        return typedQuery.getResultList();
+    }
+
+    public <T> T executeSingleResultQuery(String namedQuery,String[] parameterNames,
+                                          String[] parameterValues,Class<T> returnType) {
+        TypedQuery<T> typedQuery = entityManager.createNamedQuery(namedQuery, returnType);
+        for (int index = 0; index < parameterNames.length; index++) {
+            String parameterName = parameterNames[index];
+            if (CommonUtil.isNotEmptyOrNull(parameterName)) {
+                typedQuery.setParameter(parameterName, parameterValues[index]);
+            }
+        }
+
+        return typedQuery.getSingleResult();
+    }
+
+    public <T> T executeSingleResultQuery(String namedQuery, String parameterName,
+                                         String parameterValue, Class<T> returnType){
+        TypedQuery<T> typedQuery = entityManager.createNamedQuery(namedQuery,returnType);
+        if(CommonUtil.isNotEmptyOrNull(parameterValue)) {
+            typedQuery.setParameter(parameterName, parameterValue);
+        }
+        return typedQuery.getSingleResult();
+    }
+
 }

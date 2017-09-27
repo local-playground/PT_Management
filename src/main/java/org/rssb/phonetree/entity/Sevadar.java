@@ -6,6 +6,15 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Sevadars")
+@NamedQueries({
+        @NamedQuery(name = "Sevadar.personalInformation",
+                query="SELECT NEW org.rssb.phonetree.domain.SevadarPersonalInformation(" +
+                        "s.sevadarName,m.cellPhone,m.homePhone,m.emailId) FROM Sevadar s " +
+                        " JOIN s.member m " +
+                        " WHERE s.sevadarName = :sevadarName")
+
+})
+
 public class Sevadar implements Serializable {
 
     private static final long serialVersionUID = 1L;

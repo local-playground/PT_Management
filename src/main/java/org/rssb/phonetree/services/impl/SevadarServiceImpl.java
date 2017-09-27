@@ -4,6 +4,7 @@ package org.rssb.phonetree.services.impl;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.domain.FamilyCount;
+import org.rssb.phonetree.domain.SevadarPersonalInformation;
 import org.rssb.phonetree.entity.Family;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.entity.Sevadar;
@@ -239,6 +240,15 @@ public class SevadarServiceImpl implements SevadarService {
     @Override
     public List<FamilyCount> getSevadarsCallingFamilyCountByTeamLeadId(int teamLeadId) {
         return namedQueryExecutor.executeNamedQuery("Family.getSevadarsCallingFamilyCountByTeamLeadId","teamLeadId",teamLeadId,FamilyCount.class);
+    }
+
+    @Override
+    public String getSevadarStrigyfyInformation(String sevadarName) {
+       SevadarPersonalInformation sevadarPersonalInformation =
+                namedQueryExecutor.executeSingleResultQuery("Sevadar.personalInformation",
+                        "sevadarName",sevadarName,SevadarPersonalInformation.class);
+
+        return sevadarPersonalInformation.getStringyfyInformation("Sevadar");
     }
 
 

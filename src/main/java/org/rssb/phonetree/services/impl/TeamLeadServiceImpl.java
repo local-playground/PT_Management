@@ -3,6 +3,7 @@ package org.rssb.phonetree.services.impl;
 
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.domain.SevadarPersonalInformation;
 import org.rssb.phonetree.entity.Family;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.entity.Sevadar;
@@ -42,10 +43,14 @@ public class TeamLeadServiceImpl implements TeamLeadService {
         //return namedQueryExecutor.executeNamedQuery("TeamLead.findAllTeamLeads",null,null,TeamLead.class);
     }
 
-
     @Override
     public Optional<TeamLead> findTeamLeadById(int teamLeadId) {
         return Optional.ofNullable(teamLeadJpaRepository.findOne(teamLeadId));
+    }
+
+    @Override
+    public Optional<TeamLead> findTeamLeadByTeamLeadName(String teamLeadName) {
+        return Optional.ofNullable(teamLeadJpaRepository.findByTeamLeadName(teamLeadName));
     }
 
     @Override
@@ -193,6 +198,23 @@ public class TeamLeadServiceImpl implements TeamLeadService {
         return teamLeadJpaRepository.getSevadarsListByTeamLeadId(teamLeadId);
     }
 
+    @Override
+    public String getTeamLeadStrigyfyInformation(String teamLeadName) {
+        SevadarPersonalInformation sevadarPersonalInformation =
+                namedQueryExecutor.executeSingleResultQuery("TeamLead.personalInformation",
+                        "teamLeadName",teamLeadName,SevadarPersonalInformation.class);
+
+        return sevadarPersonalInformation.getStringyfyInformation("Team Lead");
+    }
+
+    @Override
+    public String getBackupTeamLeadStringyfyInformation(String teamLeadName) {
+        SevadarPersonalInformation sevadarPersonalInformation =
+                namedQueryExecutor.executeSingleResultQuery("TeamLead.BackupTeamLeadPersonalInformation",
+                        "teamLeadName",teamLeadName,SevadarPersonalInformation.class);
+
+        return sevadarPersonalInformation.getStringyfyInformation("Backup Team Lead");
+    }
 }
 
 

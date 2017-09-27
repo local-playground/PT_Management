@@ -3,7 +3,8 @@ package org.rssb.phonetree.services;
 import org.junit.Test;
 import org.rssb.phonetree.ApplicationSetup;
 import org.rssb.phonetree.common.Response;
-import org.rssb.phonetree.entity.Family;
+import org.rssb.phonetree.domain.CalledFamilyDetails;
+import org.rssb.phonetree.domain.SevadarPhoneTreeList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -52,8 +53,21 @@ public class FamilyServiceTest extends ApplicationSetup{
 
     @Test
     public void findFamiliesByTeamLeadAndSevadarName(){
-        List<Family> familyList =  familyService.getFamiliesByTeamLeadAndSevadarName("Mina Patel","Kamal Singh");
+        List<CalledFamilyDetails> familyList =  familyService.getFamiliesByTeamLeadAndSevadarName("Mina Patel","Kamal Singh");
         familyList.stream().forEach(family -> System.out.println(family));
+    }
+
+    @Test
+    public void findFamiliesCountByTeamLeadAndSevadar(){
+        long count= familyService.getTotalFamiliesByTeamLeadAndSevadar("Mina Patel","Kamal Singh");
+        System.out.println("total count = "+count);
+    }
+
+    @Test
+    public void getSevadarPhoneTreeListByTeamLeadAndSevadarName(){
+        SevadarPhoneTreeList sevadarPhoneTreeList =
+                familyService.getSevadarPhoneTreeListByTeamLeadAndSevadarName("Mina Patel","Kamal Singh");
+        System.out.println("data \n"+sevadarPhoneTreeList);
     }
 
 }
