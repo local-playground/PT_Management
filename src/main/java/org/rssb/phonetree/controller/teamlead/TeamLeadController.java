@@ -167,6 +167,7 @@ public class TeamLeadController extends AbstractController {
         List<TeamLead> teamLeadList = teamLeadService.findAllTeamLeads();
         ObservableList<TeamLead> teamLeadsTableList = FXCollections.observableArrayList(teamLeadList);
         teamLeadTableView.setItems(teamLeadsTableList);
+        teamLeadTableView.getSelectionModel().select(0);
     }
 
     @Override
