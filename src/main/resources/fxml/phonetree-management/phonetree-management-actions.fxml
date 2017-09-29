@@ -16,25 +16,25 @@
                   <String fx:value="dashboard" />
                </styleClass>
             </JFXButton>
-            <JFXButton fx:id="teamManagementButton" buttonType="RAISED" contentDisplay="TOP" layoutX="30.0" layoutY="30.0" onAction="#showTeamManagement" prefHeight="300.0" prefWidth="300.0" text="Team Management" textAlignment="CENTER" wrapText="true">
+            <JFXButton fx:id="teamManagementButton" buttonType="RAISED" contentDisplay="TOP" layoutX="30.0" layoutY="30.0" onAction="#showTeamManagement" prefHeight="300.0" prefWidth="300.0" text="Team" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="phonetree-management-action-button" />
                   <String fx:value="team-management" />
                </styleClass>
             </JFXButton>
-            <JFXButton fx:id="familyManagementButton" buttonType="RAISED" contentDisplay="TOP" layoutX="30.0" layoutY="201.0" onAction="#showFamilyManagement" prefHeight="300.0" prefWidth="300.0" text="Family Management" textAlignment="CENTER" wrapText="true">
+            <JFXButton fx:id="familyManagementButton" buttonType="RAISED" contentDisplay="TOP" layoutX="30.0" layoutY="201.0" onAction="#showFamilyManagement" prefHeight="300.0" prefWidth="300.0" text="Family" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="phonetree-management-action-button" />
                   <String fx:value="family-management" />
                </styleClass>
             </JFXButton>
-            <JFXButton fx:id="sevadarsPhoneTreeListButton" buttonType="RAISED" contentDisplay="TOP" layoutX="30.0" layoutY="372.0" onAction="#showSevadarsPhoneTreeLists" prefHeight="300.0" prefWidth="300.0" text="Sevadars Phonetree List" textAlignment="CENTER" wrapText="true">
+            <JFXButton fx:id="sevadarsPhoneTreeListButton" buttonType="RAISED" contentDisplay="TOP" layoutX="30.0" layoutY="372.0" onAction="#showSevadarsPhoneTreeLists" prefHeight="300.0" prefWidth="300.0" text="Sevadars List" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="phonetree-management-action-button" />
                   <String fx:value="sevadars-phonetree-list" />
                </styleClass>
             </JFXButton>
-            <JFXButton fx:id="reportManagementButton" buttonType="RAISED" contentDisplay="TOP" layoutX="30.0" layoutY="543.0" onAction="#showReportsManagement" prefHeight="300.0" prefWidth="300.0" text="Reports Management" textAlignment="CENTER" wrapText="true">
+            <JFXButton fx:id="reportManagementButton" buttonType="RAISED" contentDisplay="TOP" layoutX="30.0" layoutY="543.0" onAction="#showReportsManagement" prefHeight="300.0" prefWidth="300.0" text="Reports" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="phonetree-management-action-button" />
                   <String fx:value="reports-management" />

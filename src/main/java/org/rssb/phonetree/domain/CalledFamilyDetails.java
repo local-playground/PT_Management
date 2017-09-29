@@ -1,10 +1,11 @@
 package org.rssb.phonetree.domain;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import org.rssb.phonetree.entity.emums.BusRide;
 import org.rssb.phonetree.entity.emums.CallStatus;
 import org.rssb.phonetree.entity.emums.YesNo;
 
-public class CalledFamilyDetails {
+public class CalledFamilyDetails  {
     private int familySeqNumber;
     private int familyId;
     private int memberId;

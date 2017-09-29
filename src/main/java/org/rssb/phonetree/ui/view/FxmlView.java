@@ -107,6 +107,20 @@ public enum FxmlView {
         public boolean isAlwaysOnTop() {
             return true;
         }
+    },
+    SEVADARS_LIST{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/sevadars-list/sevadars-list.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
     };
     
     public abstract String getFxmlFile();

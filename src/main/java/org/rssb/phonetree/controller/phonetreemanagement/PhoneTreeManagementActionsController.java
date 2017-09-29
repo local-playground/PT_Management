@@ -67,7 +67,7 @@ public class PhoneTreeManagementActionsController extends AbstractController{
 
     @FXML
     void showSevadarsPhoneTreeLists(ActionEvent event) {
-
+        switchScreen(FxmlView.SEVADARS_LIST.getFxmlFile());
     }
 
     @FXML
