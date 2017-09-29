@@ -1,9 +1,104 @@
-.root{
-    -fx-background-image: url("../images/Blue.jpg");
-    -fx-background-size: cover;
+*{
+    -fx-theme-background-secondary-color:#1b5e20;
+    -fx-theme-background-primary-color:#e8f5e9;
+    -fx-theme-border-color: #1b5e20;
+    -fx-theme-font-family:"Calibri";
+
+    /*
+    Text Fill Color
+    */
+    -fx-theme-text-fill-primary-color:#1b5e20;
+    -fx-theme-text-fill-secondary-color:#e8f5e9;
+
+    /*
+        Action Button Bar background color
+    */
+    -fx-theme-button-bar-background:#a5d6a7;
 }
 
-.loginForm{
-    -fx-background-color: white;
-    -fx-background-radius: 100px;
+.border-radius{
+    -fx-border-radius: 15px;
+    -fx-border-width: 2px;
 }
+
+.background-radius{
+    -fx-background-radius:15px;
+}
+
+.bold{
+    -fx-font-weight: bold;
+}
+
+.root{
+    -fx-background-color: -fx-theme-background-secondary-color;
+    -fx-border-color: -fx-theme-border-color;
+}
+
+.h1{
+    -fx-font-family: -fx-theme-font-family;
+    -fx-font-size: 22px;
+    -fx-text-fill: -fx-theme-text-fill-primary-color;
+}
+
+.h2{
+    -fx-text-fill: -fx-theme-text-fill-primary-color;
+    -fx-font-weight:bold;
+    -fx-font-family: "Calibri";
+    -fx-font-size: 18px;
+}
+
+
+
+
+
+
+/*
+Action Button Bar
+*/
+.action-button-bar {
+    -fx-background-color: -fx-theme-button-bar-background;
+}
+
+.action-button{
+    -fx-text-fill: -fx-theme-text-fill-primary-color;
+    -fx-border-color:-fx-theme-border-color;
+    -fx-background-color: -fx-theme-background-primary-color;
+    -fx-font-family: -fx-theme-font-family;
+    -fx-font-size: 15px;
+}
+
+.action-button:hover, .action-button:focused{
+    -fx-text-fill: -fx-theme-text-fill-secondary-color;
+    -fx-border-color:-fx-theme-background-primary-color;
+    -fx-background-color: -fx-theme-background-secondary-color;
+}
+
+
+/*
+Images Resources for each Action
+*/
+
+.dashboard{
+    -fx-graphic: url("../images/home.png");
+}
+
+.team-management{
+    -fx-graphic: url("../images/team_2.png");
+}
+
+.family-management{
+    -fx-graphic: url("../images/family.png");
+}
+
+.sevadars-phonetree-list{
+    -fx-graphic: url("../images/checklist.png");
+}
+
+.reports-management{
+    -fx-graphic: url("../images/reports.png");
+}
+
+.administration{
+    -fx-graphic: url("../images/admin.png");
+}
+
