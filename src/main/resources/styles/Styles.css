@@ -1,6 +1,6 @@
 *{
     -fx-theme-background-secondary-color:#1b5e20;
-    -fx-theme-background-primary-color:#e8f5e9;
+    -fx-theme-background-primary-color:white;
     -fx-theme-border-color: #1b5e20;
     -fx-theme-font-family:"Calibri";
 
@@ -142,7 +142,8 @@ Action Button Bar
     -fx-background-radius: 10px;
 }
 .table-view .table-column{
-    -fx-border-color:-fx-theme-text-fill-primary-color -fx-theme-table-view-alternate-color -fx-theme-text-fill-primary-color -fx-theme-table-view-alternate-color;
+    /*-fx-border-color:-fx-theme-text-fill-primary-color -fx-theme-table-view-alternate-color -fx-theme-text-fill-primary-color -fx-theme-table-view-alternate-color;*/
+    -fx-border-color: -fx-theme-background-secondary-color;
 }
 
 .table-view .table-column .label{
@@ -154,7 +155,7 @@ Action Button Bar
 .table-row-cell{
     -fx-cell-size: 40px;
     -fx-font-family: -fx-theme-table-view-font-family;
-    -fx-background: -fx-theme-text-fill-primary-color;
+    -fx-background: -fx-theme-background-primary-color;
 }
 .table-row-cell:odd {
     -fx-background: -fx-theme-table-view-alternate-color;
@@ -318,4 +319,35 @@ Images Resources for each Action
     -fx-graphic: url("../images/move_user_icon.png");
 }
 
+
+
+
+.record-sales {
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+            #9d4024,
+            #d86e3a,
+            radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+.record-sales:hover {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+            #9d4024,
+            #d86e3a,
+            radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+.record-sales:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+.record-sales Text {
+    -fx-fill: white;
+    -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
+}
 

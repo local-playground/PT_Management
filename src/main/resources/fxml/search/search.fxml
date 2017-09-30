@@ -89,6 +89,6 @@
       </Label>
    </children>
    <effect>
-      <DropShadow blurType="GAUSSIAN" />
+      <DropShadow color="#b281b8" height="121.81" offsetX="5.0" offsetY="5.0" radius="52.2525" spread="0.84" width="89.2" />
    </effect>
 </AnchorPane>
