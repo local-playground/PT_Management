@@ -79,7 +79,7 @@
             <TableColumn fx:id="homePhoneTableColumn" minWidth="0.0" prefWidth="189.0" text="Home Phone" />
         </columns>
          <styleClass>
-            <String fx:value="font-16" />
+            <String fx:value="font-18" />
             <String fx:value="bold" />
          </styleClass>
       </TableView>

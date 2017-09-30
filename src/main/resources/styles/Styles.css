@@ -28,19 +28,16 @@
 }
 
 .top-border{
-    -fx-background-color: -fx-theme-background-secondary-color;
     -fx-border-width: 2px 0 0 0;
     -fx-border-color: -fx-theme-border-color;
 }
 
 .bottom-border{
-    -fx-background-color: -fx-theme-background-secondary-color;
     -fx-border-width: 0 0 2px 0;
     -fx-border-color: -fx-theme-border-color;
 }
 
 .top-bottom-border{
-    -fx-background-color: -fx-theme-background-secondary-color;
     -fx-border-width: 2px 0 2px 0;
     -fx-border-color: -fx-theme-border-color;
 }
@@ -170,6 +167,14 @@ Action Button Bar
     -fx-fill: -fx-theme-text-fill-primary-color;
 
 }
+
+
+
+
+/* Text Field */
+
+
+
 
 
 /* Combo Box */
