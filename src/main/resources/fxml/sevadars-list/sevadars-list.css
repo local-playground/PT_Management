@@ -1,3 +1,4 @@
+/*
 
 .root{
     -fx-background-color: #e8f5e9;
@@ -113,11 +114,7 @@
     -fx-background-radius: 25px;
     -fx-text-alignment: center;
 }
-/*label.setPrefWidth(50);
-                label.setPrefHeight(50);
-                label.setStyle("-fx-text-fill:red; -fx-font-size: 20px; " +
-                        "-fx-background-color: green; -fx-background-radius: 25px;" +
-                        "-fx-alignment: center");*/
+
 .table-row-cell .sequence-number {
     -fx-alignment: center;
     -fx-background-color: red;
@@ -130,7 +127,7 @@
 
 }
 
-/*
+!*
 .tree-table-view {
     -fx-background-color: #e8f5e9;
     -fx-background-radius: 10px;
@@ -197,4 +194,5 @@
 .tree-table-row-cell:empty .tree-table-cell {
     -fx-border-width: 0px;
 }
+*!
 */

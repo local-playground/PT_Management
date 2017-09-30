@@ -13,48 +13,71 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox spacing="15.0" stylesheets="@sevadar-style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.sevadar.SevadarController">
+<HBox spacing="15.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.sevadar.SevadarController">
    <children>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root" stylesheets="@sevadar-style.css">
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="base">
          <top>
-            <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" styleClass="action-button-bar" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="15.0" />
                </BorderPane.margin>
                <children>
-                  <Label styleClass="header-title" text="Sevadars Management">
+                  <Label text="Sevadars Management">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
+                     <styleClass>
+                        <String fx:value="h1" />
+                        <String fx:value="bold" />
+                     </styleClass>
                   </Label>
                   <HBox spacing="80.0" styleClass="button-bar">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                      <children>
-                        <JFXButton fx:id="addSevadarButton" buttonType="RAISED" contentDisplay="TOP" onAction="#addSevadar" prefHeight="102.0" prefWidth="102.0" styleClass="sevadar-action-button,add-user" text="Add" wrapText="true" />
+                        <JFXButton fx:id="addSevadarButton" buttonType="RAISED" contentDisplay="TOP" onAction="#addSevadar" prefHeight="102.0" prefWidth="102.0" text="Add" wrapText="true">
+                           <styleClass>
+                              <String fx:value="action-button" />
+                              <String fx:value="add-user" />
+                              <String fx:value="bold" />
+                              <String fx:value="border-radius" />
+                              <String fx:value="background-radius" />
+                           </styleClass></JFXButton>
                         <JFXButton fx:id="deleteSevadarButton" buttonType="RAISED" contentDisplay="TOP" layoutX="15.0" layoutY="15.0" onAction="#deleteSevadar" prefHeight="102.0" prefWidth="102.0" text="Delete" wrapText="true">
                            <styleClass>
-                              <String fx:value="sevadar-action-button" />
+                              <String fx:value="action-button" />
                               <String fx:value="delete-user" />
+                              <String fx:value="bold" />
+                              <String fx:value="border-radius" />
+                              <String fx:value="background-radius" />
                            </styleClass>
                         </JFXButton>
                         <JFXButton fx:id="replaceSevadarButton" buttonType="RAISED" contentDisplay="TOP" layoutX="144.0" layoutY="15.0" onAction="#replaceSevadar" prefHeight="102.0" prefWidth="102.0" text="Replace" wrapText="true">
                            <styleClass>
-                              <String fx:value="sevadar-action-button" />
+                              <String fx:value="action-button" />
                               <String fx:value="replace-user" />
+                              <String fx:value="bold" />
+                              <String fx:value="border-radius" />
+                              <String fx:value="background-radius" />
                            </styleClass>
                         </JFXButton>
                         <JFXButton fx:id="swapSevadarButton" buttonType="RAISED" contentDisplay="TOP" layoutX="273.0" layoutY="15.0" onAction="#swapSevadar" prefHeight="102.0" prefWidth="102.0" text="Swap" wrapText="true">
                            <styleClass>
-                              <String fx:value="sevadar-action-button" />
+                              <String fx:value="action-button" />
                               <String fx:value="swap-user" />
+                              <String fx:value="bold" />
+                              <String fx:value="border-radius" />
+                              <String fx:value="background-radius" />
                            </styleClass>
                         </JFXButton>
                         <JFXButton fx:id="moveSevadarButton" buttonType="RAISED" contentDisplay="TOP" layoutX="402.0" layoutY="15.0" onAction="#moveSevadar" prefHeight="102.0" prefWidth="102.0" text="Move" wrapText="true">
                            <styleClass>
-                              <String fx:value="sevadar-action-button" />
+                              <String fx:value="action-button" />
                               <String fx:value="move-user" />
+                              <String fx:value="bold" />
+                              <String fx:value="border-radius" />
+                              <String fx:value="background-radius" />
                            </styleClass>
                         </JFXButton>
                      </children>
@@ -70,6 +93,10 @@
                   <TableColumn fx:id="cellPhoneTableColumn" prefWidth="200.0" text="Cell Phone" />
                   <TableColumn fx:id="homePhoneTableColumn" minWidth="0.0" prefWidth="190.0" text="Home Phone" />
               </columns>
+               <styleClass>
+                  <String fx:value="font-16" />
+                  <String fx:value="bold" />
+               </styleClass>
             </TableView>
          </center>
       </BorderPane>

@@ -1,3 +1,4 @@
+/*
 .root{
     -fx-background-color: #e8f5e9;
     -fx-border-color: #1b5e20;
@@ -139,14 +140,14 @@
     -fx-stroke: black;
 }
 
-/*.chart-legend {
+!*.chart-legend {
     -fx-background-color:  #e8f5e9;
     -fx-stroke: #daa520;
-}*/
+}*!
 
-/*.axis-label {
+!*.axis-label {
     -fx-text-fill: #4682b4;
-}*/
+}*!
 
 .chart-legend {
     -fx-background-color:  transparent;
@@ -211,4 +212,4 @@
     -fx-font-size: 18px;
     -fx-font-weight: bold;
 
-}
+}*/
