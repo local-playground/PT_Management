@@ -1,6 +1,6 @@
 *{
     -fx-theme-background-secondary-color:#1b5e20;
-    -fx-theme-background-primary-color:#eeeeee;
+    -fx-theme-background-primary-color:#f1f1f1;
     -fx-theme-border-color: #1b5e20;
     -fx-theme-font-family:"Calibri";
 
@@ -120,9 +120,6 @@ Action Button Bar
     -fx-background-color: -fx-theme-background-primary-color;
     -fx-font-family: -fx-theme-font-family;
     -fx-font-size: 15px;
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,1 );
-    -fx-background-color: #448aff;
-    -fx-text-fill: white;
 }
 
 .action-button:hover, .action-button:focused{
@@ -321,6 +318,8 @@ Images Resources for each Action
 .move-user{
     -fx-graphic: url("../images/move_user_icon.png");
 }
+
+
 
 
 .record-sales {

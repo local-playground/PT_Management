@@ -82,6 +82,14 @@
 			<version>8.40.13</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/de.jensd/fontawesomefx -->
+		<dependency>
+			<groupId>de.jensd</groupId>
+			<artifactId>fontawesomefx</artifactId>
+			<version>8.7</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>

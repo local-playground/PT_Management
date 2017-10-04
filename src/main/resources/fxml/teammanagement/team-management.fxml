@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="teamManagementRootPane" prefHeight="960.0" prefWidth="1300.0" stylesheets="@team-management.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teammanagement.TeamManagementController">
+<StackPane fx:id="teamManagementRootPane" prefHeight="960.0" prefWidth="1300.0" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teammanagement.TeamManagementController">
    <children>
       <AnchorPane styleClass="root">
          <children>
-            <SplitPane dividerPositions="0.47780126849894294" layoutX="14.0" layoutY="21.0" orientation="VERTICAL" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="6.0">
+            <SplitPane dividerPositions="0.5433403805496829" layoutX="14.0" layoutY="21.0" orientation="VERTICAL" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="6.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false">
                      <children>
