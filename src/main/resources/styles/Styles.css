@@ -1,51 +1,64 @@
 *{
-    -fx-theme-background-secondary-color:#1b5e20;
-    -fx-theme-background-primary-color:#eeeeee;
-    -fx-theme-border-color: #1b5e20;
-    -fx-theme-font-family:"Calibri";
+    /*-icons-color: gray;*/
 
-    /*
-    Text Fill Color
-    */
-    -fx-theme-text-fill-primary-color:#e8f5e9;
-    -fx-theme-text-fill-secondary-color:#1b5e20;
+    /*Top Nav Bar and Pane*/
+    -top-panel-color:#4CAF50;
+    -top-nav-bar-color:#2e7d32;
 
-    /* Table View Column Border Color */
-    -fx-theme-table-view-alternate-color:#c8e6c9;
-    -fx-theme-table-view-cell-selected-color:#f44336;
-    -fx-theme-table-view-font-family:"Segoe UI Black";
+    -main-nav-bar-color:#4CAF50;
+    -main-nav-bar-icon-color:"ffffff";
+
+    -action-nav-bar-color:#f5f5f5;
+
+    /* application background color*/
+    -app-background-color:#e5e5e5;
+
+    /* theme border color */
+    -theme-border-color:#8f8f8f;
 
 
-    /*
-        Action Button Bar background color
-    */
-    -fx-theme-button-bar-background:#a5d6a7;
+    /* headers font family*/
+    -headers-font-family:"Trebuchet MS";
+    -headers-text-color:#2e7d32;
+    -accent-color:#448aff;
+
+
+    /* table view colors */
+    -table-view-alternate-color:#e5e5e5;
+    -table-view-cell-selected-color:#448aff;
+    -table-view-font-family:"Segoe UI Black";
+
+
+    /* theme font family */
+    -theme-font-family:"Segoe UI Black";
+    -theme-text-color: black;
+    -theme-text-secondary-color:black;
 }
 
 .border{
-    -fx-border-color: -fx-theme-border-color;
+    -fx-border-color: -theme-border-color;
     -fx-border-width: 2px;
 }
 
 .top-border{
     -fx-border-width: 2px 0 0 0;
-    -fx-border-color: -fx-theme-border-color;
+    -fx-border-color: -theme-border-color;
 }
 
 .bottom-border{
     -fx-border-width: 0 0 2px 0;
-    -fx-border-color: -fx-theme-border-color;
+    -fx-border-color: -theme-border-color;
 }
 
 .top-bottom-border{
     -fx-border-width: 2px 0 2px 0;
-    -fx-border-color: -fx-theme-border-color;
+    -fx-border-color: -theme-border-color;
 }
 
 .border-radius{
     -fx-border-radius: 15px;
     -fx-border-width: 2px;
-    -fx-border-color: -fx-theme-border-color;
+    -fx-border-color: -theme-border-color;
 }
 
 .background-radius{
@@ -76,59 +89,83 @@
     -fx-font-size: 22px;
 }
 
-.font-family-calibri{
-    -fx-font-family: "Calibri";
-}
-
-.font-family-seouge{
-    -fx-font-family: "Segoe UI Black";
+.table-view-font-family{
+    -fx-font-family:-table-view-font-family;
 }
 
 .root{
-    -fx-background-color: -fx-theme-background-secondary-color;
-    -fx-border-color: -fx-theme-border-color;
+    -fx-background-color: -app-background-color;
+    /*-fx-border-color: -fx-theme-border-color;*/
 }
 
 .base{
-    -fx-background-color: -fx-theme-background-primary-color;
+    -fx-background-color: "ffffff";
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,1 );
 }
 
 .h1{
-    -fx-font-family: -fx-theme-font-family;
+    -fx-font-family:-headers-font-family;
     -fx-font-size: 22px;
-    -fx-text-fill: -fx-theme-text-fill-secondary-color;
+    -fx-text-fill: -headers-text-color;
 }
 
 .h2{
-    -fx-text-fill: -fx-theme-text-fill-secondary-color;
+    -fx-text-fill: -headers-text-color;
     -fx-font-weight:bold;
-    -fx-font-family: "Calibri";
+    -fx-font-family: -theme-font-family;
     -fx-font-size: 18px;
 }
-
 
 /*
 Action Button Bar
 */
+
+.main-action-nav-bar{
+    -fx-background-color: -main-nav-bar-color;
+}
+
+.main-action-button{
+    -fx-text-fill: white;
+    -fx-background-color: -accent-color;
+    -fx-font-family: -theme-font-family;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,1 );
+}
+
+.main-action-button > .glyph-icon{
+    -fx-fill: white;
+}
+
+
 .action-button-bar {
-    -fx-background-color: -fx-theme-button-bar-background;
+    -fx-background-color: -action-nav-bar-color;
 }
 
 .action-button{
-    -fx-text-fill: -fx-theme-text-fill-secondary-color;
-    /*-fx-border-color:-fx-theme-border-color;*/
-    -fx-background-color: -fx-theme-background-primary-color;
-    -fx-font-family: -fx-theme-font-family;
+    -fx-text-fill: -headers-text-color;
+    -fx-background-color: transparent;
+    -fx-font-family: -theme-font-family;
     -fx-font-size: 15px;
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,1 );
-    -fx-background-color: #448aff;
-    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: -headers-text-color;
+    -fx-border-width: 0 0 2px 0;
+}
+
+.action-button > .glyph-icon{
+    -fx-fill: -headers-text-color;
 }
 
 .action-button:hover, .action-button:focused{
-    -fx-text-fill: -fx-theme-text-fill-primary-color;
-    -fx-border-color:-fx-theme-background-primary-color;
-    -fx-background-color: -fx-theme-background-secondary-color;
+    -fx-text-fill: -accent-color;
+    -fx-border-color: -accent-color;
+    -fx-border-width: 0 0 2px 0;
+}
+
+.action-button:hover > .glyph-icon, .action-button:focused > .glyph-icon{
+    -fx-fill: -accent-color;
 }
 
 
@@ -146,32 +183,31 @@ Action Button Bar
 }
 .table-view .table-column{
     /*-fx-border-color:-fx-theme-text-fill-primary-color -fx-theme-table-view-alternate-color -fx-theme-text-fill-primary-color -fx-theme-table-view-alternate-color;*/
-    -fx-border-color: -fx-theme-background-secondary-color;
+    /*-fx-border-color: -theme-border-color;*/
 }
 
 .table-view .table-column .label{
-    -fx-text-fill: -fx-theme-text-fill-primary-color;
-    -fx-background-color:-fx-theme-background-secondary-color;
-    -fx-padding: 16 0 16 0;
+    -fx-text-fill: -headers-text-color;
+    -fx-background-color:-app-background-color;
+    -fx-padding: 12 0 12 0;
 }
 
 .table-row-cell{
     -fx-cell-size: 40px;
-    -fx-font-family: -fx-theme-table-view-font-family;
-    -fx-background: -fx-theme-background-primary-color;
+    -fx-font-family: -table-view-font-family;
+   /* -fx-background: -fx-theme-background-primary-color;*/
 }
 .table-row-cell:odd {
-    -fx-background: -fx-theme-table-view-alternate-color;
+    -fx-background: -table-view-alternate-color;
 }
 
 .table-row-cell:selected {
-    -fx-background-color: -fx-theme-table-view-cell-selected-color;
+    -fx-background-color: -table-view-cell-selected-color;
 }
 .table-row-cell:selected .text {
-    -fx-fill: -fx-theme-text-fill-primary-color;
+    -fx-fill: -theme-text-color;
 
 }
-
 
 
 
@@ -249,23 +285,23 @@ Action Button Bar
 /*JFX Dialog Box */
 
 .jfx-dialog-layout{
-    -fx-background-color: -fx-theme-background-secondary-color;
+    -fx-background-color: -top-nav-bar-color;
     -fx-pref-width: 200px;
     -fx-pref-height: 100px;
     -fx-border-radius: 10px;
 }
 
 .jfx-layout-actions > *.jfx-button{
-    -fx-text-fill: #1b5e20;
+    -fx-text-fill: white;
     -fx-pref-width: 75px;
     -fx-pref-height: 35px;
-    -fx-border-color:-fx-theme-background-secondary-color;
+    -fx-border-color:-theme-border-color;
     -fx-border-width:2px;
     -fx-border-radius: 15px;
-    -fx-background-color: -fx-theme-background-primary-color;
+    -fx-background-color: -top-nav-bar-color;
     -fx-background-radius: 15px;
-    -fx-font-family: -fx-theme-table-view-font-family;
-    -fx-font-size: 18px;
+    -fx-font-family: -theme-font-family;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
     -fx-end-margin: 10px;
 }

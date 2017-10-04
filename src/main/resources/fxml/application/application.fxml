@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import org.controlsfx.control.HyperlinkLabel?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="960.0" prefWidth="1750.0" styleClass="base" stylesheets="@../../styles/test.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="applicationRootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1030" prefWidth="1800" styleClass="base" stylesheets="@../../styles/test.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.application.ApplicationController">
    <top>
       <AnchorPane prefHeight="100.0" prefWidth="1750.0" styleClass="top-panel" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane prefHeight="48.0" prefWidth="1750.0" styleClass="top-nav-bar" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <JFXButton buttonType="RAISED" layoutX="843.0" layoutY="5.0" styleClass="top-button" text="Switch" />
-                  <HyperlinkLabel layoutX="1047.0" layoutY="8.0" prefHeight="33.0" prefWidth="140.0" styleClass="mylabel" text="Switch To Bus" />
-               </children>
-            </AnchorPane>
+            <AnchorPane prefHeight="48.0" prefWidth="1750.0" styleClass="top-nav-bar" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </top>
-   <cursor>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
+   </center>
+  <!-- <cursor>
       <Cursor fx:constant="HAND" />
-   </cursor>
+   </cursor>-->
 </BorderPane>

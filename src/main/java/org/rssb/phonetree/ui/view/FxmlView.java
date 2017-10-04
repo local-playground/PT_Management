@@ -121,6 +121,20 @@ public enum FxmlView {
         public boolean isAlwaysOnTop() {
             return true;
         }
+    },
+    APPLICATION_MANAGEMENT_SCREEN{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/application/application.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
     };
     
     public abstract String getFxmlFile();
