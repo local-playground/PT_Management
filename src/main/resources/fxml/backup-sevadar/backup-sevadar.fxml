@@ -1,79 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="600.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets bottom="15.0" />
-         </BorderPane.margin>
-         <children>
-            <Label text="Backup Sevadars Management">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-               <styleClass>
-                  <String fx:value="h1" />
-                  <String fx:value="bold" />
-               </styleClass>
-            </Label>
-            <HBox prefHeight="115.0" prefWidth="596.0" spacing="125.0" styleClass="action-button-bar">
-               <children>
-                  <JFXButton buttonType="RAISED" contentDisplay="TOP" prefHeight="102.0" prefWidth="102.0" text="Add">
-                     <styleClass>
-                        <String fx:value="add-user" />
-                        <String fx:value="action-button" />
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="15.0" />
+            </BorderPane.margin>
+            <children>
+                <Label text="Backup Sevadars Management">
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                    <styleClass>
+                        <String fx:value="h1" />
                         <String fx:value="bold" />
-                        <String fx:value="border-radius" />
-                        <String fx:value="background-radius" />
-                     </styleClass></JFXButton>
-                  <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="15.0" layoutY="15.0" prefHeight="102.0" prefWidth="102.0" text="Delete">
-                     <styleClass>
-                        <String fx:value="action-button" />
-                        <String fx:value="bold" />
-                        <String fx:value="border-radius" />
-                        <String fx:value="background-radius" />
-                        <String fx:value="delete-user" />
-                     </styleClass>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" contentDisplay="TOP" layoutX="167.0" layoutY="15.0" prefHeight="102.0" prefWidth="102.0" text="Assign">
-                     <styleClass>
-                        <String fx:value="action-button" />
-                        <String fx:value="bold" />
-                        <String fx:value="border-radius" />
-                        <String fx:value="background-radius" />
-                        <String fx:value="move-user" />
-                     </styleClass>
-                  </JFXButton>
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
-         </children>
-      </VBox>
-   </top>
-   <center>
-      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn prefWidth="131.0" text="First Name" />
-          <TableColumn prefWidth="136.0" text="Last Name" />
-            <TableColumn prefWidth="163.0" text="Cell Phone" />
-            <TableColumn prefWidth="165.0" text="Home Phone" />
-        </columns>
-         <styleClass>
-            <String fx:value="font-16" />
-            <String fx:value="bold" />
-         </styleClass>
-      </TableView>
-   </center>
+                        <String fx:value="headers-font-family" />
+                    </styleClass>
+                </Label>
+                <HBox prefHeight="60.0" prefWidth="800.0" spacing="150.0" styleClass="action-button-bar">
+                    <children>
+                        <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="108.0" styleClass="action-button" text="ADD">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="USER_PLUS" size="30" />
+                            </graphic>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" layoutX="15.0" layoutY="15.0" prefHeight="50.0" prefWidth="126.0" styleClass="action-button" text="REMOVE">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="USER_TIMES" size="30" />
+                            </graphic>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" layoutX="167.0" layoutY="15.0" prefHeight="50.0" prefWidth="128.0" styleClass="action-button" text="ASSIGN">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="REPLY" size="30" />
+                            </graphic>
+                        </JFXButton>
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn prefWidth="176.0" text="First Name" />
+                <TableColumn prefWidth="177.0" text="Last Name" />
+                <TableColumn prefWidth="185.0" text="Cell Phone" />
+                <TableColumn prefWidth="160.0" text="Home Phone" />
+            </columns>
+            <styleClass>
+                <String fx:value="font-16" />
+                <String fx:value="bold" />
+            </styleClass>
+        </TableView>
+    </center>
+    <effect>
+        <DropShadow blurType="GAUSSIAN" color="#e5e5e5" height="25.0" offsetX="3.0" offsetY="3.0" radius="12.0" spread="0.48" width="25.0" />
+    </effect>
 </BorderPane>

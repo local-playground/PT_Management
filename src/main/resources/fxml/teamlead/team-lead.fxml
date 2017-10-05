@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="800.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teamlead.TeamLeadController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teamlead.TeamLeadController">
    <top>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -24,47 +26,34 @@
                <styleClass>
                   <String fx:value="h1" />
                   <String fx:value="bold" />
-               </styleClass></Label>
-            <HBox prefHeight="116.0" prefWidth="796.0" spacing="120.0" styleClass="action-button-bar">
+                  <String fx:value="headers-font-family" />
+               </styleClass>
+            </Label>
+            <HBox prefHeight="60.0" prefWidth="800.0" spacing="105" styleClass="action-button-bar">
                <children>
-                  <JFXButton fx:id="addTeamLeadButton" buttonType="RAISED" contentDisplay="TOP" onAction="#addTeamLead" prefHeight="102.0" prefWidth="102.0" text="Add">
-                     <styleClass>
-                        <String fx:value="add-user" />
-                        <String fx:value="action-button" />
-                        <String fx:value="border-radius" />
-                        <String fx:value="background-radius" />
-                        <String fx:value="bold" />
-                     </styleClass></JFXButton>
-                  <JFXButton fx:id="removeTeamLeadButton" buttonType="RAISED" contentDisplay="TOP" layoutX="15.0" layoutY="15.0" onAction="#removeTeamLead" prefHeight="102.0" prefWidth="102.0" text="Delete">
-                     <styleClass>
-                        <String fx:value="action-button" />
-                        <String fx:value="border-radius" />
-                        <String fx:value="background-radius" />
-                        <String fx:value="bold" />
-                        <String fx:value="delete-user" />
-                     </styleClass>
+                  <JFXButton fx:id="addTeamLeadButton" buttonType="RAISED" graphicTextGap="9.0" styleClass="action-button" onAction="#addTeamLead" text="ADD">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="USER_PLUS" size="30" />
+                     </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="replaceTeamLeadButton" buttonType="RAISED" contentDisplay="TOP" layoutX="197.0" layoutY="15.0" onAction="#replaceTeamLead" prefHeight="102.0" prefWidth="102.0" text="Replace">
-                     <styleClass>
-                        <String fx:value="action-button" />
-                        <String fx:value="border-radius" />
-                        <String fx:value="background-radius" />
-                        <String fx:value="bold" />
-                        <String fx:value="replace-user" />
-                     </styleClass>
+                  <JFXButton fx:id="removeTeamLeadButton" buttonType="RAISED" graphicTextGap="9.0" styleClass="action-button" onAction="#removeTeamLead" text="REMOVE">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="USER_TIMES" size="30" />
+                     </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="swapTeamLeadButton" buttonType="RAISED" contentDisplay="TOP" layoutX="197.0" layoutY="15.0" onAction="#swapTeamLead" prefHeight="102.0" prefWidth="102.0" text="Swap">
-                     <styleClass>
-                        <String fx:value="action-button" />
-                        <String fx:value="border-radius" />
-                        <String fx:value="background-radius" />
-                        <String fx:value="bold" />
-                        <String fx:value="swap-user" />
-                     </styleClass>
+                  <JFXButton fx:id="replaceTeamLeadButton" buttonType="RAISED" graphicTextGap="9.0" styleClass="action-button" onAction="#replaceTeamLead" text="REPLACE">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="EXCHANGE" size="30" />
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="swapTeamLeadButton" buttonType="RAISED" graphicTextGap="9.0" styleClass="action-button" onAction="#swapTeamLead" text="SWAP">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="REFRESH" size="30" />
+                     </graphic>
                   </JFXButton>
                </children>
                <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
                </padding>
             </HBox>
          </children>
@@ -72,16 +61,19 @@
    </top>
    <center>
       <TableView fx:id="teamLeadTableView" prefHeight="251.0" prefWidth="796.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn fx:id="firstNameTableColumn" prefWidth="194.0" text="First Name" />
-          <TableColumn fx:id="lastNameTableColumn" minWidth="0.0" prefWidth="224.0" text="Last Name" />
+         <columns>
+            <TableColumn fx:id="firstNameTableColumn" prefWidth="194.0" text="First Name" />
+            <TableColumn fx:id="lastNameTableColumn" minWidth="0.0" prefWidth="224.0" text="Last Name" />
             <TableColumn fx:id="cellPhoneTableColumn" prefWidth="191.0" text="Cell Phone" />
             <TableColumn fx:id="homePhoneTableColumn" minWidth="0.0" prefWidth="189.0" text="Home Phone" />
-        </columns>
+         </columns>
          <styleClass>
-            <String fx:value="font-18" />
+            <String fx:value="font-16" />
             <String fx:value="bold" />
          </styleClass>
       </TableView>
    </center>
+   <effect>
+      <DropShadow blurType="GAUSSIAN" color="#e5e5e5" height="25.0" offsetX="3.0" offsetY="3.0" radius="12.0" spread="0.48" width="25.0" />
+   </effect>
 </BorderPane>

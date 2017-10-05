@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teamlead.TeamLeadController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teamlead.TeamLeadController">
     <top>
         <VBox alignment="CENTER" BorderPane.alignment="CENTER">
             <BorderPane.margin>
@@ -68,7 +68,7 @@
                 <TableColumn fx:id="homePhoneTableColumn" minWidth="0.0" prefWidth="189.0" text="Home Phone" />
             </columns>
             <styleClass>
-                <String fx:value="font-18" />
+                <String fx:value="font-16" />
                 <String fx:value="bold" />
             </styleClass>
         </TableView>
