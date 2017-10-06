@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.rssb.phonetree.common.table.factory.PhoneStatusColumnCell?>
 <?import org.rssb.phonetree.common.table.factory.SequenceNumberColumnCell?>
 <?import java.lang.String?>
 <StackPane fx:id="rootPane" prefHeight="980.0" prefWidth="1280.0" styleClass="root"
@@ -117,6 +118,9 @@
                                     <cellValueFactory>
                                         <PropertyValueFactory property="callStatus"/>
                                     </cellValueFactory>
+                                    <cellFactory>
+                                        <PhoneStatusColumnCell></PhoneStatusColumnCell>
+                                    </cellFactory>
                                 </TableColumn>
                             </columns>
                             <styleClass>

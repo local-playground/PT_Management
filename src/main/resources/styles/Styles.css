@@ -209,16 +209,38 @@ Action Button Bar
     -fx-border-width: 0 0 2px 0;
 }
 
-.sequence-number-icon > .glyph-icon {
+.seq-number-glyph-icon {
     -fx-fill: -headers-text-color;
 }
 
-.sequence-number-icon > .glyph-icon .seq-label {
-    -fx-pref-width: 32px;
-
-    -fx-background-color: -headers-text-color;
+.seq-number-glyph-icon-text {
+    -fx-fill: white;
     -fx-font-size: 16px;
-    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.ok{
+    -fx-fill: -headers-text-color;
+}
+
+.disconnected{
+    -fx-fill: red;
+}
+
+.wrong-number{
+    -fx-fill: red;
+}
+
+.remove-me{
+    -fx-fill: orange;
+}
+
+.not-picked{
+    -fx-fill: blue;
+}
+
+.moved{
+    -fx-fill: yellow;
 }
 
 .action-button > .glyph-icon{

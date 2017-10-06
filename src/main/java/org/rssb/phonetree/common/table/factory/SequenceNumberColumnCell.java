@@ -3,10 +3,10 @@ package org.rssb.phonetree.common.table.factory;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 import org.rssb.phonetree.domain.CalledFamilyDetails;
 
@@ -30,15 +30,14 @@ public class SequenceNumberColumnCell<S, T>
                 }
 
                 StackPane pane = new StackPane();
-                pane.getStyleClass().add("sequence-number-icon");
                 FontAwesomeIconView thumbsUpIcon = new FontAwesomeIconView(FontAwesomeIcon.CIRCLE);
-                thumbsUpIcon.setSize("64");
+                thumbsUpIcon.setSize("48");
+                thumbsUpIcon.getStyleClass().add("seq-number-glyph-icon");
 
-                Label label = new Label();
-                label.setText(String.valueOf(item));
-                label.getStyleClass().add("seq-label");
-
-                pane.getChildren().addAll(thumbsUpIcon,label);
+                Text text = new Text();
+                text.setText(String.valueOf(item));
+                text.getStyleClass().add("seq-number-glyph-icon-text");
+                pane.getChildren().addAll(thumbsUpIcon,text);
                 //label.getStyleClass().add("sequence-number");
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 setGraphic(pane);
