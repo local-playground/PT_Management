@@ -40,6 +40,10 @@
     -controls-unfocus-color:#a5d6a7;
 }
 
+.header-title-background-color{
+    -fx-background-color: #a5d6a7;
+}
+
 .app-outer-border{
     -fx-border-color: -headers-text-color;
     -fx-border-width: 4px;
@@ -151,6 +155,10 @@
     -fx-font-size: 18px;
 }
 
+.effect{
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 2,0.5,0.5,1 );
+}
+
 /*
 Action Button Bar
 */
@@ -201,6 +209,18 @@ Action Button Bar
     -fx-border-width: 0 0 2px 0;
 }
 
+.sequence-number-icon > .glyph-icon {
+    -fx-fill: -headers-text-color;
+}
+
+.sequence-number-icon > .glyph-icon .seq-label {
+    -fx-pref-width: 32px;
+
+    -fx-background-color: -headers-text-color;
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
 .action-button > .glyph-icon{
     -fx-fill: -headers-text-color;
 }
@@ -230,7 +250,8 @@ Action Button Bar
 }
 .table-view .table-column{
     /*-fx-border-color:-fx-theme-text-fill-primary-color -fx-theme-table-view-alternate-color -fx-theme-text-fill-primary-color -fx-theme-table-view-alternate-color;*/
-    /*-fx-border-color: -theme-border-color;*/
+    -fx-border-color:  -theme-border-color ;
+    -fx-border-width: 0.25 0.25 2px 0.25;
 }
 
 .table-view .table-column .label{
@@ -243,6 +264,7 @@ Action Button Bar
 .table-row-cell{
     -fx-cell-size: 40px;
     -fx-font-family: -table-view-font-family;
+    -fx-font-weight: 600;
    /* -fx-background: -fx-theme-background-primary-color;*/
 }
 .table-row-cell:odd {

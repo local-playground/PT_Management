@@ -1,5 +1,7 @@
 package org.rssb.phonetree.common.table.factory;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -28,13 +30,18 @@ public class SequenceNumberColumnCell<S, T>
                 }
 
                 StackPane pane = new StackPane();
+                pane.getStyleClass().add("sequence-number-icon");
+                FontAwesomeIconView thumbsUpIcon = new FontAwesomeIconView(FontAwesomeIcon.CIRCLE);
+                thumbsUpIcon.setSize("64");
+
                 Label label = new Label();
                 label.setText(String.valueOf(item));
-                pane.getChildren().add(label);
-                label.getStyleClass().add("sequence-number");
+                label.getStyleClass().add("seq-label");
+
+                pane.getChildren().addAll(thumbsUpIcon,label);
+                //label.getStyleClass().add("sequence-number");
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 setGraphic(pane);
-
             }
         };
     }

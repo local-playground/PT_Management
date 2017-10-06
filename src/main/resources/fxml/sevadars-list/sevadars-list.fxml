@@ -1,109 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-
-<!--<?import org.rssb.phonetree.common.table.factory.SequenceNumberColumnCell?>-->
-
-<StackPane fx:id="rootPane" prefHeight="980.0" prefWidth="1280.0" styleClass="root" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.sevadarslist.SevadarsListController">
+<?import org.rssb.phonetree.common.table.factory.SequenceNumberColumnCell?>
+<?import java.lang.String?>
+<StackPane fx:id="rootPane" prefHeight="980.0" prefWidth="1280.0" styleClass="root"
+           stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="org.rssb.phonetree.controller.sevadarslist.SevadarsListController">
     <children>
         <AnchorPane>
             <children>
-                <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" styleClass="base" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" styleClass="base"
+                      AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0"
+                      AnchorPane.topAnchor="25.0">
                     <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" styleClass="top-bottom-border">
-                            <padding>
-                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                            </padding>
+                        <HBox alignment="CENTER" prefHeight="57.0" prefWidth="1210.0"
+                              styleClass="header-title-background-color">
                             <children>
-                                <JFXComboBox fx:id="teamLeadsComboBox" focusColor="#405aa800" labelFloat="true" onAction="#changeSevadarsComboList" prefHeight="63.0" prefWidth="352.0" promptText="Select Team Lead" unFocusColor="#4d4d4d00">
-                           <styleClass>
-                              <String fx:value="font-18" />
-                              <String fx:value="border-radius" />
-                              <String fx:value="bold" />
-                              <String fx:value="font-family-seouge" />
-                           </styleClass></JFXComboBox>
-                                <JFXComboBox fx:id="sevadarsComboBox" focusColor="#405aa800" labelFloat="true" layoutX="299.0" layoutY="25.0" onAction="#loadSevadarsPhoneList" prefHeight="63.0" prefWidth="352.0" promptText="Select Sevadar" unFocusColor="#4d4d4d00">
-                           <styleClass>
-                              <String fx:value="font-18" />
-                              <String fx:value="border-radius" />
-                              <String fx:value="bold" />
-                              <String fx:value="font-family-seouge" />
-                           </styleClass></JFXComboBox>
+                                <Label prefHeight="40.0" prefWidth="302.0" text="SEVADARS PHONE TREE LIST">
+                                    <styleClass>
+                                        <String fx:value="font-22"/>
+                                        <String fx:value="black-text"/>
+                                        <String fx:value="bold"/>
+                                    </styleClass>
+                                </Label>
                             </children>
                         </HBox>
-                        <TableView fx:id="sevadarsListTableView" prefHeight="704.0" prefWidth="930.0">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0"
+                              styleClass="bottom-border">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+                            </padding>
+                            <children>
+
+                                <JFXComboBox fx:id="teamLeadsComboBox" focusColor="#405aa800" labelFloat="true"
+                                             onAction="#changeSevadarsComboList" prefHeight="63.0" prefWidth="352.0"
+                                             promptText="Select Team Lead" unFocusColor="#4d4d4d00">
+                                    <styleClass>
+                                        <String fx:value="combo-box"/>
+                                        <String fx:value="font-18"/>
+                                        <String fx:value="effect"/>
+                                        <String fx:value="bottom-border"/>
+                                    </styleClass>
+                                </JFXComboBox>
+
+                                <JFXComboBox fx:id="sevadarsComboBox" focusColor="#405aa800" labelFloat="true"
+                                             layoutX="299.0" layoutY="25.0" onAction="#loadSevadarsPhoneList"
+                                             prefHeight="63.0" prefWidth="352.0" promptText="Select Sevadar"
+                                             unFocusColor="#4d4d4d00">
+                                    <styleClass>
+                                        <String fx:value="combo-box"/>
+                                        <String fx:value="font-18"/>
+                                        <String fx:value="effect"/>
+                                        <String fx:value="bottom-border"/>
+                                    </styleClass>
+                                </JFXComboBox>
+                            </children>
+                        </HBox>
+                        <TableView fx:id="sevadarsListTableView" prefHeight="786.0" prefWidth="1210.0">
                             <columns>
-                                <TableColumn fx:id="seqNoColumn" minWidth="100.0" prefWidth="111.0" resizable="false" text="Seq No">
+                                <TableColumn fx:id="seqNoColumn" minWidth="100.0" prefWidth="111.0" resizable="false"
+                                             text="Seq No">
                                     <cellValueFactory>
-                                        <PropertyValueFactory property="familySeqNumber" />
+                                        <PropertyValueFactory property="familySeqNumber"/>
                                     </cellValueFactory>
-                                    <!--<cellFactory>
+                                    <cellFactory>
                                         <SequenceNumberColumnCell></SequenceNumberColumnCell>
-                                    </cellFactory>-->
+                                    </cellFactory>
                                 </TableColumn>
 
-                                <TableColumn fx:id="firstNameColumn" prefWidth="160.0" resizable="false" text="First Name">
+                                <TableColumn fx:id="firstNameColumn" prefWidth="160.0" resizable="false"
+                                             text="First Name">
                                     <cellValueFactory>
-                                        <PropertyValueFactory property="firstName" />
+                                        <PropertyValueFactory property="firstName"/>
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="lastNameColumn" prefWidth="170.0" resizable="false" text="Last Name">
+                                <TableColumn fx:id="lastNameColumn" prefWidth="170.0" resizable="false"
+                                             text="Last Name">
                                     <cellValueFactory>
-                                        <PropertyValueFactory property="lastName" />
+                                        <PropertyValueFactory property="lastName"/>
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="cellPhoneColumn" prefWidth="160.0" resizable="false" text="Cell Phone">
+                                <TableColumn fx:id="cellPhoneColumn" prefWidth="160.0" resizable="false"
+                                             text="Cell Phone">
                                     <cellValueFactory>
-                                        <PropertyValueFactory property="cellPhone" />
+                                        <PropertyValueFactory property="cellPhone"/>
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="homePhoneColumn" prefWidth="166.0" resizable="false" text="Home Phone">
+                                <TableColumn fx:id="homePhoneColumn" prefWidth="166.0" resizable="false"
+                                             text="Home Phone">
                                     <cellValueFactory>
-                                        <PropertyValueFactory property="homePhone" />
+                                        <PropertyValueFactory property="homePhone"/>
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="workPhoneColumn" prefWidth="159.0" resizable="false" text="Work Phone">
+                                <TableColumn fx:id="workPhoneColumn" prefWidth="159.0" resizable="false"
+                                             text="Work Phone">
                                     <cellValueFactory>
-                                        <PropertyValueFactory property="workPhone" />
+                                        <PropertyValueFactory property="workPhone"/>
                                     </cellValueFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="zipCodeColumn" prefWidth="144.0" resizable="false" text="Zip Code">
                                     <cellValueFactory>
-                                        <PropertyValueFactory property="zipCode" />
+                                        <PropertyValueFactory property="zipCode"/>
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="phoneStatusColumn" minWidth="100.0" prefWidth="135.0" resizable="false" text="Status">
+                                <TableColumn fx:id="phoneStatusColumn" minWidth="100.0" prefWidth="135.0"
+                                             resizable="false" text="Status">
                                     <cellValueFactory>
-                                        <PropertyValueFactory property="callStatus" />
+                                        <PropertyValueFactory property="callStatus"/>
                                     </cellValueFactory>
                                 </TableColumn>
                             </columns>
-                     <styleClass>
-                        <String fx:value="font-18" />
-                         <String fx:value="font-family-seouge"/>
-                       <!-- <String fx:value="bold" />-->
-                     </styleClass>
+                            <styleClass>
+                                <String fx:value="font-18"/>
+                                <String fx:value="font-family-seouge"/>
+                                <!-- <String fx:value="bold" />-->
+                            </styleClass>
                         </TableView>
                     </children>
                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                     </padding>
                 </VBox>
             </children>
-         <styleClass>
-            <String fx:value="root" />
-            <String fx:value="border-radius" />
-            <String fx:value="background-radius" />
-         </styleClass>
+            <styleClass>
+                <String fx:value="root"/>
+            </styleClass>
         </AnchorPane>
     </children>
 </StackPane>

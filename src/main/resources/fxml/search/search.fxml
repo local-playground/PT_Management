@@ -4,100 +4,121 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import java.lang.String?>
 <?import javafx.geometry.Point3D?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import java.lang.String?>
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="718.0" prefWidth="1250.0" stylesheets="@../../styles/Styles.css"
+            xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.rssb.phonetree.controller.search.SearchController">
+    <children>
+        <Pane layoutX="10.0" layoutY="25.0" prefHeight="62.0" prefWidth="1230.0" styleClass="base"
+              AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="25.0">
+            <children>
+                <Label fx:id="searchByLabel" layoutX="73.0" layoutY="20.0" prefHeight="23.0" prefWidth="96.0"
+                       styleClass="h2" text="Search By: " textFill="#0e49a100">
+                </Label>
+                <JFXComboBox fx:id="searchComboBox" focusColor="#0d47a100" labelFloat="true" layoutX="177.0"
+                             layoutY="11.0" prefHeight="25.0" prefWidth="212.0" unFocusColor="#679ee500">
+                    <styleClass>
+                        <String fx:value="combo-box"/>
+                        <String fx:value="font-16"/>
+                        <String fx:value="bottom-border"/>
+                        <String fx:value="effect"/>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="718.0" prefWidth="1250.0" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.search.SearchController">
-   <children>
-      <Pane layoutX="10.0" layoutY="25.0" prefHeight="62.0" prefWidth="1230.0" styleClass="base" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="25.0">
-         <children>
-            <Label fx:id="searchByLabel" layoutX="73.0" layoutY="20.0" prefHeight="23.0" prefWidth="96.0" styleClass="h2" text="Search By: " textFill="#0e49a100">
-            </Label>
-            <JFXComboBox fx:id="searchComboBox" focusColor="#0d47a100" labelFloat="true" layoutX="177.0" layoutY="11.0" prefHeight="25.0" prefWidth="212.0" unFocusColor="#679ee500">
-               <styleClass>
-                  <String fx:value="combo-box" />
-                  <String fx:value="font-16" />
-                 <String fx:value="bottom-border" />
+                    </styleClass>
+                </JFXComboBox>
+                <JFXTextField fx:id="searchTextField" focusColor="#0d47a100" labelFloat="true" layoutX="470.0"
+                              layoutY="14.0" onAction="#searchResults" prefHeight="34.0" prefWidth="411.0"
+                              promptText="Enter your text here" unFocusColor="#0e49a100">
+                    <font>
+                        <Font name="Calibri Bold" size="16.0"/>
+                    </font>
+                    <styleClass>
+                        <String fx:value="bottom-border"/>
+                        <String fx:value="text"/>
+                        <String fx:value="font-18"/>
+                        <String fx:value="effect"/>
+                    </styleClass>
+                </JFXTextField>
+                <JFXButton fx:id="searchButton" alignment="CENTER" buttonType="RAISED" contentDisplay="LEFT"
+                           graphicTextGap="15.0" layoutX="935.0" layoutY="9.0" minHeight="46.0"
+                           onAction="#searchResults" onKeyPressed="#searchResults" opacity="0.96" prefHeight="46.0"
+                           prefWidth="212.0" text="SEARCH" textAlignment="CENTER" textFill="#0d47a1">
+                    <font>
+                        <Font name="Calibri Bold" size="18.0"/>
+                    </font>
+                    <graphic>
+                        <FontAwesomeIconView glyphName="SEARCH" size="24"/>
+                    </graphic>
+                    <styleClass>
+                        <String fx:value="action-button"/>
 
-               </styleClass></JFXComboBox>
-            <JFXTextField fx:id="searchTextField" focusColor="#0d47a100" labelFloat="true" layoutX="470.0" layoutY="14.0" onAction="#searchResults" prefHeight="34.0" prefWidth="411.0" promptText="Enter your text here" unFocusColor="#0e49a100">
-               <font>
-                  <Font name="Calibri Bold" size="16.0" />
-               </font>
-               <styleClass>
-                  <String fx:value="bottom-border" />
-                  <String fx:value="text" />
-                  <String fx:value="font-18" />
-               </styleClass></JFXTextField>
-            <JFXButton fx:id="searchButton" alignment="CENTER" buttonType="RAISED" contentDisplay="LEFT" graphicTextGap="15.0" layoutX="935.0" layoutY="9.0" minHeight="46.0" onAction="#searchResults" onKeyPressed="#searchResults" opacity="0.96" prefHeight="46.0" prefWidth="212.0" text="SEARCH" textAlignment="CENTER" textFill="#0d47a1">
-               <font>
-                  <Font name="Calibri Bold" size="18.0" />
-               </font>
-               <graphic>
-                  <FontAwesomeIconView glyphName="SEARCH" size="24" />
-               </graphic>
-               <styleClass>
-                  <String fx:value="action-button" />
-
-               </styleClass>
-            </JFXButton>
-         </children></Pane>
-      <AnchorPane layoutX="12.0" layoutY="167.0" styleClass="base" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="175.0">
-         <children>
-            <TableView fx:id="tableView" prefHeight="538.0" prefWidth="1230.0" AnchorPane.topAnchor="0.0">
-              <columns>
-                <TableColumn fx:id="teamLeadColumn" prefWidth="140.0" text="Team Lead" />
-                <TableColumn fx:id="sevadarColumn" prefWidth="140.0" text="Sevadar" />
-                  <TableColumn fx:id="firstNameColumn" prefWidth="160.0" text="First Name" />
-                  <TableColumn fx:id="lastNameColumn" prefWidth="170.0" text="Last Name" />
-                  <TableColumn fx:id="cellPhoneColumn" prefWidth="150.0" text="Cell Phone" />
-                  <TableColumn fx:id="homePhoneColumn" prefWidth="150.0" text="Home Phone" />
-                  <TableColumn fx:id="zipCodeColumn" prefWidth="95.0" text="Zip Code" />
-                  <TableColumn fx:id="townColumn" minWidth="0.0" prefWidth="120.0" text="Town" />
-                  <TableColumn fx:id="phoneStatusColumn" prefWidth="102.0" text="Status" />
-              </columns>
-               <styleClass>
-                  <String fx:value="font-16" />
-               </styleClass>
-            </TableView>
-         </children>
-      </AnchorPane>
-      <Label fx:id="closeButton" alignment="CENTER" layoutX="1224.0" layoutY="2.0" onMouseClicked="#close" prefHeight="25.0" prefWidth="25.0" styleClass="close-button" text="X" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="2.0">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font name="Calibri Bold" size="18.0" />
-         </font>
-         <rotationAxis>
-            <Point3D z="3.0" />
-         </rotationAxis>
-      </Label>
-      <Label alignment="CENTER_RIGHT" layoutX="1108.0" layoutY="131.0" prefHeight="25.0" prefWidth="110.0" text="records found">
-         <font>
-            <Font name="Calibri Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="recordsLabel" alignment="CENTER_RIGHT" ellipsisString="" layoutX="1051.0" layoutY="133.0" prefHeight="22.0" prefWidth="49.0">
-         <font>
-            <Font name="Calibri Bold" size="18.0" />
-         </font>
-      </Label>
-   </children>
-   <effect>
-      <DropShadow color="#b281b8" height="121.81" offsetX="5.0" offsetY="5.0" radius="52.2525" spread="0.84" width="89.2" />
-   </effect>
-   <styleClass>
-      <String fx:value="root" />
-      <String fx:value="background-radius" />
-      <String fx:value="border-radius" />
-   </styleClass>
+                    </styleClass>
+                </JFXButton>
+            </children>
+        </Pane>
+        <AnchorPane layoutX="12.0" layoutY="167.0" styleClass="base" AnchorPane.bottomAnchor="10.0"
+                    AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="175.0">
+            <children>
+                <TableView fx:id="tableView" prefHeight="538.0" prefWidth="1230.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                        <TableColumn fx:id="teamLeadColumn" prefWidth="140.0" text="Team Lead"/>
+                        <TableColumn fx:id="sevadarColumn" prefWidth="140.0" text="Sevadar"/>
+                        <TableColumn fx:id="firstNameColumn" prefWidth="160.0" text="First Name"/>
+                        <TableColumn fx:id="lastNameColumn" prefWidth="170.0" text="Last Name"/>
+                        <TableColumn fx:id="cellPhoneColumn" prefWidth="150.0" text="Cell Phone"/>
+                        <TableColumn fx:id="homePhoneColumn" prefWidth="150.0" text="Home Phone"/>
+                        <TableColumn fx:id="zipCodeColumn" prefWidth="95.0" text="Zip Code"/>
+                        <TableColumn fx:id="townColumn" minWidth="0.0" prefWidth="120.0" text="Town"/>
+                        <TableColumn fx:id="phoneStatusColumn" prefWidth="102.0" text="Status"/>
+                    </columns>
+                    <styleClass>
+                        <String fx:value="font-16"/>
+                    </styleClass>
+                </TableView>
+            </children>
+        </AnchorPane>
+        <Label fx:id="closeButton" alignment="CENTER" layoutX="1224.0" layoutY="2.0" onMouseClicked="#close"
+               prefHeight="25.0" prefWidth="25.0" styleClass="close-button" text="X" AnchorPane.rightAnchor="1.0"
+               AnchorPane.topAnchor="2.0">
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <font>
+                <Font name="Calibri Bold" size="18.0"/>
+            </font>
+            <rotationAxis>
+                <Point3D z="3.0"/>
+            </rotationAxis>
+        </Label>
+        <Label alignment="CENTER_RIGHT" layoutX="1108.0" layoutY="131.0" prefHeight="25.0" prefWidth="110.0"
+               text="records found">
+            <font>
+                <Font name="Calibri Bold" size="18.0"/>
+            </font>
+        </Label>
+        <Label fx:id="recordsLabel" alignment="CENTER_RIGHT" ellipsisString="" layoutX="1051.0" layoutY="133.0"
+               prefHeight="22.0" prefWidth="49.0">
+            <font>
+                <Font name="Calibri Bold" size="18.0"/>
+            </font>
+        </Label>
+    </children>
+    <effect>
+        <DropShadow color="#b281b8" height="121.81" offsetX="5.0" offsetY="5.0" radius="52.2525" spread="0.84"
+                    width="89.2"/>
+    </effect>
+    <styleClass>
+        <String fx:value="root"/>
+        <String fx:value="background-radius"/>
+        <String fx:value="border-radius"/>
+    </styleClass>
 </AnchorPane>
