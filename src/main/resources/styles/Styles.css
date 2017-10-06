@@ -117,6 +117,12 @@
 .header-font-family{
     -fx-font-family:-headers-font-family;
 }
+.label-text{
+    -fx-font-family:-headers-font-family;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-text-fill: -headers-text-color;
+}
 
 .table-view-font-family{
     -fx-font-family:-table-view-font-family;
@@ -358,58 +364,6 @@ Action Button Bar
     -fx-font-size: 22px;
     -fx-font-weight: bold;
     -fx-end-margin: 10px;
-}
-
-
-
-
-/*
-Images Resources for each Action
-*/
-
-.dashboard{
-    -fx-graphic: url("../images/home.png");
-}
-
-.team-management{
-    -fx-graphic: url("../images/team_2.png");
-}
-
-.family-management{
-    -fx-graphic: url("../images/family.png");
-}
-
-.sevadars-phonetree-list{
-    -fx-graphic: url("../images/checklist.png");
-}
-
-.reports-management{
-    -fx-graphic: url("../images/reports.png");
-}
-
-.administration{
-    -fx-graphic: url("../images/admin.png");
-}
-
-
-.add-user{
-    -fx-graphic: url("../images/add_user.png");
-}
-
-.delete-user{
-    -fx-graphic: url("../images/remove_user_icon.png");
-}
-
-.swap-user{
-    -fx-graphic: url("../images/swap_user_icon.png");
-}
-
-.replace-user{
-    -fx-graphic: url("../images/replace_user_icon.png");
-}
-
-.move-user{
-    -fx-graphic: url("../images/move_user_icon.png");
 }
 
 
