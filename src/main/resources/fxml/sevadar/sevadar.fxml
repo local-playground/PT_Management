@@ -2,16 +2,16 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
+<?import java.lang.String?>
 <BorderPane prefHeight="450.0" prefWidth="800.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.sevadar.SevadarController">
     <top>
         <VBox alignment="CENTER" styleClass="action-button-bar" BorderPane.alignment="CENTER">
@@ -38,27 +38,41 @@
                             <graphic>
                                 <FontAwesomeIconView glyphName="USER_PLUS" size="30" />
                             </graphic>
-
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
                         </JFXButton>
                         <JFXButton fx:id="deleteSevadarButton" buttonType="RAISED" layoutX="15.0" layoutY="15.0" onAction="#deleteSevadar" prefHeight="50.0" prefWidth="120.0" styleClass="action-button" text="REMOVE">
                             <graphic>
                                 <FontAwesomeIconView glyphName="USER_TIMES" size="30" />
                             </graphic>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
                         </JFXButton>
                         <JFXButton fx:id="replaceSevadarButton" buttonType="RAISED" layoutX="144.0" layoutY="15.0" onAction="#replaceSevadar" prefHeight="50.0" prefWidth="117.0" styleClass="action-button" text="REPLACE">
                             <graphic>
                                 <FontAwesomeIconView glyphName="EXCHANGE" size="30" />
                             </graphic>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
                         </JFXButton>
                         <JFXButton fx:id="swapSevadarButton" buttonType="RAISED" layoutX="273.0" layoutY="15.0" onAction="#swapSevadar" prefHeight="50.0" prefWidth="107.0" styleClass="action-button" text="SWAP">
                             <graphic>
                                 <FontAwesomeIconView glyphName="REFRESH" size="30" />
                             </graphic>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
                         </JFXButton>
                         <JFXButton fx:id="moveSevadarButton" buttonType="RAISED" layoutX="402.0" layoutY="15.0" onAction="#moveSevadar" prefHeight="50.0" prefWidth="111.0" styleClass="action-button" text="MOVE">
                             <graphic>
                                 <FontAwesomeIconView glyphName="REPLY" size="30" />
                             </graphic>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
                         </JFXButton>
                     </children>
                     <padding>

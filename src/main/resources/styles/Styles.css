@@ -34,6 +34,22 @@
     -theme-font-family:"Segoe UI Black";
     -theme-text-color: black;
     -theme-text-secondary-color:black;
+
+
+    -controls-focus-color:#1b5e20;
+    -controls-unfocus-color:#a5d6a7;
+}
+
+.app-outer-border{
+    -fx-border-color: -headers-text-color;
+    -fx-border-width: 4px;
+}
+.top-panel{
+    -fx-background-color: -top-panel-color;
+}
+
+.top-nav-bar{
+    -fx-background-color: -top-nav-bar-color;
 }
 
 .border{
@@ -90,6 +106,18 @@
     -fx-font-size: 22px;
 }
 
+.white-text{
+    -fx-text-fill: white;
+}
+
+.black-text{
+    -fx-text-fill: black;
+}
+
+.header-font-family{
+    -fx-font-family:-headers-font-family;
+}
+
 .table-view-font-family{
     -fx-font-family:-table-view-font-family;
 }
@@ -127,19 +155,31 @@ Action Button Bar
 
 .main-action-button{
     -fx-text-fill: white;
-    -fx-background-color: -accent-color;
+    /*-fx-background-color: -accent-color;*/
     -fx-font-family: -theme-font-family;
     -fx-font-size: 18px;
     -fx-font-weight: bold;
     -fx-border-color: white;
-    -fx-border-width: 2px;
+    -fx-border-width: 0 0 2px 0;
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,1 );
 }
+
 
 .main-action-button > .glyph-icon{
     -fx-fill: white;
 }
 
+
+
+.main-action-button:hover, .main-action-button:focused{
+    -fx-text-fill: -headers-text-color;
+    -fx-border-color: -headers-text-color;
+    -fx-background-color: white;
+}
+
+.main-action-button:hover > .glyph-icon, .main-action-button:focused > .glyph-icon{
+    -fx-fill: -headers-text-color;
+}
 
 .action-button-bar {
     -fx-background-color: -action-nav-bar-color;
@@ -160,13 +200,13 @@ Action Button Bar
 }
 
 .action-button:hover, .action-button:focused{
-    -fx-text-fill: -accent-color;
-    -fx-border-color: -accent-color;
+    -fx-text-fill: -main-nav-bar-color;
+    -fx-border-color: -main-nav-bar-color;
     -fx-border-width: 0 0 2px 0;
 }
 
 .action-button:hover > .glyph-icon, .action-button:focused > .glyph-icon{
-    -fx-fill: -accent-color;
+    -fx-fill: -main-nav-bar-color;
 }
 
 
@@ -188,7 +228,8 @@ Action Button Bar
 }
 
 .table-view .table-column .label{
-    -fx-text-fill: -headers-text-color;
+    /*-fx-text-fill: -headers-text-color;*/
+    -fx-text-fill: black;
     -fx-background-color:-app-background-color;
     -fx-padding: 12 0 12 0;
 }
@@ -213,8 +254,14 @@ Action Button Bar
 
 
 /* Text Field */
+.text-field{
+    -fx-border-color: -controls-unfocus-color;
+    -fx-font-family: -headers-font-family;
+    -fx-padding: 0 0 0 5px;
+}
+
 .text-field:focused{
-    -fx-border-color: -accent-color;
+    -fx-border-color: -controls-focus-color;
 }
 
 
@@ -223,12 +270,12 @@ Action Button Bar
 /* Combo Box */
 
 .combo-box{
-    -fx-border-color: -headers-text-color;
+    -fx-border-color: -controls-unfocus-color;
     -fx-font-family: -headers-font-family;
 }
 
 .combo-box:focused{
-    -fx-border-color: -accent-color;
+    -fx-border-color: -controls-focus-color;
 }
 
 
@@ -266,7 +313,7 @@ Action Button Bar
     -fx-text-fill: black;
     -fx-font-size: 16px;
     -fx-font-family: -headers-font-family;
-    -fx-font: bold;
+    -fx-font-weight: bold;
 }
 
 

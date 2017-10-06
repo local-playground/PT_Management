@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.lang.String?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.Cursor?>
@@ -19,9 +20,6 @@
       <Pane layoutX="10.0" layoutY="25.0" prefHeight="62.0" prefWidth="1230.0" styleClass="base" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
          <children>
             <Label fx:id="searchByLabel" layoutX="73.0" layoutY="20.0" prefHeight="23.0" prefWidth="96.0" styleClass="h2" text="Search By: " textFill="#0e49a100">
-               <font>
-                  <Font name="Calibri Bold" size="18.0" />
-               </font>
             </Label>
             <JFXComboBox fx:id="searchComboBox" focusColor="#0d47a100" labelFloat="true" layoutX="177.0" layoutY="11.0" prefHeight="25.0" prefWidth="212.0" unFocusColor="#679ee500">
                <styleClass>
@@ -30,7 +28,7 @@
                  <String fx:value="bottom-border" />
 
                </styleClass></JFXComboBox>
-            <JFXTextField fx:id="searchTextField" focusColor="#0d47a100" labelFloat="true" layoutX="470.0" layoutY="14.0" prefHeight="34.0" prefWidth="411.0" promptText="Enter your text here" unFocusColor="#0e49a100">
+            <JFXTextField fx:id="searchTextField" focusColor="#0d47a100" labelFloat="true" layoutX="470.0" layoutY="14.0" onAction="#searchResults" prefHeight="34.0" prefWidth="411.0" promptText="Enter your text here" unFocusColor="#0e49a100">
                <font>
                   <Font name="Calibri Bold" size="16.0" />
                </font>
@@ -39,10 +37,13 @@
                   <String fx:value="text" />
                   <String fx:value="font-18" />
                </styleClass></JFXTextField>
-            <JFXButton fx:id="searchButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" layoutX="935.0" layoutY="9.0" minHeight="46.0" onAction="#searchResults" onKeyPressed="#searchResults" opacity="0.96" prefHeight="46.0" prefWidth="212.0" text="Search" textAlignment="CENTER" textFill="#0d47a1">
+            <JFXButton fx:id="searchButton" alignment="CENTER" buttonType="RAISED" contentDisplay="LEFT" graphicTextGap="15.0" layoutX="935.0" layoutY="9.0" minHeight="46.0" onAction="#searchResults" onKeyPressed="#searchResults" opacity="0.96" prefHeight="46.0" prefWidth="212.0" text="SEARCH" textAlignment="CENTER" textFill="#0d47a1">
                <font>
                   <Font name="Calibri Bold" size="18.0" />
                </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="SEARCH" size="24" />
+               </graphic>
                <styleClass>
                   <String fx:value="action-button" />
 
@@ -63,7 +64,6 @@
         </columns>
          <styleClass>
             <String fx:value="font-16" />
-            <String fx:value="font-family-seouge" />
          </styleClass>
       </TableView>
       <Label fx:id="closeButton" alignment="CENTER" layoutX="1222.0" layoutY="6.0" onMouseClicked="#close" prefHeight="25.0" prefWidth="25.0" styleClass="close-button" text="X" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -93,7 +93,8 @@
    </effect>
    <styleClass>
       <String fx:value="base" />
-      <String fx:value="border-radius" />
+      <String fx:value="app-outer-border" />
       <String fx:value="background-radius" />
+      <String fx:value="border-radius" />
    </styleClass>
 </AnchorPane>

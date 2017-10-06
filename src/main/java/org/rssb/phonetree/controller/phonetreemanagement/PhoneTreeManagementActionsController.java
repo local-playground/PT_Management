@@ -43,7 +43,31 @@ public class PhoneTreeManagementActionsController extends AbstractController{
     private JFXButton reportManagementButton;
 
     @FXML
+    private JFXButton teamChartButton;
+
+    @FXML
+    private JFXButton snvReportButton;
+
+    @FXML
+    private JFXButton vacationPlanButton;
+
+    @FXML
     private JFXButton administrationButton;
+
+    @FXML
+    void createReports(ActionEvent event) {
+
+    }
+
+    @FXML
+    void createTeamChart(ActionEvent event) {
+
+    }
+
+    @FXML
+    void prepareSNVReports(ActionEvent event) {
+
+    }
 
     @FXML
     void showAdminScreen(ActionEvent event) {
@@ -62,6 +86,11 @@ public class PhoneTreeManagementActionsController extends AbstractController{
 
     @FXML
     void showReportsManagement(ActionEvent event) {
+
+    }
+
+    @FXML
+    void showSevadarsAvailability(ActionEvent event) {
 
     }
 
