@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="718.0" prefWidth="1250.0" styleClass="root" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.search.SearchController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="718.0" prefWidth="1250.0" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.search.SearchController">
    <children>
       <Pane layoutX="10.0" layoutY="25.0" prefHeight="62.0" prefWidth="1230.0" styleClass="base" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
          <children>
@@ -27,15 +27,16 @@
                <styleClass>
                   <String fx:value="combo-box" />
                   <String fx:value="font-16" />
-                  <String fx:value="font-family-seouge" />
-                  <String fx:value="border-radius" />
+                 <String fx:value="bottom-border" />
+
                </styleClass></JFXComboBox>
             <JFXTextField fx:id="searchTextField" focusColor="#0d47a100" labelFloat="true" layoutX="470.0" layoutY="14.0" prefHeight="34.0" prefWidth="411.0" promptText="Enter your text here" unFocusColor="#0e49a100">
                <font>
                   <Font name="Calibri Bold" size="16.0" />
                </font>
                <styleClass>
-                  <String fx:value="border-radius" />
+                  <String fx:value="bottom-border" />
+                  <String fx:value="text" />
                   <String fx:value="font-18" />
                </styleClass></JFXTextField>
             <JFXButton fx:id="searchButton" alignment="CENTER" buttonType="RAISED" contentDisplay="BOTTOM" layoutX="935.0" layoutY="9.0" minHeight="46.0" onAction="#searchResults" onKeyPressed="#searchResults" opacity="0.96" prefHeight="46.0" prefWidth="212.0" text="Search" textAlignment="CENTER" textFill="#0d47a1">
@@ -44,8 +45,7 @@
                </font>
                <styleClass>
                   <String fx:value="action-button" />
-                  <String fx:value="border-radius" />
-                  <String fx:value="background-radius" />
+
                </styleClass>
             </JFXButton>
          </children></Pane>
@@ -91,4 +91,9 @@
    <effect>
       <DropShadow color="#b281b8" height="121.81" offsetX="5.0" offsetY="5.0" radius="52.2525" spread="0.84" width="89.2" />
    </effect>
+   <styleClass>
+      <String fx:value="base" />
+      <String fx:value="border-radius" />
+      <String fx:value="background-radius" />
+   </styleClass>
 </AnchorPane>

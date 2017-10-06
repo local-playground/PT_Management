@@ -12,6 +12,7 @@
 
     /* application background color*/
     -app-background-color:#e5e5e5;
+    -app-background-base-color:#ffffff;
 
     /* theme border color */
     -theme-border-color:#8f8f8f;
@@ -99,7 +100,7 @@
 }
 
 .base{
-    -fx-background-color: "ffffff";
+    -fx-background-color: -app-background-base-color;
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,1 );
 }
 
@@ -212,7 +213,9 @@ Action Button Bar
 
 
 /* Text Field */
-
+.text-field:focused{
+    -fx-border-color: -accent-color;
+}
 
 
 
@@ -220,8 +223,12 @@ Action Button Bar
 /* Combo Box */
 
 .combo-box{
-    -fx-border-color: -fx-theme-background-secondary-color;
-    -fx-font-family: -fx-theme-table-view-font-family;
+    -fx-border-color: -headers-text-color;
+    -fx-font-family: -headers-font-family;
+}
+
+.combo-box:focused{
+    -fx-border-color: -accent-color;
 }
 
 
@@ -229,13 +236,13 @@ Action Button Bar
 /*Pie Chart */
 
 .piechart-background{
-    -fx-background-color: #b9f6ca;
+    -fx-background-color: -app-background-color;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
 }
 .piechart-pane{
-    -fx-background-color: #a5d6a7;
-    -fx-border-color: #1b5e20;
+    -fx-background-color: -app-background-base-color;
+    -fx-border-color: -theme-border-color;
     -fx-border-width:2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
@@ -249,23 +256,23 @@ Action Button Bar
 }
 
 .chart-title {
-    -fx-font-family: "Calibri";
+    -fx-font-family: -headers-font-family;
     -fx-font-size: 22px;
-    -fx-text-fill: #1b5e20;
+    -fx-text-fill: -headers-text-color;
     -fx-font-weight: bold;
 }
 
 .chart-pie-label {
     -fx-text-fill: black;
     -fx-font-size: 16px;
-    -fx-font-family: "Calibri";
+    -fx-font-family: -headers-font-family;
     -fx-font: bold;
 }
 
 
 .chart-pie-label-line{
-    -fx-fill: black;
-    -fx-stroke: black;
+    -fx-fill: -theme-text-color;
+    -fx-stroke: -theme-text-color;
 }
 
 .chart-legend {
@@ -279,7 +286,7 @@ Action Button Bar
 }
 
 .chart-legend-item .label{
-    -fx-text-fill: black;
+    -fx-text-fill: -theme-text-color;
 }
 
 /*JFX Dialog Box */
@@ -359,32 +366,4 @@ Images Resources for each Action
 }
 
 
-.record-sales {
-    -fx-padding: 8 15 15 15;
-    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
-    -fx-background-radius: 8;
-    -fx-background-color:
-            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
-            #9d4024,
-            #d86e3a,
-            radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
-    -fx-font-weight: bold;
-    -fx-font-size: 1.1em;
-}
-.record-sales:hover {
-    -fx-background-color:
-            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
-            #9d4024,
-            #d86e3a,
-            radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
-}
-.record-sales:pressed {
-    -fx-padding: 10 15 13 15;
-    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-}
-.record-sales Text {
-    -fx-fill: white;
-    -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
-}
 
