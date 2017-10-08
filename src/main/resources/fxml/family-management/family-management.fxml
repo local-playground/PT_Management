@@ -1,203 +1,399 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import com.jfoenix.controls.JFXToggleButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="980.0" prefWidth="1500.0" styleClass="root" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="980.0"
+            prefWidth="1500.0" styleClass="root" stylesheets="@../../styles/Styles.css"
+            xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.rssb.phonetree.controller.familymanagement.FamilyManagementController">
     <children>
-        <AnchorPane layoutX="149.0" layoutY="113.0" prefHeight="200.0" prefWidth="200.0" styleClass="base" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+        <AnchorPane layoutX="149.0" layoutY="113.0" prefHeight="200.0" prefWidth="200.0" styleClass="base"
+                    AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0"
+                    AnchorPane.topAnchor="25.0">
             <children>
-                <AnchorPane layoutX="23.0" layoutY="30.0" prefHeight="380.0" prefWidth="670.0" styleClass="base" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="50.0">
+                <HBox layoutX="25.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" prefWidth="604.0"
+                      spacing="75.0" styleClass="action-button-bar" AnchorPane.leftAnchor="25.0"
+                      AnchorPane.rightAnchor="821.0">
                     <children>
-                        <JFXTextField fx:id="zipCode" focusColor="#405aa800" labelFloat="true" layoutX="130.0" layoutY="86.0" prefHeight="45.0" prefWidth="150.0" promptText="Enter zip code" unFocusColor="#4d4d4d00">
+                        <JFXButton fx:id="saveFamily" buttonType="RAISED" graphicTextGap="9.0" onAction="#saveFamily"
+                                   styleClass="action-button" text="SAVE FAMILY">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="DATABASE" size="30"/>
+                            </graphic>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </JFXButton>
+                        <JFXButton fx:id="deleteFamily" buttonType="RAISED" graphicTextGap="9.0"
+                                   onAction="#deleteFamily" styleClass="action-button" text="DELETE FAMILY">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="USER_TIMES" size="30"/>
+                            </graphic>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </JFXButton>
+                        <JFXButton fx:id="resetForm" buttonType="RAISED" graphicTextGap="9.0" onAction="#resetForm"
+                                   styleClass="action-button" text="RESET">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="HOURGLASS_ALT" size="30"/>
+                            </graphic>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </JFXButton>
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="15.0" right="5.0" top="5.0"/>
+                    </padding>
+                </HBox>
+                <HBox layoutX="692.0" layoutY="14.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="60.0" prefWidth="733.0"
+                      spacing="35.0" styleClass="action-button-bar" AnchorPane.leftAnchor="692.0"
+                      AnchorPane.rightAnchor="25.0">
+                    <padding>
+                        <Insets bottom="15.0" left="10.0" right="10.0" top="15.0"/>
+                    </padding>
+                    <children>
+                        <JFXComboBox focusColor="#405aa800" labelFloat="true" nodeOrientation="LEFT_TO_RIGHT"
+                                     prefHeight="27.0" prefWidth="212.0" promptText="Select Sevadar"
+                                     unFocusColor="#4d4d4d00">
                             <styleClass>
-                                <String fx:value="bottom-border" />
-                                <String fx:value="font-18" />
+                                <String fx:value="combo-box"/>
+                                <String fx:value="bottom-border"/>
+                            </styleClass>
+                        </JFXComboBox>
+                        <Label styleClass="label-text" text="Sevadar Name"/>
+                        <Label styleClass="label-text" text="Team Lead Name"/>
+                        <Label styleClass="label-text" text="Team Lead"/>
+                    </children>
+                </HBox>
+                <AnchorPane layoutX="25.0" layoutY="83.0" prefHeight="341.0" prefWidth="1400.0" styleClass="base"
+                            AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="83.0">
+                    <children>
+                        <JFXTextField fx:id="zipCode" focusColor="#405aa800" labelFloat="true" layoutX="130.0"
+                                      layoutY="86.0" prefHeight="45.0" prefWidth="150.0" promptText="Enter zip code"
+                                      unFocusColor="#4d4d4d00">
+                            <styleClass>
+                                <String fx:value="bottom-border"/>
+                                <String fx:value="font-18"/>
                             </styleClass>
                         </JFXTextField>
-                        <JFXTextField fx:id="noOfAdultsAttendsSNV" focusColor="#405aa800" labelFloat="true" layoutX="130.0" layoutY="145.0" prefHeight="45.0" prefWidth="150.0" promptText="Adults attends SNV" unFocusColor="#4d4d4d00">
+                        <JFXTextField fx:id="noOfAdultsAttendsSNV" focusColor="#405aa800" labelFloat="true"
+                                      layoutX="130.0" layoutY="145.0" prefHeight="45.0" prefWidth="150.0"
+                                      promptText="Adults attends SNV" unFocusColor="#4d4d4d00">
                             <styleClass>
-                                <String fx:value="bottom-border" />
-                                <String fx:value="font-18" />
+                                <String fx:value="bottom-border"/>
+                                <String fx:value="font-18"/>
                             </styleClass>
                         </JFXTextField>
-                        <JFXTextField fx:id="noOfChildrenAttendsSNV" focusColor="#405aa800" labelFloat="true" layoutX="130.0" layoutY="209.0" prefHeight="45.0" prefWidth="150.0" promptText="Children attends SNV" unFocusColor="#4d4d4d00">
+                        <JFXTextField fx:id="noOfChildrenAttendsSNV" focusColor="#405aa800" labelFloat="true"
+                                      layoutX="130.0" layoutY="209.0" prefHeight="45.0" prefWidth="150.0"
+                                      promptText="Children attends SNV" unFocusColor="#4d4d4d00">
                             <styleClass>
-                                <String fx:value="bottom-border" />
-                                <String fx:value="font-18" />
+                                <String fx:value="bottom-border"/>
+                                <String fx:value="font-18"/>
                             </styleClass>
                         </JFXTextField>
-                        <JFXTextField fx:id="town" focusColor="#405aa800" labelFloat="true" layoutX="130.0" layoutY="269.0" prefHeight="45.0" prefWidth="150.0" promptText="Town" unFocusColor="#4d4d4d00">
+                        <JFXTextField fx:id="town" focusColor="#405aa800" labelFloat="true" layoutX="130.0"
+                                      layoutY="269.0" prefHeight="45.0" prefWidth="150.0" promptText="Town"
+                                      unFocusColor="#4d4d4d00">
                             <styleClass>
-                                <String fx:value="bottom-border" />
-                                <String fx:value="font-18" />
+                                <String fx:value="bottom-border"/>
+                                <String fx:value="font-18"/>
                             </styleClass>
                         </JFXTextField>
                         <Label layoutX="122.0" layoutY="7.0" text="Family Information" textAlignment="CENTER">
                             <styleClass>
-                                <String fx:value="header-font-family" />
-                                <String fx:value="font-20" />
+                                <String fx:value="header-font-family"/>
+                                <String fx:value="font-20"/>
                             </styleClass>
                         </Label>
-                        <Separator layoutX="23.0" layoutY="43.0" prefHeight="3.0" prefWidth="330.0" />
-                        <Label layoutX="23.0" layoutY="109.0" text="Zip Code">
+                        <Separator layoutX="23.0" layoutY="43.0" prefHeight="3.0" prefWidth="330.0"/>
+                        <Label layoutX="23.0" layoutY="100.0" text="Zip Code">
                             <styleClass>
-                                <String fx:value="font-16" />
-                                <String fx:value="form-label-opacity" />
+                                <String fx:value="font-16"/>
+                                <String fx:value="form-label-opacity"/>
                             </styleClass>
                         </Label>
-                        <Label layoutX="16.0" layoutY="168.0" text="# of Adults">
+                        <Label layoutX="16.0" layoutY="158.0" text="# of Adults">
                             <styleClass>
-                                <String fx:value="font-16" />
-                                <String fx:value="form-label-opacity" />
+                                <String fx:value="font-16"/>
+                                <String fx:value="form-label-opacity"/>
                             </styleClass>
                         </Label>
-                        <Label layoutX="21.0" layoutY="219.0" text="# of Children">
+                        <Label layoutX="16.0" layoutY="220.0" text="# of Children">
                             <styleClass>
-                                <String fx:value="font-16" />
-                                <String fx:value="form-label-opacity" />
+                                <String fx:value="font-16"/>
+                                <String fx:value="form-label-opacity"/>
                             </styleClass>
                         </Label>
-                        <Label layoutX="35.0" layoutY="279.0" text="Town">
+                        <Label layoutX="36.0" layoutY="281.0" text="Town">
                             <styleClass>
-                                <String fx:value="font-16" />
-                                <String fx:value="form-label-opacity" />
+                                <String fx:value="font-16"/>
+                                <String fx:value="form-label-opacity"/>
                             </styleClass>
                         </Label>
                         <Label layoutX="478.0" layoutY="7.0" text="SNV Information" textAlignment="CENTER">
                             <styleClass>
-                                <String fx:value="header-font-family" />
-                                <String fx:value="font-20" />
+                                <String fx:value="header-font-family"/>
+                                <String fx:value="font-20"/>
                             </styleClass>
                         </Label>
-                        <Separator layoutX="423.0" layoutY="43.0" prefHeight="3.0" prefWidth="330.0" />
+                        <Separator layoutX="423.0" layoutY="43.0" prefHeight="3.0" prefWidth="330.0"/>
                         <Label layoutX="423.0" layoutY="110.0" text="Has SNV Guidelines">
                             <styleClass>
-                                <String fx:value="font-16" />
-                                <String fx:value="form-label-opacity" />
+                                <String fx:value="font-16"/>
+                                <String fx:value="form-label-opacity"/>
                             </styleClass>
                         </Label>
-                        <JFXToggleButton layoutX="591.0" layoutY="93.0" selected="true" styleClass="jfx-toggle-button" text="Yes" toggleColor="#008f81bb">
+                        <JFXToggleButton layoutX="591.0" layoutY="93.0" selected="true" styleClass="jfx-toggle-button"
+                                         text="Yes" toggleColor="#008f81bb">
                             <toggleGroup>
-                                <ToggleGroup fx:id="SNVGuidelineGroup" />
+                                <ToggleGroup fx:id="SNVGuidelineGroup"/>
                             </toggleGroup>
                         </JFXToggleButton>
-                        <JFXToggleButton layoutX="691.0" layoutY="93.0" text="No" toggleGroup="$SNVGuidelineGroup" />
+                        <JFXToggleButton layoutX="691.0" layoutY="93.0" text="No" toggleGroup="$SNVGuidelineGroup"/>
                         <Label layoutX="423.0" layoutY="169.0" text="Need Bus Ride">
                             <styleClass>
-                                <String fx:value="font-16" />
-                                <String fx:value="form-label-opacity" />
+                                <String fx:value="font-16"/>
+                                <String fx:value="form-label-opacity"/>
                             </styleClass>
                         </Label>
                         <JFXToggleButton layoutX="592.0" layoutY="152.0" selected="true" text="Yes">
                             <toggleGroup>
-                                <ToggleGroup fx:id="NeedBusRideGroup" />
+                                <ToggleGroup fx:id="NeedBusRideGroup"/>
                             </toggleGroup>
                         </JFXToggleButton>
-                        <JFXToggleButton layoutX="680.0" layoutY="152.0" selected="true" text="No" toggleGroup="$NeedBusRideGroup" />
-                        <JFXToggleButton layoutX="767.0" layoutY="152.0" text="May Be" toggleGroup="$NeedBusRideGroup" />
+                        <JFXToggleButton layoutX="680.0" layoutY="152.0" selected="true" text="No"
+                                         toggleGroup="$NeedBusRideGroup"/>
+                        <JFXToggleButton layoutX="767.0" layoutY="152.0" text="May Be" toggleGroup="$NeedBusRideGroup"/>
                         <Label layoutX="423.0" layoutY="219.0" text="# of Passengers">
                             <styleClass>
-                                <String fx:value="font-16" />
-                                <String fx:value="form-label-opacity" />
+                                <String fx:value="font-16"/>
+                                <String fx:value="form-label-opacity"/>
                             </styleClass>
                         </Label>
-                        <JFXTextField fx:id="noOfPassengers" focusColor="#405aa800" labelFloat="true" layoutX="606.0" layoutY="209.0" prefHeight="45.0" prefWidth="150.0" promptText="Bus Passengers Count" unFocusColor="#4d4d4d00">
+                        <JFXTextField fx:id="noOfPassengers" focusColor="#405aa800" labelFloat="true" layoutX="606.0"
+                                      layoutY="209.0" prefHeight="45.0" prefWidth="150.0"
+                                      promptText="Bus Passengers Count" unFocusColor="#4d4d4d00">
                             <styleClass>
-                                <String fx:value="bottom-border" />
-                                <String fx:value="font-18" />
+                                <String fx:value="bottom-border"/>
+                                <String fx:value="font-18"/>
                             </styleClass>
                         </JFXTextField>
                         <Label layoutX="423.0" layoutY="279.0" text="Can call anytime">
                             <styleClass>
-                                <String fx:value="font-16" />
-                                <String fx:value="form-label-opacity" />
+                                <String fx:value="font-16"/>
+                                <String fx:value="form-label-opacity"/>
                             </styleClass>
                         </Label>
                         <JFXToggleButton layoutX="601.0" layoutY="263.0" selected="true" text="Yes">
                             <toggleGroup>
-                                <ToggleGroup fx:id="CanCallAnytimeGroup" />
+                                <ToggleGroup fx:id="CanCallAnytimeGroup"/>
                             </toggleGroup>
                         </JFXToggleButton>
-                        <JFXToggleButton layoutX="688.0" layoutY="263.0" text="No" toggleGroup="$CanCallAnytimeGroup" />
-                        <JFXTimePicker fx:id="fromTime" layoutX="778.0" layoutY="281.0" prefHeight="22.0" prefWidth="111.0" promptText="From Time" />
-                        <JFXTimePicker fx:id="toTime" layoutX="889.0" layoutY="281.0" prefHeight="22.0" prefWidth="111.0" promptText="To Time" />
+                        <JFXToggleButton layoutX="688.0" layoutY="263.0" text="No" toggleGroup="$CanCallAnytimeGroup"/>
+                        <JFXTimePicker fx:id="fromTime" layoutX="778.0" layoutY="281.0" prefHeight="22.0"
+                                       prefWidth="111.0" promptText="From Time"/>
+                        <JFXTimePicker fx:id="toTime" layoutX="889.0" layoutY="281.0" prefHeight="22.0"
+                                       prefWidth="111.0" promptText="To Time"/>
                         <Label layoutX="1144.0" layoutY="7.0" text="Record Keeping" textAlignment="CENTER">
                             <styleClass>
-                                <String fx:value="header-font-family" />
-                                <String fx:value="font-20" />
+                                <String fx:value="header-font-family"/>
+                                <String fx:value="font-20"/>
                             </styleClass>
                         </Label>
-                        <Separator layoutX="1054.0" layoutY="45.0" prefHeight="3.0" prefWidth="330.0" />
+                        <Separator layoutX="1054.0" layoutY="45.0" prefHeight="3.0" prefWidth="330.0"/>
                         <Label layoutX="1054.0" layoutY="109.0" text="Status">
                             <styleClass>
-                                <String fx:value="font-16" />
-                                <String fx:value="form-label-opacity" />
+                                <String fx:value="font-16"/>
+                                <String fx:value="form-label-opacity"/>
                             </styleClass>
                         </Label>
-                        <JFXToggleButton layoutX="1114.0" layoutY="93.0" selected="true" styleClass="jfx-toggle-button" text="OK" toggleColor="#008f81bb">
+                        <JFXToggleButton layoutX="1114.0" layoutY="93.0" selected="true" styleClass="jfx-toggle-button"
+                                         text="OK" toggleColor="#008f81bb">
                             <toggleGroup>
-                                <ToggleGroup fx:id="PhoneStatusGroup" />
+                                <ToggleGroup fx:id="PhoneStatusGroup"/>
                             </toggleGroup>
                         </JFXToggleButton>
-                        <JFXToggleButton layoutX="1273.0" layoutY="93.0" styleClass="jfx-toggle-button" text="Not Picked" toggleColor="#008f81bb" toggleGroup="$PhoneStatusGroup" />
-                        <JFXToggleButton layoutX="1114.0" layoutY="152.0" styleClass="jfx-toggle-button" text="Disconnected" toggleColor="#008f81bb" toggleGroup="$PhoneStatusGroup" />
-                        <JFXToggleButton layoutX="1273.0" layoutY="152.0" styleClass="jfx-toggle-button" text="Moved" toggleColor="#008f81bb" toggleGroup="$PhoneStatusGroup" />
-                        <JFXToggleButton layoutX="1114.0" layoutY="203.0" styleClass="jfx-toggle-button" text="Remove Request" toggleColor="#008f81bb" toggleGroup="$PhoneStatusGroup" />
-                        <JFXToggleButton layoutX="1273.0" layoutY="203.0" styleClass="jfx-toggle-button" text="Wrong" toggleColor="#008f81bb" toggleGroup="$PhoneStatusGroup" />
+                        <JFXToggleButton layoutX="1273.0" layoutY="93.0" styleClass="jfx-toggle-button"
+                                         text="Not Picked" toggleColor="#008f81bb" toggleGroup="$PhoneStatusGroup"/>
+                        <JFXToggleButton layoutX="1114.0" layoutY="152.0" styleClass="jfx-toggle-button"
+                                         text="Disconnected" toggleColor="#008f81bb" toggleGroup="$PhoneStatusGroup"/>
+                        <JFXToggleButton layoutX="1273.0" layoutY="152.0" styleClass="jfx-toggle-button" text="Moved"
+                                         toggleColor="#008f81bb" toggleGroup="$PhoneStatusGroup"/>
+                        <JFXToggleButton layoutX="1114.0" layoutY="203.0" styleClass="jfx-toggle-button"
+                                         text="Remove Request" toggleColor="#008f81bb" toggleGroup="$PhoneStatusGroup"/>
+                        <JFXToggleButton layoutX="1273.0" layoutY="203.0" styleClass="jfx-toggle-button" text="Wrong"
+                                         toggleColor="#008f81bb" toggleGroup="$PhoneStatusGroup"/>
                         <Label layoutX="1054.0" layoutY="280.0" text="Is Active">
                             <styleClass>
-                                <String fx:value="font-16" />
-                                <String fx:value="form-label-opacity" />
+                                <String fx:value="font-16"/>
+                                <String fx:value="form-label-opacity"/>
                             </styleClass>
                         </Label>
-                        <JFXToggleButton layoutX="1114.0" layoutY="264.0" selected="true" styleClass="jfx-toggle-button" text="Yes" toggleColor="#008f81bb">
+                        <JFXToggleButton layoutX="1123.0" layoutY="264.0" selected="true" styleClass="jfx-toggle-button"
+                                         text="Yes" toggleColor="#008f81bb">
                             <toggleGroup>
-                                <ToggleGroup fx:id="familyActiveGroup" />
+                                <ToggleGroup fx:id="familyActiveGroup"/>
                             </toggleGroup>
                         </JFXToggleButton>
-                        <JFXToggleButton layoutX="1233.0" layoutY="264.0" text="No" toggleGroup="$familyActiveGroup" />
+                        <JFXToggleButton layoutX="1233.0" layoutY="264.0" text="No" toggleGroup="$familyActiveGroup"/>
+                        <FontAwesomeIconView glyphName="QUESTION_CIRCLE" layoutX="567.0" layoutY="128.0" size="20"/>
+                        <FontAwesomeIconView glyphName="QUESTION_CIRCLE" layoutX="531.0" layoutY="186.0" size="20"/>
+                        <FontAwesomeIconView glyphName="QUESTION_CIRCLE" layoutX="538.0" layoutY="237.0" size="20"/>
+                        <FontAwesomeIconView glyphName="QUESTION_CIRCLE" layoutX="544.0" layoutY="299.0" size="20"/>
+                        <FontAwesomeIconView glyphName="INFO_CIRCLE" layoutX="130.0" layoutY="120.0" size="20"
+                                             text=""/>
+                        <FontAwesomeIconView glyphName="INFO_CIRCLE" layoutX="130.0" layoutY="178.0" size="20"/>
+                        <FontAwesomeIconView glyphName="INFO_CIRCLE" layoutX="130.0" layoutY="238.0" size="20"/>
+                        <FontAwesomeIconView glyphName="INFO_CIRCLE" layoutX="130.0" layoutY="299.0" size="20"/>
+                        <FontAwesomeIconView glyphName="QUESTION_CIRCLE" layoutX="1105.0" layoutY="127.0" size="20"/>
+                        <FontAwesomeIconView glyphName="QUESTION_CIRCLE" layoutX="1117.0" layoutY="299.0" size="20"/>
                     </children>
                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
                     </padding>
                 </AnchorPane>
-                <Label layoutX="23.0" layoutY="455.0" text="Sevadars Feedback">
+                <AnchorPane layoutX="23.0" layoutY="460.0" styleClass="base" AnchorPane.leftAnchor="25.0"
+                            AnchorPane.rightAnchor="25.0">
+                    <children>
+                        <Label text="Sevadars Feedback">
+                            <styleClass>
+                                <String fx:value="font-20"/>
+                                <String fx:value="form-label-opacity"/>
+                            </styleClass>
+                        </Label>
+                        <JFXTextArea fx:id="internalComments" focusColor="#405aa801" layoutX="2.0" layoutY="38.0"
+                                     prefHeight="111.0" prefWidth="618.0" promptText="Write your comments here"
+                                     unFocusColor="#4d4d4d00">
+                            <styleClass>
+                                <String fx:value="bottom-border"/>
+                                <String fx:value="font-16"/>
+                            </styleClass>
+                        </JFXTextArea>
+                        <Label layoutX="784.0" text="Family Comments">
+                            <styleClass>
+                                <String fx:value="font-20"/>
+                                <String fx:value="form-label-opacity"/>
+                            </styleClass>
+                        </Label>
+                        <JFXTextArea fx:id="comments" focusColor="#405aa800" layoutX="784.0" layoutY="38.0"
+                                     prefHeight="111.0" prefWidth="618.0" promptText="Write comments provided by family"
+                                     unFocusColor="#4d4d4d00">
+                            <styleClass>
+                                <String fx:value="bottom-border"/>
+                                <String fx:value="font-16"/>
+                            </styleClass>
+                        </JFXTextArea>
+                    </children>
+                </AnchorPane>
+                <Label layoutX="23.0" layoutY="615.0" text="Members Information" textAlignment="CENTER">
                     <styleClass>
-                        <String fx:value="font-16" />
-                        <String fx:value="form-label-opacity" />
+                        <String fx:value="header-font-family"/>
+                        <String fx:value="font-20"/>
                     </styleClass>
                 </Label>
-                <JFXTextArea fx:id="internalComments" layoutX="25.0" layoutY="493.0" prefHeight="111.0" prefWidth="618.0" promptText="Write your comments here" unFocusColor="#4d4d4d00">
-               <styleClass>
-                  <String fx:value="bottom-border" />
-                  <String fx:value="font-16" />
-               </styleClass></JFXTextArea>
-                <Label layoutX="807.0" layoutY="455.0" text="Family Comments">
-                    <styleClass>
-                        <String fx:value="font-16" />
-                        <String fx:value="form-label-opacity" />
-                    </styleClass>
-                </Label>
-                <JFXTextArea fx:id="comments" layoutX="807.0" layoutY="493.0" prefHeight="111.0" prefWidth="618.0" promptText="Write comments provided by family" unFocusColor="#4d4d4d00">
-               <styleClass>
-                  <String fx:value="bottom-border" />
-                  <String fx:value="font-16" />
-               </styleClass></JFXTextArea>
-            <Label layoutX="23.0" layoutY="623.0" text="Members Information" textAlignment="CENTER">
-               <styleClass>
-                  <String fx:value="header-font-family" />
-                  <String fx:value="font-20" />
-               </styleClass>
-            </Label>
+                <AnchorPane layoutX="25.0" layoutY="645.0" prefHeight="275.0" prefWidth="1402.0" styleClass="base"
+                            AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
+                    <children>
+                        <HBox layoutX="14.0" layoutY="14.0" prefHeight="60.0" spacing="40.0"
+                              styleClass="action-button-bar" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                            <children>
+                                <JFXButton fx:id="addMember" buttonType="RAISED" graphicTextGap="9.0"
+                                           onAction="#addMember" styleClass="action-button" text="ADD MEMBER">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="USER_PLUS" size="30"/>
+                                    </graphic>
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                </JFXButton>
+                                <JFXButton fx:id="deleteMember" buttonType="RAISED" graphicTextGap="9.0"
+                                           onAction="#deleteMember" styleClass="action-button" text="DELETE MEMBER">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="USER_TIMES" size="30"/>
+                                    </graphic>
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                </JFXButton>
+                                <JFXButton fx:id="moveUnderOtherFamily" buttonType="RAISED" graphicTextGap="9.0"
+                                           onAction="#moveUnderOtherFamily" styleClass="action-button"
+                                           text="MOVE UNDER OTHER FAMILY">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="LEVEL_DOWN" size="30"/>
+                                    </graphic>
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                </JFXButton>
+                                <JFXButton fx:id="moveAsSeparateFamily" buttonType="RAISED" graphicTextGap="9.0"
+                                           onAction="#moveAsSeparateFamily" styleClass="action-button"
+                                           text="MOVE AS SEPARATE FAMILY">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="LEVEL_UP" size="30"/>
+                                    </graphic>
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                </JFXButton>
+                                <JFXButton fx:id="addSelectedMembersToBus" buttonType="RAISED" graphicTextGap="9.0"
+                                           onAction="#addSelectedMembersToBus" styleClass="action-button"
+                                           text="ADD SELECTED MEMBERS TO BUS">
+                                    <graphic>
+                                        <FontAwesomeIconView glyphName="BUS" size="30"/>
+                                    </graphic>
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                </JFXButton>
+                            </children>
+                            <padding>
+                                <Insets bottom="5.0" left="15.0" right="5.0" top="5.0"/>
+                            </padding>
+                        </HBox>
+                        <TableView layoutX="14.0" layoutY="84.0" prefHeight="149.0" prefWidth="1350.0"
+                                   AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                            <columns>
+                                <TableColumn fx:id="firstNameTableColumn" prefWidth="160.0" text="First Name"/>
+                                <TableColumn fx:id="lastNameTableColumn" prefWidth="160.0" text="Last Name"/>
+                                <TableColumn fx:id="cellPhoneTableColumn" prefWidth="150.0" text="Cell Phone"/>
+                                <TableColumn fx:id="leaveCellVMTableColumn" prefWidth="84.0" text="Leave VM"/>
+                                <TableColumn fx:id="homePhoneTableColumn" prefWidth="150.0" text="Home Phone"/>
+                                <TableColumn fx:id="leaveHomeVMTableColumn" prefWidth="84.0" text="Leave VM"/>
+                                <TableColumn fx:id="workPhoneTableColumn" prefWidth="150.0" text="Work Phone"/>
+                                <TableColumn fx:id="leaveWorkVMTableColumn" prefWidth="84.0" text="Leave VM"/>
+                                <TableColumn fx:id="preferredPhoneTableColumn" prefWidth="111.0" text="Preferred"/>
+                                <TableColumn fx:id="onSevadarsCallingListTableColumn" prefWidth="131.0"
+                                             text="On Calling List"/>
+                                <TableColumn fx:id="callPriority" prefWidth="105.0" text="Priority"/>
+                                <TableColumn fx:id="memberIdTableColumn" prefWidth="105.0" text="Member Id"/>
+                                <TableColumn fx:id="familyIdTableColumn" prefWidth="105.0" text="Family Id"/>
+                            </columns>
+                            <styleClass>
+                                <String fx:value="font-16"/>
+                                <String fx:value="bold"/>
+                            </styleClass>
+                        </TableView>
+                    </children>
+                </AnchorPane>
             </children>
         </AnchorPane>
     </children>

@@ -157,6 +157,10 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 2, 0.5, 0.5, 1);
 }
 
+.glyph-icon{
+    -fx-fill: -headers-text-color;
+}
+
 /*
 Action Button Bar
 */
@@ -218,6 +222,8 @@ Action Button Bar
     -fx-fill: -main-nav-bar-color;
 }
 
+
+
 .close-button {
     -fx-background-color: -fx-theme-background-primary-color;
     -fx-background-radius: 25px;
@@ -272,6 +278,9 @@ Action Button Bar
     -fx-prompt-text-fill: lightgray;
 }
 
+.jfx-text-field{
+    -fx-padding: 0 0 0 30px;
+}
 .text-field:focused {
     -fx-border-color: -controls-focus-color;
 }
