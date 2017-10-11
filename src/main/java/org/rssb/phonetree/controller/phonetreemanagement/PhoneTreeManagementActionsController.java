@@ -81,7 +81,7 @@ public class PhoneTreeManagementActionsController extends AbstractController{
 
     @FXML
     void showFamilyManagement(ActionEvent event) {
-
+        switchScreen(FxmlView.FAMILY_MANAGEMENT.getFxmlFile());
     }
 
     @FXML

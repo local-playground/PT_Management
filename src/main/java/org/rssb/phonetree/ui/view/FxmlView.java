@@ -108,6 +108,34 @@ public enum FxmlView {
             return true;
         }
     },
+    FAMILY_MANAGEMENT{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/family-management/family-management.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
+    },
+    ADD_MEMBER_INFORMATION{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/family-management/add-member.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
+    },
     SEVADARS_LIST{
         @Override
         public String getFxmlFile() {

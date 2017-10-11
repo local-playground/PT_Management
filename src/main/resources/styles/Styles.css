@@ -285,6 +285,14 @@ Action Button Bar
     -fx-border-color: -controls-focus-color;
 }
 
+.text-field-label-background{
+    -fx-background-color: -app-background-color;
+}
+
+.text-field-label-background > .glyph-icon{
+    -fx-fill: darkgray;
+}
+
 /* Text Area */
 .text-area {
     -fx-border-color: -controls-unfocus-color;
@@ -295,6 +303,10 @@ Action Button Bar
 
 .text-area:focused {
     -fx-border-color: -controls-focus-color;
+}
+
+.jfx-text-area{
+    -fx-padding: 0 0 0 30px;
 }
 
 /* Combo Box */
