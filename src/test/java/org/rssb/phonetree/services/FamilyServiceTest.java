@@ -3,6 +3,11 @@ package org.rssb.phonetree.services;
 import org.junit.Test;
 import org.rssb.phonetree.ApplicationSetup;
 import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.common.file.DocumentWriter;
+import org.rssb.phonetree.common.file.DocumentWriterFactory;
+import org.rssb.phonetree.common.file.ReportFormat;
+import org.rssb.phonetree.common.file.ReportName;
+import org.rssb.phonetree.common.file.ReportType;
 import org.rssb.phonetree.domain.CalledFamilyDetails;
 import org.rssb.phonetree.domain.SevadarPhoneTreeList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +27,9 @@ public class FamilyServiceTest extends ApplicationSetup{
 
     @Autowired
     private FamilyService familyService;
+
+    @Autowired
+    private DocumentWriterFactory documentWriterFactory;
 
     @Test
     public void moveMemberAsSeparateFamily(){
@@ -68,6 +76,19 @@ public class FamilyServiceTest extends ApplicationSetup{
         SevadarPhoneTreeList sevadarPhoneTreeList =
                 familyService.getSevadarPhoneTreeListByTeamLeadAndSevadarName("Mina Patel","Kamal Singh");
         System.out.println("data \n"+sevadarPhoneTreeList);
+    }
+
+    @Test
+    public void createWordDocumentForSevadar(){
+        SevadarPhoneTreeList sevadarPhoneTreeList =
+                familyService.getSevadarPhoneTreeListByTeamLeadAndSevadarName("Mina Patel","Kamal Singh");
+        System.out.println("data \n"+sevadarPhoneTreeList);
+        ReportType reportType = new ReportType();
+        reportType.setReportFormat(ReportFormat.WORD);
+        reportType.setReportName(ReportName.NORMAL_REPORT);
+
+        DocumentWriter documentWriter = documentWriterFactory.getDocumentWriter(reportType).get();
+        documentWriter.writeToFile(sevadarPhoneTreeList);
     }
 
 }
