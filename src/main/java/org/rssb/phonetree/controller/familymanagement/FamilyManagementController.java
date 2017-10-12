@@ -148,6 +148,7 @@ public class FamilyManagementController extends AbstractController {
             System.out.println("initialize jfxDrawer.isShowing - "+jfxDrawer.isShowing());
             System.out.println("initialize jfxDrawer.isHidden - "+jfxDrawer.isHidden());
             System.out.println("initialize jfxDrawer.isHiding - "+jfxDrawer.isHiding());
+            System.out.println("Initiaize  jfxDrawer.isShown - "+jfxDrawer.isShown());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -159,6 +160,7 @@ public class FamilyManagementController extends AbstractController {
         System.out.println("jfxDrawer.isShowing - "+jfxDrawer.isShowing());
         System.out.println("jfxDrawer.isHidden - "+jfxDrawer.isHidden());
         System.out.println("jfxDrawer.isHiding - "+jfxDrawer.isHiding());
+        System.out.println("jfxDrawer.isShown - "+jfxDrawer.isShown());
         if (jfxDrawer.isHidden()) {
             jfxDrawer.setVisible(true);
             jfxDrawer.open();

@@ -150,6 +150,20 @@ public enum FxmlView {
             return true;
         }
     },
+    PHONE_TREE_LIST{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/phonetree-list/phonetree-list.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
+    },
     APPLICATION_MANAGEMENT_SCREEN{
         @Override
         public String getFxmlFile() {

@@ -56,7 +56,7 @@ public class PhoneTreeManagementActionsController extends AbstractController{
 
     @FXML
     void createReports(ActionEvent event) {
-
+        switchScreen(FxmlView.PHONE_TREE_LIST.getFxmlFile());
     }
 
     @FXML
