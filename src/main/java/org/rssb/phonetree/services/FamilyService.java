@@ -6,8 +6,10 @@ import org.rssb.phonetree.domain.SevadarPhoneTreeList;
 import org.rssb.phonetree.entity.Family;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FamilyService {
+    Optional<Family> findByFamilyId(int familyId);
     int getTotalFamiliesBySevadarId(int sevadarId);
     long getTotalFamiliesByTeamLeadAndSevadar(String teamLeadName,String sevadarName);
     void updateSevadarAndTeamLeadId(int newSevadarId,int newTeamLeadId,int whereSevadarId);

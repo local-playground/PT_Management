@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -48,6 +49,11 @@ public class FamilyServiceImpl implements FamilyService {
 
     @Autowired
     private SevadarService sevadarService;
+
+    @Override
+    public Optional<Family> findByFamilyId(int familyId) {
+        return Optional.of(familyJpaRepository.findOne(familyId));
+    }
 
     @Override
     public int getTotalFamiliesBySevadarId(int sevadarId) {
