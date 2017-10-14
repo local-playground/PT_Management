@@ -160,9 +160,12 @@ public class FamilyManagementController extends AbstractController {
     @FXML
     void addMember(ActionEvent event) {
         ContextHolder contextHolder = createContextHolder("", null, getRootPanel());
-        //setOpacity(Constants.LOW_OPACITY, contextHolder);
+        openDrawer(contextHolder);
+    }
+
+    private void openDrawer(ContextHolder contextHolder) {
         try {
-            Parent parent = springFXMLLoader.load(FxmlView.ADD_MEMBER_INFORMATION.getFxmlFile(),this::addMember,contextHolder);
+            Parent parent = springFXMLLoader.load(FxmlView.ADD_MEMBER_INFORMATION.getFxmlFile(), this::addMember, contextHolder);
             jfxDrawer.setSidePane(parent);
             jfxDrawer.setOverLayVisible(false);
             jfxDrawer.open();
@@ -170,7 +173,7 @@ public class FamilyManagementController extends AbstractController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        memberInformationController.refresh();
     }
 
     @FXML
@@ -208,8 +211,31 @@ public class FamilyManagementController extends AbstractController {
 
     }
 
-    private void addMember(ContextHolder contextHolder){
+    private void addMember(ContextHolder contextHolder) {
+        Member member = (Member) contextHolder.get("MEMBER_DETAIL");
+        ObservableList<Member> list = membersTableView.getItems();
+        boolean found = false;
+        for (Member member1 : list) {
+            if(member.getMemberId()!=0) {
+                if (member.getMemberId() == member1.getMemberId()) {
+                    member1 = member;
+                    found = true;
+                }
+            }else{
+                if(member.getFirstName().equalsIgnoreCase(member1.getFirstName())){
+                    member1 = member;
+                    found = true;
+                }
+            }
+        }
+        if (!found) {
+            list.add(member);
+        }
 
+        membersTableView.refresh();
+
+        jfxDrawer.close();
+        jfxDrawer.setVisible(false);
     }
 
     private void showDetails(ContextHolder contextHolder) {
@@ -253,9 +279,9 @@ public class FamilyManagementController extends AbstractController {
         List<Member> memberList = family.getMembersList();
 
         teamLeadNameLabel.setText(teamLead.getTeamLeadName());
-        for(int index=0;index<sevadarObservableList.size();index++){
+        for (int index = 0; index < sevadarObservableList.size(); index++) {
             Sevadar comboBoxSevadar = sevadarObservableList.get(index);
-            if(comboBoxSevadar.getSevadarName().equalsIgnoreCase(sevadar.getSevadarName())){
+            if (comboBoxSevadar.getSevadarName().equalsIgnoreCase(sevadar.getSevadarName())) {
                 sevadarNameComboBox.getSelectionModel().select(index);
             }
         }
@@ -286,31 +312,31 @@ public class FamilyManagementController extends AbstractController {
             JFXToggleButton button = (JFXToggleButton) toggle;
             if (button.getText().equalsIgnoreCase(callAnyTime.getDatabaseName())) {
                 canCallAnytimeGroup.selectToggle(toggle);
-                if(button.getText().equalsIgnoreCase("No")){
-                    if(CommonUtil.isNotEmptyOrNull(callSpecificTime) || !callSpecificTime.equalsIgnoreCase("No")) {
+                if (button.getText().equalsIgnoreCase("No")) {
+                    if (CommonUtil.isNotEmptyOrNull(callSpecificTime) || !callSpecificTime.equalsIgnoreCase("No")) {
                         String fromTime = callSpecificTime.substring(0, callSpecificTime.indexOf('-'));
                         String toTime = callSpecificTime.substring(callSpecificTime.indexOf('-') + 1);
-                        int fromTimeHours ;
-                        int fromTimeIndex=(fromTime.indexOf("AM")!=-1?fromTime.indexOf("AM"):-1);
-                        if(fromTimeIndex==-1){
-                            fromTimeIndex=(fromTime.indexOf("PM")!=-1? fromTime.indexOf("PM"):-1);
-                            fromTimeHours = 12+Integer.parseInt(fromTime.substring(0,fromTimeIndex));
-                        }else{
-                            fromTimeHours=Integer.parseInt(fromTime.substring(0,fromTimeIndex));
+                        int fromTimeHours;
+                        int fromTimeIndex = (fromTime.indexOf("AM") != -1 ? fromTime.indexOf("AM") : -1);
+                        if (fromTimeIndex == -1) {
+                            fromTimeIndex = (fromTime.indexOf("PM") != -1 ? fromTime.indexOf("PM") : -1);
+                            fromTimeHours = 12 + Integer.parseInt(fromTime.substring(0, fromTimeIndex));
+                        } else {
+                            fromTimeHours = Integer.parseInt(fromTime.substring(0, fromTimeIndex));
                         }
 
                         int toTimeHours;
-                        int toTimeIndex=(toTime.indexOf("AM")!=-1?toTime.indexOf("AM"):-1);
+                        int toTimeIndex = (toTime.indexOf("AM") != -1 ? toTime.indexOf("AM") : -1);
 
-                        if(toTimeIndex==-1){
-                            toTimeIndex = (toTime.indexOf("PM")!=-1? toTime.indexOf("PM"):-1);
-                            toTimeHours = 12+Integer.parseInt(toTime.substring(0,fromTimeIndex));
-                        }else{
-                            toTimeHours=Integer.parseInt(toTime.substring(0,toTimeIndex));
+                        if (toTimeIndex == -1) {
+                            toTimeIndex = (toTime.indexOf("PM") != -1 ? toTime.indexOf("PM") : -1);
+                            toTimeHours = 12 + Integer.parseInt(toTime.substring(0, fromTimeIndex));
+                        } else {
+                            toTimeHours = Integer.parseInt(toTime.substring(0, toTimeIndex));
                         }
 
-                        fromTimePicker.setValue(LocalTime.of(fromTimeHours,0));
-                        toTimePicker.setValue(LocalTime.of(toTimeHours,0));
+                        fromTimePicker.setValue(LocalTime.of(fromTimeHours, 0));
+                        toTimePicker.setValue(LocalTime.of(toTimeHours, 0));
                     }
                 }
             }
@@ -368,7 +394,22 @@ public class FamilyManagementController extends AbstractController {
             }
         });
 
-        familyIdTableColumn.setCellValueFactory(param -> new SimpleStringProperty(String.valueOf(param.getValue().getFamily().getFamilyId())));
+        familyIdTableColumn.setCellValueFactory(param -> {
+            if(param.getValue().getFamily()!=null) {
+                return new SimpleStringProperty(String.valueOf(param.getValue().getFamily().getFamilyId()));
+            }
+
+            return new SimpleStringProperty("");
+        });
         teamLeadNameLabel.setText("");
+
+
+        membersTableView.setOnMousePressed(event -> {
+            if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                Member member = membersTableView.getSelectionModel().getSelectedItem();
+                ContextHolder contextHolder = createContextHolder("MEMBER_DETAIL", member, getRootPanel());
+                openDrawer(contextHolder);
+            }
+        });
     }
 }

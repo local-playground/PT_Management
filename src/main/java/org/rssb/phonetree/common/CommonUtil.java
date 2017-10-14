@@ -80,6 +80,14 @@ public class CommonUtil {
         }
     }
 
+    public static String convertIntToString(int value,String defaultValue){
+        try{
+            return String.valueOf(value);
+        }catch (NumberFormatException ex){
+            return defaultValue;
+        }
+    }
+
     public static List<String> convertStringToList(String str, String delimiter) {
         if (CommonUtil.isEmptyOrNull(str)) {
             return new ArrayList<>();

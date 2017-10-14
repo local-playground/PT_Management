@@ -524,7 +524,7 @@
                                         <PropertyValueFactory property="onCallingList" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="callPriority" prefWidth="107.0" text="Priority">
+                                <TableColumn fx:id="callPriorityTableColumn" prefWidth="107.0" text="Priority">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="priority" />
                                     </cellValueFactory>
