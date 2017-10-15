@@ -464,4 +464,13 @@ Action Button Bar
 }
 
 
+.titled-pane > *.content > AnchorPane {
+    -fx-padding: 0;
+}
+
+
+
+
+
+
 

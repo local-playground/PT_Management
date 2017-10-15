@@ -13,9 +13,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
@@ -52,6 +54,14 @@ import java.util.ResourceBundle;
 public class FamilyManagementController extends AbstractController {
     @Autowired
     private SpringFXMLLoader springFXMLLoader;
+    @FXML
+    private TitledPane sevadarsFeedbackTitledPane;
+
+    @FXML
+    private TitledPane familyInformationTitledPane;
+
+    @FXML
+    private Accordion familyMgmtAccordion;
 
     @FXML
     private AnchorPane familyMgmtRootPane;
@@ -411,5 +421,7 @@ public class FamilyManagementController extends AbstractController {
                 openDrawer(contextHolder);
             }
         });
+
+        familyMgmtAccordion.setExpandedPane(familyInformationTitledPane);
     }
 }
