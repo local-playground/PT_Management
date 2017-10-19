@@ -22,11 +22,6 @@ public class CustomControlTester extends Application{
         } catch (Exception e) {
             e.printStackTrace();
         }
-/*
-        CustomLabelAndTextField customLabelAndTextField = new CustomLabelAndTextField();
-        customLabelAndTextField.setLabelText("Zip Code");
-        customLabelAndTextField.setText("Hello");*/
-
 
         stage.setScene(new Scene(parent));
         stage.setTitle("Custom Control");
