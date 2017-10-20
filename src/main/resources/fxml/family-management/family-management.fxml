@@ -4,7 +4,6 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXTextArea?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
@@ -23,6 +22,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.rssb.phonetree.custom.controls.DecoratedTextField?>
 
 <Accordion fx:id="familyMgmtAccordion" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="960.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.familymanagement.FamilyManagementController">
     <panes>
@@ -212,7 +212,7 @@
                                         </Label>
                                         <HBox spacing="30.0">
                                             <children>
-                                                <Label contentDisplay="RIGHT" graphicTextGap="6.0" text="Zip Code">
+                                                <Label contentDisplay="RIGHT" graphicTextGap="6.0" prefHeight="25.0" prefWidth="92.0" text="Zip Code">
                                                     <styleClass>
                                                         <String fx:value="font-16" />
                                                         <String fx:value="form-label-opacity" />
@@ -228,19 +228,12 @@
                                                         </FontAwesomeIconView>
                                                     </graphic>
                                                 </Label>
-
-
-                                                <JFXTextField fx:id="zipCodeTextField" focusColor="#405aa800" labelFloat="false" prefHeight="45.0" prefWidth="224.0" promptText="Enter zip code" unFocusColor="#4d4d4d00">
-                                                    <styleClass>
-                                                        <String fx:value="bottom-border" />
-                                                        <String fx:value="font-18" />
-                                                    </styleClass>
-                                                </JFXTextField>
+                                    <DecoratedTextField fx:id="zipCodeTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconName="GLOBE" leftGlyphIconSize="40" maxLength="5" minLength="5" prefHeight="45.0" prefWidth="224.0" promptText="Enter Zip Code" />
                                             </children>
                                         </HBox>
                                         <HBox>
                                             <children>
-                                                <Label contentDisplay="RIGHT" graphicTextGap="6.0" text="# of Adults">
+                                                <Label contentDisplay="RIGHT" graphicTextGap="6.0" prefHeight="25.0" prefWidth="122.0" text="# of Adults">
                                                     <styleClass>
                                                         <String fx:value="font-16" />
                                                         <String fx:value="form-label-opacity" />
@@ -252,20 +245,12 @@
                                                         <Insets left="10.0" top="10.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                                <JFXTextField fx:id="noOfAdultsAttendsSNVTextField" focusColor="#405aa800" labelFloat="false" prefHeight="45.0" prefWidth="224.0" promptText="Adults attends SNV" unFocusColor="#4d4d4d00">
-                                                    <styleClass>
-                                                        <String fx:value="bottom-border" />
-                                                        <String fx:value="font-18" />
-                                                    </styleClass>
-                                                    <HBox.margin>
-                                                        <Insets left="18.0" />
-                                                    </HBox.margin>
-                                                </JFXTextField>
+                                    <DecoratedTextField fx:id="noOfAdultsAttendsSNVTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconName="USER" leftGlyphIconSize="40" maxLength="2" minLength="1" prefHeight="45.0" prefWidth="224.0" promptText="# Adults for SNV" />
                                             </children>
                                         </HBox>
                                         <HBox>
                                             <children>
-                                                <Label contentDisplay="RIGHT" text="# of Children">
+                                                <Label contentDisplay="RIGHT" prefHeight="25.0" prefWidth="122.0" text="# of Children">
                                                     <styleClass>
                                                         <String fx:value="font-16" />
                                                         <String fx:value="form-label-opacity" />
@@ -277,20 +262,12 @@
                                                         <Insets left="10.0" top="10.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                                <JFXTextField fx:id="noOfChildrenAttendsSNVTextField" focusColor="#405aa800" labelFloat="false" prefHeight="45.0" prefWidth="224.0" promptText="Children attends SNV" unFocusColor="#4d4d4d00">
-                                                    <styleClass>
-                                                        <String fx:value="bottom-border" />
-                                                        <String fx:value="font-18" />
-                                                    </styleClass>
-                                                    <HBox.margin>
-                                                        <Insets left="7.0" />
-                                                    </HBox.margin>
-                                                </JFXTextField>
+                                    <DecoratedTextField fx:id="noOfChildrenAttendsSNVTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconName="GROUP" leftGlyphIconSize="40" maxLength="2" minLength="1" prefHeight="45.0" prefWidth="224.0" promptText="# Children for SNV" />
                                             </children>
                                         </HBox>
                                         <HBox>
                                             <children>
-                                                <Label contentDisplay="RIGHT" graphicTextGap="6.0" text="Town">
+                                                <Label contentDisplay="RIGHT" graphicTextGap="6.0" prefHeight="25.0" prefWidth="122.0" text="Town">
                                                     <styleClass>
                                                         <String fx:value="font-16" />
                                                         <String fx:value="form-label-opacity" />
@@ -302,15 +279,7 @@
                                                         <Insets left="10.0" top="10.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                                <JFXTextField fx:id="townTextField" focusColor="#405aa800" labelFloat="false" prefHeight="45.0" prefWidth="224.0" promptText="Town" unFocusColor="#4d4d4d00">
-                                                    <styleClass>
-                                                        <String fx:value="bottom-border" />
-                                                        <String fx:value="font-18" />
-                                                    </styleClass>
-                                                    <HBox.margin>
-                                                        <Insets left="55.0" />
-                                                    </HBox.margin>
-                                                </JFXTextField>
+                                    <DecoratedTextField fx:id="townTextField" acceptedCharactersRegex="[a-zA-Z]" leftGlyphIconName="GLOBE" leftGlyphIconSize="40" maxLength="" minLength="" prefHeight="45.0" prefWidth="224.0" promptText="Enter Town" />
                                             </children>
                                         </HBox>
                                     </children>
@@ -385,7 +354,7 @@
                                         </HBox>
                                         <HBox>
                                             <children>
-                                                <Label contentDisplay="RIGHT" graphicTextGap="5.0" text="# of Passengers">
+                                                <Label contentDisplay="RIGHT" graphicTextGap="5.0" prefHeight="25.0" prefWidth="153.0" text="# of Passengers">
                                                     <styleClass>
                                                         <String fx:value="font-16" />
                                                         <String fx:value="form-label-opacity" />
@@ -397,15 +366,7 @@
                                                         <Insets left="5.0" top="5.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                                <JFXTextField fx:id="noOfPassengersTextField" focusColor="#405aa800" labelFloat="false" prefHeight="30.0" prefWidth="229.0" promptText="Bus Passengers Count" unFocusColor="#4d4d4d00">
-                                                    <styleClass>
-                                                        <String fx:value="bottom-border" />
-                                                        <String fx:value="font-18" />
-                                                    </styleClass>
-                                                    <HBox.margin>
-                                                        <Insets left="45.0" />
-                                                    </HBox.margin>
-                                                </JFXTextField>
+                                    <DecoratedTextField fx:id="noOfPassengersTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconName="GROUP" leftGlyphIconSize="40" maxLength="2" minLength="1" prefHeight="45.0" prefWidth="308.0" promptText="# Children for SNV" text="# passengers for Bus Ride" />
                                             </children>
                                         </HBox>
                                         <HBox>
@@ -451,12 +412,12 @@
                                                         <Insets left="5.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                                <JFXTimePicker fx:id="fromTimePicker" prefHeight="22.0" prefWidth="157.0" promptText="From Time">
+                                                <JFXTimePicker fx:id="fromTimePicker" defaultColor="#727272" prefHeight="22.0" prefWidth="157.0" promptText="From Time">
                                                     <HBox.margin>
                                                         <Insets left="35.0" />
                                                     </HBox.margin>
                                                 </JFXTimePicker>
-                                                <JFXTimePicker fx:id="toTimePicker" prefHeight="23.0" prefWidth="157.0" promptText="To Time">
+                                                <JFXTimePicker fx:id="toTimePicker" defaultColor="#727272" prefHeight="23.0" prefWidth="157.0" promptText="To Time">
                                                     <HBox.margin>
                                                         <Insets left="35.0" />
                                                     </HBox.margin>

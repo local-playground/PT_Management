@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import org.rssb.phonetree.custom.controls.DecoratedTextField?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="880.0" prefWidth="600.0" styleClass="root" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.familymanagement.MemberInformationController">
     <children>
@@ -33,74 +34,47 @@
                     <children>
                         <HBox prefHeight="40.0" prefWidth="261.0">
                             <children>
-                                <Label text="Member Id">
+                                <Label prefHeight="27.0" prefWidth="93.0" text="Member Id">
                                     <HBox.margin>
-                                        <Insets left="5.0" top="10.0" />
+                                        <Insets left="5.0" top="5.0" />
                                     </HBox.margin>
                                     <styleClass>
                                         <String fx:value="font-18" />
                                         <String fx:value="form-label-opacity" />
                                     </styleClass>
                                 </Label>
-                                <Label prefHeight="40.0" prefWidth="40.0" styleClass="text-field-label-background">
-                                    <graphic>
-                                        <FontAwesomeIconView glyphName="SORT_NUMERIC_ASC" size="24" wrappingWidth="34.571428298950195" />
-                                    </graphic>
-                                    <padding>
-                                        <Insets left="5.0" />
-                                    </padding>
-                                    <HBox.margin>
-                                        <Insets left="15.0" />
-                                    </HBox.margin>
-                                </Label>
-                                <JFXTextField fx:id="memberIdTextField" disable="true" editable="false" focusColor="#405aa800" prefHeight="40.0" prefWidth="104.0" unFocusColor="#4d4d4d00">
-                                    <styleClass>
-                                        <String fx:value="bottom-border" />
-                                        <String fx:value="font-16" />
-                                    </styleClass>
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </JFXTextField>
+                        <DecoratedTextField fx:id="memberIdTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconName="SORT_NUMERIC_ASC" leftGlyphIconSize="24" prefHeight="40.0" prefWidth="147.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </DecoratedTextField>
                             </children>
                             <HBox.margin>
-                                <Insets bottom="10.0" top="10.0" />
+                                <Insets />
                             </HBox.margin>
                         </HBox>
                         <HBox layoutX="10.0" layoutY="20.0" prefHeight="40.0" prefWidth="261.0">
                             <children>
                                 <Label text="Family Id">
                                     <HBox.margin>
-                                        <Insets left="5.0" top="10.0" />
+                                        <Insets left="5.0" top="5.0" />
                                     </HBox.margin>
                                     <styleClass>
                                         <String fx:value="form-label-opacity" />
                                         <String fx:value="font-18" />
                                     </styleClass>
                                 </Label>
-                                <Label prefHeight="40.0" styleClass="text-field-label-background">
-                                    <graphic>
-                                        <FontAwesomeIconView glyphName="SORT_NUMERIC_ASC" size="24" wrappingWidth="34.571428298950195" />
-                                    </graphic>
-                                    <padding>
-                                        <Insets left="5.0" />
-                                    </padding>
-                                    <HBox.margin>
-                                        <Insets left="15.0" />
-                                    </HBox.margin>
-                                </Label>
-                                <JFXTextField fx:id="familyIdTextField" disable="true" editable="false" focusColor="#405aa800" prefHeight="40.0" prefWidth="104.0" unFocusColor="#4d4d4d00">
-                                    <styleClass>
-                                        <String fx:value="bottom-border" />
-                                        <String fx:value="font-16" />
-                                    </styleClass>
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </JFXTextField>
+                        <DecoratedTextField fx:id="familyIdTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconName="SORT_NUMERIC_ASC" leftGlyphIconSize="24" prefHeight="40.0" prefWidth="147.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </DecoratedTextField>
                             </children>
                             <HBox.margin>
-                                <Insets bottom="10.0" top="10.0" />
+                                <Insets />
                             </HBox.margin>
                         </HBox>
                     </children>
