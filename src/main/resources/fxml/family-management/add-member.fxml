@@ -2,14 +2,13 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTextArea?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -18,393 +17,444 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="880.0" prefWidth="600.0" styleClass="root" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.familymanagement.MemberInformationController">
     <children>
-        <VBox layoutX="137.0" layoutY="108.0" prefHeight="864.0" prefWidth="550.0" spacing="12.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="10.0">
-            <children>
-                <Label text="Member Information" textAlignment="CENTER">
-                    <styleClass>
-                        <String fx:value="h1" />
-                        <String fx:value="header-font-family" />
-                        <String fx:value="bold" />
-                    </styleClass>
-                    <VBox.margin>
-                        <Insets left="140.0" />
-                    </VBox.margin>
-                </Label>
-                <HBox prefHeight="60.0" prefWidth="200.0">
-                    <children>
-                        <HBox prefHeight="40.0" prefWidth="261.0">
-                            <children>
-                                <Label prefHeight="27.0" prefWidth="93.0" text="Member Id">
-                                    <HBox.margin>
-                                        <Insets left="5.0" top="5.0" />
-                                    </HBox.margin>
-                                    <styleClass>
-                                        <String fx:value="font-18" />
-                                        <String fx:value="form-label-opacity" />
-                                    </styleClass>
-                                </Label>
-                        <DecoratedTextField fx:id="memberIdTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconName="SORT_NUMERIC_ASC" leftGlyphIconSize="24" prefHeight="40.0" prefWidth="147.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="27.0" layoutY="12.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="2.0">
+         <content>
+              <VBox prefHeight="860.0" prefWidth="550.0" spacing="12.0">
+                  <children>
+                      <Label text="Member Information" textAlignment="CENTER">
+                          <styleClass>
+                              <String fx:value="h1" />
+                              <String fx:value="header-font-family" />
+                              <String fx:value="bold" />
+                          </styleClass>
+                          <VBox.margin>
+                              <Insets left="140.0" />
+                          </VBox.margin>
+                      </Label>
+                      <HBox prefHeight="60.0" prefWidth="200.0">
+                          <children>
+                              <HBox prefHeight="40.0" prefWidth="261.0">
+                                  <children>
+                              <HBox>
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                                 <children>
+                                            <Label prefHeight="27.0" prefWidth="93.0" text="Member Id">
+                                                <styleClass>
+                                                    <String fx:value="font-18" />
+                                                    <String fx:value="form-label-opacity" />
+                                                </styleClass>
+                                            </Label>
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <DecoratedTextField fx:id="memberIdTextField" acceptedCharactersRegex="[0-9]" disable="true" leftGlyphIconLabelHeight="40" leftGlyphIconLabelWidth="40" leftGlyphIconName="SORT_NUMERIC_ASC" leftGlyphIconSize="24" prefHeight="40.0" prefWidth="147.0">
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </DecoratedTextField>
+                                 </children>
+                              </HBox>
+                                  </children>
+                                  <HBox.margin>
+                                      <Insets />
+                                  </HBox.margin>
+                              </HBox>
+                              <HBox layoutX="10.0" layoutY="20.0" prefHeight="40.0" prefWidth="261.0">
+                                  <children>
+                              <HBox>
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                                 <children>
+                                            <Label text="Family Id">
+                                                <styleClass>
+                                                    <String fx:value="form-label-opacity" />
+                                                    <String fx:value="font-18" />
+                                                </styleClass>
+                                            </Label>
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <DecoratedTextField fx:id="familyIdTextField" acceptedCharactersRegex="[0-9]" disable="true" leftGlyphIconLabelHeight="40" leftGlyphIconLabelWidth="40" leftGlyphIconName="SORT_NUMERIC_ASC" leftGlyphIconSize="24" prefHeight="40.0" prefWidth="147.0" />
+                                 </children>
+                              </HBox>
+                                  </children>
+                                  <HBox.margin>
+                                      <Insets />
+                                  </HBox.margin>
+                              </HBox>
+                          </children>
+                      </HBox>
+                      <HBox prefHeight="70.0" prefWidth="506.0">
+                          <children>
+                        <HBox prefHeight="35.0" prefWidth="10.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets left="5.0" />
+                              <Insets top="5.0" />
                            </HBox.margin>
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding>
-                        </DecoratedTextField>
-                            </children>
-                            <HBox.margin>
-                                <Insets />
-                            </HBox.margin>
+                           <children>
+                                    <Label text="First Name">
+                                        <styleClass>
+                                            <String fx:value="form-label-opacity" />
+                                            <String fx:value="font-18" />
+                                        </styleClass>
+                                    </Label>
+                           </children>
                         </HBox>
-                        <HBox layoutX="10.0" layoutY="20.0" prefHeight="40.0" prefWidth="261.0">
-                            <children>
-                                <Label text="Family Id">
-                                    <HBox.margin>
-                                        <Insets left="5.0" top="5.0" />
-                                    </HBox.margin>
-                                    <styleClass>
-                                        <String fx:value="form-label-opacity" />
-                                        <String fx:value="font-18" />
-                                    </styleClass>
-                                </Label>
-                        <DecoratedTextField fx:id="familyIdTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconName="SORT_NUMERIC_ASC" leftGlyphIconSize="24" prefHeight="40.0" prefWidth="147.0">
+                        <HBox prefWidth="330.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets left="5.0" />
+                              <Insets />
                            </HBox.margin>
-                        </DecoratedTextField>
-                            </children>
-                            <HBox.margin>
-                                <Insets />
-                            </HBox.margin>
+                           <children>
+                              <DecoratedTextField fx:id="firstNameTextField" acceptedCharactersRegex="[a-zA-Z\\s]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="USER" leftGlyphIconSize="30" prefHeight="51.0" prefWidth="385.0">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </DecoratedTextField>
+                           </children>
                         </HBox>
-                    </children>
-                </HBox>
-                <HBox prefHeight="40.0" prefWidth="261.0">
-                    <children>
-                        <Label text="First Name">
-                            <HBox.margin>
-                                <Insets left="5.0" top="10.0" />
-                            </HBox.margin>
-                            <styleClass>
-                                <String fx:value="form-label-opacity" />
-                                <String fx:value="font-18" />
-                            </styleClass>
+                          </children>
+                      </HBox>
+                  <HBox layoutX="32.0" layoutY="132.0" prefHeight="70.0" prefWidth="506.0">
+                     <children>
+                        <HBox prefHeight="35.0" prefWidth="10.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                           <children>
+                              <Label text="Last Name">
+                                 <styleClass>
+                                    <String fx:value="form-label-opacity" />
+                                    <String fx:value="font-18" />
+                                 </styleClass>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefWidth="330.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <children>
+                              <DecoratedTextField fx:id="lastNameTextField" acceptedCharactersRegex="[a-zA-Z\\s]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="USER" leftGlyphIconSize="30" prefHeight="51.0" prefWidth="385.0">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </DecoratedTextField>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <Label text="Additional Cell ?">
+                           <HBox.margin>
+                              <Insets right="15.0" top="7.0" />
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="bold" />
+                              <String fx:value="font-18" />
+                           </styleClass>
                         </Label>
-                        <Label prefHeight="40.0" prefWidth="40.0" styleClass="text-field-label-background">
-                            <graphic>
-                                <FontAwesomeIconView glyphName="USER" size="24" textAlignment="CENTER" wrappingWidth="25.571428298950195" />
-                            </graphic>
-                            <padding>
-                                <Insets left="5.0" />
-                            </padding>
-                            <HBox.margin>
-                                <Insets left="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <JFXTextField fx:id="firstNameTextField" focusColor="#405aa800" labelFloat="false" prefHeight="40.0" prefWidth="350.0" promptText="Enter First Name" unFocusColor="#4d4d4d00">
-                            <styleClass>
-                                <String fx:value="bottom-border" />
-                                <String fx:value="font-16" />
-                            </styleClass>
-                            <HBox.margin>
-                                <Insets />
-                            </HBox.margin>
-                        </JFXTextField>
-                    </children>
-                </HBox>
-                <HBox layoutX="32.0" layoutY="154.0" prefHeight="40.0" prefWidth="261.0">
-                    <children>
-                        <Label text="Last Name">
-                            <HBox.margin>
-                                <Insets left="5.0" top="10.0" />
-                            </HBox.margin>
-                            <styleClass>
-                                <String fx:value="form-label-opacity" />
-                                <String fx:value="font-18" />
-                            </styleClass>
-                        </Label>
-                        <Label prefHeight="40.0" prefWidth="40.0" styleClass="text-field-label-background">
-                            <graphic>
-                                <FontAwesomeIconView glyphName="USER" size="24" textAlignment="CENTER" wrappingWidth="25.571428298950195" />
-                            </graphic>
-                            <padding>
-                                <Insets left="5.0" />
-                            </padding>
-                            <HBox.margin>
-                                <Insets left="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <JFXTextField fx:id="lastNameTextField" focusColor="#405aa800" labelFloat="false" prefHeight="40.0" prefWidth="350.0" promptText="Enter Last Name" unFocusColor="#4d4d4d00">
-                            <styleClass>
-                                <String fx:value="bottom-border" />
-                                <String fx:value="font-16" />
-                            </styleClass>
-                            <HBox.margin>
-                                <Insets />
-                            </HBox.margin>
-                        </JFXTextField>
-                    </children>
-                </HBox>
-                <HBox layoutX="32.0" layoutY="209.0" prefHeight="68.0" prefWidth="506.0">
-                    <children>
-                        <Label text="Cell">
-                            <HBox.margin>
-                                <Insets left="5.0" top="10.0" />
-                            </HBox.margin>
-                            <styleClass>
-                                <String fx:value="form-label-opacity" />
-                                <String fx:value="font-18" />
-                            </styleClass>
-                        </Label>
-                        <Label prefHeight="40.0" prefWidth="40.0" styleClass="text-field-label-background">
-                            <graphic>
-                                <FontAwesomeIconView glyphName="PHONE" size="24" textAlignment="CENTER" wrappingWidth="25.571428298950195">
-                                    <HBox.margin>
-                                        <Insets left="75.0" />
-                                    </HBox.margin>
-                                </FontAwesomeIconView>
-                            </graphic>
-                            <padding>
-                                <Insets left="5.0" />
-                            </padding>
-                            <HBox.margin>
-                                <Insets left="70.0" />
-                            </HBox.margin>
-                        </Label>
-                        <JFXTextArea fx:id="cellPhoneTextField" focusColor="#405aa800" labelFloat="false" prefHeight="68.0" prefWidth="354.0" promptText="Enter Cell Phone" unFocusColor="#4d4d4d00">
-                            <styleClass>
-                                <String fx:value="bottom-border" />
-                                <String fx:value="font-16" />
-                            </styleClass>
-                        </JFXTextArea>
-                    </children>
-                </HBox>
-                <HBox>
-                    <children>
-                        <Label contentDisplay="RIGHT" graphicTextGap="5.0" text="Leave Cell VM">
-                            <styleClass>
-                                <String fx:value="font-18" />
-                                <String fx:value="form-label-opacity" />
-                            </styleClass>
-                            <graphic>
-                                <FontAwesomeIconView glyphName="QUESTION_CIRCLE" size="20" />
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="5.0" top="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <JFXToggleButton selected="true" text="Yes">
-                            <toggleGroup>
-                                <ToggleGroup fx:id="leaveCellVMGroup" />
-                            </toggleGroup>
-                        </JFXToggleButton>
-                        <JFXToggleButton selected="true" text="No" toggleGroup="$leaveCellVMGroup" />
-                    </children>
-                </HBox>
-                <HBox layoutX="32.0" layoutY="209.0" prefHeight="68.0" prefWidth="506.0">
-                    <children>
-                        <Label prefHeight="27.0" prefWidth="64.0" text="Home">
-                            <HBox.margin>
-                                <Insets left="5.0" top="10.0" />
-                            </HBox.margin>
-                            <styleClass>
-                                <String fx:value="form-label-opacity" />
-                                <String fx:value="font-18" />
-                            </styleClass>
-                        </Label>
-                        <Label prefHeight="40.0" prefWidth="40.0" styleClass="text-field-label-background">
-                            <graphic>
-                                <FontAwesomeIconView glyphName="PHONE" size="24" textAlignment="CENTER" wrappingWidth="25.571428298950195" />
-                            </graphic>
-                            <padding>
-                                <Insets left="5.0" />
-                            </padding>
-                            <HBox.margin>
-                                <Insets left="40.0" />
-                            </HBox.margin>
-                        </Label>
-                        <JFXTextArea fx:id="homePhoneTextField" focusColor="#405aa800" labelFloat="false" prefHeight="68.0" prefWidth="354.0" promptText="Enter Home Phone" unFocusColor="#4d4d4d00">
-                            <styleClass>
-                                <String fx:value="bottom-border" />
-                                <String fx:value="font-16" />
-                            </styleClass>
-                        </JFXTextArea>
-                    </children>
-                </HBox>
-                <HBox>
-                    <children>
-                        <Label contentDisplay="RIGHT" graphicTextGap="5.0" text="Leave Home VM">
-                            <styleClass>
-                                <String fx:value="font-18" />
-                                <String fx:value="form-label-opacity" />
-                            </styleClass>
-                            <graphic>
-                                <FontAwesomeIconView glyphName="QUESTION_CIRCLE" size="20" />
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="5.0" top="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <JFXToggleButton selected="true" text="Yes">
-                            <toggleGroup>
-                                <ToggleGroup fx:id="leaveHomeVMGroup" />
-                            </toggleGroup>
-                        </JFXToggleButton>
-                        <JFXToggleButton selected="true" text="No" toggleGroup="$leaveHomeVMGroup" />
-                    </children>
-                </HBox>
-                <HBox layoutX="32.0" layoutY="209.0" prefHeight="68.0" prefWidth="506.0">
-                    <children>
-                        <Label prefHeight="27.0" prefWidth="61.0" text="Work">
-                            <HBox.margin>
-                                <Insets left="5.0" top="10.0" />
-                            </HBox.margin>
-                            <styleClass>
-                                <String fx:value="form-label-opacity" />
-                                <String fx:value="font-18" />
-                            </styleClass>
-                        </Label>
-                        <Label prefHeight="40.0" prefWidth="40.0" styleClass="text-field-label-background">
-                            <graphic>
-                                <FontAwesomeIconView glyphName="PHONE" size="24" textAlignment="CENTER" wrappingWidth="25.571428298950195" />
-                            </graphic>
-                            <padding>
-                                <Insets left="5.0" />
-                            </padding>
-                            <HBox.margin>
-                                <Insets left="40.0" />
-                            </HBox.margin>
-                        </Label>
-                        <JFXTextArea fx:id="workPhoneTextField" focusColor="#405aa800" labelFloat="false" prefHeight="68.0" prefWidth="354.0" promptText="Enter Work Phone" unFocusColor="#4d4d4d00">
-                            <styleClass>
-                                <String fx:value="bottom-border" />
-                                <String fx:value="font-16" />
-                            </styleClass>
-                        </JFXTextArea>
-                    </children>
-                </HBox>
-                <HBox>
-                    <children>
-                        <Label contentDisplay="RIGHT" graphicTextGap="5.0" text="Leave Work VM">
-                            <styleClass>
-                                <String fx:value="font-18" />
-                                <String fx:value="form-label-opacity" />
-                            </styleClass>
-                            <graphic>
-                                <FontAwesomeIconView glyphName="QUESTION_CIRCLE" size="20" />
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="5.0" top="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <JFXToggleButton selected="true" text="Yes">
-                            <toggleGroup>
-                                <ToggleGroup fx:id="leaveWorkVMGroup" />
-                            </toggleGroup>
-                        </JFXToggleButton>
-                        <JFXToggleButton selected="true" text="No" toggleGroup="$leaveWorkVMGroup" />
-                    </children>
-                </HBox>
-                <HBox layoutX="32.0" layoutY="659.0">
-                    <children>
-                        <Label contentDisplay="RIGHT" graphicTextGap="5.0" text="Preferred Phone">
-                            <styleClass>
-                                <String fx:value="font-18" />
-                                <String fx:value="form-label-opacity" />
-                            </styleClass>
-                            <graphic>
-                                <FontAwesomeIconView glyphName="QUESTION_CIRCLE" size="20" />
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="5.0" top="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <JFXToggleButton selected="true" text="Cell">
-                            <toggleGroup>
-                                <ToggleGroup fx:id="preferredPhoneGroup" />
-                            </toggleGroup>
-                        </JFXToggleButton>
-                        <JFXToggleButton text="Home" toggleGroup="$preferredPhoneGroup" />
-                        <JFXToggleButton layoutX="263.0" layoutY="10.0" text="Work" toggleGroup="$preferredPhoneGroup" />
-                    </children>
-                </HBox>
-                <HBox layoutX="32.0" layoutY="732.0">
-                    <children>
-                        <Label contentDisplay="RIGHT" graphicTextGap="5.0" text="On Calling List">
-                            <styleClass>
-                                <String fx:value="font-18" />
-                                <String fx:value="form-label-opacity" />
-                            </styleClass>
-                            <graphic>
-                                <FontAwesomeIconView glyphName="QUESTION_CIRCLE" size="20" />
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="5.0" top="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <JFXToggleButton selected="true" text="Yes">
-                            <toggleGroup>
-                                <ToggleGroup fx:id="onCallingListGroup" />
-                            </toggleGroup>
-                        </JFXToggleButton>
-                        <JFXToggleButton text="No" toggleGroup="$onCallingListGroup" />
-                        <Label contentDisplay="RIGHT" graphicTextGap="5.0" layoutX="15.0" layoutY="25.0" text="Priority">
-                            <styleClass>
-                                <String fx:value="font-18" />
-                                <String fx:value="form-label-opacity" />
-                            </styleClass>
-                            <graphic>
-                                <FontAwesomeIconView glyphName="QUESTION_CIRCLE" size="20" />
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="5.0" top="15.0" />
-                            </HBox.margin>
-                        </Label>
-                        <JFXComboBox fx:id="callPriorityComboBox" focusColor="#405aa800" unFocusColor="#4d4d4d00">
-                            <HBox.margin>
-                                <Insets left="15.0" top="15.0" />
-                            </HBox.margin>
-                            <styleClass>
-                                <String fx:value="combo-box" />
-                                <String fx:value="bottom-border" />
-                                <String fx:value="font-16" />
-                            </styleClass>
-                        </JFXComboBox>
-                    </children>
-                </HBox>
-                <HBox prefHeight="85.0" prefWidth="506.0" spacing="65.0">
-                    <JFXButton fx:id="addMember" buttonType="RAISED" graphicTextGap="9.0" onAction="#addMember" styleClass="action-button" text="ADD MEMBER">
-                        <graphic>
-                            <FontAwesomeIconView glyphName="USER_PLUS" size="30" />
-                        </graphic>
-                        <cursor>
-                            <Cursor fx:constant="HAND" />
-                        </cursor>
-                    </JFXButton>
-                    <JFXButton fx:id="cancel" buttonType="RAISED" graphicTextGap="9.0" onAction="#cancel" styleClass="action-button" text="CANCEL">
-                        <graphic>
-                            <FontAwesomeIconView glyphName="REMOVE" size="30" />
-                        </graphic>
-                        <cursor>
-                            <Cursor fx:constant="HAND" />
-                        </cursor>
-                    </JFXButton>
-                    <padding>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                    </padding>
-                    <VBox.margin>
-                        <Insets left="115.0" />
-                    </VBox.margin>
-                </HBox>
-            </children>
-            <padding>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-            </padding>
-            <styleClass>
-                <String fx:value="base" />
-                <String fx:value="border-radius" />
-                <String fx:value="background-radius" />
-            </styleClass>
-        </VBox>
+                        <FontAwesomeIconView glyphName="PLUS" size="30">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </FontAwesomeIconView>
+                        <FontAwesomeIconView glyphName="MINUS" size="30">
+                           <HBox.margin>
+                              <Insets right="5.0" top="5.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </FontAwesomeIconView>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox layoutX="32.0" layoutY="190.0" prefHeight="70.0" prefWidth="506.0">
+                     <children>
+                        <HBox prefHeight="35.0" prefWidth="10.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                           <children>
+                              <Label text="Cell">
+                                 <styleClass>
+                                    <String fx:value="form-label-opacity" />
+                                    <String fx:value="font-18" />
+                                 </styleClass>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <VBox fx:id="cellPhoneVBox" prefHeight="50.0" prefWidth="385.0" spacing="15.0" HBox.hgrow="NEVER">
+                           <HBox.margin>
+                              <Insets right="26.0" />
+                           </HBox.margin>
+                           <children>
+                              <DecoratedTextField fx:id="cellPhoneTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="PHONE" leftGlyphIconSize="30" maxLength="10" minLength="10" phoneNumber="true" prefHeight="51.0" prefWidth="385.0">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </DecoratedTextField>
+                           </children>
+                        </VBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                      <HBox>
+                          <children>
+                              <Label contentDisplay="RIGHT" graphicTextGap="5.0" text="Leave Cell VM">
+                                  <styleClass>
+                                      <String fx:value="font-18" />
+                                      <String fx:value="form-label-opacity" />
+                                  </styleClass>
+                                  <graphic>
+                                      <FontAwesomeIconView glyphName="QUESTION_CIRCLE" size="20" />
+                                  </graphic>
+                                  <HBox.margin>
+                                      <Insets left="5.0" top="15.0" />
+                                  </HBox.margin>
+                              </Label>
+                              <JFXToggleButton selected="true" text="Yes">
+                                  <toggleGroup>
+                                      <ToggleGroup fx:id="leaveCellVMGroup" />
+                                  </toggleGroup>
+                              </JFXToggleButton>
+                              <JFXToggleButton selected="true" text="No" toggleGroup="$leaveCellVMGroup" />
+                          </children>
+                      </HBox>
+                  <HBox layoutX="32.0" layoutY="305.0" prefHeight="70.0" prefWidth="506.0">
+                     <children>
+                        <HBox prefHeight="35.0" prefWidth="10.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                           <children>
+                              <Label text="Home">
+                                 <styleClass>
+                                    <String fx:value="form-label-opacity" />
+                                    <String fx:value="font-18" />
+                                 </styleClass>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <VBox fx:id="cellPhoneVBox1" prefHeight="50.0" prefWidth="385.0" spacing="15.0" HBox.hgrow="NEVER">
+                           <HBox.margin>
+                              <Insets right="26.0" />
+                           </HBox.margin>
+                           <children>
+                              <DecoratedTextField fx:id="homePhoneTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="PHONE" leftGlyphIconSize="30" maxLength="10" minLength="10" phoneNumber="true" prefHeight="51.0" prefWidth="385.0">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </DecoratedTextField>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                      <HBox>
+                          <children>
+                              <Label contentDisplay="RIGHT" graphicTextGap="5.0" text="Leave Home VM">
+                                  <styleClass>
+                                      <String fx:value="font-18" />
+                                      <String fx:value="form-label-opacity" />
+                                  </styleClass>
+                                  <graphic>
+                                      <FontAwesomeIconView glyphName="QUESTION_CIRCLE" size="20" />
+                                  </graphic>
+                                  <HBox.margin>
+                                      <Insets left="5.0" top="15.0" />
+                                  </HBox.margin>
+                              </Label>
+                              <JFXToggleButton selected="true" text="Yes">
+                                  <toggleGroup>
+                                      <ToggleGroup fx:id="leaveHomeVMGroup" />
+                                  </toggleGroup>
+                              </JFXToggleButton>
+                              <JFXToggleButton selected="true" text="No" toggleGroup="$leaveHomeVMGroup" />
+                          </children>
+                      </HBox>
+                  <HBox layoutX="32.0" layoutY="437.0" prefHeight="70.0" prefWidth="506.0">
+                     <children>
+                        <HBox prefHeight="35.0" prefWidth="10.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                           <children>
+                              <Label text="Work">
+                                 <styleClass>
+                                    <String fx:value="form-label-opacity" />
+                                    <String fx:value="font-18" />
+                                 </styleClass>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <VBox fx:id="cellPhoneVBox11" prefHeight="50.0" prefWidth="385.0" spacing="15.0" HBox.hgrow="NEVER">
+                           <HBox.margin>
+                              <Insets right="26.0" />
+                           </HBox.margin>
+                           <children>
+                              <HBox spacing="5.0">
+                                 <children>
+                                    <DecoratedTextField fx:id="workPhoneTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="PHONE" leftGlyphIconSize="30" maxLength="11" minLength="10" phoneNumber="true" prefHeight="51.0" prefWidth="385.0">
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </DecoratedTextField>
+                                    <DecoratedTextField fx:id="workPhoneTextField1" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="" leftGlyphIconLabelWidth="" leftGlyphIconName="" leftGlyphIconSize="" prefHeight="51.0" prefWidth="199.0" promptText="Ext">
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </DecoratedTextField>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                      <HBox>
+                          <children>
+                              <Label contentDisplay="RIGHT" graphicTextGap="5.0" text="Leave Work VM">
+                                  <styleClass>
+                                      <String fx:value="font-18" />
+                                      <String fx:value="form-label-opacity" />
+                                  </styleClass>
+                                  <graphic>
+                                      <FontAwesomeIconView glyphName="QUESTION_CIRCLE" size="20" />
+                                  </graphic>
+                                  <HBox.margin>
+                                      <Insets left="5.0" top="15.0" />
+                                  </HBox.margin>
+                              </Label>
+                              <JFXToggleButton selected="true" text="Yes">
+                                  <toggleGroup>
+                                      <ToggleGroup fx:id="leaveWorkVMGroup" />
+                                  </toggleGroup>
+                              </JFXToggleButton>
+                              <JFXToggleButton selected="true" text="No" toggleGroup="$leaveWorkVMGroup" />
+                          </children>
+                      </HBox>
+                      <HBox layoutX="32.0" layoutY="659.0">
+                          <children>
+                              <Label contentDisplay="RIGHT" graphicTextGap="5.0" text="Preferred Phone">
+                                  <styleClass>
+                                      <String fx:value="font-18" />
+                                      <String fx:value="form-label-opacity" />
+                                  </styleClass>
+                                  <graphic>
+                                      <FontAwesomeIconView glyphName="QUESTION_CIRCLE" size="20" />
+                                  </graphic>
+                                  <HBox.margin>
+                                      <Insets left="5.0" top="15.0" />
+                                  </HBox.margin>
+                              </Label>
+                              <JFXToggleButton selected="true" text="Cell">
+                                  <toggleGroup>
+                                      <ToggleGroup fx:id="preferredPhoneGroup" />
+                                  </toggleGroup>
+                              </JFXToggleButton>
+                              <JFXToggleButton text="Home" toggleGroup="$preferredPhoneGroup" />
+                              <JFXToggleButton layoutX="263.0" layoutY="10.0" text="Work" toggleGroup="$preferredPhoneGroup" />
+                          </children>
+                      </HBox>
+                      <HBox layoutX="32.0" layoutY="732.0">
+                          <children>
+                              <Label contentDisplay="RIGHT" graphicTextGap="5.0" text="On Calling List">
+                                  <styleClass>
+                                      <String fx:value="font-18" />
+                                      <String fx:value="form-label-opacity" />
+                                  </styleClass>
+                                  <graphic>
+                                      <FontAwesomeIconView glyphName="QUESTION_CIRCLE" size="20" />
+                                  </graphic>
+                                  <HBox.margin>
+                                      <Insets left="5.0" top="15.0" />
+                                  </HBox.margin>
+                              </Label>
+                              <JFXToggleButton selected="true" text="Yes">
+                                  <toggleGroup>
+                                      <ToggleGroup fx:id="onCallingListGroup" />
+                                  </toggleGroup>
+                              </JFXToggleButton>
+                              <JFXToggleButton text="No" toggleGroup="$onCallingListGroup" />
+                              <Label contentDisplay="RIGHT" graphicTextGap="5.0" layoutX="15.0" layoutY="25.0" text="Priority">
+                                  <styleClass>
+                                      <String fx:value="font-18" />
+                                      <String fx:value="form-label-opacity" />
+                                  </styleClass>
+                                  <graphic>
+                                      <FontAwesomeIconView glyphName="QUESTION_CIRCLE" size="20" />
+                                  </graphic>
+                                  <HBox.margin>
+                                      <Insets left="5.0" top="15.0" />
+                                  </HBox.margin>
+                              </Label>
+                              <JFXComboBox fx:id="callPriorityComboBox" focusColor="#405aa800" unFocusColor="#4d4d4d00">
+                                  <HBox.margin>
+                                      <Insets left="15.0" top="15.0" />
+                                  </HBox.margin>
+                                  <styleClass>
+                                      <String fx:value="combo-box" />
+                                      <String fx:value="bottom-border" />
+                                      <String fx:value="font-16" />
+                                  </styleClass>
+                              </JFXComboBox>
+                          </children>
+                      </HBox>
+                      <HBox prefHeight="85.0" prefWidth="506.0" spacing="65.0">
+                          <JFXButton fx:id="addMember" buttonType="RAISED" graphicTextGap="9.0" onAction="#addMember" styleClass="action-button" text="ADD MEMBER">
+                              <graphic>
+                                  <FontAwesomeIconView glyphName="USER_PLUS" size="30" />
+                              </graphic>
+                              <cursor>
+                                  <Cursor fx:constant="HAND" />
+                              </cursor>
+                          </JFXButton>
+                          <JFXButton fx:id="cancel" buttonType="RAISED" graphicTextGap="9.0" onAction="#cancel" styleClass="action-button" text="CANCEL">
+                              <graphic>
+                                  <FontAwesomeIconView glyphName="REMOVE" size="30" />
+                              </graphic>
+                              <cursor>
+                                  <Cursor fx:constant="HAND" />
+                              </cursor>
+                          </JFXButton>
+                          <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                          </padding>
+                      </HBox>
+                  </children>
+                  <padding>
+                      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                  </padding>
+                  <styleClass>
+                      <String fx:value="base" />
+                      <String fx:value="border-radius" />
+                      <String fx:value="background-radius" />
+                  </styleClass>
+              </VBox>
+         </content>
+      </ScrollPane>
     </children>
 </AnchorPane>

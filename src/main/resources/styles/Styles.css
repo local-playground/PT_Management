@@ -468,21 +468,34 @@ Action Button Bar
 .titled-pane > *.content > AnchorPane {
     -fx-padding: 0;
 }
+.custom-text-field{
+    -fx-padding: 0;
+}
 
+.custom-text-field:left-node-visible .left-pane {
+    -fx-padding: 0;
+}
+.custom-text-field:right-node-visible .right-pane {
+    -fx-padding: 0;
+}
 
 .decorated-text-field{
     -fx-background-color: transparent;
     -fx-padding: 0 0 0 10;
+    /*-fx-border-color: -app-background-color -app-background-color -app-background-color transparent;*/
     -fx-border-color: -app-background-color;
     -fx-border-radius: 0 10 10 0;
+    -fx-border-radius: 10;
     -fx-background-radius: 0 10 10 0;
+    -fx-background-radius: 10;
 }
 
 .decorated-text-field .icon-background-label{
     -fx-background-color: -app-background-color;
-    -fx-pref-width: 45;
-    -fx-pref-height: 40;
+
     -fx-alignment: center;
+    -fx-border-radius:  10 0 0 10;
+    -fx-background-radius: 10 0 0 10;
 }
 .decorated-text-field .icon-background-label > .glyph-icon{
     -fx-fill: darkgray;

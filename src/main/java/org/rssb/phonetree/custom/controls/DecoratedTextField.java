@@ -28,6 +28,10 @@ public class DecoratedTextField extends CustomTextField {
     private String errorMessage;
     private PopOver popOver = new PopOver();
     private boolean isPhoneNumber;
+    private String leftGlyphIconLabelHeight;
+    private String rightGlyphIconLabelHeight;
+    private String leftGlyphIconLabelWidth;
+    private String rightGlyphIconLabelWidth;
 
     private int maxLengthAsInt = 0;
 
@@ -42,6 +46,38 @@ public class DecoratedTextField extends CustomTextField {
                 validate();
             }
         });
+    }
+
+    public String getLeftGlyphIconLabelHeight() {
+        return leftGlyphIconLabelHeight;
+    }
+
+    public void setLeftGlyphIconLabelHeight(String leftGlyphIconLabelHeight) {
+        this.leftGlyphIconLabelHeight = leftGlyphIconLabelHeight;
+    }
+
+    public String getRightGlyphIconLabelHeight() {
+        return rightGlyphIconLabelHeight;
+    }
+
+    public void setRightGlyphIconLabelHeight(String rightGlyphIconLabelHeight) {
+        this.rightGlyphIconLabelHeight = rightGlyphIconLabelHeight;
+    }
+
+    public String getLeftGlyphIconLabelWidth() {
+        return leftGlyphIconLabelWidth;
+    }
+
+    public void setLeftGlyphIconLabelWidth(String leftGlyphIconLabelWidth) {
+        this.leftGlyphIconLabelWidth = leftGlyphIconLabelWidth;
+    }
+
+    public String getRightGlyphIconLabelWidth() {
+        return rightGlyphIconLabelWidth;
+    }
+
+    public void setRightGlyphIconLabelWidth(String rightGlyphIconLabelWidth) {
+        this.rightGlyphIconLabelWidth = rightGlyphIconLabelWidth;
     }
 
     private void hidePopover() {
@@ -165,9 +201,24 @@ public class DecoratedTextField extends CustomTextField {
             Label label = new Label();
             label.setGraphic(rightGlyphIconView);
             label.getStyleClass().add("icon-background-label");
-
+            if(getPreferredValue(getRightGlyphIconLabelHeight())!=0) {
+                label.setPrefHeight(getPreferredValue(getRightGlyphIconLabelHeight()));
+                label.setPrefWidth(getPreferredValue(getRightGlyphIconLabelWidth()));
+            }
             this.setRight(label);
         }
+    }
+
+    private double getPreferredValue(String value){
+        if(isNull(value)){
+            return 0;
+        }
+
+        if(isValid(value)){
+            return Double.parseDouble(value);
+        }
+
+        return 0;
     }
 
 
@@ -182,6 +233,10 @@ public class DecoratedTextField extends CustomTextField {
             leftGlyphIconView.setIcon(icon);
             Label label = new Label();
             label.setGraphic(leftGlyphIconView);
+            if(getPreferredValue(getLeftGlyphIconLabelHeight())!=0) {
+                label.setPrefHeight(getPreferredValue(getLeftGlyphIconLabelHeight()));
+                label.setPrefWidth(getPreferredValue(getLeftGlyphIconLabelWidth()));
+            }
             label.getStyleClass().add("icon-background-label");
             this.setLeft(label);
         }
