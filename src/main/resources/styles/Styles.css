@@ -492,7 +492,6 @@ Action Button Bar
 
 .decorated-text-field .icon-background-label{
     -fx-background-color: -app-background-color;
-
     -fx-alignment: center;
     -fx-border-radius:  10 0 0 10;
     -fx-background-radius: 10 0 0 10;

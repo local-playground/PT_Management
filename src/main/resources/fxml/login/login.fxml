@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import org.rssb.phonetree.custom.controls.DecoratedTextField?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.TestController">
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="500.0" fitWidth="750.0" pickOnBounds="true" preserveRatio="true" />
-      <AnchorPane fx:id="loginForm" layoutX="48.0" layoutY="25.0" prefHeight="450.0" prefWidth="321.0" styleClass="loginForm">
-         <children>
-            <JFXTextField labelFloat="true" layoutX="49.0" layoutY="109.0" prefHeight="29.0" prefWidth="237.0" promptText="UserName" />
-            <JFXButton fx:id="testButton" layoutX="135.0" layoutY="241.0" text="Test Me" />
-         </children>
-      </AnchorPane>
+      <DecoratedTextField leftGlyphIconLabelHeight="75" leftGlyphIconLabelWidth="50" leftGlyphIconName="PHONE" leftGlyphIconSize="30" prefHeight="76.0" prefWidth="477.0">
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" top="20.0" />
+         </VBox.margin>
+      </DecoratedTextField>
    </children>
-</AnchorPane>
+</VBox>

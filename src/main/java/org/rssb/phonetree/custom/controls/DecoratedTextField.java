@@ -43,7 +43,7 @@ public class DecoratedTextField extends CustomTextField {
         //getStylesheets().add(DecoratedTextField.class.getResource("/css/styles.css").toExternalForm());
         this.focusedProperty().addListener(new ChangeListener<Boolean>() {
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                validate();
+                showPopOver();
             }
         });
     }
@@ -88,20 +88,17 @@ public class DecoratedTextField extends CustomTextField {
 
     private boolean isMinLengthMet() {
         int minLength = (isValid(getMinLength()) ? Integer.parseInt(getMinLength()) : -1);
-
-        if (minLength<=0 && isRequired()) {
-            minLength=1;//default
-        }else if(minLength<=0){
-            return true;
+        if (minLength <= 0 && isRequired()) {
+            minLength = 1;//default
         }
-
-        if(isNull(this.getText())){
+        if (isNull(this.getText()) && isRequired()) {
             return false;
         }
-
+        if (isNull(this.getText()) && !isRequired()) {
+            return true;
+        }
         int currentTextLength = this.getText().trim().length();
-
-        if(currentTextLength>=minLength){
+        if (currentTextLength >= minLength) {
             return true;
         }
 
@@ -109,42 +106,37 @@ public class DecoratedTextField extends CustomTextField {
     }
 
     private void showPopOver() {
-        if (isRequired() || !isMinLengthMet()) {
+        if (!validate()) {
             Label label = new Label(prepareErrorMessage());
             VBox box = new VBox();
             box.setPadding(new Insets(10));
             box.getChildren().add(label);
             popOver.setContentNode(box);
+            popOver.setAnimated(true);
+            popOver.setArrowLocation(PopOver.ArrowLocation.BOTTOM_CENTER);
             popOver.show(this);
         }
     }
 
-    public void validate(){
-        if(isRequired() && isMinLengthMet()){
+    public boolean validate() {
+        if (isMinLengthMet()) {
             hidePopover();
-            return;
+            return true;
         }
 
-        //not required but if entered, enter minlength
-        if(isMinLengthMet()){
-            hidePopover();
-            return;
-        }
-
-
-        showPopOver();
+        return false;
     }
 
-    private String prepareMinimumLength(){
+    private String prepareMinimumLength() {
         int minLength = (isValid(getMinLength()) ? Integer.parseInt(getMinLength()) : -1);
-        return (minLength<=0?"":"Minimum "+minLength+" characters are required");
+        return (minLength <= 0 ? "" : "Minimum " + minLength + " characters are required");
     }
 
-    private String prepareErrorMessage(){
-        String msg = isNull(errorMessage)?"":errorMessage;
+    private String prepareErrorMessage() {
+        String msg = isNull(errorMessage) ? "" : errorMessage;
 
         StringBuilder sb = new StringBuilder();
-        if(!isNull(msg)) {
+        if (!isNull(msg)) {
             sb.append(errorMessage).append("\n");
         }
         sb.append(prepareMinimumLength());
@@ -201,7 +193,7 @@ public class DecoratedTextField extends CustomTextField {
             Label label = new Label();
             label.setGraphic(rightGlyphIconView);
             label.getStyleClass().add("icon-background-label");
-            if(getPreferredValue(getRightGlyphIconLabelHeight())!=0) {
+            if (getPreferredValue(getRightGlyphIconLabelHeight()) != 0) {
                 label.setPrefHeight(getPreferredValue(getRightGlyphIconLabelHeight()));
                 label.setPrefWidth(getPreferredValue(getRightGlyphIconLabelWidth()));
             }
@@ -209,12 +201,12 @@ public class DecoratedTextField extends CustomTextField {
         }
     }
 
-    private double getPreferredValue(String value){
-        if(isNull(value)){
+    private double getPreferredValue(String value) {
+        if (isNull(value)) {
             return 0;
         }
 
-        if(isValid(value)){
+        if (isValid(value)) {
             return Double.parseDouble(value);
         }
 
@@ -233,7 +225,7 @@ public class DecoratedTextField extends CustomTextField {
             leftGlyphIconView.setIcon(icon);
             Label label = new Label();
             label.setGraphic(leftGlyphIconView);
-            if(getPreferredValue(getLeftGlyphIconLabelHeight())!=0) {
+            if (getPreferredValue(getLeftGlyphIconLabelHeight()) != 0) {
                 label.setPrefHeight(getPreferredValue(getLeftGlyphIconLabelHeight()));
                 label.setPrefWidth(getPreferredValue(getLeftGlyphIconLabelWidth()));
             }
@@ -299,8 +291,7 @@ public class DecoratedTextField extends CustomTextField {
             }
         }
         super.replaceText(start, end, text);
-        validate();
-
+        showPopOver();
         applyPhonePattern();
     }
 
@@ -339,6 +330,7 @@ public class DecoratedTextField extends CustomTextField {
     @Override
     public void deleteText(int start, int end) {
         super.deleteText(start, end);
+        showPopOver();
         int caretPostion = this.getCaretPosition();
         if (isPhoneNumber()) {
             removeFormattedCharacters();
@@ -376,16 +368,16 @@ public class DecoratedTextField extends CustomTextField {
         // Compute the text that should normally be in the textfield now
         String finalText = currentText.substring(0, start) + text + currentText.substring(end);
 
-        if(isPhoneNumber()){
-            if(maxLengthAsInt<=0){
+        if (isPhoneNumber()) {
+            if (maxLengthAsInt <= 0) {
                 setMinLength("10");
                 setMaxLength("10");
             }
 
-            if(maxLengthAsInt==10){
-                MAX_ALLOWANCE_AFTER_FORMAT=4;
-            }else if(maxLengthAsInt==11){
-                MAX_ALLOWANCE_AFTER_FORMAT=5;
+            if (maxLengthAsInt == 10) {
+                MAX_ALLOWANCE_AFTER_FORMAT = 4;
+            } else if (maxLengthAsInt == 11) {
+                MAX_ALLOWANCE_AFTER_FORMAT = 5;
             }
         }
         // If the max length is not excedeed

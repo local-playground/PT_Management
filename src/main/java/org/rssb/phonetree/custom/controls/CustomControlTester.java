@@ -17,7 +17,7 @@ public class CustomControlTester extends Application{
         Parent parent = null;
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/custom/controls/vbox.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/login/login.fxml"));
             parent = loader.load();
         } catch (Exception e) {
             e.printStackTrace();

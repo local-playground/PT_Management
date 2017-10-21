@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.beans.property.SimpleStringProperty;
@@ -27,6 +26,7 @@ import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.controller.AbstractController;
+import org.rssb.phonetree.custom.controls.DecoratedTextField;
 import org.rssb.phonetree.domain.SearchResult;
 import org.rssb.phonetree.entity.Family;
 import org.rssb.phonetree.entity.Member;
@@ -82,16 +82,16 @@ public class FamilyManagementController extends AbstractController {
     private JFXButton resetForm;
 
     @FXML
-    private JFXTextField zipCodeTextField;
+    private DecoratedTextField zipCodeTextField;
 
     @FXML
-    private JFXTextField noOfAdultsAttendsSNVTextField;
+    private DecoratedTextField noOfAdultsAttendsSNVTextField;
 
     @FXML
-    private JFXTextField noOfChildrenAttendsSNVTextField;
+    private DecoratedTextField noOfChildrenAttendsSNVTextField;
 
     @FXML
-    private JFXTextField townTextField;
+    private DecoratedTextField townTextField;
 
     @FXML
     private ToggleGroup SNVGuidelineGroup;
@@ -100,7 +100,7 @@ public class FamilyManagementController extends AbstractController {
     private ToggleGroup needBusRideGroup;
 
     @FXML
-    private JFXTextField noOfPassengersTextField;
+    private DecoratedTextField noOfPassengersTextField;
 
     @FXML
     private ToggleGroup canCallAnytimeGroup;
