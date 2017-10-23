@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.controller.AbstractController;
@@ -46,9 +47,19 @@ public class MemberInformationController extends AbstractController {
     @FXML
     private VBox cellPhoneTextFieldHolder;
 
+    @FXML
+    private VBox homePhoneTextFieldHolder;
+
+    @FXML
+    private VBox workPhoneTextFieldHolder;
+
 
     @FXML
     private DecoratedTextField cellPhoneTextField;
+
+    @FXML
+    private DecoratedTextField cellPhoneCommenTextField;
+
 
     @FXML
     private ToggleGroup leaveCellVMGroup;
@@ -57,13 +68,16 @@ public class MemberInformationController extends AbstractController {
     private DecoratedTextField homePhoneTextField;
 
     @FXML
+    private DecoratedTextField homePhoneCommentTextField;
+
+    @FXML
     private ToggleGroup leaveHomeVMGroup;
 
     @FXML
     private DecoratedTextField workPhoneTextField;
 
     @FXML
-    private DecoratedTextField workPhoneExtTextField;
+    private DecoratedTextField workPhoneExtensionTextField;
 
 
     @FXML
@@ -111,21 +125,75 @@ public class MemberInformationController extends AbstractController {
         createAdditionalTextField(cellPhoneTextFieldHolder);
     }
 
+    @FXML
+    void addAnotherHomePhoneTextField(MouseEvent event) {
+        createAdditionalTextField(homePhoneTextFieldHolder);
+    }
+
+    @FXML
+    void addAnotherWorkPhoneTextField(MouseEvent event) {
+        createAdditionalTextField(workPhoneTextFieldHolder);
+    }
 
     @FXML
     void deleteAdditionalCellPhoneTextField(MouseEvent event) {
-        List<Node> nodeList = cellPhoneTextFieldHolder.getChildren();
+        deleteAdditionalTextFields(cellPhoneTextFieldHolder);
+    }
+
+    @FXML
+    void deleteAdditionalHomePhoneTextField(MouseEvent event) {
+        deleteAdditionalTextFields(homePhoneTextFieldHolder);
+    }
+
+    @FXML
+    void deleteAdditionalWorkPhoneTextField(MouseEvent event) {
+        deleteAdditionalTextFields(workPhoneTextFieldHolder);
+    }
+
+    private void deleteAdditionalTextFields(VBox parent) {
+        List<Node> nodeList = parent.getChildren();
         int size = nodeList.size();
         for (int index = size - 1; index > 0; index--) {
             Node node = nodeList.get(index);
-            if (node instanceof DecoratedTextField) {
-                DecoratedTextField decoratedTextField = (DecoratedTextField) node;
-                if (CommonUtil.isEmptyOrNull(decoratedTextField.getText())) {
-                    nodeList.remove(index);
-                    return;
+            if(node instanceof HBox){
+                List<Node> hboxChildrensList = ((HBox) node).getChildren();
+                if(hboxChildrensList.size()>0) {
+                    Node hboxChildNode = hboxChildrensList.get(0);
+                    if (hboxChildNode instanceof DecoratedTextField) {
+                        DecoratedTextField decoratedTextField = (DecoratedTextField) hboxChildNode;
+                        if (CommonUtil.isEmptyOrNull(decoratedTextField.getText())) {
+                            nodeList.remove(index);
+                            return;
+                        }
+                    }
                 }
-
             }
+        }
+    }
+
+
+    private void createAdditionalTextField(VBox parent) {
+        List<Node> nodeList = parent.getChildren();
+        int size = nodeList.size();
+        System.out.println("Size = " + size);
+        for (int i = 0; i < size; i++) {
+            Node node = nodeList.get(i);
+            if(node instanceof HBox){
+                HBox originalHbox = (HBox) node;
+                HBox hbox = new HBox();
+                hbox.setSpacing(originalHbox.getSpacing());
+                parent.getChildren().add(hbox);
+                List<Node> hboxChildrensList = ((HBox) node).getChildren();
+                for (int index = 0; index < hboxChildrensList.size(); index++) {
+                    Node hboxChildNode = hboxChildrensList.get(index);
+                    if (hboxChildNode instanceof DecoratedTextField) {
+                        DecoratedTextField decoratedTextField = createDecoratedTextField((DecoratedTextField) hboxChildNode);
+                        hbox.getChildren().add(decoratedTextField);
+                    }
+                }
+                return;
+            }
+
         }
     }
 
@@ -224,22 +292,9 @@ public class MemberInformationController extends AbstractController {
         }
     }
 
-    private void createAdditionalTextField(VBox parent) {
-        List<Node> nodeList = parent.getChildren();
-        int size = nodeList.size();
-        System.out.println("Size = " + size);
-        for (int i = 0; i < size; i++) {
-            Node node = nodeList.get(i);
-            if (node instanceof DecoratedTextField) {
-                DecoratedTextField decoratedTextField = createDecoratedTextField((DecoratedTextField) node);
-                parent.getChildren().add(decoratedTextField);
-                return;
-            }
-        }
-    }
-
     private DecoratedTextField createDecoratedTextField(DecoratedTextField original) {
         DecoratedTextField decoratedTextField = new DecoratedTextField();
+        decoratedTextField.setPromptText(original.getPromptText());
         decoratedTextField.setAcceptedCharactersRegex(original.getAcceptedCharactersRegex());
         decoratedTextField.setLeftGlyphIconLabelHeight(original.getLeftGlyphIconLabelHeight());
         decoratedTextField.setLeftGlyphIconLabelWidth(original.getLeftGlyphIconLabelWidth());

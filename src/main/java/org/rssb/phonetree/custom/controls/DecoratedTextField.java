@@ -252,6 +252,9 @@ public class DecoratedTextField extends CustomTextField {
 
     public void setAcceptedCharactersRegex(String acceptedCharactersRegex) {
         this.acceptedCharactersRegex = acceptedCharactersRegex;
+        if(isNull(this.acceptedCharactersRegex)){
+            this.acceptedCharactersRegex="[0-9a-zA-Z\\s]";
+        }
     }
 
     public String getMinLength() {
@@ -260,6 +263,9 @@ public class DecoratedTextField extends CustomTextField {
 
     public void setMinLength(String minLength) {
         this.minLength = minLength;
+        if(isNull(minLength)){
+            minLength="999";
+        }
     }
 
     public String getMaxLength() {
@@ -268,7 +274,10 @@ public class DecoratedTextField extends CustomTextField {
 
     public void setMaxLength(String maxLength) {
         this.maxLength = maxLength;
-        if (!isNull(maxLength) && isValid(maxLength)) {
+        if(isNull(maxLength)){
+            maxLength="999";
+        }
+        if (isValid(maxLength)) {
             this.maxLengthAsInt = Integer.parseInt(maxLength);
         }
     }

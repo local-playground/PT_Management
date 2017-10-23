@@ -115,7 +115,7 @@
                               <Insets />
                            </HBox.margin>
                            <children>
-                              <DecoratedTextField fx:id="firstNameTextField" acceptedCharactersRegex="[a-zA-Z\\s]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="USER" leftGlyphIconSize="30" prefHeight="51.0" prefWidth="385.0">
+                              <DecoratedTextField fx:id="firstNameTextField" acceptedCharactersRegex="" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="USER" leftGlyphIconSize="30" prefHeight="51.0" prefWidth="385.0" promptText="Enter First Name">
                                  <padding>
                                     <Insets left="20.0" />
                                  </padding>
@@ -147,7 +147,7 @@
                               <Insets />
                            </HBox.margin>
                            <children>
-                              <DecoratedTextField fx:id="lastNameTextField" acceptedCharactersRegex="[a-zA-Z\\s]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="USER" leftGlyphIconSize="30" prefHeight="51.0" prefWidth="385.0">
+                              <DecoratedTextField fx:id="lastNameTextField" acceptedCharactersRegex="" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="USER" leftGlyphIconSize="30" prefHeight="51.0" prefWidth="385.0" promptText="Enter Last Name">
                                  <padding>
                                     <Insets left="20.0" />
                                  </padding>
@@ -206,18 +206,31 @@
                               </Label>
                            </children>
                         </HBox>
-                        <VBox fx:id="cellPhoneTextFieldHolder" prefHeight="50.0" prefWidth="385.0" spacing="15.0" HBox.hgrow="NEVER">
+                        <HBox prefHeight="50.0" prefWidth="417.0">
                            <HBox.margin>
-                              <Insets right="26.0" />
+                              <Insets />
                            </HBox.margin>
                            <children>
-                              <DecoratedTextField fx:id="cellPhoneTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="PHONE" leftGlyphIconSize="30" maxLength="10" minLength="10" phoneNumber="true" prefHeight="51.0" prefWidth="385.0">
-                                 <padding>
-                                    <Insets left="20.0" />
-                                 </padding>
-                              </DecoratedTextField>
+                              <VBox fx:id="cellPhoneTextFieldHolder" spacing="15.0">
+                                 <children>
+                                    <HBox spacing="10.0">
+                                       <children>
+                                          <DecoratedTextField fx:id="cellPhoneTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="PHONE" leftGlyphIconSize="30" maxLength="10" minLength="10" phoneNumber="true" prefHeight="51.0" prefWidth="250.0" promptText="Enter Cell Phone">
+                                             <padding>
+                                                <Insets left="20.0" />
+                                             </padding>
+                                          </DecoratedTextField>
+                                          <DecoratedTextField fx:id="cellPhoneCommenTextField" layoutX="10.0" layoutY="10.0" leftGlyphIconLabelHeight="" leftGlyphIconLabelWidth="" leftGlyphIconName="" leftGlyphIconSize="" maxLength="" minLength="" phoneNumber="true" prefHeight="51.0" prefWidth="130.0" promptText="Any Comment?">
+                                             <padding>
+                                                <Insets left="20.0" />
+                                             </padding>
+                                          </DecoratedTextField>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </HBox>
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -245,6 +258,38 @@
                               <JFXToggleButton selected="true" text="No" toggleGroup="$leaveCellVMGroup" />
                           </children>
                       </HBox>
+                  <HBox alignment="TOP_RIGHT" layoutX="32.0" layoutY="252.0" prefHeight="36.0" prefWidth="475.0" spacing="20.0">
+                     <children>
+                        <Label text="Additional Home ?">
+                           <HBox.margin>
+                              <Insets right="15.0" top="7.0" />
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="bold" />
+                              <String fx:value="font-18" />
+                           </styleClass>
+                        </Label>
+                        <FontAwesomeIconView glyphName="PLUS" onMouseClicked="#addAnotherHomePhoneTextField" size="30">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </FontAwesomeIconView>
+                        <FontAwesomeIconView glyphName="MINUS" onMouseClicked="#deleteAdditionalHomePhoneTextField" size="30">
+                           <HBox.margin>
+                              <Insets right="5.0" top="5.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </FontAwesomeIconView>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="20.0" />
+                     </VBox.margin>
+                  </HBox>
                   <HBox layoutX="32.0" layoutY="305.0" prefHeight="70.0" prefWidth="506.0">
                      <children>
                         <HBox prefHeight="35.0" prefWidth="10.0" HBox.hgrow="ALWAYS">
@@ -260,18 +305,28 @@
                               </Label>
                            </children>
                         </HBox>
-                        <VBox prefHeight="50.0" prefWidth="385.0" spacing="15.0" HBox.hgrow="NEVER">
-                           <HBox.margin>
-                              <Insets right="26.0" />
-                           </HBox.margin>
+                        <HBox prefHeight="50.0" prefWidth="417.0">
                            <children>
-                              <DecoratedTextField fx:id="homePhoneTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="PHONE" leftGlyphIconSize="30" maxLength="10" minLength="10" phoneNumber="true" prefHeight="51.0" prefWidth="385.0">
-                                 <padding>
-                                    <Insets left="20.0" />
-                                 </padding>
-                              </DecoratedTextField>
+                              <VBox fx:id="homePhoneTextFieldHolder" spacing="15.0">
+                                 <children>
+                                    <HBox spacing="10.0">
+                                       <children>
+                                          <DecoratedTextField fx:id="homePhoneTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="PHONE" leftGlyphIconSize="30" maxLength="10" minLength="10" phoneNumber="true" prefHeight="51.0" prefWidth="250.0" promptText="Enter Home Phone">
+                                             <padding>
+                                                <Insets left="20.0" />
+                                             </padding>
+                                          </DecoratedTextField>
+                                          <DecoratedTextField fx:id="homePhoneCommentTextField" layoutX="10.0" layoutY="10.0" leftGlyphIconLabelHeight="" leftGlyphIconLabelWidth="" leftGlyphIconName="" leftGlyphIconSize="" maxLength="" minLength="" phoneNumber="true" prefHeight="51.0" prefWidth="130.0" promptText="Any Comment?">
+                                             <padding>
+                                                <Insets left="20.0" />
+                                             </padding>
+                                          </DecoratedTextField>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </HBox>
                      </children>
                   </HBox>
                       <HBox>
@@ -296,6 +351,38 @@
                               <JFXToggleButton selected="true" text="No" toggleGroup="$leaveHomeVMGroup" />
                           </children>
                       </HBox>
+                  <HBox alignment="TOP_RIGHT" layoutX="32.0" layoutY="432.0" prefHeight="36.0" prefWidth="475.0" spacing="20.0">
+                     <children>
+                        <Label text="Additional Work?">
+                           <HBox.margin>
+                              <Insets right="15.0" top="7.0" />
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="bold" />
+                              <String fx:value="font-18" />
+                           </styleClass>
+                        </Label>
+                        <FontAwesomeIconView glyphName="PLUS" onMouseClicked="#addAnotherWorkPhoneTextField" size="30">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </FontAwesomeIconView>
+                        <FontAwesomeIconView glyphName="MINUS" onMouseClicked="#deleteAdditionalWorkPhoneTextField" size="30">
+                           <HBox.margin>
+                              <Insets right="5.0" top="5.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </FontAwesomeIconView>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="20.0" />
+                     </VBox.margin>
+                  </HBox>
                   <HBox layoutX="32.0" layoutY="437.0" prefHeight="70.0" prefWidth="506.0">
                      <children>
                         <HBox prefHeight="35.0" prefWidth="10.0" HBox.hgrow="ALWAYS">
@@ -311,27 +398,28 @@
                               </Label>
                            </children>
                         </HBox>
-                        <VBox prefHeight="50.0" prefWidth="385.0" spacing="15.0" HBox.hgrow="NEVER">
-                           <HBox.margin>
-                              <Insets right="26.0" />
-                           </HBox.margin>
+                        <HBox prefHeight="50.0" prefWidth="417.0">
                            <children>
-                              <HBox spacing="5.0">
+                              <VBox fx:id="workPhoneTextFieldHolder" spacing="15.0">
                                  <children>
-                                    <DecoratedTextField fx:id="workPhoneTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="PHONE" leftGlyphIconSize="30" maxLength="11" minLength="10" phoneNumber="true" prefHeight="51.0" prefWidth="385.0">
-                                       <padding>
-                                          <Insets left="20.0" />
-                                       </padding>
-                                    </DecoratedTextField>
-                                    <DecoratedTextField fx:id="workPhoneExtTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="" leftGlyphIconLabelWidth="" leftGlyphIconName="" leftGlyphIconSize="" prefHeight="51.0" prefWidth="199.0" promptText="Ext">
-                                       <padding>
-                                          <Insets left="20.0" />
-                                       </padding>
-                                    </DecoratedTextField>
+                                    <HBox spacing="10.0">
+                                       <children>
+                                          <DecoratedTextField fx:id="workPhoneTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="50" leftGlyphIconLabelWidth="50" leftGlyphIconName="PHONE" leftGlyphIconSize="30" maxLength="11" minLength="10" phoneNumber="true" prefHeight="51.0" prefWidth="250.0" promptText="Enter Work Phone">
+                                             <padding>
+                                                <Insets left="20.0" />
+                                             </padding>
+                                          </DecoratedTextField>
+                                          <DecoratedTextField fx:id="workPhoneExtensionTextField" layoutX="10.0" layoutY="10.0" leftGlyphIconLabelHeight="" leftGlyphIconLabelWidth="" leftGlyphIconName="" leftGlyphIconSize="" prefHeight="51.0" prefWidth="130.0" promptText="Ext">
+                                             <padding>
+                                                <Insets left="20.0" />
+                                             </padding>
+                                          </DecoratedTextField>
+                                       </children>
+                                    </HBox>
                                  </children>
-                              </HBox>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </HBox>
                      </children>
                   </HBox>
                       <HBox>

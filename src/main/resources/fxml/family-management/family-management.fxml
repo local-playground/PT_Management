@@ -228,7 +228,7 @@
                                                         </FontAwesomeIconView>
                                                     </graphic>
                                                 </Label>
-                                    <DecoratedTextField fx:id="zipCodeTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconName="GLOBE" leftGlyphIconSize="40" maxLength="5" minLength="5" prefHeight="45.0" prefWidth="224.0" promptText="Enter Zip Code" />
+                                    <DecoratedTextField fx:id="zipCodeTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="45" leftGlyphIconLabelWidth="45" leftGlyphIconName="GLOBE" leftGlyphIconSize="30" maxLength="5" minLength="5" prefHeight="45.0" prefWidth="224.0" promptText="Enter Zip Code" />
                                             </children>
                                         </HBox>
                                         <HBox>
@@ -245,7 +245,7 @@
                                                         <Insets left="10.0" top="10.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                    <DecoratedTextField fx:id="noOfAdultsAttendsSNVTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconName="USER" leftGlyphIconSize="40" maxLength="2" minLength="1" prefHeight="45.0" prefWidth="224.0" promptText="# Adults for SNV" />
+                                    <DecoratedTextField fx:id="noOfAdultsAttendsSNVTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="45" leftGlyphIconLabelWidth="45" leftGlyphIconName="USER" leftGlyphIconSize="30" maxLength="2" minLength="1" prefHeight="45.0" prefWidth="224.0" promptText="# Adults for SNV" />
                                             </children>
                                         </HBox>
                                         <HBox>
@@ -262,7 +262,7 @@
                                                         <Insets left="10.0" top="10.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                    <DecoratedTextField fx:id="noOfChildrenAttendsSNVTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconName="GROUP" leftGlyphIconSize="40" maxLength="2" minLength="1" prefHeight="45.0" prefWidth="224.0" promptText="# Children for SNV" />
+                                    <DecoratedTextField fx:id="noOfChildrenAttendsSNVTextField" acceptedCharactersRegex="[0-9]" leftGlyphIconLabelHeight="45" leftGlyphIconLabelWidth="45" leftGlyphIconName="GROUP" leftGlyphIconSize="30" maxLength="2" minLength="1" prefHeight="45.0" prefWidth="224.0" promptText="# Children for SNV" />
                                             </children>
                                         </HBox>
                                         <HBox>
@@ -279,7 +279,7 @@
                                                         <Insets left="10.0" top="10.0" />
                                                     </HBox.margin>
                                                 </Label>
-                                    <DecoratedTextField fx:id="townTextField" acceptedCharactersRegex="[a-zA-Z]" leftGlyphIconName="GLOBE" leftGlyphIconSize="40" maxLength="" minLength="" prefHeight="45.0" prefWidth="224.0" promptText="Enter Town" />
+                                    <DecoratedTextField fx:id="townTextField" acceptedCharactersRegex="[a-zA-Z\s]" leftGlyphIconLabelHeight="45" leftGlyphIconLabelWidth="45" leftGlyphIconName="GLOBE" leftGlyphIconSize="30" maxLength="" minLength="" prefHeight="45.0" prefWidth="224.0" promptText="Enter Town" />
                                             </children>
                                         </HBox>
                                     </children>

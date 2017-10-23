@@ -501,6 +501,19 @@ Action Button Bar
 
   }
 
+.popover > .content {
+    -fx-background-color: red !important;
+}
+
+.popover > .border{
+    -fx-background-color: red !important;
+}
+
+.popover > .content .label{
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
 
 
 
