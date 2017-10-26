@@ -169,7 +169,9 @@ public class FamilyManagementController extends AbstractController {
 
     @FXML
     void addMember(ActionEvent event) {
-        ContextHolder contextHolder = createContextHolder("", null, getRootPanel());
+        ContextHolder contextHolder = createContextHolder(new String[]{"JFX_DRAWER"},
+                new Object[]{jfxDrawer}, getRootPanel());
+        //ContextHolder contextHolder = createContextHolder("", null, getRootPanel());
         openDrawer(contextHolder);
     }
 
@@ -417,7 +419,8 @@ public class FamilyManagementController extends AbstractController {
         membersTableView.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
                 Member member = membersTableView.getSelectionModel().getSelectedItem();
-                ContextHolder contextHolder = createContextHolder("MEMBER_DETAIL", member, getRootPanel());
+                ContextHolder contextHolder = createContextHolder(new String[]{"MEMBER_DETAIL","JFX_DRAWER"},
+                        new Object[]{member,jfxDrawer}, getRootPanel());
                 openDrawer(contextHolder);
             }
         });

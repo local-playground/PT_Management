@@ -68,6 +68,14 @@ public class CommonUtil {
         return sb.toString();
     }
 
+    public static boolean isIndexOfKeyPresent(String value,String lookup){
+        if(isEmptyOrNull(value)){
+            return false;
+        }
+
+        return value.indexOf(lookup)==-1?false:true;
+    }
+
     public static int convertStringToInt(String value,int defaultValue){
         if(CommonUtil.isEmptyOrNull(value)){
             return defaultValue;

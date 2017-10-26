@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.textfield.CustomTextField;
 
@@ -116,6 +117,18 @@ public class DecoratedTextField extends CustomTextField {
             popOver.setArrowLocation(PopOver.ArrowLocation.BOTTOM_CENTER);
             popOver.show(this);
         }
+    }
+
+    public void showPopOver(String errorMessage){
+        Label label = new Label(errorMessage);
+        VBox box = new VBox();
+        box.setPadding(new Insets(10));
+        box.getChildren().add(label);
+        popOver.setContentNode(box);
+        popOver.setAnimated(true);
+        popOver.setArrowLocation(PopOver.ArrowLocation.BOTTOM_CENTER);
+        popOver.hide(Duration.seconds(10));
+        popOver.show(this);
     }
 
     public boolean validate() {
@@ -264,7 +277,7 @@ public class DecoratedTextField extends CustomTextField {
     public void setMinLength(String minLength) {
         this.minLength = minLength;
         if(isNull(minLength)){
-            minLength="999";
+            this.minLength="0";
         }
     }
 
@@ -275,11 +288,12 @@ public class DecoratedTextField extends CustomTextField {
     public void setMaxLength(String maxLength) {
         this.maxLength = maxLength;
         if(isNull(maxLength)){
-            maxLength="999";
+            this.maxLength="999";
         }
         if (isValid(maxLength)) {
-            this.maxLengthAsInt = Integer.parseInt(maxLength);
+            this.maxLengthAsInt = Integer.parseInt(this.maxLength);
         }
+
     }
 
     @Override

@@ -38,12 +38,44 @@ public class Member implements Serializable {
     @Column(name = "HomePhone")
     @Convert(converter = PhoneNumberConverter.class)
     private String homePhone;
+    @Column(name = "HomePhoneComments")
+    private String homePhoneComments;
     @Column(name = "WorkPhone")
     //@Convert(converter = PhoneNumberConverter.class)
     private String workPhone;
+
+    public String getHomePhoneComments() {
+        return homePhoneComments;
+    }
+
+    public void setHomePhoneComments(String homePhoneComments) {
+        this.homePhoneComments = homePhoneComments;
+    }
+
+    public String getWorkPhoneComments() {
+        return workPhoneComments;
+    }
+
+    public void setWorkPhoneComments(String workPhoneComments) {
+        this.workPhoneComments = workPhoneComments;
+    }
+
+    public String getCellPhoneComments() {
+        return cellPhoneComments;
+    }
+
+    public void setCellPhoneComments(String cellPhoneComments) {
+        this.cellPhoneComments = cellPhoneComments;
+    }
+
+    @Column(name = "WorkPhoneComments")
+
+    private String workPhoneComments;
     @Column(name = "CellPhone")
     @Convert(converter = PhoneNumberConverter.class)
     private String cellPhone;
+    @Column(name = "CellPhoneComments")
+    private String cellPhoneComments;
     @Column(name = "PRIORITY")
     private Integer priority;
     @Column(name = "EmailId")
