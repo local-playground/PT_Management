@@ -171,7 +171,6 @@ public class FamilyManagementController extends AbstractController {
     void addMember(ActionEvent event) {
         ContextHolder contextHolder = createContextHolder(new String[]{"JFX_DRAWER"},
                 new Object[]{jfxDrawer}, getRootPanel());
-        //ContextHolder contextHolder = createContextHolder("", null, getRootPanel());
         openDrawer(contextHolder);
     }
 

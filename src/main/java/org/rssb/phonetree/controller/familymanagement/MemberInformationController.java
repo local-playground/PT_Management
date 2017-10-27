@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
@@ -24,7 +25,10 @@ import org.rssb.phonetree.entity.emums.YesNo;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -33,6 +37,10 @@ import java.util.stream.Stream;
 @Component
 @Lazy
 public class MemberInformationController extends AbstractController {
+    private List<PhoneNumberController> cellPhoneNumberControllerList = new ArrayList<>();
+    private List<PhoneNumberController> homePhoneNumberControllerList = new ArrayList<>();
+    private List<PhoneNumberController> workPhoneNumberControllerList = new ArrayList<>();
+
     @FXML
     private DecoratedTextField memberIdTextField;
 
@@ -54,32 +62,11 @@ public class MemberInformationController extends AbstractController {
     @FXML
     private VBox workPhoneTextFieldHolder;
 
-
-    @FXML
-    private DecoratedTextField cellPhoneTextField;
-
-    @FXML
-    private DecoratedTextField cellPhoneCommentTextField;
-
-
     @FXML
     private ToggleGroup leaveCellVMGroup;
 
     @FXML
-    private DecoratedTextField homePhoneTextField;
-
-    @FXML
-    private DecoratedTextField homePhoneCommentTextField;
-
-    @FXML
     private ToggleGroup leaveHomeVMGroup;
-
-    @FXML
-    private DecoratedTextField workPhoneTextField;
-
-    @FXML
-    private DecoratedTextField workPhoneExtensionTextField;
-
 
     @FXML
     private ToggleGroup leaveWorkVMGroup;
@@ -107,6 +94,9 @@ public class MemberInformationController extends AbstractController {
         callPriorityObservableList = FXCollections.observableList(list);
         callPriorityComboBox.setItems(callPriorityObservableList);
         callPriorityComboBox.getSelectionModel().select(0);
+        createAdditionalTextFieldForPhone(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
+        createAdditionalTextFieldForPhone(homePhoneTextFieldHolder, homePhoneNumberControllerList);
+        createAdditionalTextFieldForPhone(workPhoneTextFieldHolder, workPhoneNumberControllerList);
     }
 
     @FXML
@@ -117,6 +107,9 @@ public class MemberInformationController extends AbstractController {
         Member member = collectMemberInformation();
         contextHolder.set("MEMBER_DETAIL", member);
         delegator.delegate(contextHolder);
+        cellPhoneNumberControllerList.clear();
+        homePhoneNumberControllerList.clear();
+        workPhoneNumberControllerList.clear();
     }
 
     @FXML
@@ -130,80 +123,52 @@ public class MemberInformationController extends AbstractController {
 
     @FXML
     void addAnotherCellPhoneTextField(MouseEvent event) {
-        createAdditionalTextField(cellPhoneTextFieldHolder);
+        createAdditionalTextFieldForPhone(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
     }
 
     @FXML
     void addAnotherHomePhoneTextField(MouseEvent event) {
-        createAdditionalTextField(homePhoneTextFieldHolder);
+        createAdditionalTextFieldForPhone(homePhoneTextFieldHolder, homePhoneNumberControllerList);
     }
 
     @FXML
     void addAnotherWorkPhoneTextField(MouseEvent event) {
-        createAdditionalTextField(workPhoneTextFieldHolder);
+        createAdditionalTextFieldForPhone(workPhoneTextFieldHolder, workPhoneNumberControllerList);
     }
 
     @FXML
     void deleteAdditionalCellPhoneTextField(MouseEvent event) {
-        deleteAdditionalTextFields(cellPhoneTextFieldHolder);
+        deleteAdditionalButEmptyTextFieldsForPhone(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
     }
 
     @FXML
     void deleteAdditionalHomePhoneTextField(MouseEvent event) {
-        deleteAdditionalTextFields(homePhoneTextFieldHolder);
+        deleteAdditionalButEmptyTextFieldsForPhone(homePhoneTextFieldHolder, homePhoneNumberControllerList);
+
     }
 
     @FXML
     void deleteAdditionalWorkPhoneTextField(MouseEvent event) {
-        deleteAdditionalTextFields(workPhoneTextFieldHolder);
+        deleteAdditionalButEmptyTextFieldsForPhone(workPhoneTextFieldHolder, workPhoneNumberControllerList);
+
     }
 
-    private void deleteAdditionalTextFields(VBox parent) {
+    private void deleteAdditionalButEmptyTextFieldsForPhone(VBox parent,
+                                                            List<PhoneNumberController> phoneNumberControllerList) {
         List<Node> nodeList = parent.getChildren();
         int size = nodeList.size();
         for (int index = size - 1; index > 0; index--) {
-            Node node = nodeList.get(index);
-            if (node instanceof HBox) {
-                List<Node> hboxChildrensList = ((HBox) node).getChildren();
-                if (hboxChildrensList.size() > 0) {
-                    Node hboxChildNode = hboxChildrensList.get(0);
-                    if (hboxChildNode instanceof DecoratedTextField) {
-                        DecoratedTextField decoratedTextField = (DecoratedTextField) hboxChildNode;
-                        if (CommonUtil.isEmptyOrNull(decoratedTextField.getText())) {
-                            nodeList.remove(index);
-                            return;
-                        }
-                    }
-                }
+            PhoneNumberController phoneNumberController = phoneNumberControllerList.get(index);
+            if (phoneNumberController.isPhoneNumberEmpty()) {
+                parent.getChildren().remove(index);
+                phoneNumberControllerList.remove(index);
+                return;
             }
         }
     }
 
-
-    private void createAdditionalTextField(VBox parent) {
-        List<Node> nodeList = parent.getChildren();
-        int size = nodeList.size();
-        System.out.println("Size = " + size);
-        for (int i = 0; i < size; i++) {
-            Node node = nodeList.get(i);
-            if (node instanceof HBox) {
-                HBox originalHbox = (HBox) node;
-                HBox hbox = new HBox();
-                hbox.setSpacing(originalHbox.getSpacing());
-                parent.getChildren().add(hbox);
-                List<Node> hboxChildrensList = ((HBox) node).getChildren();
-                System.out.println("creating deco text = " + hboxChildrensList.size());
-                for (int index = 0; index < hboxChildrensList.size(); index++) {
-                    Node hboxChildNode = hboxChildrensList.get(index);
-                    if (hboxChildNode instanceof DecoratedTextField) {
-                        DecoratedTextField decoratedTextField = createDecoratedTextField((DecoratedTextField) hboxChildNode);
-                        hbox.getChildren().add(decoratedTextField);
-                    }
-                }
-                return;
-            }
-
-        }
+    private void createAdditionalTextFieldForPhone(VBox parent, List<PhoneNumberController> list) {
+        parent.getChildren().add(getHBox(list));
     }
 
     @Override
@@ -235,21 +200,21 @@ public class MemberInformationController extends AbstractController {
 
         StringBuilder phoneNumbers = new StringBuilder();
         StringBuilder phoneComments = new StringBuilder();
-        capturePhoneNumbers(cellPhoneTextFieldHolder, phoneNumbers, phoneComments);
+        capturePhoneNumbersNew(cellPhoneTextFieldHolder, cellPhoneNumberControllerList, phoneNumbers, phoneComments);
         member.setCellPhone(getData(phoneNumbers));
         member.setCellPhoneComments(getData(phoneComments));
         member.setCellNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveCellVMGroup.getSelectedToggle()).getText()));
         phoneNumbers.delete(0, phoneNumbers.length());
         phoneComments.delete(0, phoneNumbers.length());
 
-        capturePhoneNumbers(homePhoneTextFieldHolder, phoneNumbers, phoneComments);
+        capturePhoneNumbersNew(homePhoneTextFieldHolder, homePhoneNumberControllerList, phoneNumbers, phoneComments);
         member.setHomePhone(getData(phoneNumbers));
         member.setHomePhoneComments(getData(phoneComments));
         member.setHomeNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveHomeVMGroup.getSelectedToggle()).getText()));
         phoneNumbers.delete(0, phoneNumbers.length());
         phoneComments.delete(0, phoneNumbers.length());
 
-        capturePhoneNumbers(workPhoneTextFieldHolder, phoneNumbers, phoneComments);
+        capturePhoneNumbersNew(workPhoneTextFieldHolder, workPhoneNumberControllerList, phoneNumbers, phoneComments);
         member.setWorkPhone(getData(phoneNumbers));
         member.setWorkPhoneComments(getData(phoneComments));
         member.setWorkNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveWorkVMGroup.getSelectedToggle()).getText()));
@@ -262,60 +227,19 @@ public class MemberInformationController extends AbstractController {
         return member;
     }
 
-    private void capturePhoneNumbers(VBox parent, StringBuilder phoneNumbers, StringBuilder phoneComments) {
+    private void capturePhoneNumbersNew(VBox parent, List<PhoneNumberController> phoneNumberControllerList,
+                                        StringBuilder phoneNumbers, StringBuilder phoneComments) {
         List<Node> nodeList = parent.getChildren();
         int size = nodeList.size();
         for (int index = 0; index < size; index++) {
-            Node node = nodeList.get(index);
-            if (node instanceof HBox) {
-                List<Node> hboxChildrensList = ((HBox) node).getChildren();
-                if (hboxChildrensList.size() == 2) {
-                    Node phoneNumberNode = hboxChildrensList.get(0);
-                    Node phoneCommentsNode = hboxChildrensList.get(1);
-                    if (phoneNumberNode instanceof DecoratedTextField) {
-                        String text = ((DecoratedTextField) phoneNumberNode).getText();
-                        if (CommonUtil.isEmptyOrNull(text)) {
-                            continue;
-                        }
-                        phoneNumbers.append(text).append(",");
-
-                        if (phoneCommentsNode instanceof DecoratedTextField) {
-                            String comments = ((DecoratedTextField) phoneCommentsNode).getText();
-                            if (CommonUtil.isEmptyOrNull(comments)) {
-                                comments = "";
-                            }
-                            phoneComments.append(comments).append(",");
-                        }
-                    }
-
-                }
+            PhoneNumberController phoneNumberController = phoneNumberControllerList.get(index);
+            if (phoneNumberController.isPhoneNumberEmpty()) {
+                continue;
             }
+            phoneNumbers.append(phoneNumberController.getPhoneNumber()).append(",");
+            phoneComments.append(phoneNumberController.getPhoneComments()).append(",");
         }
     }
-
-    private void displayPhoneNumbers(VBox parent, String[] phoneNumbers, String[] phoneComments) {
-        List<Node> nodeList = parent.getChildren();
-        int size = nodeList.size();
-        for (int index = 0; index < size; index++) {
-            Node node = nodeList.get(index);
-            if (node instanceof HBox) {
-                List<Node> hboxChildrensList = ((HBox) node).getChildren();
-                if (hboxChildrensList.size() == 2) {
-                    Node phoneNumberNode = hboxChildrensList.get(0);
-                    Node phoneCommentsNode = hboxChildrensList.get(1);
-                    if (phoneNumberNode instanceof DecoratedTextField) {
-                        ((DecoratedTextField) phoneNumberNode).setText(phoneNumbers[index]);
-                        if (phoneCommentsNode instanceof DecoratedTextField) {
-                            if (index <= phoneComments.length) {
-                                ((DecoratedTextField) phoneCommentsNode).setText(phoneComments[index]);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
 
     private void populateMemberInformation(Member member) {
         int memberId = member.getMemberId();
@@ -343,36 +267,21 @@ public class MemberInformationController extends AbstractController {
         familyIdTextField.setText(CommonUtil.convertIntToString(familyId, ""));
         firstNameTextField.setText(firstName);
         lastNameTextField.setText(lastName);
-        if (CommonUtil.isIndexOfKeyPresent(cellPhone, ",")) {
-            displayPhone(cellPhone, cellPhoneComments, cellPhoneTextFieldHolder);
-        } else {
-            cellPhoneTextField.setText(cellPhone);
-            cellPhoneCommentTextField.setText(cellPhoneComments);
-        }
+        displayPhoneNumbers(cellPhone, cellPhoneComments, cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
         for (Toggle toggle : leaveCellVMGroup.getToggles()) {
             JFXToggleButton button = (JFXToggleButton) toggle;
             if (button.getText().equalsIgnoreCase(leaveCellVM.getDatabaseName())) {
                 leaveCellVMGroup.selectToggle(toggle);
             }
         }
-        if (CommonUtil.isIndexOfKeyPresent(homePhone, ",")) {
-
-        } else {
-            homePhoneTextField.setText(homePhone);
-            homePhoneCommentTextField.setText(homePhoneComments);
-        }
+        displayPhoneNumbers(homePhone, homePhoneComments, homePhoneTextFieldHolder, homePhoneNumberControllerList);
         for (Toggle toggle : leaveHomeVMGroup.getToggles()) {
             JFXToggleButton button = (JFXToggleButton) toggle;
             if (button.getText().equalsIgnoreCase(leaveHomeVM.getDatabaseName())) {
                 leaveHomeVMGroup.selectToggle(toggle);
             }
         }
-        if (CommonUtil.isIndexOfKeyPresent(workPhone, ",")) {
-
-        } else {
-            workPhoneTextField.setText(workPhone);
-            workPhoneExtensionTextField.setText(workPhoneExtension);
-        }
+        displayPhoneNumbers(workPhone, workPhoneExtension, workPhoneTextFieldHolder, workPhoneNumberControllerList);
         for (Toggle toggle : leaveWorkVMGroup.getToggles()) {
             JFXToggleButton button = (JFXToggleButton) toggle;
             if (button.getText().equalsIgnoreCase(leaveWorkVM.getDatabaseName())) {
@@ -403,48 +312,24 @@ public class MemberInformationController extends AbstractController {
         addMember.setText("UPDATE");
     }
 
-    private void displayPhone(String phone, String phoneComments, VBox parent) {
-        String[] phoneArray = phone.split(",");
-        String[] phoneCommentsArray = phoneComments.split(",");
+    private void displayPhoneNumbers(String phoneNumbers, String phoneComments,
+                                     VBox parent, List<PhoneNumberController> phoneNumberControllerList) {
+        List<String> phoneNumbersList = Arrays.asList(phoneNumbers.split(","));
+        List<String> phoneCommentsList = Arrays.asList(phoneComments.split(","));
 
-        System.out.println("parent spacing is " + parent.getSpacing());
-
-        if (phoneArray.length > 1) {
-            for (int i = 1; i < phoneArray.length; i++) {
-                createAdditionalTextField(parent);
+        for (int index = 0; index < phoneNumbersList.size(); index++) {
+            String phone = phoneNumbersList.get(index);
+            String comment = phoneCommentsList.get(index);
+            if (parent.getChildren().size() <= index) {
+                createAdditionalTextFieldForPhone(parent, phoneNumberControllerList);
             }
+            System.out.println("working on index = " + index +
+                    " parent size = " + parent.getChildren().size() +
+                    " controller size list " + phoneNumberControllerList.size());
+            PhoneNumberController phoneNumberController = phoneNumberControllerList.get(index);
+            phoneNumberController.setPhoneNumber(phone);
+            phoneNumberController.setPhoneComments(comment);
         }
-
-        //displayPhoneNumbers(parent,phoneArray,phoneCommentsArray);
-
-    }
-
-    private DecoratedTextField createDecoratedTextField(DecoratedTextField original) {
-        System.out.println("Now creating one from original " + original);
-        DecoratedTextField decoratedTextField = new DecoratedTextField();
-        decoratedTextField.setPromptText(original.getPromptText());
-        decoratedTextField.setAcceptedCharactersRegex(original.getAcceptedCharactersRegex());
-        decoratedTextField.setLeftGlyphIconLabelHeight(original.getLeftGlyphIconLabelHeight());
-        decoratedTextField.setLeftGlyphIconLabelWidth(original.getLeftGlyphIconLabelWidth());
-        decoratedTextField.setLeftGlyphIconSize(original.getLeftGlyphIconSize());
-        decoratedTextField.setLeftGlyphIconName(original.getLeftGlyphIconName());
-        decoratedTextField.setRightGlyphIconName(original.getRightGlyphIconName());
-        decoratedTextField.setRightGlyphIconLabelHeight(original.getRightGlyphIconLabelHeight());
-        decoratedTextField.setRightGlyphIconLabelWidth(original.getRightGlyphIconLabelWidth());
-        decoratedTextField.setRightGlyphIconSize(original.getRightGlyphIconSize());
-        decoratedTextField.setMaxLength(original.getMaxLength());
-        decoratedTextField.setMinLength(original.getMinLength());
-        decoratedTextField.setPhoneNumber(original.isPhoneNumber());
-        decoratedTextField.setRequired(original.isRequired());
-        decoratedTextField.setErrorMessage(original.getErrorMessage());
-
-        System.out.println("orignial height="+original.getHeight()+
-        " width = "+original.getWidth());
-        decoratedTextField.setPrefHeight(original.getHeight());
-        decoratedTextField.setPrefWidth(original.getWidth());
-        decoratedTextField.setMinHeight(original.getHeight());
-        decoratedTextField.setMaxHeight(original.getHeight());
-        return decoratedTextField;
     }
 
     private boolean validate() {
@@ -452,17 +337,56 @@ public class MemberInformationController extends AbstractController {
             firstNameTextField.showPopOver(firstNameTextField.getErrorMessage());
             return false;
         }
+        StringBuilder phoneNumbers = new StringBuilder();
+        StringBuilder phoneComments = new StringBuilder();
+        capturePhoneNumbersNew(cellPhoneTextFieldHolder, cellPhoneNumberControllerList, phoneNumbers, phoneComments);
+        boolean cellPhoneEmtpy = CommonUtil.isEmptyOrNull(phoneNumbers.toString());
 
-        boolean cellPhoneEmtpy = CommonUtil.isEmptyOrNull(cellPhoneTextField.getText());
-        boolean homePhoneEmpty = CommonUtil.isEmptyOrNull(homePhoneTextField.getText());
-        boolean workPhoneEmpty = CommonUtil.isEmptyOrNull(workPhoneTextField.getText());
+        phoneNumbers.delete(0, phoneNumbers.length());
+        phoneComments.delete(0, phoneComments.length());
+
+        capturePhoneNumbersNew(homePhoneTextFieldHolder, homePhoneNumberControllerList, phoneNumbers, phoneComments);
+        boolean homePhoneEmpty = CommonUtil.isEmptyOrNull(phoneNumbers.toString());
+
+        phoneNumbers.delete(0, phoneNumbers.length());
+        phoneComments.delete(0, phoneComments.length());
+
+        capturePhoneNumbersNew(workPhoneTextFieldHolder, workPhoneNumberControllerList, phoneNumbers, phoneComments);
+        boolean workPhoneEmpty = CommonUtil.isEmptyOrNull(phoneNumbers.toString());
+
+        phoneNumbers.delete(0, phoneNumbers.length());
+        phoneComments.delete(0, phoneComments.length());
+
+
         if (cellPhoneEmtpy && homePhoneEmpty && workPhoneEmpty) {
-            cellPhoneTextField.showPopOver("Please provide atleast one valid contact number");
-            homePhoneTextField.showPopOver("Please provide atleast one valid contact number");
-            workPhoneTextField.showPopOver("Please provide atleast one valid contact number");
+            showPhoneErrorMessage(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
+            showPhoneErrorMessage(homePhoneTextFieldHolder, homePhoneNumberControllerList);
+            showPhoneErrorMessage(workPhoneTextFieldHolder, workPhoneNumberControllerList);
             return false;
         }
         return true;
     }
+
+    private void showPhoneErrorMessage(VBox parent,List<PhoneNumberController> phoneNumberControllerList){
+        for (int index = 0; index < parent.getChildren().size(); index++) {
+            PhoneNumberController phoneNumberController = phoneNumberControllerList.get(index);
+            phoneNumberController.showErrorMessage("Please provide atleast one valid contact number");
+        }
+    }
+
+    private HBox getHBox(List<PhoneNumberController> phoneNumberControllerList) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                "/fxml/family-management/phone-numbers-hbox.fxml"));
+        HBox parent = null;
+        try {
+            parent = fxmlLoader.load();
+            PhoneNumberController phoneNumberController = (PhoneNumberController) fxmlLoader.getController();
+            phoneNumberControllerList.add(phoneNumberController);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+        return parent;
+    }
+
 
 }

@@ -1,0 +1,24 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import org.rssb.phonetree.custom.controls.DecoratedTextField?>
+<HBox fx:id="" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.rssb.phonetree.controller.familymanagement.PhoneNumberController">
+    <children>
+        <DecoratedTextField fx:id="cellPhoneTextField" acceptedCharactersRegex="[0-9]"
+                            errorMessage="Please provide valid phone." leftGlyphIconLabelHeight="50"
+                            leftGlyphIconLabelWidth="50" leftGlyphIconName="PHONE" leftGlyphIconSize="30" maxLength="10"
+                            minLength="10" phoneNumber="true" prefHeight="51.0" prefWidth="250.0"
+                            promptText="Enter Cell Phone">
+            <padding>
+                <Insets left="20.0"/>
+            </padding>
+        </DecoratedTextField>
+        <DecoratedTextField fx:id="cellPhoneCommentTextField" acceptedCharactersRegex="" layoutX="10.0" layoutY="10.0"
+                            leftGlyphIconLabelHeight="" leftGlyphIconLabelWidth="" leftGlyphIconName=""
+                            leftGlyphIconSize="" prefHeight="51.0" prefWidth="130.0" promptText="Any Comment?">
+            <padding>
+                <Insets left="20.0"/>
+            </padding>
+        </DecoratedTextField>
+    </children>
+</HBox>
