@@ -29,7 +29,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -94,9 +96,9 @@ public class MemberInformationController extends AbstractController {
         callPriorityObservableList = FXCollections.observableList(list);
         callPriorityComboBox.setItems(callPriorityObservableList);
         callPriorityComboBox.getSelectionModel().select(0);
-        createAdditionalTextFieldForPhone(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
-        createAdditionalTextFieldForPhone(homePhoneTextFieldHolder, homePhoneNumberControllerList);
-        createAdditionalTextFieldForPhone(workPhoneTextFieldHolder, workPhoneNumberControllerList);
+        createAdditionalPhoneNumberTextField(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
+        createAdditionalPhoneNumberTextField(homePhoneTextFieldHolder, homePhoneNumberControllerList);
+        createAdditionalPhoneNumberTextField(workPhoneTextFieldHolder, workPhoneNumberControllerList);
     }
 
     @FXML
@@ -123,17 +125,17 @@ public class MemberInformationController extends AbstractController {
 
     @FXML
     void addAnotherCellPhoneTextField(MouseEvent event) {
-        createAdditionalTextFieldForPhone(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
+        createAdditionalPhoneNumberTextField(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
     }
 
     @FXML
     void addAnotherHomePhoneTextField(MouseEvent event) {
-        createAdditionalTextFieldForPhone(homePhoneTextFieldHolder, homePhoneNumberControllerList);
+        createAdditionalPhoneNumberTextField(homePhoneTextFieldHolder, homePhoneNumberControllerList);
     }
 
     @FXML
     void addAnotherWorkPhoneTextField(MouseEvent event) {
-        createAdditionalTextFieldForPhone(workPhoneTextFieldHolder, workPhoneNumberControllerList);
+        createAdditionalPhoneNumberTextField(workPhoneTextFieldHolder, workPhoneNumberControllerList);
     }
 
     @FXML
@@ -167,7 +169,7 @@ public class MemberInformationController extends AbstractController {
         }
     }
 
-    private void createAdditionalTextFieldForPhone(VBox parent, List<PhoneNumberController> list) {
+    private void createAdditionalPhoneNumberTextField(VBox parent, List<PhoneNumberController> list) {
         parent.getChildren().add(getHBox(list));
     }
 
@@ -197,39 +199,32 @@ public class MemberInformationController extends AbstractController {
         }
         member.setFirstName(firstNameTextField.getText());
         member.setLastName(lastNameTextField.getText());
-
-        StringBuilder phoneNumbers = new StringBuilder();
-        StringBuilder phoneComments = new StringBuilder();
-        capturePhoneNumbersNew(cellPhoneTextFieldHolder, cellPhoneNumberControllerList, phoneNumbers, phoneComments);
-        member.setCellPhone(getData(phoneNumbers));
-        member.setCellPhoneComments(getData(phoneComments));
+        Map<String, String> phoneNumbersDataMap = capturePhoneNumbersAndComments(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
+        member.setCellPhone(phoneNumbersDataMap.get("PHONE_NUMBERS"));
+        member.setCellPhoneComments(phoneNumbersDataMap.get("PHONE_COMMENTS"));
         member.setCellNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveCellVMGroup.getSelectedToggle()).getText()));
-        phoneNumbers.delete(0, phoneNumbers.length());
-        phoneComments.delete(0, phoneNumbers.length());
-
-        capturePhoneNumbersNew(homePhoneTextFieldHolder, homePhoneNumberControllerList, phoneNumbers, phoneComments);
-        member.setHomePhone(getData(phoneNumbers));
-        member.setHomePhoneComments(getData(phoneComments));
+        phoneNumbersDataMap = capturePhoneNumbersAndComments(homePhoneTextFieldHolder, homePhoneNumberControllerList);
+        member.setHomePhone(phoneNumbersDataMap.get("PHONE_NUMBERS"));
+        member.setHomePhoneComments(phoneNumbersDataMap.get("PHONE_COMMENTS"));
         member.setHomeNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveHomeVMGroup.getSelectedToggle()).getText()));
-        phoneNumbers.delete(0, phoneNumbers.length());
-        phoneComments.delete(0, phoneNumbers.length());
-
-        capturePhoneNumbersNew(workPhoneTextFieldHolder, workPhoneNumberControllerList, phoneNumbers, phoneComments);
-        member.setWorkPhone(getData(phoneNumbers));
-        member.setWorkPhoneComments(getData(phoneComments));
+        phoneNumbersDataMap = capturePhoneNumbersAndComments(workPhoneTextFieldHolder, workPhoneNumberControllerList);
+        member.setWorkPhone(phoneNumbersDataMap.get("PHONE_NUMBERS"));
+        member.setWorkPhoneComments(phoneNumbersDataMap.get("PHONE_COMMENTS"));
         member.setWorkNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveWorkVMGroup.getSelectedToggle()).getText()));
-        phoneNumbers.delete(0, phoneNumbers.length());
-        phoneComments.delete(0, phoneNumbers.length());
-
         member.setPreferredPhoneType(PreferredPhoneType.fromDatabaseName(((JFXToggleButton) preferredPhoneGroup.getSelectedToggle()).getText()));
         member.setOnCallingList(YesNo.fromDatabaseName(((JFXToggleButton) onCallingListGroup.getSelectedToggle()).getText()));
         member.setPriority(callPriorityComboBox.getSelectionModel().getSelectedItem());
         return member;
     }
 
-    private void capturePhoneNumbersNew(VBox parent, List<PhoneNumberController> phoneNumberControllerList,
-                                        StringBuilder phoneNumbers, StringBuilder phoneComments) {
-        List<Node> nodeList = parent.getChildren();
+
+    private Map<String, String> capturePhoneNumbersAndComments(VBox phoneTextFieldHolder,
+                                                               List<PhoneNumberController> phoneNumberControllerList) {
+        Map<String, String> dataMap = new HashMap<>();
+        StringBuilder phoneNumbers = new StringBuilder();
+        StringBuilder phoneComments = new StringBuilder();
+
+        List<Node> nodeList = phoneTextFieldHolder.getChildren();
         int size = nodeList.size();
         for (int index = 0; index < size; index++) {
             PhoneNumberController phoneNumberController = phoneNumberControllerList.get(index);
@@ -239,6 +234,10 @@ public class MemberInformationController extends AbstractController {
             phoneNumbers.append(phoneNumberController.getPhoneNumber()).append(",");
             phoneComments.append(phoneNumberController.getPhoneComments()).append(",");
         }
+        dataMap.put("PHONE_NUMBERS", getData(phoneNumbers));
+        dataMap.put("PHONE_COMMENTS", getData(phoneComments));
+
+        return dataMap;
     }
 
     private void populateMemberInformation(Member member) {
@@ -321,53 +320,60 @@ public class MemberInformationController extends AbstractController {
             String phone = phoneNumbersList.get(index);
             String comment = phoneCommentsList.get(index);
             if (parent.getChildren().size() <= index) {
-                createAdditionalTextFieldForPhone(parent, phoneNumberControllerList);
+                createAdditionalPhoneNumberTextField(parent, phoneNumberControllerList);
             }
-            System.out.println("working on index = " + index +
+           /* System.out.println("working on index = " + index +
                     " parent size = " + parent.getChildren().size() +
-                    " controller size list " + phoneNumberControllerList.size());
+                    " controller size list " + phoneNumberControllerList.size());*/
             PhoneNumberController phoneNumberController = phoneNumberControllerList.get(index);
             phoneNumberController.setPhoneNumber(phone);
             phoneNumberController.setPhoneComments(comment);
         }
     }
 
-    private boolean validate() {
+    @Override
+    public boolean validate() {
         if (CommonUtil.isEmptyOrNull(firstNameTextField.getText())) {
             firstNameTextField.showPopOver(firstNameTextField.getErrorMessage());
             return false;
         }
-        StringBuilder phoneNumbers = new StringBuilder();
-        StringBuilder phoneComments = new StringBuilder();
-        capturePhoneNumbersNew(cellPhoneTextFieldHolder, cellPhoneNumberControllerList, phoneNumbers, phoneComments);
-        boolean cellPhoneEmtpy = CommonUtil.isEmptyOrNull(phoneNumbers.toString());
+        Map<String, String> phoneNumbersDataMap = capturePhoneNumbersAndComments(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
+        boolean cellPhoneEmpty = CommonUtil.isEmptyOrNull(phoneNumbersDataMap.get("PHONE_NUMBERS"));
 
-        phoneNumbers.delete(0, phoneNumbers.length());
-        phoneComments.delete(0, phoneComments.length());
+        phoneNumbersDataMap = capturePhoneNumbersAndComments(homePhoneTextFieldHolder, homePhoneNumberControllerList);
+        boolean homePhoneEmpty = CommonUtil.isEmptyOrNull(phoneNumbersDataMap.get("PHONE_NUMBERS"));
 
-        capturePhoneNumbersNew(homePhoneTextFieldHolder, homePhoneNumberControllerList, phoneNumbers, phoneComments);
-        boolean homePhoneEmpty = CommonUtil.isEmptyOrNull(phoneNumbers.toString());
+        phoneNumbersDataMap = capturePhoneNumbersAndComments(workPhoneTextFieldHolder, workPhoneNumberControllerList);
+        boolean workPhoneEmpty = CommonUtil.isEmptyOrNull(phoneNumbersDataMap.get("PHONE_NUMBERS"));
 
-        phoneNumbers.delete(0, phoneNumbers.length());
-        phoneComments.delete(0, phoneComments.length());
-
-        capturePhoneNumbersNew(workPhoneTextFieldHolder, workPhoneNumberControllerList, phoneNumbers, phoneComments);
-        boolean workPhoneEmpty = CommonUtil.isEmptyOrNull(phoneNumbers.toString());
-
-        phoneNumbers.delete(0, phoneNumbers.length());
-        phoneComments.delete(0, phoneComments.length());
-
-
-        if (cellPhoneEmtpy && homePhoneEmpty && workPhoneEmpty) {
+        if (cellPhoneEmpty && homePhoneEmpty && workPhoneEmpty) {
             showPhoneErrorMessage(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
             showPhoneErrorMessage(homePhoneTextFieldHolder, homePhoneNumberControllerList);
             showPhoneErrorMessage(workPhoneTextFieldHolder, workPhoneNumberControllerList);
             return false;
         }
+
+        return validatePhoneNumbers(cellPhoneTextFieldHolder, cellPhoneNumberControllerList) &&
+                validatePhoneNumbers(homePhoneTextFieldHolder, homePhoneNumberControllerList) &&
+                validatePhoneNumbers(workPhoneTextFieldHolder, workPhoneNumberControllerList);
+
+    }
+
+    private boolean validatePhoneNumbers(VBox phoneTextFieldHolder,
+                                         List<PhoneNumberController> phoneNumberControllerList) {
+        int size = phoneTextFieldHolder.getChildren().size();
+        for (int index = 0; index < size; index++) {
+            PhoneNumberController phoneNumberController = phoneNumberControllerList.get(index);
+            if (!phoneNumberController.isPhoneNumberEmpty() &&
+                    !phoneNumberController.getPhoneNumberTextField().validate()) {
+                return false;
+            }
+        }
+
         return true;
     }
 
-    private void showPhoneErrorMessage(VBox parent,List<PhoneNumberController> phoneNumberControllerList){
+    private void showPhoneErrorMessage(VBox parent, List<PhoneNumberController> phoneNumberControllerList) {
         for (int index = 0; index < parent.getChildren().size(); index++) {
             PhoneNumberController phoneNumberController = phoneNumberControllerList.get(index);
             phoneNumberController.showErrorMessage("Please provide atleast one valid contact number");
@@ -377,10 +383,10 @@ public class MemberInformationController extends AbstractController {
     private HBox getHBox(List<PhoneNumberController> phoneNumberControllerList) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 "/fxml/family-management/phone-numbers-hbox.fxml"));
-        HBox parent = null;
+        HBox parent;
         try {
             parent = fxmlLoader.load();
-            PhoneNumberController phoneNumberController = (PhoneNumberController) fxmlLoader.getController();
+            PhoneNumberController phoneNumberController = fxmlLoader.getController();
             phoneNumberControllerList.add(phoneNumberController);
         } catch (IOException exception) {
             throw new RuntimeException(exception);

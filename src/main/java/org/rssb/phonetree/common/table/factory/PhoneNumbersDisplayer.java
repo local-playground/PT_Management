@@ -13,35 +13,49 @@ import java.util.List;
 
 public class PhoneNumbersDisplayer<S, T>
         implements Callback<TableColumn<S, T>, TableCell<S, T>> {
+    private String phoneType;
+
+    public String getPhoneType() {
+        return phoneType;
+    }
+
+    public void setPhoneType(String phoneType) {
+        this.phoneType = phoneType;
+    }
+
     @Override
     public TableCell<S, T> call(TableColumn<S, T> p) {
         return new TableCell<S, T>() {
             @Override
             public void updateItem(T item, boolean empty) {
-                System.out.println("being called PhoneNumbersDisplayer");
+                System.out.println("being called PhoneNumbersDisplayer for "+phoneType);
                 super.updateItem(item, empty);
                 if (empty) {
                     setGraphic(null);
                     return;
                 }
-                System.out.println("Item not empty");
                 Member member = (Member) p.getTableView().getItems().get(getIndex());
-                System.out.println("member.cellPhone = "+member.getCellPhone());
-                String phoneNumbers = member.getCellPhone();
+
+                String phoneNumbers= member.getCellPhone();//default
+                if(phoneType.equalsIgnoreCase("CELL")) {
+                    phoneNumbers = member.getCellPhone();
+                }else if(phoneType.equalsIgnoreCase("HOME")){
+                    phoneNumbers = member.getHomePhone();
+                }else if(phoneType.equalsIgnoreCase("WORK")){
+                    phoneNumbers = member.getWorkPhone();
+                }
+
                 VBox vBox = new VBox();
                 vBox.setSpacing(5);
 
                 List<String> phoneNumbersList = Arrays.asList(phoneNumbers.split(","));
                 Label label = new Label();
-                //label.setWrapText(true);
                 StringBuilder sb = new StringBuilder();
                 for(String phone:phoneNumbersList){
                     sb.append(phone).append("\n");
                 }
                 label.setText(sb.toString());
-                //vBox.getChildren().add(label);
-                //StackPane pane = new StackPane();
-                //pane.getChildren().addAll(label);
+                label.setStyle("-fx-background-color: transparent");
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 setGraphic(label);
             }

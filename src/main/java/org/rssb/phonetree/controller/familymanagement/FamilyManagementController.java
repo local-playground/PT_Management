@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
@@ -219,7 +220,27 @@ public class FamilyManagementController extends AbstractController {
 
     @FXML
     void saveFamily(ActionEvent event) {
+        if(!validate()){
+            return;
+        }
 
+        Family family = extractAndBuildFamily();
+    }
+
+    @Override
+    public boolean validate(){
+        Sevadar sevadar = sevadarNameComboBox.getSelectionModel().getSelectedItem();
+        if(sevadar==null){
+            CommonUtil.showPopOver("Please assign this family to Sevadar",sevadarNameComboBox);
+            return false;
+        }
+
+        if(membersTableView.getItems().size()==0){
+            CommonUtil.showPopOver("Please add members to this family",membersTableView);
+            return false;
+        }
+
+        return true;
     }
 
     private void addMember(ContextHolder contextHolder) {
@@ -251,8 +272,10 @@ public class FamilyManagementController extends AbstractController {
 
     private void showDetails(ContextHolder contextHolder) {
         SearchResult selectedResult = (SearchResult) contextHolder.get(Constants.RESPONSE_OBJ);
-        Family family = familyService.findByFamilyId(selectedResult.getFamilyId()).get();
-        setFamilyData(family);
+        Optional<Family> family = familyService.findByFamilyId(selectedResult.getFamilyId());
+        if(family.isPresent()) {
+            setFamilyData(family.get());
+        }
     }
 
     @Override
@@ -328,20 +351,20 @@ public class FamilyManagementController extends AbstractController {
                         String fromTime = callSpecificTime.substring(0, callSpecificTime.indexOf('-'));
                         String toTime = callSpecificTime.substring(callSpecificTime.indexOf('-') + 1);
                         int fromTimeHours;
-                        int fromTimeIndex = (fromTime.indexOf("AM") != -1 ? fromTime.indexOf("AM") : -1);
+                        int fromTimeIndex = (fromTime.indexOf("AM"));
                         if (fromTimeIndex == -1) {
-                            fromTimeIndex = (fromTime.indexOf("PM") != -1 ? fromTime.indexOf("PM") : -1);
+                            fromTimeIndex = (fromTime.indexOf("PM"));
                             fromTimeHours = 12 + Integer.parseInt(fromTime.substring(0, fromTimeIndex));
                         } else {
                             fromTimeHours = Integer.parseInt(fromTime.substring(0, fromTimeIndex));
                         }
 
                         int toTimeHours;
-                        int toTimeIndex = (toTime.indexOf("AM") != -1 ? toTime.indexOf("AM") : -1);
+                        int toTimeIndex = (toTime.indexOf("AM"));
 
                         if (toTimeIndex == -1) {
-                            toTimeIndex = (toTime.indexOf("PM") != -1 ? toTime.indexOf("PM") : -1);
-                            toTimeHours = 12 + Integer.parseInt(toTime.substring(0, fromTimeIndex));
+                            toTimeIndex = (toTime.indexOf("PM"));
+                            toTimeHours = 12 + Integer.parseInt(toTime.substring(0, toTimeIndex));
                         } else {
                             toTimeHours = Integer.parseInt(toTime.substring(0, toTimeIndex));
                         }
@@ -400,7 +423,7 @@ public class FamilyManagementController extends AbstractController {
                 return sevadarObservableList
                         .stream()
                         .filter(sevadar -> sevadar.getSevadarName().equalsIgnoreCase(sevadarName))
-                        .findFirst().get();
+                        .findFirst().orElseGet(null);
 
             }
         });

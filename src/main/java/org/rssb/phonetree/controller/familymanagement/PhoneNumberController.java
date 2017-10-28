@@ -11,32 +11,36 @@ import org.springframework.stereotype.Component;
 @Lazy
 public class PhoneNumberController {
     @FXML
-    private DecoratedTextField cellPhoneTextField;
+    private DecoratedTextField phoneNumberTextField;
 
     @FXML
-    private DecoratedTextField cellPhoneCommentTextField;
+    private DecoratedTextField phoneNumberCommentTextField;
 
-    public boolean isPhoneNumberEmpty(){
-        return CommonUtil.isEmptyOrNull(cellPhoneTextField.getText());
+    boolean isPhoneNumberEmpty() {
+        return CommonUtil.isEmptyOrNull(phoneNumberTextField.getText());
     }
 
-    public String getPhoneNumber(){
-        return cellPhoneTextField.getText();
+    String getPhoneNumber() {
+        return phoneNumberTextField.getText();
     }
 
-    public String getPhoneComments(){
-        return CommonUtil.isEmptyOrNull(cellPhoneCommentTextField.getText())?"":cellPhoneCommentTextField.getText();
+    String getPhoneComments() {
+        return CommonUtil.isEmptyOrNull(phoneNumberCommentTextField.getText()) ? "" : phoneNumberCommentTextField.getText();
     }
 
-    public void setPhoneNumber(String text){
-        cellPhoneTextField.setText(text);
+    void setPhoneNumber(String text) {
+        phoneNumberTextField.setText(text);
     }
 
-    public void setPhoneComments(String text){
-        cellPhoneCommentTextField.setText(text);
+    void setPhoneComments(String text) {
+        phoneNumberCommentTextField.setText(text);
     }
 
-    public void showErrorMessage(String message){
-        cellPhoneTextField.showPopOver(message);
+    void showErrorMessage(String message) {
+        phoneNumberTextField.showPopOver(message);
+    }
+
+    DecoratedTextField getPhoneNumberTextField() {
+        return phoneNumberTextField;
     }
 }

@@ -3,8 +3,14 @@ package org.rssb.phonetree.common;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+import org.controlsfx.control.PopOver;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.status.ActionAlertType;
 import org.rssb.phonetree.status.ActionResponseType;
@@ -22,25 +28,17 @@ public class CommonUtil {
     }
 
     public static boolean isTrue(String value) {
-        if (isEmptyOrNull(value)) {
-            return false;
-        }
+        return !isEmptyOrNull(value) && ("Y".equalsIgnoreCase(value) || "YES".equalsIgnoreCase(value));
 
-        return "Y".equalsIgnoreCase(value) || "YES".equalsIgnoreCase(value);
     }
 
     public static boolean isEmptyOrNull(String str) {
-        if (str == null || str.trim().length() == 0)
-            return true;
+        return str == null || str.trim().length() == 0;
 
-        return false;
     }
 
     public static boolean isNotEmptyOrNull(String str) {
-        if (str == null || str.trim().length() == 0)
-            return false;
-
-        return true;
+        return !(str == null || str.trim().length() == 0);
     }
 
     public static String ifEmptyOrNullReturnDefault(String str,String defaultValue) {
@@ -68,12 +66,9 @@ public class CommonUtil {
         return sb.toString();
     }
 
-    public static boolean isIndexOfKeyPresent(String value,String lookup){
-        if(isEmptyOrNull(value)){
-            return false;
-        }
+    public static boolean isIndexOfKeyPresent(String value,String lookup) {
+        return !isEmptyOrNull(value) && (!value.contains(lookup) ? false : true);
 
-        return value.indexOf(lookup)==-1?false:true;
     }
 
     public static int convertStringToInt(String value,int defaultValue){
@@ -129,6 +124,20 @@ public class CommonUtil {
 
         return response;
     }
+
+    public static void showPopOver(String message,Node node){
+        PopOver popOver = new PopOver();
+        Label label = new Label(message);
+        VBox box = new VBox();
+        box.setPadding(new Insets(10));
+        box.getChildren().add(label);
+        popOver.setContentNode(box);
+        popOver.setAnimated(true);
+        popOver.setArrowLocation(PopOver.ArrowLocation.BOTTOM_CENTER);
+        popOver.hide(Duration.seconds(10));
+        popOver.show(node);
+    }
+
 
     /*public static BackupSevadar createBackupSevadar(int memberId,int familyId,String sevadarName){
         BackupSevadar backupSevadar = new BackupSevadar();
@@ -210,9 +219,7 @@ public class CommonUtil {
         JFXDialogLayout jfxDialogLayout = createJFXDialogLayout(response);
         JFXDialog jfxDialog = new JFXDialog((StackPane) rootPanel.getRootPanel(),jfxDialogLayout, JFXDialog.DialogTransition.TOP);
         JFXButton okayButton = new JFXButton("Ok");
-        okayButton.setOnAction(event -> {
-            jfxDialog.close();
-        });
+        okayButton.setOnAction(event -> jfxDialog.close());
         jfxDialogLayout.setActions(okayButton);
         jfxDialog.show();
     }
@@ -233,9 +240,7 @@ public class CommonUtil {
             }
         });
         JFXButton noButton = new JFXButton("No");
-        noButton.setOnAction(event -> {
-            jfxDialog.close();
-        });
+        noButton.setOnAction(event -> jfxDialog.close());
 
         jfxDialogLayout.setActions(yesButton,noButton);
         jfxDialog.show();

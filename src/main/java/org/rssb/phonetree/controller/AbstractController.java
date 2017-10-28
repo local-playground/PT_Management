@@ -15,6 +15,7 @@ import org.rssb.phonetree.common.PostLoader;
 import org.rssb.phonetree.common.Refreshable;
 import org.rssb.phonetree.common.RootPanel;
 import org.rssb.phonetree.common.Selection;
+import org.rssb.phonetree.common.Validator;
 import org.rssb.phonetree.services.UtilityService;
 import org.rssb.phonetree.ui.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 @Component
-public abstract class AbstractController implements Refreshable,Initializable,PostLoader,Selection,RootPanel {
+public abstract class AbstractController implements
+        Refreshable,Initializable,PostLoader,Selection,RootPanel,Validator {
 
     protected Delegator delegator;
     protected ContextHolder contextHolder;
@@ -55,6 +57,11 @@ public abstract class AbstractController implements Refreshable,Initializable,Po
     @Override
     public void refresh(){
 
+    }
+
+    @Override
+    public boolean validate(){
+        return true;
     }
 
     @Override
@@ -105,10 +112,7 @@ public abstract class AbstractController implements Refreshable,Initializable,Po
         ft.setFromValue(1.0);
         ft.setToValue(0.0);
         ft.play();
-        ft.setOnFinished(event1 -> {
-            System.out.println("parent calling on fade transition ended");
-
-        });
+        ft.setOnFinished(event1 -> System.out.println("parent calling on fade transition ended"));
 
         stage.close();
         setOpacity(Constants.FULL_OPACITY,contextHolder);
