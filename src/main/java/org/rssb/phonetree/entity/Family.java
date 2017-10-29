@@ -81,12 +81,6 @@ import java.util.List;
 })
 
 
-/*
- public CalledFamilyDetails(int memberId,int familyId, String firstName, String lastName,
-                               String cellPhone, String homePhone, String workPhone,
-                               String zipCode, CallStatus callStatus, BusRide busRide,
-                               int noOfPassengers, YesNo SNVGuideLines) {
- */
 public class Family implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(name = "FamilyId")
@@ -140,6 +134,31 @@ public class Family implements Serializable {
     private int csvFileFamilyId;
 
     public Family() {
+    }
+
+    public Family(String zipCode, Integer noOfAdults, Integer noOfChildren,
+                  String town, String callSpecificTime, Integer noOfPassengers,
+                  String comments, String internalNote, BusRide busRide,
+                  CallStatus callStatus, YesNo active, YesNo canCallAnytime,
+                  YesNo SNVGuidelines,TeamLead teamLead, Sevadar sevadar,
+                  List<Member> membersList, int csvFileFamilyId) {
+        this.zipCode = zipCode;
+        this.noOfAdults = noOfAdults;
+        this.noOfChildren = noOfChildren;
+        this.town = town;
+        this.callSpecificTime = callSpecificTime;
+        this.noOfPassengers = noOfPassengers;
+        this.comments = comments;
+        this.internalNote = internalNote;
+        this.busRide = busRide;
+        this.callStatus = callStatus;
+        this.active = active;
+        this.canCallAnytime = canCallAnytime;
+        this.SNVGuidelines = SNVGuidelines;
+        this.teamLead = teamLead;
+        this.sevadar = sevadar;
+        this.membersList = membersList;
+        this.csvFileFamilyId = csvFileFamilyId;
     }
 
     public static long getSerialVersionUID() {

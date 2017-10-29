@@ -28,7 +28,6 @@ public class PhoneNumbersDisplayer<S, T>
         return new TableCell<S, T>() {
             @Override
             public void updateItem(T item, boolean empty) {
-                System.out.println("being called PhoneNumbersDisplayer for "+phoneType);
                 super.updateItem(item, empty);
                 if (empty) {
                     setGraphic(null);

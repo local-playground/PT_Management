@@ -3,6 +3,7 @@ package org.rssb.phonetree.entity.builder;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.entity.Family;
+import org.rssb.phonetree.entity.FamilyBuilder;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
 import org.rssb.phonetree.entity.emums.BusRide;
@@ -48,7 +49,7 @@ public class FamilyEntityBuilder implements EntityBuilder{
             String internalNote= mapData.get("InternalNote");
             int isContactOK= CommonUtil.convertStringToInt(mapData.get("isContactOK"),-1);
 
-            Family family = new Family();
+            Family family = new FamilyBuilder().build();
             family.setFamilyId(familyId);
             family.setCsvFileFamilyId(familyId);
 

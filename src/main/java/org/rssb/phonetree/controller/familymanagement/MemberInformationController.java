@@ -20,6 +20,7 @@ import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.custom.controls.DecoratedTextField;
 import org.rssb.phonetree.entity.Family;
 import org.rssb.phonetree.entity.Member;
+import org.rssb.phonetree.entity.MemberBuilder;
 import org.rssb.phonetree.entity.emums.PreferredPhoneType;
 import org.rssb.phonetree.entity.emums.YesNo;
 import org.springframework.context.annotation.Lazy;
@@ -193,23 +194,25 @@ public class MemberInformationController extends AbstractController {
     }
 
     private Member collectMemberInformation() {
+        Map<String, String> cellPhoneNumbersDataMap = capturePhoneNumbersAndComments(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
+        Map<String, String> homePhoneNumbersDataMap = capturePhoneNumbersAndComments(homePhoneTextFieldHolder, homePhoneNumberControllerList);
+        Map<String, String> workPhoneNumbersDataMap = capturePhoneNumbersAndComments(workPhoneTextFieldHolder, workPhoneNumberControllerList);
+
+
         Member member = (Member) contextHolder.get("MEMBER_DETAIL");
         if (member == null) {
-            member = new Member();
+            member = new MemberBuilder().build();
         }
         member.setFirstName(firstNameTextField.getText());
         member.setLastName(lastNameTextField.getText());
-        Map<String, String> phoneNumbersDataMap = capturePhoneNumbersAndComments(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
-        member.setCellPhone(phoneNumbersDataMap.get("PHONE_NUMBERS"));
-        member.setCellPhoneComments(phoneNumbersDataMap.get("PHONE_COMMENTS"));
+        member.setCellPhone(cellPhoneNumbersDataMap.get("PHONE_NUMBERS"));
+        member.setCellPhoneComments(cellPhoneNumbersDataMap.get("PHONE_COMMENTS"));
         member.setCellNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveCellVMGroup.getSelectedToggle()).getText()));
-        phoneNumbersDataMap = capturePhoneNumbersAndComments(homePhoneTextFieldHolder, homePhoneNumberControllerList);
-        member.setHomePhone(phoneNumbersDataMap.get("PHONE_NUMBERS"));
-        member.setHomePhoneComments(phoneNumbersDataMap.get("PHONE_COMMENTS"));
+        member.setHomePhone(homePhoneNumbersDataMap.get("PHONE_NUMBERS"));
+        member.setHomePhoneComments(homePhoneNumbersDataMap.get("PHONE_COMMENTS"));
         member.setHomeNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveHomeVMGroup.getSelectedToggle()).getText()));
-        phoneNumbersDataMap = capturePhoneNumbersAndComments(workPhoneTextFieldHolder, workPhoneNumberControllerList);
-        member.setWorkPhone(phoneNumbersDataMap.get("PHONE_NUMBERS"));
-        member.setWorkPhoneComments(phoneNumbersDataMap.get("PHONE_COMMENTS"));
+        member.setWorkPhone(workPhoneNumbersDataMap.get("PHONE_NUMBERS"));
+        member.setWorkPhoneComments(workPhoneNumbersDataMap.get("PHONE_COMMENTS"));
         member.setWorkNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveWorkVMGroup.getSelectedToggle()).getText()));
         member.setPreferredPhoneType(PreferredPhoneType.fromDatabaseName(((JFXToggleButton) preferredPhoneGroup.getSelectedToggle()).getText()));
         member.setOnCallingList(YesNo.fromDatabaseName(((JFXToggleButton) onCallingListGroup.getSelectedToggle()).getText()));

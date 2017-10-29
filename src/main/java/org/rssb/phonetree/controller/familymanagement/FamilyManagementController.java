@@ -29,6 +29,7 @@ import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.custom.controls.DecoratedTextField;
 import org.rssb.phonetree.domain.SearchResult;
 import org.rssb.phonetree.entity.Family;
+import org.rssb.phonetree.entity.FamilyBuilder;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
@@ -46,6 +47,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -220,7 +222,7 @@ public class FamilyManagementController extends AbstractController {
 
     @FXML
     void saveFamily(ActionEvent event) {
-        if(!validate()){
+        if (!validate()) {
             return;
         }
 
@@ -228,15 +230,15 @@ public class FamilyManagementController extends AbstractController {
     }
 
     @Override
-    public boolean validate(){
+    public boolean validate() {
         Sevadar sevadar = sevadarNameComboBox.getSelectionModel().getSelectedItem();
-        if(sevadar==null){
-            CommonUtil.showPopOver("Please assign this family to Sevadar",sevadarNameComboBox);
+        if (sevadar == null) {
+            CommonUtil.showPopOver("Please assign this family to Sevadar", sevadarNameComboBox);
             return false;
         }
 
-        if(membersTableView.getItems().size()==0){
-            CommonUtil.showPopOver("Please add members to this family",membersTableView);
+        if (membersTableView.getItems().size() == 0) {
+            CommonUtil.showPopOver("Please add members to this family", membersTableView);
             return false;
         }
 
@@ -248,13 +250,13 @@ public class FamilyManagementController extends AbstractController {
         ObservableList<Member> list = membersTableView.getItems();
         boolean found = false;
         for (Member member1 : list) {
-            if(member.getMemberId()!=0) {
+            if (member.getMemberId() != 0) {
                 if (member.getMemberId() == member1.getMemberId()) {
                     member1 = member;
                     found = true;
                 }
-            }else{
-                if(member.getFirstName().equalsIgnoreCase(member1.getFirstName())){
+            } else {
+                if (member.getFirstName().equalsIgnoreCase(member1.getFirstName())) {
                     member1 = member;
                     found = true;
                 }
@@ -273,7 +275,7 @@ public class FamilyManagementController extends AbstractController {
     private void showDetails(ContextHolder contextHolder) {
         SearchResult selectedResult = (SearchResult) contextHolder.get(Constants.RESPONSE_OBJ);
         Optional<Family> family = familyService.findByFamilyId(selectedResult.getFamilyId());
-        if(family.isPresent()) {
+        if (family.isPresent()) {
             setFamilyData(family.get());
         }
     }
@@ -285,9 +287,39 @@ public class FamilyManagementController extends AbstractController {
 
 
     private Family extractAndBuildFamily() {
-        Family family = new Family();
+        Family family = new FamilyBuilder()
+                .setZipCode(CommonUtil.ifEmptyOrNullReturnDefault(zipCodeTextField.getText(), ""))
+                .setNoOfAdults(CommonUtil.convertStringToInt(noOfAdultsAttendsSNVTextField.getText(), 0))
+                .setNoOfChildren(CommonUtil.convertStringToInt(noOfChildrenAttendsSNVTextField.getText(), 0))
+                .setTown(CommonUtil.ifEmptyOrNullReturnDefault(townTextField.getText(), ""))
+                .setActive(YesNo.fromDatabaseName(getValueFromToggleGroup(familyActiveGroup)))
+                .setBusRide(BusRide.fromShortName(getValueFromToggleGroup(needBusRideGroup)))
+                .setNoOfPassengers(CommonUtil.convertStringToInt(noOfPassengersTextField.getText(), 0))
+                .setCallStatus(CallStatus.fromDatabaseName(getValueFromToggleGroup(phoneStatusGroup)))
+                .setCanCallAnytime(YesNo.fromDatabaseName(getValueFromToggleGroup(canCallAnytimeGroup)))
+                .setCallSpecificTime(captureSpecificTimePickerValues())
+                .setComments(CommonUtil.ifEmptyOrNullReturnDefault(commentsTextArea.getText(), ""))
+                .setInternalNote(CommonUtil.ifEmptyOrNullReturnDefault(internalCommentsTextArea.getText(), ""))
+                .setSevadar(sevadarNameComboBox.getSelectionModel().getSelectedItem())
+                .setTeamLead(sevadarNameComboBox.getSelectionModel().getSelectedItem().getTeamLead())
+                .setSNVGuidelines(YesNo.fromDatabaseName(getValueFromToggleGroup(SNVGuidelineGroup)))
+                .setMembersList(membersTableView.getItems())
+                .build();
 
+        System.out.println("Captured family info "+family);
         return family;
+    }
+
+    private String captureSpecificTimePickerValues(){
+        String fromTime = fromTimePicker.getValue().format(DateTimeFormatter.ofPattern("HHmm"));
+        String toTime = toTimePicker.getValue().format(DateTimeFormatter.ofPattern("HHmm"));
+
+        return fromTime+"-"+toTime;
+
+    }
+
+    private String getValueFromToggleGroup(ToggleGroup group) {
+        return ((JFXToggleButton) group.getSelectedToggle()).getText();
     }
 
     private void setFamilyData(Family family) {
@@ -429,7 +461,7 @@ public class FamilyManagementController extends AbstractController {
         });
 
         familyIdTableColumn.setCellValueFactory(param -> {
-            if(param.getValue().getFamily()!=null) {
+            if (param.getValue().getFamily() != null) {
                 return new SimpleStringProperty(String.valueOf(param.getValue().getFamily().getFamilyId()));
             }
 
@@ -441,8 +473,8 @@ public class FamilyManagementController extends AbstractController {
         membersTableView.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
                 Member member = membersTableView.getSelectionModel().getSelectedItem();
-                ContextHolder contextHolder = createContextHolder(new String[]{"MEMBER_DETAIL","JFX_DRAWER"},
-                        new Object[]{member,jfxDrawer}, getRootPanel());
+                ContextHolder contextHolder = createContextHolder(new String[]{"MEMBER_DETAIL", "JFX_DRAWER"},
+                        new Object[]{member, jfxDrawer}, getRootPanel());
                 openDrawer(contextHolder);
             }
         });
