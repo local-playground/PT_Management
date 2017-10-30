@@ -73,6 +73,9 @@ public class FamilyManagementController extends AbstractController {
     private Label teamLeadNameLabel;
 
     @FXML
+    private DecoratedTextField familyIdTextField;
+
+    @FXML
     private JFXComboBox<Sevadar> sevadarNameComboBox;
 
     @FXML
@@ -221,6 +224,14 @@ public class FamilyManagementController extends AbstractController {
     }
 
     @FXML
+    void changeTeamLeadName(ActionEvent event) {
+        Sevadar sevadar = sevadarNameComboBox.getSelectionModel().getSelectedItem();
+        if(sevadar!=null){
+            teamLeadNameLabel.setText(sevadar.getTeamLead().getTeamLeadName());
+        }
+    }
+
+    @FXML
     void saveFamily(ActionEvent event) {
         if (!validate()) {
             return;
@@ -305,7 +316,7 @@ public class FamilyManagementController extends AbstractController {
                 .setSNVGuidelines(YesNo.fromDatabaseName(getValueFromToggleGroup(SNVGuidelineGroup)))
                 .setMembersList(membersTableView.getItems())
                 .build();
-
+        family.setFamilyId(CommonUtil.convertStringToInt(familyIdTextField.getText(),0));
         System.out.println("Captured family info "+family);
         return family;
     }
@@ -343,6 +354,8 @@ public class FamilyManagementController extends AbstractController {
         String callSpecificTime = family.getCallSpecificTime();
 
         List<Member> memberList = family.getMembersList();
+
+        familyIdTextField.setText(String.valueOf(familyId));
 
         teamLeadNameLabel.setText(teamLead.getTeamLeadName());
         for (int index = 0; index < sevadarObservableList.size(); index++) {
@@ -439,8 +452,6 @@ public class FamilyManagementController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
         List<Sevadar> sevadarList = sevadarService.findAllSevadars();
         sevadarObservableList = FXCollections.observableArrayList(sevadarList);
         sevadarNameComboBox.getItems().addAll(sevadarObservableList);

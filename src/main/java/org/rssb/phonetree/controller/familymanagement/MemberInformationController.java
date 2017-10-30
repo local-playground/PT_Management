@@ -110,9 +110,16 @@ public class MemberInformationController extends AbstractController {
         Member member = collectMemberInformation();
         contextHolder.set("MEMBER_DETAIL", member);
         delegator.delegate(contextHolder);
+        clearPhoneNumbersCache();
+    }
+
+    private void clearPhoneNumbersCache() {
         cellPhoneNumberControllerList.clear();
         homePhoneNumberControllerList.clear();
         workPhoneNumberControllerList.clear();
+        cellPhoneTextFieldHolder.getChildren().clear();
+        homePhoneTextFieldHolder.getChildren().clear();
+        workPhoneTextFieldHolder.getChildren().clear();
     }
 
     @FXML
@@ -181,7 +188,7 @@ public class MemberInformationController extends AbstractController {
             addMember.setText("ADD");
             return;
         }
-
+        clearPhoneNumbersCache();
         populateMemberInformation(member);
     }
 
@@ -316,21 +323,31 @@ public class MemberInformationController extends AbstractController {
 
     private void displayPhoneNumbers(String phoneNumbers, String phoneComments,
                                      VBox parent, List<PhoneNumberController> phoneNumberControllerList) {
+
+        phoneNumbers = CommonUtil.ifEmptyOrNullReturnDefault(phoneNumbers,"");
+        phoneComments= CommonUtil.ifEmptyOrNullReturnDefault(phoneComments,"");
+
         List<String> phoneNumbersList = Arrays.asList(phoneNumbers.split(","));
         List<String> phoneCommentsList = Arrays.asList(phoneComments.split(","));
 
         for (int index = 0; index < phoneNumbersList.size(); index++) {
             String phone = phoneNumbersList.get(index);
-            String comment = phoneCommentsList.get(index);
-            if (parent.getChildren().size() <= index) {
+            String comment = phoneCommentsList.size()>index?phoneCommentsList.get(index):"";
+            int size = parent.getChildren().size();
+            if (size <= index) {
+                System.out.println("Calling to add new text for index "+index);
                 createAdditionalPhoneNumberTextField(parent, phoneNumberControllerList);
             }
-           /* System.out.println("working on index = " + index +
+            System.out.println("working on index = " + index +
                     " parent size = " + parent.getChildren().size() +
-                    " controller size list " + phoneNumberControllerList.size());*/
-            PhoneNumberController phoneNumberController = phoneNumberControllerList.get(index);
-            phoneNumberController.setPhoneNumber(phone);
-            phoneNumberController.setPhoneComments(comment);
+                    " controller size list " + phoneNumberControllerList.size());
+            PhoneNumberController phoneNumberController = phoneNumberControllerList.size()>index?
+                    phoneNumberControllerList.get(index):null;
+
+            if (phoneNumberController != null) {
+                phoneNumberController.setPhoneNumber(phone);
+                phoneNumberController.setPhoneComments(comment);
+            }
         }
     }
 
