@@ -28,6 +28,7 @@ import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.controller.AbstractController;
+import org.rssb.phonetree.controller.phonetreemanagement.PhoneTreeManagementActionsController;
 import org.rssb.phonetree.custom.controls.DecoratedTextField;
 import org.rssb.phonetree.domain.SearchResult;
 import org.rssb.phonetree.entity.Family;
@@ -39,9 +40,12 @@ import org.rssb.phonetree.entity.emums.BusRide;
 import org.rssb.phonetree.entity.emums.CallStatus;
 import org.rssb.phonetree.entity.emums.YesNo;
 import org.rssb.phonetree.services.FamilyService;
+import org.rssb.phonetree.services.MemberService;
 import org.rssb.phonetree.services.SevadarService;
 import org.rssb.phonetree.spring.config.SpringFXMLLoader;
+import org.rssb.phonetree.status.ActionAlertType;
 import org.rssb.phonetree.status.FamilyActionResponse;
+import org.rssb.phonetree.status.MemberActionResponse;
 import org.rssb.phonetree.ui.view.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -62,6 +66,9 @@ import java.util.function.Predicate;
 public class FamilyManagementController extends AbstractController {
     @Autowired
     private SpringFXMLLoader springFXMLLoader;
+
+    @Autowired
+    private PhoneTreeManagementActionsController phoneTreeManagementActionsController;
 
     @FXML
     private StackPane familyManagementRootPane;
@@ -170,6 +177,9 @@ public class FamilyManagementController extends AbstractController {
     private FamilyService familyService;
 
     @Autowired
+    private MemberService memberService;
+
+    @Autowired
     private SevadarService sevadarService;
 
     private ObservableList<Sevadar> sevadarObservableList;
@@ -229,22 +239,82 @@ public class FamilyManagementController extends AbstractController {
 
     @FXML
     void deleteMember(ActionEvent event) {
+        Member member = membersTableView.getSelectionModel().getSelectedItem();
+        if (member == null) {
+            CommonUtil.showNoActionNeededJFXDialog(this, null, MemberActionResponse.MEMBER_SELECT_BEFORE_ACTION);
+            return;
+        }
+
+        CommonUtil.showConfirmationJFXDialog(this,
+                new Object[]{CommonUtil.getFullName(member)},
+                MemberActionResponse.MEMBER_CONFIRM_BEFORE_REMOVE,
+                null,
+                contextHolder1 -> {
+                    Response response = memberService.deleteMember(member.getMemberId());
+                    if(response.getActionResponseType() == MemberActionResponse.MEMBER_DOES_NOT_EXISTS){
+                        membersTableView.getItems().remove(member);
+                        response = CommonUtil.createResponse(MemberActionResponse.MEMBER_SUCCESSFULLY_DELETED,
+                                new Object[]{CommonUtil.getFullName(member)}, ActionAlertType.INFORMATION);
+                    }
+                    membersTableView.refresh();
+                    return response;
+                });
 
     }
 
     @FXML
     void moveAsSeparateFamily(ActionEvent event) {
+        Member member = membersTableView.getSelectionModel().getSelectedItem();
+        if (member == null) {
+            CommonUtil.showNoActionNeededJFXDialog(this, null, MemberActionResponse.MEMBER_SELECT_BEFORE_ACTION);
+            return;
+        }
 
+        CommonUtil.showConfirmationJFXDialog(this,
+                new Object[]{CommonUtil.getFullName(member)},
+                MemberActionResponse.MEMBER_CONFIRM_BEFORE_MOVE_AS_SEPARATE_FAMILY,
+                null,
+                contextHolder1 -> {
+                    Response response = familyService.moveMemberAsSeparateFamily(member.getMemberId());
+                    return response;
+                });
     }
 
     @FXML
     void moveUnderOtherFamily(ActionEvent event) {
+        Member member = membersTableView.getSelectionModel().getSelectedItem();
+        if (member == null) {
+            CommonUtil.showNoActionNeededJFXDialog(this, null, MemberActionResponse.MEMBER_SELECT_BEFORE_ACTION);
+            return;
+        }
 
+        ContextHolder contextHolder = createContextHolder(
+                new String[]{Constants.REQUEST_OBJ},
+                new Object[]{member},
+                getRootPanel());
+        setOpacity(Constants.LOW_OPACITY, contextHolder);
+        stageManager.switchScene(FxmlView.SEARCH, this::moveUnderOtherFamily, contextHolder, true);
+
+
+    }
+
+    private void moveUnderOtherFamily(ContextHolder contextHolder){
+        Member member = (Member) contextHolder.get(Constants.REQUEST_OBJ);
+        SearchResult selectedResult = (SearchResult) contextHolder.get(Constants.RESPONSE_OBJ);
+
+        CommonUtil.showConfirmationJFXDialog(this,
+                new Object[]{CommonUtil.getFullName(member),selectedResult.getFirstName()+" "+selectedResult.getLastName()},
+                MemberActionResponse.MEMBER_CONFIRM_BEFORE_MOVE_UNDER_OTHER_FAMILY,
+                null,
+                contextHolder1 -> {
+                    Response response = familyService.moveMemberUnderOtherFamily(member.getMemberId(),selectedResult.getFamilyId());
+                    return response;
+                });
     }
 
     @FXML
     void resetForm(ActionEvent event) {
-
+        resetForm();
     }
 
     @FXML
@@ -282,6 +352,11 @@ public class FamilyManagementController extends AbstractController {
         return true;
     }
 
+    private void resetForm(){
+        phoneTreeManagementActionsController.showFamilyManagement(null);
+    }
+
+
     private Predicate<Member> isFirstNameMatched(String firstName) {
         return p -> p.getFirstName().equalsIgnoreCase(firstName);
     }
@@ -291,7 +366,7 @@ public class FamilyManagementController extends AbstractController {
     }
 
 
-    private void matchMember(ObservableList<Member> list, List<Predicate<Member>> predicateList, Member memberToReplace) {
+    private void addOrUpdateMember(ObservableList<Member> list, List<Predicate<Member>> predicateList, Member memberToReplace) {
         boolean found = false;
         for (int index = 0; index < list.size(); index++) {
             if (found) {
@@ -301,7 +376,9 @@ public class FamilyManagementController extends AbstractController {
             for (Predicate p : predicateList) {
                 if (p.test(member)) {
                     list.remove(index);
-                    list.add(index, memberToReplace);
+                    if(memberToReplace!=null) {
+                        list.add(index, memberToReplace);
+                    }
                     found = true;
                     break;
                 }
@@ -323,25 +400,7 @@ public class FamilyManagementController extends AbstractController {
         List<Predicate<Member>> predicateList = Arrays.asList(isMemberIdMatched(updatedMember.getMemberId()),
                 isFirstNameMatched(updatedMember.getFirstName()));
 
-        matchMember(list, predicateList, updatedMember);
-        /*boolean found = true;
-        found = matchMember(list, isMemberIdMatched(updatedMember.getMemberId()), updatedMember);
-        if (found) {
-            membersTableView.refresh();
-            return;
-        }
-        found = matchMember(list, isFirstNameMatched(updatedMember.getFirstName()), updatedMember);
-        if (found) {
-            membersTableView.refresh();
-            return;
-        }*/
-
-       /* list.add(updatedMember);
-
-        membersTableView.refresh();
-
-        jfxDrawer.close();
-        jfxDrawer.setVisible(false);*/
+        addOrUpdateMember(list, predicateList, updatedMember);
     }
 
     private void showDetails(ContextHolder contextHolder) {

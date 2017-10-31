@@ -4,15 +4,17 @@ import org.rssb.phonetree.common.CommonUtil;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Converter(autoApply = false)
 public class PhoneNumberConverter implements AttributeConverter<String, String> {
+    private Pattern phoneNumberPattern = Pattern.compile("(\\d{3})(\\d{3})(\\d{4})");
+    private Pattern tollPhoneNumberPattern = Pattern.compile("(\\d{1})(\\d{3})(\\d{3})(\\d{4})");
+
     @Override
     public String convertToDatabaseColumn(String value) {
         String newValue = value.replaceAll("[A-Za-z(\\s)-]", "");
-        if (newValue.length() > 10 && newValue.length() < 21) {
-            newValue = newValue.substring(0, 10) + "," + newValue.substring(10);
-        }
         return newValue;
     }
 
@@ -21,23 +23,26 @@ public class PhoneNumberConverter implements AttributeConverter<String, String> 
         if(CommonUtil.isEmptyOrNull(value) || value.trim().length()<10)
             return "";
 
-        if(value.length()==10){
-            return format(value);
-        }
-
-        if(value.length()>10){
-            String data = format(value.substring(0,10));
-            if(value.indexOf(',')!=-1){
-                data+=","+format(value.substring(value.indexOf(',')+1));
+        StringBuilder sb = new StringBuilder();
+        String[] splitWithCommas = value.split(",");
+        for(String phone: splitWithCommas){
+            Matcher matcher = tollPhoneNumberPattern.matcher(phone);
+            if (matcher.matches()) {
+                sb.append(matcher.group(1) + " " + "(" + matcher.group(2) + ")-" + matcher.group(3) + "-" + matcher.group(4)).append(",");
+                continue;
             }
-
-            return data;
+            matcher = phoneNumberPattern.matcher(phone);
+            if (matcher.matches()) {
+                sb.append("(" + matcher.group(1) + ")-" + matcher.group(2) + "-" + matcher.group(3)).append(",");
+            }
         }
 
-        return value;//not sure what format it is, return as is
+        if (CommonUtil.isEmptyOrNull(sb.toString())) {
+            return "";
+        }
+
+        return sb.substring(0, sb.length() - 1);
+
     }
 
-    private String format(String value){
-        return String.format("(%s) %s-%s",value.substring(0,3),value.substring(3,6),value.substring(6,10));
-    }
 }
