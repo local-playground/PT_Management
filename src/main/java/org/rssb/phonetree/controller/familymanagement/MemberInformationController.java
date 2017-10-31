@@ -205,28 +205,28 @@ public class MemberInformationController extends AbstractController {
         Map<String, String> homePhoneNumbersDataMap = capturePhoneNumbersAndComments(homePhoneTextFieldHolder, homePhoneNumberControllerList);
         Map<String, String> workPhoneNumbersDataMap = capturePhoneNumbersAndComments(workPhoneTextFieldHolder, workPhoneNumberControllerList);
 
+        Member member = new MemberBuilder()
+                .setFirstName(firstNameTextField.getText())
+                .setLastName(lastNameTextField.getText())
+                .setCellPhone(cellPhoneNumbersDataMap.get("PHONE_NUMBERS"))
+                .setCellNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveCellVMGroup.getSelectedToggle()).getText()))
+                .setCellPhoneComments(cellPhoneNumbersDataMap.get("PHONE_COMMENTS"))
+                .setHomePhone(homePhoneNumbersDataMap.get("PHONE_NUMBERS"))
+                .setHomeNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveHomeVMGroup.getSelectedToggle()).getText()))
+                .setHomePhoneComments(homePhoneNumbersDataMap.get("PHONE_COMMENTS"))
+                .setWorkPhone(workPhoneNumbersDataMap.get("PHONE_NUMBERS"))
+                .setWorkPhoneComments(workPhoneNumbersDataMap.get("PHONE_COMMENTS"))
+                .setWorkNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveWorkVMGroup.getSelectedToggle()).getText()))
+                .setPreferredPhoneType(PreferredPhoneType.fromDatabaseName(((JFXToggleButton) preferredPhoneGroup.getSelectedToggle()).getText()))
+                .setOnCallingList(YesNo.fromDatabaseName(((JFXToggleButton) onCallingListGroup.getSelectedToggle()).getText()))
+                .setPriority(callPriorityComboBox.getSelectionModel().getSelectedItem())
+                .build();
 
-        Member member = (Member) contextHolder.get("MEMBER_DETAIL");
-        if (member == null) {
-            member = new MemberBuilder().build();
-        }
-        member.setFirstName(firstNameTextField.getText());
-        member.setLastName(lastNameTextField.getText());
-        member.setCellPhone(cellPhoneNumbersDataMap.get("PHONE_NUMBERS"));
-        member.setCellPhoneComments(cellPhoneNumbersDataMap.get("PHONE_COMMENTS"));
-        member.setCellNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveCellVMGroup.getSelectedToggle()).getText()));
-        member.setHomePhone(homePhoneNumbersDataMap.get("PHONE_NUMBERS"));
-        member.setHomePhoneComments(homePhoneNumbersDataMap.get("PHONE_COMMENTS"));
-        member.setHomeNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveHomeVMGroup.getSelectedToggle()).getText()));
-        member.setWorkPhone(workPhoneNumbersDataMap.get("PHONE_NUMBERS"));
-        member.setWorkPhoneComments(workPhoneNumbersDataMap.get("PHONE_COMMENTS"));
-        member.setWorkNoVM(YesNo.fromDatabaseName(((JFXToggleButton) leaveWorkVMGroup.getSelectedToggle()).getText()));
-        member.setPreferredPhoneType(PreferredPhoneType.fromDatabaseName(((JFXToggleButton) preferredPhoneGroup.getSelectedToggle()).getText()));
-        member.setOnCallingList(YesNo.fromDatabaseName(((JFXToggleButton) onCallingListGroup.getSelectedToggle()).getText()));
-        member.setPriority(callPriorityComboBox.getSelectionModel().getSelectedItem());
+
+        member.setMemberId(CommonUtil.convertStringToInt(memberIdTextField.getText(), 0));
+
         return member;
     }
-
 
     private Map<String, String> capturePhoneNumbersAndComments(VBox phoneTextFieldHolder,
                                                                List<PhoneNumberController> phoneNumberControllerList) {
@@ -324,25 +324,25 @@ public class MemberInformationController extends AbstractController {
     private void displayPhoneNumbers(String phoneNumbers, String phoneComments,
                                      VBox parent, List<PhoneNumberController> phoneNumberControllerList) {
 
-        phoneNumbers = CommonUtil.ifEmptyOrNullReturnDefault(phoneNumbers,"");
-        phoneComments= CommonUtil.ifEmptyOrNullReturnDefault(phoneComments,"");
+        phoneNumbers = CommonUtil.ifEmptyOrNullReturnDefault(phoneNumbers, "");
+        phoneComments = CommonUtil.ifEmptyOrNullReturnDefault(phoneComments, "");
 
         List<String> phoneNumbersList = Arrays.asList(phoneNumbers.split(","));
         List<String> phoneCommentsList = Arrays.asList(phoneComments.split(","));
 
         for (int index = 0; index < phoneNumbersList.size(); index++) {
             String phone = phoneNumbersList.get(index);
-            String comment = phoneCommentsList.size()>index?phoneCommentsList.get(index):"";
+            String comment = phoneCommentsList.size() > index ? phoneCommentsList.get(index) : "";
             int size = parent.getChildren().size();
             if (size <= index) {
-                System.out.println("Calling to add new text for index "+index);
+                System.out.println("Calling to add new text for index " + index);
                 createAdditionalPhoneNumberTextField(parent, phoneNumberControllerList);
             }
             System.out.println("working on index = " + index +
                     " parent size = " + parent.getChildren().size() +
                     " controller size list " + phoneNumberControllerList.size());
-            PhoneNumberController phoneNumberController = phoneNumberControllerList.size()>index?
-                    phoneNumberControllerList.get(index):null;
+            PhoneNumberController phoneNumberController = phoneNumberControllerList.size() > index ?
+                    phoneNumberControllerList.get(index) : null;
 
             if (phoneNumberController != null) {
                 phoneNumberController.setPhoneNumber(phone);

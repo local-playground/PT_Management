@@ -25,6 +25,7 @@ import javafx.util.StringConverter;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.common.ContextHolder;
+import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.custom.controls.DecoratedTextField;
 import org.rssb.phonetree.domain.SearchResult;
@@ -39,6 +40,7 @@ import org.rssb.phonetree.entity.emums.YesNo;
 import org.rssb.phonetree.services.FamilyService;
 import org.rssb.phonetree.services.SevadarService;
 import org.rssb.phonetree.spring.config.SpringFXMLLoader;
+import org.rssb.phonetree.status.FamilyActionResponse;
 import org.rssb.phonetree.ui.view.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -200,6 +202,21 @@ public class FamilyManagementController extends AbstractController {
 
     @FXML
     void deleteFamily(ActionEvent event) {
+        int familyId = CommonUtil.convertStringToInt(familyIdTextField.getText(),0);
+        if(familyId==0){
+            CommonUtil.showNoActionNeededJFXDialog(this, null, FamilyActionResponse.FAMILY_SELECT_BEFORE_ACTION);
+            return;
+        }
+
+       /* CommonUtil.showConfirmationJFXDialog(this,
+                new Object[]{familyId},
+                FamilyActionResponse.SEVADAR_CONFIRM_BEFORE_REMOVE,
+                null,
+                contextHolder1 -> {
+                    Response response = sevadarService.deleteSevadar(sevadar.getSevadarsId());
+                    refresh();
+                    return response;
+                });*/
 
     }
 
@@ -238,6 +255,8 @@ public class FamilyManagementController extends AbstractController {
         }
 
         Family family = extractAndBuildFamily();
+        Response respone = familyService.saveToDatabase(family);
+        CommonUtil.handleResponse(this,respone,contextHolder,null);
     }
 
     @Override
