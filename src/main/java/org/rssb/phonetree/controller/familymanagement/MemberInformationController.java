@@ -223,8 +223,12 @@ public class MemberInformationController extends AbstractController {
                 .build();
 
 
+        Member existingMember = (Member) contextHolder.get("MEMBER_DETAIL");
         member.setMemberId(CommonUtil.convertStringToInt(memberIdTextField.getText(), 0));
-
+        if(existingMember!=null){
+            member.setFamily(existingMember.getFamily());
+        }
+        System.out.println("Returning Member "+member);
         return member;
     }
 

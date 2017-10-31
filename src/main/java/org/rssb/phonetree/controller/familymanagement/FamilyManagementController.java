@@ -21,6 +21,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.util.StringConverter;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Constants;
@@ -50,15 +51,21 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 @Component
 @Lazy
 public class FamilyManagementController extends AbstractController {
     @Autowired
     private SpringFXMLLoader springFXMLLoader;
+
+    @FXML
+    private StackPane familyManagementRootPane;
+
     @FXML
     private TitledPane sevadarsFeedbackTitledPane;
 
@@ -202,21 +209,21 @@ public class FamilyManagementController extends AbstractController {
 
     @FXML
     void deleteFamily(ActionEvent event) {
-        int familyId = CommonUtil.convertStringToInt(familyIdTextField.getText(),0);
-        if(familyId==0){
+        int familyId = CommonUtil.convertStringToInt(familyIdTextField.getText(), 0);
+        if (familyId == 0) {
             CommonUtil.showNoActionNeededJFXDialog(this, null, FamilyActionResponse.FAMILY_SELECT_BEFORE_ACTION);
             return;
         }
 
-       /* CommonUtil.showConfirmationJFXDialog(this,
+        CommonUtil.showConfirmationJFXDialog(this,
                 new Object[]{familyId},
-                FamilyActionResponse.SEVADAR_CONFIRM_BEFORE_REMOVE,
+                FamilyActionResponse.FAMILY_CONFIRM_BEFORE_REMOVE,
                 null,
                 contextHolder1 -> {
-                    Response response = sevadarService.deleteSevadar(sevadar.getSevadarsId());
-                    refresh();
+                    Response response = familyService.deleteFamily(familyId);
+                    //refresh();
                     return response;
-                });*/
+                });
 
     }
 
@@ -243,7 +250,7 @@ public class FamilyManagementController extends AbstractController {
     @FXML
     void changeTeamLeadName(ActionEvent event) {
         Sevadar sevadar = sevadarNameComboBox.getSelectionModel().getSelectedItem();
-        if(sevadar!=null){
+        if (sevadar != null) {
             teamLeadNameLabel.setText(sevadar.getTeamLead().getTeamLeadName());
         }
     }
@@ -256,7 +263,7 @@ public class FamilyManagementController extends AbstractController {
 
         Family family = extractAndBuildFamily();
         Response respone = familyService.saveToDatabase(family);
-        CommonUtil.handleResponse(this,respone,contextHolder,null);
+        CommonUtil.handleResponse(this, respone, contextHolder, null);
     }
 
     @Override
@@ -275,31 +282,66 @@ public class FamilyManagementController extends AbstractController {
         return true;
     }
 
-    private void addMember(ContextHolder contextHolder) {
-        Member member = (Member) contextHolder.get("MEMBER_DETAIL");
-        ObservableList<Member> list = membersTableView.getItems();
+    private Predicate<Member> isFirstNameMatched(String firstName) {
+        return p -> p.getFirstName().equalsIgnoreCase(firstName);
+    }
+
+    private Predicate<Member> isMemberIdMatched(int memberId) {
+        return p -> p.getMemberId() == memberId;
+    }
+
+
+    private void matchMember(ObservableList<Member> list, List<Predicate<Member>> predicateList, Member memberToReplace) {
         boolean found = false;
-        for (Member member1 : list) {
-            if (member.getMemberId() != 0) {
-                if (member.getMemberId() == member1.getMemberId()) {
-                    member1 = member;
+        for (int index = 0; index < list.size(); index++) {
+            if (found) {
+                break;
+            }
+            Member member = list.get(index);
+            for (Predicate p : predicateList) {
+                if (p.test(member)) {
+                    list.remove(index);
+                    list.add(index, memberToReplace);
                     found = true;
-                }
-            } else {
-                if (member.getFirstName().equalsIgnoreCase(member1.getFirstName())) {
-                    member1 = member;
-                    found = true;
+                    break;
                 }
             }
         }
+
         if (!found) {
-            list.add(member);
+            list.add(memberToReplace);
         }
+        membersTableView.refresh();
+        jfxDrawer.close();
+        jfxDrawer.setVisible(false);
+    }
+
+    private void addMember(ContextHolder contextHolder) {
+        Member updatedMember = (Member) contextHolder.get("MEMBER_DETAIL");
+        System.out.println("rcvd member = " + updatedMember);
+        ObservableList<Member> list = membersTableView.getItems();
+        List<Predicate<Member>> predicateList = Arrays.asList(isMemberIdMatched(updatedMember.getMemberId()),
+                isFirstNameMatched(updatedMember.getFirstName()));
+
+        matchMember(list, predicateList, updatedMember);
+        /*boolean found = true;
+        found = matchMember(list, isMemberIdMatched(updatedMember.getMemberId()), updatedMember);
+        if (found) {
+            membersTableView.refresh();
+            return;
+        }
+        found = matchMember(list, isFirstNameMatched(updatedMember.getFirstName()), updatedMember);
+        if (found) {
+            membersTableView.refresh();
+            return;
+        }*/
+
+       /* list.add(updatedMember);
 
         membersTableView.refresh();
 
         jfxDrawer.close();
-        jfxDrawer.setVisible(false);
+        jfxDrawer.setVisible(false);*/
     }
 
     private void showDetails(ContextHolder contextHolder) {
@@ -312,7 +354,7 @@ public class FamilyManagementController extends AbstractController {
 
     @Override
     public Parent getRootPanel() {
-        return familyMgmtRootPane;
+        return familyManagementRootPane;
     }
 
 
@@ -335,17 +377,26 @@ public class FamilyManagementController extends AbstractController {
                 .setSNVGuidelines(YesNo.fromDatabaseName(getValueFromToggleGroup(SNVGuidelineGroup)))
                 .setMembersList(membersTableView.getItems())
                 .build();
-        family.setFamilyId(CommonUtil.convertStringToInt(familyIdTextField.getText(),0));
-        System.out.println("Captured family info "+family);
+        family.setFamilyId(CommonUtil.convertStringToInt(familyIdTextField.getText(), 0));
+        System.out.println("Captured family info " + family);
         return family;
     }
 
-    private String captureSpecificTimePickerValues(){
-        String fromTime = fromTimePicker.getValue().format(DateTimeFormatter.ofPattern("HHmm"));
-        String toTime = toTimePicker.getValue().format(DateTimeFormatter.ofPattern("HHmm"));
+    private String captureSpecificTimePickerValues() {
+        String toTime = null, fromTime = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        if (fromTimePicker != null) {
+            fromTime = fromTimePicker.getValue() == null ? "" : formatter.format(fromTimePicker.getValue());
+        }
+        if (toTimePicker != null) {
+            toTime = toTimePicker.getValue() == null ? "" : formatter.format(toTimePicker.getValue());
+        }
 
-        return fromTime+"-"+toTime;
+        if (CommonUtil.isNotEmptyOrNull(fromTime) && CommonUtil.isNotEmptyOrNull(toTime)) {
+            return fromTime + "-" + toTime;
+        }
 
+        return "";
     }
 
     private String getValueFromToggleGroup(ToggleGroup group) {
