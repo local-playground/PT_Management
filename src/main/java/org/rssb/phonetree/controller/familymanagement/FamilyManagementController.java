@@ -411,6 +411,18 @@ public class FamilyManagementController extends AbstractController {
         }
     }
 
+
+    @Override
+    public void refresh(){
+        int familyId = CommonUtil.convertStringToInt(familyIdTextField.getText(),0);
+        if(familyId!=0) {
+            Optional<Family> family = familyService.findByFamilyId(familyId);
+            if (family.isPresent()) {
+                setFamilyData(family.get());
+            }
+        }
+    }
+
     @Override
     public Parent getRootPanel() {
         return familyManagementRootPane;
