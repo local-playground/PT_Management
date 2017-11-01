@@ -6,6 +6,7 @@ import org.rssb.phonetree.entity.emums.YesNo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,5 +22,11 @@ public interface MemberJpaRepository extends JpaRepository<Member,Integer> {
 
     @Query("SELECT max (m.memberId) from Member m")
     int getMaxMemberId();
+
+    @Query("UPDATE Member SET family.familyId = :familyId " +
+            "WHERE memberId = :memberId")
+    @Modifying
+    void updateMemberFamilyId(@Param(value = "familyId") int familyId,
+                                    @Param(value = "memberId") int memberId);
 
 }

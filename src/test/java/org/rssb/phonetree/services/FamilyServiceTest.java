@@ -56,7 +56,7 @@ public class FamilyServiceTest extends ApplicationSetup{
 
     @Test
     public void moveMemberUnderOtherFamily(){
-        familyService.moveMemberUnderOtherFamily(513,333);
+        familyService.moveMemberUnderOtherFamily(513,332);
     }
 
     @Test

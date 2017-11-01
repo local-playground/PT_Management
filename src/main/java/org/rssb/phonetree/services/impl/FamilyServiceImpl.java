@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class FamilyServiceImpl implements FamilyService {
@@ -109,34 +108,11 @@ public class FamilyServiceImpl implements FamilyService {
         }
         Member member = memberFromDatabase.get();
         Family family = member.getFamily();
-        //int nextFamilyId = familyJpaRepository.getMaxFamilyId() + 1;
-        //System.out.println("Using next seq id "+nextFamilyId);
         family.setFamilyId(0);
-        /*member.setMemberId(0);
-        member.setFamily(family);
-        family.setMembersList(Arrays.asList(member));*/
-        //System.out.println("total members set on family "+nextFamilyId+" count = "+family.getMembersList().size());
-
-        List<Member> newMembersList = family.getMembersList()
-                .stream()
-                .filter(localMember -> {
-                    if(localMember.getMemberId() == memberId){
-                        localMember.setMemberId(0);
-                        localMember.setFamily(family);
-                        return true;
-                    }
-                    return false;
-                })
-                .collect(Collectors.toCollection(ArrayList<Member>::new));
-
-
-        newMembersList.forEach(member1 -> {
-            System.out.println("Member id = "+member1.getMemberId());
-            System.out.println("Member name = "+member1.getFirstName());
-        });
-        family.setMembersList(newMembersList);
-        saveToDatabase(family);
-
+        family.setMembersList(new ArrayList<>());
+        Family newFamily = familyJpaRepository.save(family);
+        //Lets change family id for the member id
+        memberService.updateMemberFamilyId(newFamily.getFamilyId(),memberId);
         return CommonUtil.createResponse(FamilyActionResponse.FAMILY_MEMBER_SUCCESSFULLY_MOVED_AS_SEPARATE_FAMILY,
                 new Object[]{CommonUtil.getFullName(member)}, ActionAlertType.INFORMATION);
     }

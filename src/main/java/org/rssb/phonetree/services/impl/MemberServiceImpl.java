@@ -33,7 +33,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Optional<Member> findMember(int memberId) {
-        return Optional.ofNullable(memberJpaRepository.findOne(memberId));
+        Member member = memberJpaRepository.findOne(memberId);
+        return Optional.ofNullable(member);
     }
 
     @Override
@@ -55,4 +56,11 @@ public class MemberServiceImpl implements MemberService {
         return CommonUtil.createResponse(MemberActionResponse.MEMBER_SUCCESSFULLY_DELETED,
                 new Object[]{CommonUtil.getFullName(member.get())}, ActionAlertType.INFORMATION);
     }
+
+    @Override
+    public void updateMemberFamilyId(int familyId,int memberId) {
+        memberJpaRepository.updateMemberFamilyId(familyId,memberId);
+    }
+
+
 }
