@@ -16,17 +16,14 @@ import org.rssb.phonetree.services.TeamLeadService;
 import org.rssb.phonetree.services.UtilityService;
 import org.rssb.phonetree.status.ActionAlertType;
 import org.rssb.phonetree.status.FamilyActionResponse;
+import org.rssb.phonetree.status.MemberActionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,7 +76,7 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public Response deleteFamily(int familyId) {
         Family family = familyJpaRepository.findOne(familyId);
         if (family == null) {
@@ -105,17 +102,38 @@ public class FamilyServiceImpl implements FamilyService {
 
     @Override
     public Response moveMemberAsSeparateFamily(int memberId) {
-        Member member = memberService.findMember(memberId).get();
-
+        Optional<Member> memberFromDatabase = memberService.findMember(memberId);
+        if(!memberFromDatabase.isPresent()){
+            return CommonUtil.createResponse(MemberActionResponse.MEMBER_DOES_NOT_EXISTS,
+                    new Object[]{memberId}, ActionAlertType.ERROR);
+        }
+        Member member = memberFromDatabase.get();
         Family family = member.getFamily();
-        int nextFamilyId = familyJpaRepository.getMaxFamilyId() + 1;
-        family.setFamilyId(nextFamilyId);
+        //int nextFamilyId = familyJpaRepository.getMaxFamilyId() + 1;
+        //System.out.println("Using next seq id "+nextFamilyId);
+        family.setFamilyId(0);
+        /*member.setMemberId(0);
+        member.setFamily(family);
+        family.setMembersList(Arrays.asList(member));*/
+        //System.out.println("total members set on family "+nextFamilyId+" count = "+family.getMembersList().size());
 
         List<Member> newMembersList = family.getMembersList()
                 .stream()
-                .filter(localMember -> localMember.getMemberId() == memberId)
+                .filter(localMember -> {
+                    if(localMember.getMemberId() == memberId){
+                        localMember.setMemberId(0);
+                        localMember.setFamily(family);
+                        return true;
+                    }
+                    return false;
+                })
                 .collect(Collectors.toCollection(ArrayList<Member>::new));
 
+
+        newMembersList.forEach(member1 -> {
+            System.out.println("Member id = "+member1.getMemberId());
+            System.out.println("Member name = "+member1.getFirstName());
+        });
         family.setMembersList(newMembersList);
         saveToDatabase(family);
 
@@ -138,7 +156,12 @@ public class FamilyServiceImpl implements FamilyService {
 
     @Override
     public Response moveMemberUnderOtherFamily(int memberId, int otherFamilyId) {
-        Member member = memberService.findMember(memberId).get();
+        Optional<Member> memberFromDatabase = memberService.findMember(memberId);
+        if(!memberFromDatabase.isPresent()){
+            return CommonUtil.createResponse(MemberActionResponse.MEMBER_DOES_NOT_EXISTS,
+                    new Object[]{memberId}, ActionAlertType.ERROR);
+        }
+        Member member = memberFromDatabase.get();
         int oldFamilyIdForMember = member.getFamily().getFamilyId();
         Family newFamily = familyJpaRepository.findOne(otherFamilyId);
         if (newFamily == null) {
@@ -180,10 +203,10 @@ public class FamilyServiceImpl implements FamilyService {
         return calledFamilyDetailsList;
     }
 
-    private <T> Predicate<T> distinctByKey(Function<? super T,Object> keyExtractor){
+    /*private <T> Predicate<T> distinctByKey(Function<? super T,Object> keyExtractor){
         Map<Object,Boolean> found = new ConcurrentHashMap<>();
         return t -> found.putIfAbsent(keyExtractor.apply(t),Boolean.TRUE)==null;
-    }
+    }*/
 
     @Override
     public SevadarPhoneTreeList getSevadarPhoneTreeListByTeamLeadAndSevadarName(String teamLeadName,

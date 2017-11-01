@@ -10,6 +10,7 @@ import org.rssb.phonetree.entity.emums.YesNo;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -128,7 +129,7 @@ public class Family implements Serializable {
 
     @OneToMany(mappedBy = "family", fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private List<Member> membersList;
+    private List<Member> membersList = new ArrayList<>();
 
     @Column(name="CsvFileFamilyId")
     private int csvFileFamilyId;
