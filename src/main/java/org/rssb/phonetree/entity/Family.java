@@ -128,7 +128,7 @@ public class Family implements Serializable {
     private Sevadar sevadar;
 
     @OneToMany(mappedBy = "family", fetch = FetchType.LAZY,
-            cascade = {CascadeType.ALL})
+            cascade = {CascadeType.ALL},orphanRemoval = true)
     private List<Member> membersList = new ArrayList<>();
 
     @Column(name="CsvFileFamilyId")

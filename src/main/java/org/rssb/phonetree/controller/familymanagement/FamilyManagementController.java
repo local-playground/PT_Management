@@ -201,7 +201,8 @@ public class FamilyManagementController extends AbstractController {
 
     private void openDrawer(ContextHolder contextHolder) {
         try {
-            Parent parent = springFXMLLoader.load(FxmlView.ADD_MEMBER_INFORMATION.getFxmlFile(), this::addMember, contextHolder);
+            Parent parent = springFXMLLoader.load(FxmlView.ADD_MEMBER_INFORMATION.getFxmlFile(),
+                    this::addMember, contextHolder);
             jfxDrawer.setSidePane(parent);
             jfxDrawer.setOverLayVisible(false);
             jfxDrawer.open();
@@ -231,9 +232,10 @@ public class FamilyManagementController extends AbstractController {
                 null,
                 contextHolder1 -> {
                     Response response = familyService.deleteFamily(familyId);
-                    //refresh();
+                    resetForm();
                     return response;
                 });
+
 
     }
 
@@ -250,16 +252,16 @@ public class FamilyManagementController extends AbstractController {
                 MemberActionResponse.MEMBER_CONFIRM_BEFORE_REMOVE,
                 null,
                 contextHolder1 -> {
+                    System.out.println("calling delete member...");
                     Response response = memberService.deleteMember(member.getMemberId());
-                    if(response.getActionResponseType() == MemberActionResponse.MEMBER_DOES_NOT_EXISTS){
+                    if (response.getActionResponseType() == MemberActionResponse.MEMBER_DOES_NOT_EXISTS) {
                         membersTableView.getItems().remove(member);
                         response = CommonUtil.createResponse(MemberActionResponse.MEMBER_SUCCESSFULLY_DELETED,
                                 new Object[]{CommonUtil.getFullName(member)}, ActionAlertType.INFORMATION);
                     }
-                    membersTableView.refresh();
+                    refresh();
                     return response;
                 });
-
     }
 
     @FXML
@@ -276,6 +278,7 @@ public class FamilyManagementController extends AbstractController {
                 null,
                 contextHolder1 -> {
                     Response response = familyService.moveMemberAsSeparateFamily(member.getMemberId());
+                    refresh();
                     return response;
                 });
     }
@@ -298,16 +301,17 @@ public class FamilyManagementController extends AbstractController {
 
     }
 
-    private void moveUnderOtherFamily(ContextHolder contextHolder){
+    private void moveUnderOtherFamily(ContextHolder contextHolder) {
         Member member = (Member) contextHolder.get(Constants.REQUEST_OBJ);
         SearchResult selectedResult = (SearchResult) contextHolder.get(Constants.RESPONSE_OBJ);
 
         CommonUtil.showConfirmationJFXDialog(this,
-                new Object[]{CommonUtil.getFullName(member),selectedResult.getFirstName()+" "+selectedResult.getLastName()},
+                new Object[]{CommonUtil.getFullName(member), selectedResult.getFirstName() + " " + selectedResult.getLastName()},
                 MemberActionResponse.MEMBER_CONFIRM_BEFORE_MOVE_UNDER_OTHER_FAMILY,
                 null,
                 contextHolder1 -> {
-                    Response response = familyService.moveMemberUnderOtherFamily(member.getMemberId(),selectedResult.getFamilyId());
+                    Response response = familyService.moveMemberUnderOtherFamily(member.getMemberId(), selectedResult.getFamilyId());
+                    refresh();
                     return response;
                 });
     }
@@ -332,8 +336,9 @@ public class FamilyManagementController extends AbstractController {
         }
 
         Family family = extractAndBuildFamily();
-        Response respone = familyService.saveToDatabase(family);
-        CommonUtil.handleResponse(this, respone, contextHolder, null);
+        Response response = familyService.saveToDatabase(family);
+        CommonUtil.handleResponse(this, response, null, null);
+        resetForm();
     }
 
     @Override
@@ -352,7 +357,7 @@ public class FamilyManagementController extends AbstractController {
         return true;
     }
 
-    private void resetForm(){
+    private void resetForm() {
         phoneTreeManagementActionsController.showFamilyManagement(null);
     }
 
@@ -376,7 +381,7 @@ public class FamilyManagementController extends AbstractController {
             for (Predicate p : predicateList) {
                 if (p.test(member)) {
                     list.remove(index);
-                    if(memberToReplace!=null) {
+                    if (memberToReplace != null) {
                         list.add(index, memberToReplace);
                     }
                     found = true;
@@ -395,10 +400,18 @@ public class FamilyManagementController extends AbstractController {
 
     private void addMember(ContextHolder contextHolder) {
         Member updatedMember = (Member) contextHolder.get("MEMBER_DETAIL");
+        if (updatedMember.getFamily() == null) {
+            Family family = getFamilyInformation();
+            if(family!=null){
+                updatedMember.setFamily(family);
+            }
+        }
         System.out.println("rcvd member = " + updatedMember);
         ObservableList<Member> list = membersTableView.getItems();
-        List<Predicate<Member>> predicateList = Arrays.asList(isMemberIdMatched(updatedMember.getMemberId()),
-                isFirstNameMatched(updatedMember.getFirstName()));
+        List<Predicate<Member>> predicateList = Arrays.asList(
+                isMemberIdMatched(updatedMember.getMemberId()),
+                isFirstNameMatched(updatedMember.getFirstName())
+        );
 
         addOrUpdateMember(list, predicateList, updatedMember);
     }
@@ -411,15 +424,23 @@ public class FamilyManagementController extends AbstractController {
         }
     }
 
-
-    @Override
-    public void refresh(){
-        int familyId = CommonUtil.convertStringToInt(familyIdTextField.getText(),0);
-        if(familyId!=0) {
+    private Family getFamilyInformation() {
+        int familyId = CommonUtil.convertStringToInt(familyIdTextField.getText(), 0);
+        if (familyId != 0) {
             Optional<Family> family = familyService.findByFamilyId(familyId);
             if (family.isPresent()) {
-                setFamilyData(family.get());
+                return family.get();
             }
+        }
+
+        return null;
+    }
+
+    @Override
+    public void refresh() {
+        Family family = getFamilyInformation();
+        if(family!=null) {
+            setFamilyData(family);
         }
     }
 
