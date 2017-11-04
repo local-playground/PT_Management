@@ -2,9 +2,10 @@ package org.rssb.phonetree.predicates;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.StackPane;
 import org.rssb.phonetree.domain.CalledFamilyDetails;
+import org.rssb.phonetree.entity.emums.CallStatus;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -31,23 +32,42 @@ public interface CalledFamilyDetailsPredicates extends CommonPredicates{
      Function<CalledFamilyDetails, String> memberIdValueFunction = cfd -> String.valueOf(cfd.getMemberId());
      Function<CalledFamilyDetails, String> familyIdValueFunction = cfd -> String.valueOf(cfd.getFamilyId());
      Function<CalledFamilyDetails, String> familySequenceNumberValueFunction = cfd -> String.valueOf(cfd.getFamilySeqNumber());
-     Function<CalledFamilyDetails, String> phoneStatusValueFunction = cfd -> cfd.getCallStatus().toString();
+     Function<CalledFamilyDetails, CallStatus> phoneStatusValueFunction = cfd -> cfd.getCallStatus();
 
 
-    Function<Label, StackPane> phoneStatusLabelFormatFunction = label -> {
+    Function<CallStatus, StackPane> phoneStatusLabelFormatFunction = (CallStatus callStatus) -> {
         StackPane pane = new StackPane();
-        FontAwesomeIconView phoneStatusIcon = new FontAwesomeIconView();
+        FontAwesomeIconView phoneStatusIcon =new FontAwesomeIconView();
         phoneStatusIcon.setSize("32");
-        if (label.getText().equalsIgnoreCase("YES")) {
-            phoneStatusIcon.getStyleClass().add("ok");
+        if(callStatus == CallStatus.OK){
             phoneStatusIcon.setIcon(FontAwesomeIcon.CHECK_CIRCLE);
-        } else {
-            phoneStatusIcon.getStyleClass().add("wrong-number");
-            phoneStatusIcon.setIcon(FontAwesomeIcon.TIMES_CIRCLE);
+            phoneStatusIcon.getStyleClass().add("ok");
         }
+        if(callStatus== CallStatus.WRONG_NUMBER){
+            phoneStatusIcon.setIcon(FontAwesomeIcon.TIMES_CIRCLE);
+            phoneStatusIcon.getStyleClass().add("wrong-number");
+        }
+        if(callStatus== CallStatus.DISCONNECTED){
+            phoneStatusIcon.setIcon(FontAwesomeIcon.TIMES_CIRCLE);
+            phoneStatusIcon.getStyleClass().add("disconnected");
+        }
+        if(callStatus== CallStatus.REMOVE_REQUEST){
+            phoneStatusIcon.setIcon(FontAwesomeIcon.CUT);
+            phoneStatusIcon.getStyleClass().add("remove-me");
+        }
+        if(callStatus== CallStatus.NOT_PICKED){
+            phoneStatusIcon.setIcon(FontAwesomeIcon.TTY);
+            phoneStatusIcon.getStyleClass().add("not-picked");
+        }
+        if(callStatus== CallStatus.MOVED){
+            phoneStatusIcon.setIcon(FontAwesomeIcon.TRUCK);
+            phoneStatusIcon.getStyleClass().add("moved");
+        }
+        Tooltip.install(phoneStatusIcon,new Tooltip(callStatus.toString()));
         pane.getChildren().addAll(phoneStatusIcon);
         return pane;
     };
+
 
     Function<CalledFamilyDetails, StackPane> cellPhoneLabelComposerFunction =
             backgroundLabelFunction
@@ -102,10 +122,8 @@ public interface CalledFamilyDetailsPredicates extends CommonPredicates{
                     .andThen(transparentBackgroundLabelFunction)
                     .andThen(seqNumberLabelFormatFunction);
 
-    Function<CalledFamilyDetails, StackPane> onCallingListLabelComposerFunction =
-            backgroundLabelFunction
-                    .compose(phoneStatusValueFunction)
-                    .andThen(transparentBackgroundLabelFunction)
+    Function<CalledFamilyDetails, StackPane> phoneStatusLabelComposerFunction =
+                     phoneStatusValueFunction
                     .andThen(phoneStatusLabelFormatFunction);
 
 

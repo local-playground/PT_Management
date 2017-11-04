@@ -9,9 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import org.rssb.phonetree.common.table.factory.PhoneStatusColumnCell?>
-<?import org.rssb.phonetree.common.table.factory.SequenceNumberColumnCell?>
 <?import java.lang.String?>
+<?import org.rssb.phonetree.common.table.factory.SevadarsListTableFormatter?>
 <StackPane fx:id="rootPane" prefHeight="980.0" prefWidth="1280.0" styleClass="root"
            stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111"
            xmlns:fx="http://javafx.com/fxml/1"
@@ -74,7 +73,8 @@
                                         <PropertyValueFactory property="familySeqNumber"/>
                                     </cellValueFactory>
                                     <cellFactory>
-                                        <SequenceNumberColumnCell></SequenceNumberColumnCell>
+                                        <SevadarsListTableFormatter
+                                                formatColumn="familySeqNumber"></SevadarsListTableFormatter>
                                     </cellFactory>
                                 </TableColumn>
 
@@ -83,35 +83,59 @@
                                     <cellValueFactory>
                                         <PropertyValueFactory property="firstName"/>
                                     </cellValueFactory>
+                                    <cellFactory>
+                                        <SevadarsListTableFormatter
+                                                formatColumn="firstName"></SevadarsListTableFormatter>
+                                    </cellFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="lastNameColumn" prefWidth="170.0" resizable="false"
                                              text="Last Name">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="lastName"/>
                                     </cellValueFactory>
+                                    <cellFactory>
+                                        <SevadarsListTableFormatter
+                                                formatColumn="lastName"></SevadarsListTableFormatter>
+                                    </cellFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="cellPhoneColumn" prefWidth="160.0" resizable="false"
                                              text="Cell Phone">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="cellPhone"/>
                                     </cellValueFactory>
+                                    <cellFactory>
+                                        <SevadarsListTableFormatter
+                                                formatColumn="cellPhone"></SevadarsListTableFormatter>
+                                    </cellFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="homePhoneColumn" prefWidth="166.0" resizable="false"
                                              text="Home Phone">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="homePhone"/>
                                     </cellValueFactory>
+                                    <cellFactory>
+                                        <SevadarsListTableFormatter
+                                                formatColumn="homePhone"></SevadarsListTableFormatter>
+                                    </cellFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="workPhoneColumn" prefWidth="159.0" resizable="false"
                                              text="Work Phone">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="workPhone"/>
                                     </cellValueFactory>
+                                    <cellFactory>
+                                        <SevadarsListTableFormatter
+                                                formatColumn="workPhone"></SevadarsListTableFormatter>
+                                    </cellFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="zipCodeColumn" prefWidth="144.0" resizable="false" text="Zip Code">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="zipCode"/>
                                     </cellValueFactory>
+                                    <cellFactory>
+                                        <SevadarsListTableFormatter
+                                                formatColumn="zipCode"></SevadarsListTableFormatter>
+                                    </cellFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="phoneStatusColumn" minWidth="100.0" prefWidth="135.0"
                                              resizable="false" text="Status">
@@ -119,7 +143,31 @@
                                         <PropertyValueFactory property="callStatus"/>
                                     </cellValueFactory>
                                     <cellFactory>
+                                        <SevadarsListTableFormatter
+                                                formatColumn="callStatus"></SevadarsListTableFormatter>
+                                    </cellFactory>
+                                    <!--<cellFactory>
                                         <PhoneStatusColumnCell></PhoneStatusColumnCell>
+                                    </cellFactory>-->
+                                </TableColumn>
+                                <TableColumn fx:id="memberIdTableColumn" prefWidth="117.0"
+                                             text="Member Id">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="memberId"/>
+                                    </cellValueFactory>
+                                    <cellFactory>
+                                        <SevadarsListTableFormatter
+                                                formatColumn="memberId"></SevadarsListTableFormatter>
+                                    </cellFactory>
+                                </TableColumn>
+                                <TableColumn fx:id="familyIdTableColumn" prefWidth="122.0"
+                                             text="Family Id">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="familyId"/>
+                                    </cellValueFactory>
+                                    <cellFactory>
+                                        <SevadarsListTableFormatter
+                                                formatColumn="familyId"></SevadarsListTableFormatter>
                                     </cellFactory>
                                 </TableColumn>
                             </columns>
