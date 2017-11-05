@@ -27,7 +27,6 @@ import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.Response;
-import org.rssb.phonetree.common.table.factory.MemberTableFormatter;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.controller.phonetreemanagement.PhoneTreeManagementActionsController;
 import org.rssb.phonetree.custom.controls.DecoratedTextField;
@@ -641,9 +640,9 @@ public class FamilyManagementController extends AbstractController {
 
             return new SimpleStringProperty("");
         });
-        MemberTableFormatter<Member, String> familyIdColumnFormatter = new MemberTableFormatter<>();
+        /*MemberTableFormatter<Member, String> familyIdColumnFormatter = new MemberTableFormatter<>();
         familyIdColumnFormatter.setFormatColumn("familyId");
-        familyIdTableColumn.setCellFactory(familyIdColumnFormatter);
+        familyIdTableColumn.setCellFactory(familyIdColumnFormatter);*/
         teamLeadNameLabel.setText("");
 
 

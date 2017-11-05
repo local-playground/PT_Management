@@ -11,6 +11,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import org.rssb.phonetree.common.table.factory.SevadarTableFormatter?>
+<?import org.rssb.phonetree.common.table.factory.TeamLeadTableFormatter?>
 <?import java.lang.String?>
 <BorderPane prefHeight="450.0" prefWidth="800.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.sevadar.SevadarController">
     <top>
@@ -85,10 +87,26 @@
     <center>
         <TableView fx:id="sevadarsTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn fx:id="firstNameTableColumn" prefWidth="194.0" text="First Name" />
-                <TableColumn fx:id="lastNameTableColumn" minWidth="0.0" prefWidth="213.0" text="Last Name" />
-                <TableColumn fx:id="cellPhoneTableColumn" prefWidth="200.0" text="Cell Phone" />
-                <TableColumn fx:id="homePhoneTableColumn" minWidth="0.0" prefWidth="190.0" text="Home Phone" />
+                <TableColumn fx:id="firstNameTableColumn" prefWidth="194.0" text="First Name" >
+                    <cellFactory>
+                        <SevadarTableFormatter formatColumn="firstName"></SevadarTableFormatter>
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="lastNameTableColumn" minWidth="0.0" prefWidth="213.0" text="Last Name" >
+                    <cellFactory>
+                        <SevadarTableFormatter formatColumn="lastName"></SevadarTableFormatter>
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="cellPhoneTableColumn" prefWidth="200.0" text="Cell Phone" >
+                    <cellFactory>
+                        <SevadarTableFormatter formatColumn="cellPhone"></SevadarTableFormatter>
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="homePhoneTableColumn" minWidth="0.0" prefWidth="190.0" text="Home Phone" >
+                    <cellFactory>
+                        <SevadarTableFormatter formatColumn="homePhone"></SevadarTableFormatter>
+                    </cellFactory>
+                </TableColumn>
             </columns>
             <styleClass>
                 <String fx:value="font-16" />

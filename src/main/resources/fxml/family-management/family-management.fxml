@@ -274,6 +274,10 @@
                                                 </TableColumn>
                                                 <TableColumn fx:id="familyIdTableColumn" prefWidth="122.0"
                                                              text="Family Id">
+                                                    <cellFactory>
+                                                        <MemberTableFormatter
+                                                                formatColumn="familyId"></MemberTableFormatter>
+                                                    </cellFactory>
                                                 </TableColumn>
 
                                             </columns>

@@ -72,7 +72,7 @@ public class SevadarsListTableFormatter <S, T>
                 }
                 CalledFamilyDetails calledFamilyDetails = (CalledFamilyDetails) p.getTableView().getItems().get(getIndex());
 
-                if (getFormatColumn().equalsIgnoreCase("familySeqNumber") &&
+                if (CalledFamilyDetailsPredicates.isFormatSequenceNumberColumn.test(getFormatColumn()) &&
                         calledFamilyDetails.getFamilySeqNumber() == 0) {
                     setGraphic(null);
                     return;

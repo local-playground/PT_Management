@@ -1,17 +1,27 @@
 package org.rssb.phonetree.controller.teamlead;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import org.rssb.phonetree.common.*;
+import javafx.util.Callback;
+import org.rssb.phonetree.common.CommonUtil;
+import org.rssb.phonetree.common.Constants;
+import org.rssb.phonetree.common.ContextHolder;
+import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.common.SevaType;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.controller.sevadar.SevadarController;
 import org.rssb.phonetree.controller.teammanagement.TeamManagementController;
@@ -30,7 +40,7 @@ import java.util.ResourceBundle;
 
 @Component
 @Lazy
-@SuppressWarnings({"unused","unchecked"})
+@SuppressWarnings({"unused", "unchecked"})
 public class TeamLeadController extends AbstractController {
 
     @Autowired
@@ -82,7 +92,7 @@ public class TeamLeadController extends AbstractController {
     void removeTeamLead(ActionEvent event) {
         TeamLead teamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
         if (teamLead == null) {
-            CommonUtil.showNoActionNeededJFXDialog(this, null,TeamLeadActionResponse.TEAM_LEAD_SELECT_BEFORE_ACTION);
+            CommonUtil.showNoActionNeededJFXDialog(this, null, TeamLeadActionResponse.TEAM_LEAD_SELECT_BEFORE_ACTION);
             return;
         }
 
@@ -101,7 +111,7 @@ public class TeamLeadController extends AbstractController {
     void replaceTeamLead(ActionEvent event) {
         TeamLead teamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
         if (teamLead == null) {
-            CommonUtil.showNoActionNeededJFXDialog(this, null,TeamLeadActionResponse.TEAM_LEAD_SELECT_BEFORE_ACTION);
+            CommonUtil.showNoActionNeededJFXDialog(this, null, TeamLeadActionResponse.TEAM_LEAD_SELECT_BEFORE_ACTION);
             return;
         }
 
@@ -129,7 +139,7 @@ public class TeamLeadController extends AbstractController {
                 if (oldValue == null && newValue == null)
                     return;
 
-                if (oldValue != null && newValue!=null && (oldValue.getTeamLeadId() == newValue.getTeamLeadId())) {
+                if (oldValue != null && newValue != null && (oldValue.getTeamLeadId() == newValue.getTeamLeadId())) {
                     return;
                 }
 
@@ -147,6 +157,33 @@ public class TeamLeadController extends AbstractController {
 
         homePhoneTableColumn.setCellValueFactory(param ->
                 new SimpleStringProperty(param.getValue().getMember().getHomePhone()));
+
+
+        teamLeadTableView.setRowFactory(new Callback<TableView<TeamLead>, TableRow<TeamLead>>() {
+
+            @Override
+            public TableRow<TeamLead> call(TableView<TeamLead> param) {
+                final TableRow<TeamLead> row = new TableRow<>();
+                final ContextMenu contextMenu = new ContextMenu();
+                final MenuItem removeMenuItem = new MenuItem("Remove");
+                removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        System.out.println("Did you call me ?");
+                    }
+                });
+                contextMenu.getItems().add(removeMenuItem);
+                // Set context menu on row, but use a binding to make it only show for non-empty rows:
+                row.contextMenuProperty().bind(
+                        Bindings.when(row.emptyProperty())
+                                .then((ContextMenu)null)
+                                .otherwise(contextMenu)
+                );
+                return row ;
+            }
+        });
+
+
         refresh();
     }
 
@@ -179,7 +216,7 @@ public class TeamLeadController extends AbstractController {
     private void addTeamLead(ContextHolder contextHolder) {
         SearchResult selectedResult = (SearchResult) contextHolder.get(Constants.RESPONSE_OBJ);
         Response response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_TEAM_LEAD);
-        CommonUtil.handleResponse(this,response, contextHolder,
+        CommonUtil.handleResponse(this, response, contextHolder,
                 contextHolder1 -> {
                     Response newResponse = teamLeadService.addTeamLead(selectedResult.getMemberId());
                     refresh();
@@ -194,7 +231,7 @@ public class TeamLeadController extends AbstractController {
         TeamLead teamLead = (TeamLead) contextHolder.get(Constants.REQUEST_OBJ);
         Response response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_TEAM_LEAD);
 
-        CommonUtil.handleResponse(this,response, contextHolder,
+        CommonUtil.handleResponse(this, response, contextHolder,
                 contextHolder1 -> {
                     Response newResponse = teamLeadService.replaceTeamLead(teamLead.getTeamLeadId(), selectedResult.getMemberId());
                     refresh();
@@ -208,7 +245,7 @@ public class TeamLeadController extends AbstractController {
         TeamLead swapTeamLead = (TeamLead) contextHolder.get("SWAP_TEAM_LEAD");
         TeamLead swapTeamLeadWith = (TeamLead) contextHolder.get("SWAP_TEAM_LEAD_WITH");
         Response response = teamLeadService.swapTeamLead(swapTeamLead.getTeamLeadId(), swapTeamLeadWith.getTeamLeadId());
-        CommonUtil.handleResponse(this,response,null,null);
+        CommonUtil.handleResponse(this, response, null, null);
         refresh();
         setOpacity(Constants.FULL_OPACITY, contextHolder);
     }

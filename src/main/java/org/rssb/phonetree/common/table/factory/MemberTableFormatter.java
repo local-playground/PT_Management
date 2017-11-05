@@ -8,20 +8,17 @@ import javafx.util.Callback;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.predicates.MembersTablePredicates;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
-public class MemberTableFormatter<S, T>
+public class MemberTableFormatter<S, T> extends TableFormatter<Member>
         implements Callback<TableColumn<S, T>, TableCell<S, T>> {
 
     private String formatColumn;
 
-    Map<Predicate<String>,Function<Member,? extends Node>> predicateFunctionMap =new HashMap<>();
+    //Map<Predicate<String>,Function<Member,? extends Node>> predicateFunctionMap =new HashMap<>();
 
     public MemberTableFormatter() {
-        predicateFunctionMap.put(MembersTablePredicates.isFormatCellPhoneColumn,
+        put(MembersTablePredicates.isFormatCellPhoneColumn, MembersTablePredicates.cellPhoneLabelComposerFunction);
+
+        /*predicateFunctionMap.put(MembersTablePredicates.isFormatCellPhoneColumn,
                 MembersTablePredicates.cellPhoneLabelComposerFunction);
         predicateFunctionMap.put(MembersTablePredicates.isFormatHomePhoneColumn,
                 MembersTablePredicates.homePhoneLabelComposerFunction);
@@ -41,7 +38,7 @@ public class MemberTableFormatter<S, T>
         predicateFunctionMap.put(MembersTablePredicates.isFormatMemberIdColumn,
                 MembersTablePredicates.memberIdLabelComposerFunction);
         predicateFunctionMap.put(MembersTablePredicates.isFormatFamilyIdColumn,
-                MembersTablePredicates.familyIdLabelComposerFunction);
+                MembersTablePredicates.familyIdLabelComposerFunction);*/
 
     }
 
@@ -64,7 +61,13 @@ public class MemberTableFormatter<S, T>
                     return;
                 }
                 Member member = (Member) p.getTableView().getItems().get(getIndex());
-                for(Map.Entry<Predicate<String>,Function<Member,? extends Node>> entry:predicateFunctionMap.entrySet()){
+                Node node = get(member);
+                if(node!=null){
+                    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                    setGraphic(node);
+                    return;
+                }
+                /*for(Map.Entry<Predicate<String>,Function<Member,? extends Node>> entry:predicateFunctionMap.entrySet()){
                     Predicate<String> predicate = entry.getKey();
                     if(predicate.test(formatColumn)){
                         Node node = entry.getValue().apply(member);
@@ -74,7 +77,7 @@ public class MemberTableFormatter<S, T>
                             return;
                         }
                     }
-                }
+                }*/
             }
         };
     }
