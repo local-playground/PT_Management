@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -133,6 +134,7 @@ public class TeamLeadController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        teamLeadTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         teamLeadTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TeamLead>() {
             @Override
             public void changed(ObservableValue<? extends TeamLead> observable, TeamLead oldValue, TeamLead newValue) {
@@ -160,16 +162,21 @@ public class TeamLeadController extends AbstractController {
 
 
         teamLeadTableView.setRowFactory(new Callback<TableView<TeamLead>, TableRow<TeamLead>>() {
-
             @Override
             public TableRow<TeamLead> call(TableView<TeamLead> param) {
                 final TableRow<TeamLead> row = new TableRow<>();
                 final ContextMenu contextMenu = new ContextMenu();
-                final MenuItem removeMenuItem = new MenuItem("Remove");
+                final MenuItem removeMenuItem = new MenuItem("Add/Change Email Id");
                 removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        System.out.println("Did you call me ?");
+                        List<TeamLead> teamLeadList = teamLeadTableView.getSelectionModel().getSelectedItems();
+                        ContextHolder contextHolder = createContextHolder(
+                                new String[]{Constants.REQUEST_OBJ},
+                                new Object[]{teamLeadList},
+                                getRootPanel());
+                        setOpacity(Constants.LOW_OPACITY, contextHolder);
+                        stageManager.switchScene(FxmlView.TEAM_LEAD_ADD_EMAIL, null, contextHolder, true);
                     }
                 });
                 contextMenu.getItems().add(removeMenuItem);
@@ -193,10 +200,13 @@ public class TeamLeadController extends AbstractController {
     }
 
     private void triggerChangeEvent() {
-        TeamLead teamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
-        ContextHolder contextHolder = createContextHolder(Constants.REQUEST_OBJ, teamLead, null);
-        sevadarController.setContextHolder(contextHolder);
-        sevadarController.refresh();
+        List<TeamLead> teamLeadsList = teamLeadTableView.getSelectionModel().getSelectedItems();
+        System.out.println("triggered event = "+ teamLeadsList.size());
+        if(teamLeadsList.size()==1) {
+            ContextHolder contextHolder = createContextHolder(Constants.REQUEST_OBJ, teamLeadsList.get(0), null);
+            sevadarController.setContextHolder(contextHolder);
+            sevadarController.refresh();
+        }
     }
 
     @Override

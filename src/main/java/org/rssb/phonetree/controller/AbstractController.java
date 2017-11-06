@@ -41,6 +41,7 @@ public abstract class AbstractController implements
     protected UtilityService utilityService;
 
     public void setDelegator(Delegator delegator, ContextHolder contextHolder){
+        System.out.println("setting delegator");
         this.delegator = delegator;
         this.contextHolder = contextHolder;
     }

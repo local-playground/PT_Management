@@ -177,6 +177,20 @@ public enum FxmlView {
         public boolean isAlwaysOnTop() {
             return true;
         }
+    },
+    TEAM_LEAD_ADD_EMAIL{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/teamlead/team-lead-emails.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
     };
     
     public abstract String getFxmlFile();

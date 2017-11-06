@@ -21,7 +21,7 @@ public class DecoratedTextField extends CustomTextField {
     private String leftGlyphIconSize;
     private String rightGlyphIconName;
     private String rightGlyphIconSize;
-    private String acceptedCharactersRegex;
+    private String acceptedCharactersRegex="[0-9a-zA-Z]";
     private String maxLength;
     private String minLength;
     private int MAX_ALLOWANCE_AFTER_FORMAT = 0;

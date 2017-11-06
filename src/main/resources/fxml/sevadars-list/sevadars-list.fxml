@@ -146,9 +146,6 @@
                                         <SevadarsListTableFormatter
                                                 formatColumn="callStatus"></SevadarsListTableFormatter>
                                     </cellFactory>
-                                    <!--<cellFactory>
-                                        <PhoneStatusColumnCell></PhoneStatusColumnCell>
-                                    </cellFactory>-->
                                 </TableColumn>
                                 <TableColumn fx:id="memberIdTableColumn" prefWidth="117.0"
                                              text="Member Id">
