@@ -2,49 +2,46 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import org.rssb.phonetree.custom.controls.DecoratedTextField?>
-<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="75.0" spacing="100.0" styleClass="base" stylesheets="@../../styles/Styles.css"
-      xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.rssb.phonetree.controller.teamlead.TeamLeadEmailTemplate">
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" spacing="10.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teamlead.TeamLeadEmailTemplate">
     <children>
         <HBox spacing="5.0">
             <children>
-                <Label fx:id="firstNameLabel" styleClass="h2" text="First Name"/>
+                <Label fx:id="firstNameLabel" prefHeight="27.0" prefWidth="180.0" styleClass="h2" text="First Name" />
             </children>
             <HBox.margin>
-                <Insets/>
+                <Insets />
             </HBox.margin>
         </HBox>
         <HBox>
             <children>
                 <VBox fx:id="emailIdTextFieldsHolder">
                     <children>
-                        <DecoratedTextField fx:id="emailIdTextField" leftGlyphIconLabelHeight="40"
-                                            leftGlyphIconLabelWidth="40" leftGlyphIconName="AT" leftGlyphIconSize="30"
-                                            prefHeight="40.0" prefWidth="376.0" promptText="Enter valid email id"/>
+                        <DecoratedTextField fx:id="emailIdTextField" leftGlyphIconLabelHeight="40" leftGlyphIconLabelWidth="40" leftGlyphIconName="AT" leftGlyphIconSize="30" prefHeight="40.0" prefWidth="376.0" promptText="Enter valid email id" />
                     </children>
                 </VBox>
             </children>
         </HBox>
         <HBox alignment="TOP_RIGHT" spacing="15.0">
             <children>
-                <FontAwesomeIconView fx:id="addMoreEmailIdTextField" glyphName="PLUS"
-                                     onMouseClicked="#addMoreEmailIdTextField" size="30">
+                <FontAwesomeIconView fx:id="addMoreEmailIdTextField" glyphName="PLUS" onMouseClicked="#addMoreEmailIdTextField" size="30">
                     <cursor>
-                        <Cursor fx:constant="HAND"/>
+                        <Cursor fx:constant="HAND" />
                     </cursor>
                 </FontAwesomeIconView>
-                <FontAwesomeIconView fx:id="deleteEmptyEmailTextField" glyphName="MINUS"
-                                     onMouseClicked="#deleteEmptyEmailTextField" size="30"/>
+                <FontAwesomeIconView fx:id="deleteEmptyEmailTextField" glyphName="MINUS" onMouseClicked="#deleteEmptyEmailTextField" size="30">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></FontAwesomeIconView>
             </children>
         </HBox>
     </children>
     <padding>
-        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
     </padding>
 </HBox>
