@@ -8,27 +8,41 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.rssb.phonetree.custom.controls.DecoratedTextField?>
 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="75.0" spacing="20.0" styleClass="base" stylesheets="@../../styles/Styles.css"
+      prefHeight="75.0" spacing="100.0" styleClass="base" stylesheets="@../../styles/Styles.css"
       xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.rssb.phonetree.controller.teamlead.TeamLeadEmailTemplate">
     <children>
-        <Label fx:id="teamLeadIdLabel" layoutX="25.0" layoutY="42.0" styleClass="h2" visible="false"/>
-        <Label fx:id="firstNameLabel" styleClass="h2"/>
-        <VBox fx:id="emailIdTextFieldsHolder">
+        <HBox spacing="5.0">
             <children>
-                <DecoratedTextField fx:id="emailIdTextField" leftGlyphIconLabelHeight="40" leftGlyphIconLabelWidth="40"
-                                    leftGlyphIconName="AT" leftGlyphIconSize="30" prefHeight="40.0" prefWidth="376.0"
-                                    promptText="Enter valid email id"/>
+                <Label fx:id="firstNameLabel" styleClass="h2" text="First Name"/>
             </children>
-        </VBox>
-        <FontAwesomeIconView fx:id="addMoreEmailIdTextField" glyphName="PLUS" onMouseClicked="#addMoreEmailIdTextField"
-                             size="30">
-            <cursor>
-                <Cursor fx:constant="HAND"/>
-            </cursor>
-        </FontAwesomeIconView>
-        <FontAwesomeIconView fx:id="deleteEmptyEmailTextField" glyphName="MINUS"
-                             onMouseClicked="#deleteEmptyEmailTextField" size="30"/>
+            <HBox.margin>
+                <Insets/>
+            </HBox.margin>
+        </HBox>
+        <HBox>
+            <children>
+                <VBox fx:id="emailIdTextFieldsHolder">
+                    <children>
+                        <DecoratedTextField fx:id="emailIdTextField" leftGlyphIconLabelHeight="40"
+                                            leftGlyphIconLabelWidth="40" leftGlyphIconName="AT" leftGlyphIconSize="30"
+                                            prefHeight="40.0" prefWidth="376.0" promptText="Enter valid email id"/>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <HBox alignment="TOP_RIGHT" spacing="15.0">
+            <children>
+                <FontAwesomeIconView fx:id="addMoreEmailIdTextField" glyphName="PLUS"
+                                     onMouseClicked="#addMoreEmailIdTextField" size="30">
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </FontAwesomeIconView>
+                <FontAwesomeIconView fx:id="deleteEmptyEmailTextField" glyphName="MINUS"
+                                     onMouseClicked="#deleteEmptyEmailTextField" size="30"/>
+            </children>
+        </HBox>
     </children>
     <padding>
         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>

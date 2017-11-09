@@ -1,7 +1,6 @@
 package org.rssb.phonetree.controller.teamlead;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -11,18 +10,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.util.Callback;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.common.SevaType;
+import org.rssb.phonetree.common.table.factory.TableRowContextMenuFactory;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.controller.sevadar.SevadarController;
 import org.rssb.phonetree.controller.teammanagement.TeamManagementController;
@@ -36,7 +32,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 @Component
@@ -160,38 +158,21 @@ public class TeamLeadController extends AbstractController {
         homePhoneTableColumn.setCellValueFactory(param ->
                 new SimpleStringProperty(param.getValue().getMember().getHomePhone()));
 
+        Map<String, EventHandler<ActionEvent>> contextMenuActionMap = new HashMap<>();
+        contextMenuActionMap.put("Add/Change Email Id",this::addTeamLeadEmailId);
 
-        teamLeadTableView.setRowFactory(new Callback<TableView<TeamLead>, TableRow<TeamLead>>() {
-            @Override
-            public TableRow<TeamLead> call(TableView<TeamLead> param) {
-                final TableRow<TeamLead> row = new TableRow<>();
-                final ContextMenu contextMenu = new ContextMenu();
-                final MenuItem removeMenuItem = new MenuItem("Add/Change Email Id");
-                removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        List<TeamLead> teamLeadList = teamLeadTableView.getSelectionModel().getSelectedItems();
-                        ContextHolder contextHolder = createContextHolder(
-                                new String[]{Constants.REQUEST_OBJ},
-                                new Object[]{teamLeadList},
-                                getRootPanel());
-                        setOpacity(Constants.LOW_OPACITY, contextHolder);
-                        stageManager.switchScene(FxmlView.TEAM_LEAD_ADD_EMAIL, null, contextHolder, true);
-                    }
-                });
-                contextMenu.getItems().add(removeMenuItem);
-                // Set context menu on row, but use a binding to make it only show for non-empty rows:
-                row.contextMenuProperty().bind(
-                        Bindings.when(row.emptyProperty())
-                                .then((ContextMenu)null)
-                                .otherwise(contextMenu)
-                );
-                return row ;
-            }
-        });
-
-
+        teamLeadTableView.setRowFactory(new TableRowContextMenuFactory<>(contextMenuActionMap));
         refresh();
+    }
+
+    private void addTeamLeadEmailId(ActionEvent event){
+        List<TeamLead> teamLeadList = teamLeadTableView.getSelectionModel().getSelectedItems();
+        ContextHolder contextHolder = createContextHolder(
+                new String[]{Constants.REQUEST_OBJ},
+                new Object[]{teamLeadList},
+                getRootPanel());
+        setOpacity(Constants.LOW_OPACITY, contextHolder);
+        stageManager.switchScene(FxmlView.TEAM_LEAD_ADD_EMAIL, null, contextHolder, true);
     }
 
     @Override

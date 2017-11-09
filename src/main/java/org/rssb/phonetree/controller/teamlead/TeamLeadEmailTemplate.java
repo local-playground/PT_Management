@@ -34,7 +34,7 @@ public class TeamLeadEmailTemplate extends AbstractController{
     public void postProcess(){
         TeamLead teamLead = (TeamLead) contextHolder.get(Constants.REQUEST_OBJ);
         firstNameLabel.setText(teamLead.getTeamLeadName());
-        teamLeadIdLabel.setText(String.valueOf(teamLead.getTeamLeadId()));
+        //teamLeadIdLabel.setText(String.valueOf(teamLead.getTeamLeadId()));
 
     }
 
