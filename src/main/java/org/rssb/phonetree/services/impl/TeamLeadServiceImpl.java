@@ -215,6 +215,11 @@ public class TeamLeadServiceImpl implements TeamLeadService {
 
         return sevadarPersonalInformation.getStringyfyInformation("Backup Team Lead");
     }
+
+    @Override
+    public void save(TeamLead teamLead) {
+        teamLeadJpaRepository.saveAndFlush(teamLead);
+    }
 }
 
 

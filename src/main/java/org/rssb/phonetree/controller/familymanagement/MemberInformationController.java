@@ -192,13 +192,6 @@ public class MemberInformationController extends AbstractController {
         populateMemberInformation(member);
     }
 
-    private String getData(StringBuilder sb) {
-        if (CommonUtil.isEmptyOrNull(sb.toString())) {
-            return "";
-        }
-
-        return sb.substring(0, sb.length() - 1);
-    }
 
     private Member collectMemberInformation() {
         Map<String, String> cellPhoneNumbersDataMap = capturePhoneNumbersAndComments(cellPhoneTextFieldHolder, cellPhoneNumberControllerList);
@@ -248,8 +241,8 @@ public class MemberInformationController extends AbstractController {
             phoneNumbers.append(phoneNumberController.getPhoneNumber()).append(",");
             phoneComments.append(phoneNumberController.getPhoneComments()).append(",");
         }
-        dataMap.put("PHONE_NUMBERS", getData(phoneNumbers));
-        dataMap.put("PHONE_COMMENTS", getData(phoneComments));
+        dataMap.put("PHONE_NUMBERS", CommonUtil.extractDataButLastCharacter(phoneNumbers));
+        dataMap.put("PHONE_COMMENTS", CommonUtil.extractDataButLastCharacter(phoneComments));
 
         return dataMap;
     }

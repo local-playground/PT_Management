@@ -39,6 +39,9 @@ public class Sevadar implements Serializable {
     @JoinColumn(name = "MemberId")
     private Member member;
 
+    @Column(name = "EmailId")
+    private String emailId;
+
     public Sevadar() {
     }
 
@@ -93,7 +96,13 @@ public class Sevadar implements Serializable {
     public void setMember(Member member) {
         this.member = member;
     }
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
 
+    public String getEmailId() {
+        return emailId;
+    }
 
     @Override
     public String toString() {
@@ -101,6 +110,7 @@ public class Sevadar implements Serializable {
         sb.append("sevadarsId=").append(sevadarsId);
         sb.append(", sevadarName='").append(sevadarName).append('\'');
         sb.append(", isBackupForTeamLead=").append(isBackupForTeamLead);
+        sb.append("emailId=").append(emailId);
         sb.append('}');
         return sb.toString();
     }

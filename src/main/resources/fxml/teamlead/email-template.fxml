@@ -6,9 +6,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import org.rssb.phonetree.custom.controls.DecoratedTextField?>
 
-<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" spacing="10.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teamlead.TeamLeadEmailTemplate">
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teamlead.TeamLeadEmailTemplate">
     <children>
         <HBox spacing="5.0">
             <children>
@@ -22,7 +21,7 @@
             <children>
                 <VBox fx:id="emailIdTextFieldsHolder">
                     <children>
-                        <DecoratedTextField fx:id="emailIdTextField" leftGlyphIconLabelHeight="40" leftGlyphIconLabelWidth="40" leftGlyphIconName="AT" leftGlyphIconSize="30" prefHeight="40.0" prefWidth="376.0" promptText="Enter valid email id" />
+
                     </children>
                 </VBox>
             </children>
@@ -35,9 +34,10 @@
                     </cursor>
                 </FontAwesomeIconView>
                 <FontAwesomeIconView fx:id="deleteEmptyEmailTextField" glyphName="MINUS" onMouseClicked="#deleteEmptyEmailTextField" size="30">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></FontAwesomeIconView>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </FontAwesomeIconView>
             </children>
         </HBox>
     </children>

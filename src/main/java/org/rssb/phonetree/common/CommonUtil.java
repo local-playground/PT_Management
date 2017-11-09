@@ -53,6 +53,15 @@ public class CommonUtil {
     }
 
 
+    public static String extractDataButLastCharacter(StringBuilder sb) {
+        if (CommonUtil.isEmptyOrNull(sb.toString())) {
+            return "";
+        }
+
+        return sb.substring(0, sb.length() - 1);
+    }
+
+
     public static String strigyfy(String[] str, String delimiter) {
         if (str == null) {
             return "";

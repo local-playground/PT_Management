@@ -21,5 +21,6 @@ public interface TeamLeadService {
    List<Sevadar> findSevadarListByTeamLeadId(int teamLeadId);
    String getTeamLeadStrigyfyInformation(String teamLeadName);
    String getBackupTeamLeadStringyfyInformation(String teamLeadName);
+   void save(TeamLead teamLead);
 
 }

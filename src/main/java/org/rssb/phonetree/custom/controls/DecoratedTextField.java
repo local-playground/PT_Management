@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 public class DecoratedTextField extends CustomTextField {
     private Pattern phoneNumberPattern = Pattern.compile("(\\d{3})(\\d{3})(\\d{4})");
     private Pattern tollPhoneNumberPattern = Pattern.compile("(\\d{1})(\\d{3})(\\d{3})(\\d{4})");
+    private Pattern emailPattern = Pattern.compile("^[-+\\w]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-zA-Z]{2,})$");
     private String leftGlyphIconName;
     private String leftGlyphIconSize;
     private String rightGlyphIconName;
@@ -29,6 +30,7 @@ public class DecoratedTextField extends CustomTextField {
     private String errorMessage;
     private PopOver popOver = new PopOver();
     private boolean isPhoneNumber;
+    private boolean isEmail;
     private String leftGlyphIconLabelHeight;
     private String rightGlyphIconLabelHeight;
     private String leftGlyphIconLabelWidth;
@@ -71,6 +73,14 @@ public class DecoratedTextField extends CustomTextField {
 
     public void setLeftGlyphIconLabelWidth(String leftGlyphIconLabelWidth) {
         this.leftGlyphIconLabelWidth = leftGlyphIconLabelWidth;
+    }
+
+    public boolean isEmail() {
+        return isEmail;
+    }
+
+    public void setEmail(boolean email) {
+        isEmail = email;
     }
 
     public String getRightGlyphIconLabelWidth() {
@@ -116,6 +126,8 @@ public class DecoratedTextField extends CustomTextField {
             popOver.setAnimated(true);
             popOver.setArrowLocation(PopOver.ArrowLocation.BOTTOM_CENTER);
             popOver.show(this);
+        }else{
+            hidePopover();
         }
     }
 
@@ -132,8 +144,13 @@ public class DecoratedTextField extends CustomTextField {
     }
 
     public boolean validate() {
+        if(isEmail()){
+            Matcher matcher = emailPattern.matcher(this.getText());
+            return matcher.matches();
+        }
+
         if (isMinLengthMet()) {
-            hidePopover();
+            /*hidePopover();*/
             return true;
         }
 

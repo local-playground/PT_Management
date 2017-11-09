@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.teamlead.TeamLeadEmailIdController">
-    <children>
-        <VBox alignment="CENTER" layoutX="354.0" layoutY="29.0" spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/8.0.111"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.rssb.phonetree.controller.teamlead.TeamLeadEmailIdController">
+    <content>
+        <VBox alignment="CENTER" spacing="15.0" styleClass="base" stylesheets="@../../styles/Styles.css">
             <padding>
-                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
             </padding>
             <children>
-                <Label alignment="CENTER" styleClass="h1" text="Add / Update Team Lead Emails" />
-                <VBox fx:id="teamLeadsEmailTemplateHolder" />
+                <Label alignment="CENTER" styleClass="h1" text="Add / Update Team Lead Emails"/>
+                <VBox fx:id="teamLeadsEmailTemplateHolder"/>
                 <VBox>
                     <children>
                         <HBox alignment="CENTER">
-                            <JFXButton fx:id="addMember" buttonType="RAISED" graphicTextGap="9.0" styleClass="action-button" text="ADD EMAIL">
+                            <JFXButton fx:id="addMember" buttonType="RAISED" graphicTextGap="9.0"
+                                       styleClass="action-button" text="ADD EMAIL" onAction="#addEmailId">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="AT" size="30" />
+                                    <FontAwesomeIconView glyphName="AT" size="30"/>
                                 </graphic>
                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
+                                    <Cursor fx:constant="HAND"/>
                                 </cursor>
                             </JFXButton>
-                            <JFXButton fx:id="cancel" buttonType="RAISED" graphicTextGap="9.0" onAction="#cancel" styleClass="action-button" text="CANCEL">
+                            <JFXButton fx:id="cancel" buttonType="RAISED" graphicTextGap="9.0" onAction="#cancel"
+                                       styleClass="action-button" text="CANCEL">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="REMOVE" size="30" />
+                                    <FontAwesomeIconView glyphName="REMOVE" size="30"/>
                                 </graphic>
                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
+                                    <Cursor fx:constant="HAND"/>
                                 </cursor>
                             </JFXButton>
                             <padding>
-                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
                             </padding>
                         </HBox>
 
@@ -46,5 +50,5 @@
                 </VBox>
             </children>
         </VBox>
-    </children>
-</AnchorPane>
+    </content>
+</ScrollPane>

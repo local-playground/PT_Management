@@ -47,6 +47,9 @@ public class TeamLead {
     @JoinColumn(name = "MemberId")
     private Member member;
 
+    @Column(name = "EmailId")
+    private String emailId;
+
     public int getTeamLeadId() {
         return teamLeadId;
     }
@@ -88,11 +91,21 @@ public class TeamLead {
         this.member = member;
     }
 
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
     @Override
+
     public String toString() {
         final StringBuilder sb = new StringBuilder("TeamLead{");
         sb.append("teamLeadId=").append(teamLeadId);
         sb.append(", teamLeadName='").append(teamLeadName).append('\'');
+        sb.append("emailId=").append(emailId);
         //sb.append(", sevadarsList=").append(sevadarsList);
         sb.append('}');
         return sb.toString();

@@ -9,6 +9,8 @@ import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.entity.TeamLead;
+import org.rssb.phonetree.services.TeamLeadService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,9 @@ public class TeamLeadEmailIdController extends AbstractController {
 
     private List<TeamLeadEmailTemplate> teamLeadEmailTemplates = new ArrayList<>();
 
+    @Autowired
+    private TeamLeadService teamLeadService;
+
     @FXML
     private VBox teamLeadsEmailTemplateHolder;
 
@@ -33,9 +38,9 @@ public class TeamLeadEmailIdController extends AbstractController {
     }
 
     @Override
-    public void postProcess(){
+    public void postProcess() {
         List<TeamLead> teamLeadList = (List<TeamLead>) contextHolder.get(Constants.REQUEST_OBJ);
-        for(TeamLead teamLead: teamLeadList){
+        for (TeamLead teamLead : teamLeadList) {
             teamLeadsEmailTemplateHolder.getChildren().add(getHBox(teamLead));
         }
     }
@@ -49,7 +54,7 @@ public class TeamLeadEmailIdController extends AbstractController {
             TeamLeadEmailTemplate teamLeadEmailTemplate = fxmlLoader.getController();
             ContextHolder ctxHolder = createContextHolder(
                     new String[]{Constants.REQUEST_OBJ},
-                    new Object[]{teamLead},null);
+                    new Object[]{teamLead}, null);
 
             teamLeadEmailTemplate.setContextHolder(ctxHolder);
             teamLeadEmailTemplate.postProcess();
@@ -61,8 +66,18 @@ public class TeamLeadEmailIdController extends AbstractController {
     }
 
     @FXML
+    void addEmailId(ActionEvent event) {
+        for(TeamLeadEmailTemplate teamLeadEmailTemplate:teamLeadEmailTemplates){
+            TeamLead teamLead = teamLeadEmailTemplate.getTeamLead();
+            System.out.println("Email Id for ="+teamLead.getTeamLeadName()+" - "+teamLead.getEmailId());
+            teamLeadService.save(teamLead);
+        }
+        closeScreen(event, contextHolder);
+    }
+
+    @FXML
     void cancel(ActionEvent event) {
-        closeScreen(event,contextHolder);
+        closeScreen(event, contextHolder);
     }
 
 }
