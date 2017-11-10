@@ -191,6 +191,20 @@ public enum FxmlView {
         public boolean isAlwaysOnTop() {
             return true;
         }
+    },
+    SEVADAR_ADD_EMAIL{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/sevadar/sevadar-emails.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
     };
     
     public abstract String getFxmlFile();

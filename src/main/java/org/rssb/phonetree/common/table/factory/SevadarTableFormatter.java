@@ -3,7 +3,6 @@ package org.rssb.phonetree.common.table.factory;
 
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.predicates.SevadarPredicates;
-import org.rssb.phonetree.predicates.TeamLeadPredicates;
 
 public class SevadarTableFormatter extends TableFormatter<Sevadar,Sevadar>{
     public SevadarTableFormatter() {
@@ -11,10 +10,12 @@ public class SevadarTableFormatter extends TableFormatter<Sevadar,Sevadar>{
                 SevadarPredicates.cellPhoneLabelComposerFunction);
         put(SevadarPredicates.isFormatHomePhoneColumn,
                 SevadarPredicates.homePhoneLabelComposerFunction);
-        put(TeamLeadPredicates.isFormatFirstNameColumn,
+        put(SevadarPredicates.isFormatFirstNameColumn,
                 SevadarPredicates.firstNameLabelComposerFunction);
-        put(TeamLeadPredicates.isFormatLastNameColumn,
+        put(SevadarPredicates.isFormatLastNameColumn,
                 SevadarPredicates.lastNameLabelComposerFunction);
+        put(SevadarPredicates.isFormatBackupTeamLead,
+                SevadarPredicates.backupTeamLeadLabelComposerFunction);
 
     }
 }

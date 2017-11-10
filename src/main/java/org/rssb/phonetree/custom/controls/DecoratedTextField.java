@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.textfield.CustomTextField;
+import org.rssb.phonetree.common.CommonUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -102,10 +103,10 @@ public class DecoratedTextField extends CustomTextField {
         if (minLength <= 0 && isRequired()) {
             minLength = 1;//default
         }
-        if (isNull(this.getText()) && isRequired()) {
+        if (CommonUtil.isEmptyOrNull(this.getText()) && isRequired()) {
             return false;
         }
-        if (isNull(this.getText()) && !isRequired()) {
+        if (CommonUtil.isEmptyOrNull(this.getText()) && !isRequired()) {
             return true;
         }
         int currentTextLength = this.getText().trim().length();
@@ -144,7 +145,7 @@ public class DecoratedTextField extends CustomTextField {
     }
 
     public boolean validate() {
-        if(isEmail()){
+        if(isEmail() && CommonUtil.isNotEmptyOrNull(this.getText())){
             Matcher matcher = emailPattern.matcher(this.getText());
             return matcher.matches();
         }
@@ -163,10 +164,10 @@ public class DecoratedTextField extends CustomTextField {
     }
 
     private String prepareErrorMessage() {
-        String msg = isNull(errorMessage) ? "" : errorMessage;
+        String msg = CommonUtil.isEmptyOrNull(errorMessage) ? "" : errorMessage;
 
         StringBuilder sb = new StringBuilder();
-        if (!isNull(msg)) {
+        if (CommonUtil.isNotEmptyOrNull(msg)) {
             sb.append(errorMessage).append("\n");
         }
         sb.append(prepareMinimumLength());
@@ -196,7 +197,7 @@ public class DecoratedTextField extends CustomTextField {
 
     public void setRightGlyphIconSize(String rightGlyphIconSize) {
         this.rightGlyphIconSize = rightGlyphIconSize;
-        if (!isNull(rightGlyphIconSize) && isValid(rightGlyphIconSize)) {
+        if (CommonUtil.isNotEmptyOrNull(rightGlyphIconSize) && isValid(rightGlyphIconSize)) {
             rightGlyphIconView.setSize(rightGlyphIconSize);
         }
     }
@@ -217,7 +218,7 @@ public class DecoratedTextField extends CustomTextField {
 
     public void setRightGlyphIconName(String rightGlyphIconName) {
         this.rightGlyphIconName = rightGlyphIconName;
-        if (!isNull(rightGlyphIconName)) {
+        if (CommonUtil.isNotEmptyOrNull(rightGlyphIconName)) {
             FontAwesomeIcon icon = FontAwesomeIcon.valueOf(rightGlyphIconName);
             rightGlyphIconView.setIcon(icon);
             Label label = new Label();
@@ -232,7 +233,7 @@ public class DecoratedTextField extends CustomTextField {
     }
 
     private double getPreferredValue(String value) {
-        if (isNull(value)) {
+        if (CommonUtil.isEmptyOrNull(value)) {
             return 0;
         }
 
@@ -250,7 +251,7 @@ public class DecoratedTextField extends CustomTextField {
 
     public void setLeftGlyphIconName(String leftGlyphIconName) {
         this.leftGlyphIconName = leftGlyphIconName;
-        if (!isNull(leftGlyphIconName)) {
+        if (CommonUtil.isNotEmptyOrNull(leftGlyphIconName)) {
             FontAwesomeIcon icon = FontAwesomeIcon.valueOf(leftGlyphIconName);
             leftGlyphIconView.setIcon(icon);
             Label label = new Label();
@@ -271,7 +272,7 @@ public class DecoratedTextField extends CustomTextField {
 
     public void setLeftGlyphIconSize(String leftGlyphIconSize) {
         this.leftGlyphIconSize = leftGlyphIconSize;
-        if (!isNull(leftGlyphIconSize) && isValid(leftGlyphIconSize)) {
+        if (CommonUtil.isNotEmptyOrNull(leftGlyphIconSize) && isValid(leftGlyphIconSize)) {
             leftGlyphIconView.setSize(leftGlyphIconSize);
         }
     }
@@ -282,7 +283,7 @@ public class DecoratedTextField extends CustomTextField {
 
     public void setAcceptedCharactersRegex(String acceptedCharactersRegex) {
         this.acceptedCharactersRegex = acceptedCharactersRegex;
-        if(isNull(this.acceptedCharactersRegex)){
+        if(CommonUtil.isEmptyOrNull(this.acceptedCharactersRegex)){
             this.acceptedCharactersRegex="[0-9a-zA-Z\\s]";
         }
     }
@@ -293,7 +294,7 @@ public class DecoratedTextField extends CustomTextField {
 
     public void setMinLength(String minLength) {
         this.minLength = minLength;
-        if(isNull(minLength)){
+        if(CommonUtil.isEmptyOrNull(minLength)){
             this.minLength="0";
         }
     }
@@ -304,7 +305,7 @@ public class DecoratedTextField extends CustomTextField {
 
     public void setMaxLength(String maxLength) {
         this.maxLength = maxLength;
-        if(isNull(maxLength)){
+        if(CommonUtil.isEmptyOrNull(maxLength)){
             this.maxLength="999";
         }
         if (isValid(maxLength)) {
@@ -389,7 +390,7 @@ public class DecoratedTextField extends CustomTextField {
 
 
     private boolean controlAcceptedFormat(int start, int end, String text) {
-        if (!isNull(acceptedCharactersRegex)) {
+        if (CommonUtil.isNotEmptyOrNull(acceptedCharactersRegex)) {
             if (text.matches(acceptedCharactersRegex)) {
                 return false;
             }
@@ -428,13 +429,6 @@ public class DecoratedTextField extends CustomTextField {
         }
 
         return true;
-    }
-
-    private boolean isNull(String str) {
-        if (str == null || str.trim().length() == 0)
-            return true;
-
-        return false;
     }
 
 }

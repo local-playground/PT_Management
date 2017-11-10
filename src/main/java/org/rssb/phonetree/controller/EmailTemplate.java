@@ -1,4 +1,4 @@
-package org.rssb.phonetree.controller.teamlead;
+package org.rssb.phonetree.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,9 +9,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Constants;
-import org.rssb.phonetree.controller.AbstractController;
-import org.rssb.phonetree.controller.TextFieldController;
 import org.rssb.phonetree.custom.controls.DecoratedTextField;
+import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,7 @@ import java.util.ResourceBundle;
 
 @Component
 @Lazy
-public class TeamLeadEmailTemplate extends AbstractController {
+public class EmailTemplate<T> extends AbstractController {
 
     private List<TextFieldController> textFieldControllerList = new ArrayList<>();
 
@@ -40,9 +39,15 @@ public class TeamLeadEmailTemplate extends AbstractController {
 
     @Override
     public void postProcess() {
-        TeamLead teamLead = (TeamLead) contextHolder.get(Constants.REQUEST_OBJ);
-        firstNameLabel.setText(teamLead.getTeamLeadName());
-        String emailId = teamLead.getEmailId();
+        T type = (T) contextHolder.get(Constants.REQUEST_OBJ);
+        String emailId = null;
+        if (type instanceof TeamLead) {
+            firstNameLabel.setText(((TeamLead) type).getTeamLeadName());
+            emailId = ((TeamLead) type).getEmailId();
+        } else if (type instanceof Sevadar) {
+            firstNameLabel.setText(((Sevadar) type).getSevadarName());
+            emailId = ((Sevadar) type).getEmailId();
+        }
         if (CommonUtil.isNotEmptyOrNull(emailId)) {
             List<String> emailIdList = Arrays.asList(emailId.split(","));
             for (int index = 0; index < emailIdList.size(); index++) {
@@ -61,20 +66,25 @@ public class TeamLeadEmailTemplate extends AbstractController {
         }
     }
 
-    public TeamLead getTeamLead(){
-        TeamLead teamLead = (TeamLead) contextHolder.get(Constants.REQUEST_OBJ);
+    public T getRequest() {
+        T type = (T) contextHolder.get(Constants.REQUEST_OBJ);
         StringBuilder sb = new StringBuilder();
         for (int index = 0; index < emailIdTextFieldsHolder.getChildren().size(); index++) {
             TextFieldController textFieldController = textFieldControllerList.size() > index ?
                     textFieldControllerList.get(index) : null;
 
-            if (textFieldController != null) {
+            if (textFieldController != null &&
+                    CommonUtil.isNotEmptyOrNull(textFieldController.getText())) {
                 sb.append(textFieldController.getText()).append(",");
             }
         }
-        teamLead.setEmailId(CommonUtil.extractDataButLastCharacter(sb));
+        if (type instanceof TeamLead) {
+            ((TeamLead) type).setEmailId(CommonUtil.extractDataButLastCharacter(sb));
+        } else if (type instanceof Sevadar) {
+            ((Sevadar) type).setEmailId(CommonUtil.extractDataButLastCharacter(sb));
+        }
 
-        return teamLead;
+        return type;
     }
 
     @FXML

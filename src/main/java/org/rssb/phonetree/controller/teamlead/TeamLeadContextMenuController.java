@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.controller.AbstractController;
+import org.rssb.phonetree.controller.EmailTemplate;
 import org.rssb.phonetree.entity.TeamLead;
 import org.rssb.phonetree.services.TeamLeadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,9 @@ import java.util.ResourceBundle;
 
 @Component
 @Lazy
-public class TeamLeadEmailIdController extends AbstractController {
+public class TeamLeadContextMenuController extends AbstractController {
 
-    private List<TeamLeadEmailTemplate> teamLeadEmailTemplates = new ArrayList<>();
+    private List<EmailTemplate<TeamLead>> emailTemplatesList = new ArrayList<>();
 
     @Autowired
     private TeamLeadService teamLeadService;
@@ -47,18 +48,18 @@ public class TeamLeadEmailIdController extends AbstractController {
 
     private HBox getHBox(TeamLead teamLead) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                "/fxml/teamlead/email-template.fxml"));
+                "/fxml/email-template.fxml"));
         HBox parent;
         try {
             parent = fxmlLoader.load();
-            TeamLeadEmailTemplate teamLeadEmailTemplate = fxmlLoader.getController();
+            EmailTemplate emailTemplate = fxmlLoader.getController();
             ContextHolder ctxHolder = createContextHolder(
                     new String[]{Constants.REQUEST_OBJ},
                     new Object[]{teamLead}, null);
 
-            teamLeadEmailTemplate.setContextHolder(ctxHolder);
-            teamLeadEmailTemplate.postProcess();
-            teamLeadEmailTemplates.add(teamLeadEmailTemplate);
+            emailTemplate.setContextHolder(ctxHolder);
+            emailTemplate.postProcess();
+            emailTemplatesList.add(emailTemplate);
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
@@ -67,9 +68,8 @@ public class TeamLeadEmailIdController extends AbstractController {
 
     @FXML
     void addEmailId(ActionEvent event) {
-        for(TeamLeadEmailTemplate teamLeadEmailTemplate:teamLeadEmailTemplates){
-            TeamLead teamLead = teamLeadEmailTemplate.getTeamLead();
-            System.out.println("Email Id for ="+teamLead.getTeamLeadName()+" - "+teamLead.getEmailId());
+        for(EmailTemplate emailTemplate : emailTemplatesList){
+            TeamLead teamLead = (TeamLead) emailTemplate.getRequest();
             teamLeadService.save(teamLead);
         }
         closeScreen(event, contextHolder);

@@ -2,83 +2,96 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+
 <?import org.rssb.phonetree.common.table.factory.SevadarTableFormatter?>
-<?import org.rssb.phonetree.common.table.factory.TeamLeadTableFormatter?>
-<?import java.lang.String?>
-<BorderPane prefHeight="450.0" prefWidth="800.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.sevadar.SevadarController">
+
+<BorderPane prefHeight="450.0" prefWidth="800.0" styleClass="base" stylesheets="@../../styles/Styles.css"
+            xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.rssb.phonetree.controller.sevadar.SevadarController">
     <top>
         <VBox alignment="CENTER" styleClass="action-button-bar" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets bottom="15.0" />
+                <Insets bottom="15.0"/>
             </BorderPane.margin>
             <children>
                 <Label text="Sevadars Management">
                     <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="10.0"/>
                     </VBox.margin>
                     <styleClass>
-                        <String fx:value="h1" />
-                        <String fx:value="bold" />
-                        <String fx:value="headers-font-family" />
+                        <String fx:value="h1"/>
+                        <String fx:value="bold"/>
+                        <String fx:value="headers-font-family"/>
                     </styleClass>
                 </Label>
                 <HBox prefHeight="60.0" prefWidth="800.0" spacing="50.0" styleClass="action-button-bar">
                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </padding>
                     <children>
-                        <JFXButton fx:id="addSevadarButton" buttonType="RAISED" graphicTextGap="9.0" onAction="#addSevadar" prefHeight="102.0" prefWidth="102.0" styleClass="action-button" text="ADD" wrapText="true">
+                        <JFXButton fx:id="addSevadarButton" buttonType="RAISED" graphicTextGap="9.0"
+                                   onAction="#addSevadar" prefHeight="102.0" prefWidth="102.0"
+                                   styleClass="action-button" text="ADD" wrapText="true">
                             <graphic>
-                                <FontAwesomeIconView glyphName="USER_PLUS" size="30" />
+                                <FontAwesomeIconView glyphName="USER_PLUS" size="30"/>
                             </graphic>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </JFXButton>
-                        <JFXButton fx:id="deleteSevadarButton" buttonType="RAISED" layoutX="15.0" layoutY="15.0" onAction="#deleteSevadar" prefHeight="50.0" prefWidth="120.0" styleClass="action-button" text="REMOVE">
+                        <JFXButton fx:id="deleteSevadarButton" buttonType="RAISED" layoutX="15.0" layoutY="15.0"
+                                   onAction="#deleteSevadar" prefHeight="50.0" prefWidth="120.0"
+                                   styleClass="action-button" text="REMOVE">
                             <graphic>
-                                <FontAwesomeIconView glyphName="USER_TIMES" size="30" />
+                                <FontAwesomeIconView glyphName="USER_TIMES" size="30"/>
                             </graphic>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </JFXButton>
-                        <JFXButton fx:id="replaceSevadarButton" buttonType="RAISED" layoutX="144.0" layoutY="15.0" onAction="#replaceSevadar" prefHeight="50.0" prefWidth="117.0" styleClass="action-button" text="REPLACE">
+                        <JFXButton fx:id="replaceSevadarButton" buttonType="RAISED" layoutX="144.0" layoutY="15.0"
+                                   onAction="#replaceSevadar" prefHeight="50.0" prefWidth="117.0"
+                                   styleClass="action-button" text="REPLACE">
                             <graphic>
-                                <FontAwesomeIconView glyphName="EXCHANGE" size="30" />
+                                <FontAwesomeIconView glyphName="EXCHANGE" size="30"/>
                             </graphic>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </JFXButton>
-                        <JFXButton fx:id="swapSevadarButton" buttonType="RAISED" layoutX="273.0" layoutY="15.0" onAction="#swapSevadar" prefHeight="50.0" prefWidth="107.0" styleClass="action-button" text="SWAP">
+                        <JFXButton fx:id="swapSevadarButton" buttonType="RAISED" layoutX="273.0" layoutY="15.0"
+                                   onAction="#swapSevadar" prefHeight="50.0" prefWidth="107.0"
+                                   styleClass="action-button" text="SWAP">
                             <graphic>
-                                <FontAwesomeIconView glyphName="REFRESH" size="30" />
+                                <FontAwesomeIconView glyphName="REFRESH" size="30"/>
                             </graphic>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </JFXButton>
-                        <JFXButton fx:id="moveSevadarButton" buttonType="RAISED" layoutX="402.0" layoutY="15.0" onAction="#moveSevadar" prefHeight="50.0" prefWidth="111.0" styleClass="action-button" text="MOVE">
+                        <JFXButton fx:id="moveSevadarButton" buttonType="RAISED" layoutX="402.0" layoutY="15.0"
+                                   onAction="#moveSevadar" prefHeight="50.0" prefWidth="111.0"
+                                   styleClass="action-button" text="MOVE">
                             <graphic>
-                                <FontAwesomeIconView glyphName="REPLY" size="30" />
+                                <FontAwesomeIconView glyphName="REPLY" size="30"/>
                             </graphic>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </JFXButton>
                     </children>
                     <padding>
-                        <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
+                        <Insets bottom="5.0" left="15.0" right="5.0" top="5.0"/>
                     </padding>
                 </HBox>
             </children>
@@ -87,34 +100,40 @@
     <center>
         <TableView fx:id="sevadarsTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn fx:id="firstNameTableColumn" prefWidth="194.0" text="First Name" >
+                <TableColumn fx:id="firstNameTableColumn" prefWidth="160.0" text="First Name">
                     <cellFactory>
                         <SevadarTableFormatter formatColumn="firstName"></SevadarTableFormatter>
                     </cellFactory>
                 </TableColumn>
-                <TableColumn fx:id="lastNameTableColumn" minWidth="0.0" prefWidth="213.0" text="Last Name" >
+                <TableColumn fx:id="lastNameTableColumn" minWidth="0.0" prefWidth="165.0" text="Last Name">
                     <cellFactory>
                         <SevadarTableFormatter formatColumn="lastName"></SevadarTableFormatter>
                     </cellFactory>
                 </TableColumn>
-                <TableColumn fx:id="cellPhoneTableColumn" prefWidth="200.0" text="Cell Phone" >
+                <TableColumn fx:id="cellPhoneTableColumn" prefWidth="175.0" text="Cell Phone">
                     <cellFactory>
                         <SevadarTableFormatter formatColumn="cellPhone"></SevadarTableFormatter>
                     </cellFactory>
                 </TableColumn>
-                <TableColumn fx:id="homePhoneTableColumn" minWidth="0.0" prefWidth="190.0" text="Home Phone" >
+                <TableColumn fx:id="homePhoneTableColumn" minWidth="0.0" prefWidth="175.0" text="Home Phone">
                     <cellFactory>
                         <SevadarTableFormatter formatColumn="homePhone"></SevadarTableFormatter>
                     </cellFactory>
                 </TableColumn>
+                <TableColumn fx:id="isBackupTeamLeadTableColumn" minWidth="0.0" prefWidth="124.0" text="Backup Lead ?">
+                    <cellFactory>
+                        <SevadarTableFormatter formatColumn="BackupTeamLead"></SevadarTableFormatter>
+                    </cellFactory>
+                </TableColumn>
             </columns>
             <styleClass>
-                <String fx:value="font-16" />
-                <String fx:value="bold" />
+                <String fx:value="font-16"/>
+                <String fx:value="bold"/>
             </styleClass>
         </TableView>
     </center>
     <effect>
-        <DropShadow blurType="GAUSSIAN" color="#e5e5e5" height="25.0" offsetX="3.0" offsetY="3.0" radius="12.0" spread="0.48" width="25.0" />
+        <DropShadow blurType="GAUSSIAN" color="#e5e5e5" height="25.0" offsetX="3.0" offsetY="3.0" radius="12.0"
+                    spread="0.48" width="25.0"/>
     </effect>
 </BorderPane>

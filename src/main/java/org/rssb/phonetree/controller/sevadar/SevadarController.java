@@ -7,9 +7,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
@@ -18,6 +20,7 @@ import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.common.SevaType;
+import org.rssb.phonetree.common.table.factory.TableRowContextMenuFactory;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.controller.teamlead.TeamLeadController;
 import org.rssb.phonetree.controller.teammanagement.TeamManagementController;
@@ -34,7 +37,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 @Component("Sevadar")
@@ -89,6 +94,7 @@ public class SevadarController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        sevadarsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         firstNameTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Sevadar, String>,
                 ObservableValue<String>>() {
             @Override
@@ -117,6 +123,25 @@ public class SevadarController extends AbstractController {
                 return new SimpleStringProperty(param.getValue().getMember().getHomePhone());
             }
         });
+
+        Map<String, EventHandler<ActionEvent>> contextMenuActionMap = new HashMap<>();
+        contextMenuActionMap.put("Add/Change Email Id",this::addSevadarEmailId);
+        contextMenuActionMap.put("Make Team Lead's Backup",this::makeTeamLeadsBackUp);
+
+        sevadarsTableView.setRowFactory(new TableRowContextMenuFactory<>(contextMenuActionMap));
+    }
+
+    private void makeTeamLeadsBackUp(ActionEvent actionEvent) {
+    }
+
+    private void addSevadarEmailId(ActionEvent actionEvent) {
+        List<Sevadar> sevadarList = sevadarsTableView.getSelectionModel().getSelectedItems();
+        ContextHolder contextHolder = createContextHolder(
+                new String[]{Constants.REQUEST_OBJ},
+                new Object[]{sevadarList},
+                getRootPanel());
+        setOpacity(Constants.LOW_OPACITY, contextHolder);
+        stageManager.switchScene(FxmlView.SEVADAR_ADD_EMAIL, null, contextHolder, true);
     }
 
     @FXML

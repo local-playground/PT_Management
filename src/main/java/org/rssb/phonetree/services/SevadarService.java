@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SevadarService {
+    void save(Sevadar sevadar);
     List<Sevadar> findAllSevadars();
     Optional<Sevadar> findSevadarByFamilyId(int familyId);
     Optional<Sevadar> findSevadarByMemberId(int memberId);

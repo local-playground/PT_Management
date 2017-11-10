@@ -43,6 +43,11 @@ public class SevadarServiceImpl implements SevadarService {
     private FamilyService familyService;
 
     @Override
+    public void save(Sevadar sevadar) {
+        sevadarJpaRepository.saveAndFlush(sevadar);
+    }
+
+    @Override
     public List<Sevadar> findAllSevadars() {
         return sevadarJpaRepository.findAll();
     }

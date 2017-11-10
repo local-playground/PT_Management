@@ -7,6 +7,7 @@
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.TextFieldController">
     <children>
         <DecoratedTextField fx:id="decoratedTextField" acceptedCharactersRegex="[\w-+\.@]"
+                            email="true"
                             errorMessage="Please provide valid email id.\n e.g. somename@domain.com"
                             leftGlyphIconLabelHeight="45" leftGlyphIconLabelWidth="45" leftGlyphIconName="AT"
                             leftGlyphIconSize="30" prefHeight="40.0" prefWidth="376.0" promptText="Enter valid email id"
