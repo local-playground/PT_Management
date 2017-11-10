@@ -21,4 +21,5 @@ public interface SevadarService {
     Response swapSevadar(int sevadarIdToBeSwapped, int sevadarIdSwappedWith);
     List<FamilyCount> getSevadarsCallingFamilyCountByTeamLeadId(int teamLeadId);
     String getSevadarStrigyfyInformation(String sevadarName);
+    Response makeTeamLeadsBackup(int sevadarId,String teamLeadName,int teamLeadId);
 }

@@ -3,7 +3,6 @@ package org.rssb.phonetree.controller.sevadar;
 import com.jfoenix.controls.JFXButton;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,12 +13,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.util.Callback;
-import org.rssb.phonetree.common.CommonUtil;
-import org.rssb.phonetree.common.Constants;
-import org.rssb.phonetree.common.ContextHolder;
-import org.rssb.phonetree.common.Response;
-import org.rssb.phonetree.common.SevaType;
+import org.rssb.phonetree.common.*;
 import org.rssb.phonetree.common.table.factory.TableRowContextMenuFactory;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.controller.teamlead.TeamLeadController;
@@ -43,21 +37,17 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 @Component("Sevadar")
-@SuppressWarnings({"unused","unchecked"})
+@SuppressWarnings({"unused", "unchecked"})
 @Lazy
 public class SevadarController extends AbstractController {
 
-    @Autowired
-    private SevadarService sevadarService;
+    private final SevadarService sevadarService;
 
-    @Autowired
-    private TeamLeadService teamLeadService;
+    private final TeamLeadService teamLeadService;
 
-    @Autowired
-    private TeamLeadController teamLeadController;
+    private final TeamLeadController teamLeadController;
 
-    @Autowired
-    private TeamManagementController teamManagementController;
+    private final TeamManagementController teamManagementController;
 
     @FXML
     private JFXButton addSevadarButton;
@@ -92,46 +82,62 @@ public class SevadarController extends AbstractController {
     @FXML
     private PieChart pieChart;
 
+    @Autowired
+    public SevadarController(SevadarService sevadarService, TeamLeadService teamLeadService, TeamLeadController teamLeadController, TeamManagementController teamManagementController) {
+        this.sevadarService = sevadarService;
+        this.teamLeadService = teamLeadService;
+        this.teamLeadController = teamLeadController;
+        this.teamManagementController = teamManagementController;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         sevadarsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        firstNameTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Sevadar, String>,
-                ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Sevadar, String> param) {
-                return new SimpleStringProperty(param.getValue().getMember().getFirstName());
-            }
-        });
+        firstNameTableColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getMember().getFirstName()));
 
-        lastNameTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Sevadar, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Sevadar, String> param) {
-                return new SimpleStringProperty(param.getValue().getMember().getLastName());
-            }
-        });
+        lastNameTableColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getMember().getLastName()));
 
-        cellPhoneTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Sevadar, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Sevadar, String> param) {
-                return new SimpleStringProperty(param.getValue().getMember().getCellPhone());
-            }
-        });
+        cellPhoneTableColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getMember().getCellPhone()));
 
-        homePhoneTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Sevadar, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Sevadar, String> param) {
-                return new SimpleStringProperty(param.getValue().getMember().getHomePhone());
-            }
-        });
+        homePhoneTableColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getMember().getHomePhone()));
 
         Map<String, EventHandler<ActionEvent>> contextMenuActionMap = new HashMap<>();
-        contextMenuActionMap.put("Add/Change Email Id",this::addSevadarEmailId);
-        contextMenuActionMap.put("Make Team Lead's Backup",this::makeTeamLeadsBackUp);
+        contextMenuActionMap.put("Add/Change Email Id", this::addSevadarEmailId);
+        contextMenuActionMap.put("Make Team Lead's Backup", this::makeTeamLeadsBackUp);
 
         sevadarsTableView.setRowFactory(new TableRowContextMenuFactory<>(contextMenuActionMap));
     }
 
     private void makeTeamLeadsBackUp(ActionEvent actionEvent) {
+        TeamLead teamLead = teamLeadController.getSelected();
+        List<Sevadar> sevadarList = teamLead.getSevadarsList();
+        Sevadar existingBackupLead = null;
+        for (Sevadar sevadar : sevadarList) {
+            if(sevadar.getIsBackupForTeamLead()==1){
+                existingBackupLead = sevadar;
+                break;
+            }
+        }
+        Sevadar sevadar = sevadarsTableView.getSelectionModel().getSelectedItem();
+        if(existingBackupLead!=null) {
+            if (sevadar.getSevadarsId() == existingBackupLead.getSevadarsId()) {
+                CommonUtil.showNoActionNeededJFXDialog(this,
+                        new Object[]{sevadar.getSevadarName(), teamLead.getTeamLeadName() + "'s"},
+                        SevadarActionResponse.SEVADAR_IS_ALREADY_TEAM_LEAD_BACKUP);
+                return;
+            }
+            CommonUtil.showConfirmationJFXDialog(this,
+                    new Object[]{sevadar.getSevadarName(), existingBackupLead.getSevadarName()},
+                    SevadarActionResponse.SEVADAR_CONFIRM_BEFORE_CHANGE_TEAM_LEAD_BACKUP,
+                    null,
+                    contextHolder1 -> {
+                        Response response = sevadarService.makeTeamLeadsBackup(sevadar.getSevadarsId(),
+                                teamLead.getTeamLeadName(),teamLead.getTeamLeadId());
+                        refresh();
+                        return response;
+                    });
+        }
+
     }
 
     private void addSevadarEmailId(ActionEvent actionEvent) {
@@ -244,7 +250,7 @@ public class SevadarController extends AbstractController {
         TeamLead teamLead = (TeamLead) contextHolder.get(Constants.REQUEST_OBJ);
         SearchResult selectedResult = (SearchResult) contextHolder.get(Constants.RESPONSE_OBJ);
         Response response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_SEVADAR);
-        CommonUtil.handleResponse(this,response, contextHolder, contextHolder1 -> {
+        CommonUtil.handleResponse(this, response, contextHolder, contextHolder1 -> {
             Response newResponse = sevadarService.addSevadar(selectedResult.getMemberId(), teamLead.getTeamLeadId());
             refresh();
             return newResponse;
@@ -257,7 +263,7 @@ public class SevadarController extends AbstractController {
         SearchResult selectedResult = (SearchResult) contextHolder.get(Constants.RESPONSE_OBJ);
         Response response = utilityService.isMemberAvailableForSeva(selectedResult.getMemberId(), SevaType.ADD_SEVADAR);
 
-        CommonUtil.handleResponse(this,response, contextHolder, contextHolder1 -> {
+        CommonUtil.handleResponse(this, response, contextHolder, contextHolder1 -> {
             Response newResponse = sevadarService.replaceSevadar(sevadar.getSevadarsId(), selectedResult.getMemberId());
             refresh();
             return newResponse;
@@ -269,7 +275,7 @@ public class SevadarController extends AbstractController {
         Sevadar swapSevadar = (Sevadar) contextHolder.get("SWAP_SEVADAR");
         Sevadar swapSevadarWith = (Sevadar) contextHolder.get("SWAP_SEVADAR_WITH");
         Response response = sevadarService.swapSevadar(swapSevadar.getSevadarsId(), swapSevadarWith.getSevadarsId());
-        CommonUtil.handleResponse(this,response, null, null);
+        CommonUtil.handleResponse(this, response, null, null);
         refresh();
         setOpacity(Constants.FULL_OPACITY, contextHolder);
     }
@@ -277,8 +283,8 @@ public class SevadarController extends AbstractController {
     private void moveSevadar(ContextHolder contextHolder) {
         Sevadar sevadarToBeMoved = (Sevadar) contextHolder.get("MOVE_SEVADAR");
         TeamLead teamLead = (TeamLead) contextHolder.get("MOVE_UNDER_TEAM_LEAD");
-        Response response = sevadarService.moveSevadarUnderOtherTeamLead(sevadarToBeMoved.getSevadarsId(),teamLead.getTeamLeadId());
-        CommonUtil.handleResponse(this,response, null, null);
+        Response response = sevadarService.moveSevadarUnderOtherTeamLead(sevadarToBeMoved.getSevadarsId(), teamLead.getTeamLeadId());
+        CommonUtil.handleResponse(this, response, null, null);
         refresh();
         setOpacity(Constants.FULL_OPACITY, contextHolder);
     }

@@ -73,9 +73,9 @@ public class SevadarServiceImpl implements SevadarService {
     }
 
     @Override
-    public Response addSevadar(int memberId,int teamLeadId) {
+    public Response addSevadar(int memberId, int teamLeadId) {
         Optional<Member> member = memberService.findMember(memberId);
-        if(!member.isPresent()){
+        if (!member.isPresent()) {
             return null; //To-Do
         }
         //Find team Lead for this Sevadar
@@ -83,7 +83,7 @@ public class SevadarServiceImpl implements SevadarService {
         int sevadarMaxId = sevadarJpaRepository.getMaxSevadarId();
         //Lets create Sevadar and Save
         Sevadar sevadar = new Sevadar();
-        sevadar.setSevadarsId(sevadarMaxId+1);
+        sevadar.setSevadarsId(sevadarMaxId + 1);
         sevadar.setMember(member.get());
         sevadar.setFamily(member.get().getFamily());
         sevadar.setSevadarName(CommonUtil.getFullName(member.get()));
@@ -91,31 +91,31 @@ public class SevadarServiceImpl implements SevadarService {
         sevadar.setIsBackupForTeamLead(0);
         sevadarJpaRepository.save(sevadar);
         //Mark newly added Sevadar Family to NOT to get SNV calls.
-        memberService.putSevadarBackToCallingList(YesNo.NO,member.get().getFamily().getFamilyId());
+        memberService.putSevadarBackToCallingList(YesNo.NO, member.get().getFamily().getFamilyId());
         //Remove from BackupSevadars table if already exists
         backupSevadarService.removeBackupSevadar(memberId);
         return CommonUtil.createResponse(SevadarActionResponse.SEVADAR_SUCCESSFULLY_ADDED,
-                new Object[]{CommonUtil.getFullName(member.get()),teamLead.getTeamLeadName()},
+                new Object[]{CommonUtil.getFullName(member.get()), teamLead.getTeamLeadName()},
                 ActionAlertType.INFORMATION);
     }
 
     @Override
     public Response deleteSevadar(int sevadarId) {
         Optional<Sevadar> sevadar = findSevadarBySevadarId(sevadarId);
-        if(!sevadar.isPresent()){
+        if (!sevadar.isPresent()) {
             return null;//To-Do
         }
 
         String sevadarName = sevadar.get().getSevadarName();
         int familiesCount = familyService.getTotalFamiliesBySevadarId(sevadarId);
-        if(familiesCount!=0){
+        if (familiesCount != 0) {
             return CommonUtil.createResponse(SevadarActionResponse.SEVADAR_HAS_SEVADARS_ASSIGNED,
-                    new Object[]{sevadar.get().getSevadarName(),familiesCount},
+                    new Object[]{sevadar.get().getSevadarName(), familiesCount},
                     ActionAlertType.ERROR);
         }
 
         //Put Sevadar back on calling list, so that he/she can get SNV info
-        memberService.putSevadarBackToCallingList(YesNo.YES,sevadar.get().getFamily().getFamilyId());
+        memberService.putSevadarBackToCallingList(YesNo.YES, sevadar.get().getFamily().getFamilyId());
 
         //DELETE team from Sevadars table
         sevadarJpaRepository.delete(sevadar.get());
@@ -132,9 +132,9 @@ public class SevadarServiceImpl implements SevadarService {
         sevadarJpaRepository.save(sevadar);
 
         //Lets change Team Lead in Family table as well.
-        familyService.updateSevadarAndTeamLeadId(sevadarId,teamLeadId,sevadarId);
+        familyService.updateSevadarAndTeamLeadId(sevadarId, teamLeadId, sevadarId);
         return CommonUtil.createResponse(SevadarActionResponse.SEVADAR_SUCCESSFULLY_MOVED_UNDER_OTHER_TEAM_LEAD,
-                new Object[]{sevadar.getSevadarName(),newTeamLead.getTeamLeadName()},
+                new Object[]{sevadar.getSevadarName(), newTeamLead.getTeamLeadName()},
                 ActionAlertType.INFORMATION);
     }
 
@@ -155,21 +155,21 @@ public class SevadarServiceImpl implements SevadarService {
         sevadarJpaRepository.save(oldSevadar);
 
         //STEP 2 - Put new Sevadar's Family NOT on calling list
-        memberService.putSevadarBackToCallingList(YesNo.NO,newSevadarFamilyId);
+        memberService.putSevadarBackToCallingList(YesNo.NO, newSevadarFamilyId);
         //STEP 3 - Put old Sevadar's family back on calling list, so that he/she can get SNV info
-        memberService.putSevadarBackToCallingList(YesNo.YES,oldSevadarFamilyId);
+        memberService.putSevadarBackToCallingList(YesNo.YES, oldSevadarFamilyId);
         //STEP 4 - If new Team was on Backup Sevadars List, then remove from there
         backupSevadarService.removeBackupSevadar(newSevadarMemberId);
 
         return CommonUtil.createResponse(SevadarActionResponse.SEVADAR_SUCCESSFULLY_REPLACED,
-                new Object[]{oldSevadarName,CommonUtil.getFullName(member)},
+                new Object[]{oldSevadarName, CommonUtil.getFullName(member)},
                 ActionAlertType.INFORMATION);
     }
 
     @Override
     //7 Manoj - 21 Kamal
     public Response swapSevadar(int sevadarIdToBeSwapped, int sevadarIdSwappedWith) {
-        if(sevadarIdToBeSwapped == sevadarIdSwappedWith){
+        if (sevadarIdToBeSwapped == sevadarIdSwappedWith) {
             //Please pick different Sevadars to swap.
             return null;//to do
         }
@@ -183,7 +183,7 @@ public class SevadarServiceImpl implements SevadarService {
         //Mina Patel
         TeamLead swapWithTeamLead = swapWithSevadar.getTeamLead();
 
-        if(toBeSwappedTeamLead.getTeamLeadId() == swapWithTeamLead.getTeamLeadId()){
+        if (toBeSwappedTeamLead.getTeamLeadId() == swapWithTeamLead.getTeamLeadId()) {
             //Both Sevadars reports to same Team Lead, so can't be swapped.
             return null; //to do
         }
@@ -229,31 +229,40 @@ public class SevadarServiceImpl implements SevadarService {
         int tempTeamLeadId = 9999;
 
         //Update Manoj's Calling families to temporary
-        familyService.updateSevadarAndTeamLeadId(tempSevadarId,tempTeamLeadId,sevadarIdToBeSwapped);
+        familyService.updateSevadarAndTeamLeadId(tempSevadarId, tempTeamLeadId, sevadarIdToBeSwapped);
 
         //Update Kamal's calling families to new sevadar and teamlead id
-        familyService.updateSevadarAndTeamLeadId(sevadarIdS,teamLeadIdS,sevadarIdSwappedWith);
+        familyService.updateSevadarAndTeamLeadId(sevadarIdS, teamLeadIdS, sevadarIdSwappedWith);
 
         //Update Manoj's calling families to new sevadar and teamlead id
-        familyService.updateSevadarAndTeamLeadId(sevadarId,teamLeadId,tempSevadarId);
+        familyService.updateSevadarAndTeamLeadId(sevadarId, teamLeadId, tempSevadarId);
 
         return CommonUtil.createResponse(SevadarActionResponse.SEVADAR_HAS_BEEN_SWAPPED,
-                new Object[]{sevadarName,sevadarNameS},
+                new Object[]{sevadarName, sevadarNameS},
                 ActionAlertType.INFORMATION);
     }
 
     @Override
     public List<FamilyCount> getSevadarsCallingFamilyCountByTeamLeadId(int teamLeadId) {
-        return namedQueryExecutor.executeNamedQuery("Family.getSevadarsCallingFamilyCountByTeamLeadId","teamLeadId",teamLeadId,FamilyCount.class);
+        return namedQueryExecutor.executeNamedQuery("Family.getSevadarsCallingFamilyCountByTeamLeadId", "teamLeadId", teamLeadId, FamilyCount.class);
     }
 
     @Override
     public String getSevadarStrigyfyInformation(String sevadarName) {
-       SevadarPersonalInformation sevadarPersonalInformation =
+        SevadarPersonalInformation sevadarPersonalInformation =
                 namedQueryExecutor.executeSingleResultQuery("Sevadar.personalInformation",
-                        "sevadarName",sevadarName,SevadarPersonalInformation.class);
+                        "sevadarName", sevadarName, SevadarPersonalInformation.class);
 
         return sevadarPersonalInformation.getStringyfyInformation("Sevadar");
+    }
+
+    @Override
+    public Response makeTeamLeadsBackup(int sevadarId, String teamLeadName,int teamLeadId) {
+        sevadarJpaRepository.updateSevadarsForTeamLeadAsNoBackup(teamLeadId);
+        sevadarJpaRepository.updateSevadarAsTeamLeadBackup(sevadarId);
+        return CommonUtil.createResponse(SevadarActionResponse.SEVADAR_SUCCESSFULLY_CHANGED_AS_BACKUP_TEAM_LEAD,
+                new Object[]{sevadarId, teamLeadName},
+                ActionAlertType.INFORMATION);
     }
 
 
