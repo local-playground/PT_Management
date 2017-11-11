@@ -109,7 +109,8 @@ public class SevadarController extends AbstractController {
     }
 
     private void makeTeamLeadsBackUp(ActionEvent actionEvent) {
-        TeamLead teamLead = teamLeadController.getSelected();
+        teamLeadController.makeTeamLeadsBackUp();
+        /*TeamLead teamLead = teamLeadController.getSelected();
         List<Sevadar> sevadarList = teamLead.getSevadarsList();
         Sevadar existingBackupLead = null;
         for (Sevadar sevadar : sevadarList) {
@@ -137,7 +138,7 @@ public class SevadarController extends AbstractController {
                         return response;
                     });
         }
-
+*/
     }
 
     private void addSevadarEmailId(ActionEvent actionEvent) {
@@ -229,8 +230,10 @@ public class SevadarController extends AbstractController {
     public void refresh() {
         TeamLead teamLead = (TeamLead) contextHolder.get(Constants.REQUEST_OBJ);
         List<Sevadar> sevadarList = teamLeadService.findSevadarListByTeamLeadId(teamLead.getTeamLeadId());
+        sevadarsTableView.getItems().clear();
         ObservableList<Sevadar> sevadarObservableList = FXCollections.observableArrayList(sevadarList);
         sevadarsTableView.setItems(sevadarObservableList);
+        sevadarsTableView.refresh();
         refreshBarChart(teamLead);
     }
 

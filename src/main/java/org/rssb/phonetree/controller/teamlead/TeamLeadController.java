@@ -23,8 +23,10 @@ import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.controller.sevadar.SevadarController;
 import org.rssb.phonetree.controller.teammanagement.TeamManagementController;
 import org.rssb.phonetree.domain.SearchResult;
+import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
 import org.rssb.phonetree.services.TeamLeadService;
+import org.rssb.phonetree.status.SevadarActionResponse;
 import org.rssb.phonetree.status.TeamLeadActionResponse;
 import org.rssb.phonetree.ui.view.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,6 +175,38 @@ public class TeamLeadController extends AbstractController {
                 getRootPanel());
         setOpacity(Constants.LOW_OPACITY, contextHolder);
         stageManager.switchScene(FxmlView.TEAM_LEAD_ADD_EMAIL, null, contextHolder, true);
+    }
+
+    public void makeTeamLeadsBackUp(){
+        TeamLead teamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
+        List<Sevadar> sevadarList = teamLead.getSevadarsList();
+        Sevadar existingBackupLead = null;
+        for (Sevadar sevadar : sevadarList) {
+            if(sevadar.getIsBackupForTeamLead()==1){
+                existingBackupLead = sevadar;
+                break;
+            }
+        }
+        Sevadar sevadar = sevadarController.getSelected();
+        if(existingBackupLead!=null) {
+            if (sevadar.getSevadarsId() == existingBackupLead.getSevadarsId()) {
+                CommonUtil.showNoActionNeededJFXDialog(this,
+                        new Object[]{sevadar.getSevadarName(), teamLead.getTeamLeadName() + "'s"},
+                        SevadarActionResponse.SEVADAR_IS_ALREADY_TEAM_LEAD_BACKUP);
+                return;
+            }
+            /*CommonUtil.showConfirmationJFXDialog(this,
+                    new Object[]{sevadar.getSevadarName(), existingBackupLead.getSevadarName()},
+                    SevadarActionResponse.SEVADAR_CONFIRM_BEFORE_CHANGE_TEAM_LEAD_BACKUP,
+                    null,
+                    contextHolder1 -> {
+                        Response response = sevadarService.makeTeamLeadsBackup(sevadar.getSevadarsId(),
+                                teamLead.getTeamLeadName(),teamLead.getTeamLeadId());
+                        refresh();
+                        return response;
+                    });*/
+        }
+
     }
 
     @Override
