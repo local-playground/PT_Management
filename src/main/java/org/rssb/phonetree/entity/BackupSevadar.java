@@ -24,6 +24,9 @@ public class BackupSevadar implements Serializable {
     @JoinColumn(name = "MemberId")
     private Member member;
 
+    @Transient
+    private String assignedToTeamLead;
+
     public BackupSevadar() {
     }
 
@@ -59,12 +62,20 @@ public class BackupSevadar implements Serializable {
         this.member = member;
     }
 
+    public String getAssignedToTeamLead() {
+        return assignedToTeamLead;
+    }
+
+    public void setAssignedToTeamLead(String teamLeadName) {
+        this.assignedToTeamLead = teamLeadName;
+    }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("BackupSevadar{");
         sb.append("backupSevadarsId=").append(backupSevadarsId);
         sb.append(", sevadarName='").append(sevadarName).append('\'');
+        sb.append(", teamLeadName='").append(assignedToTeamLead).append('\'');
         sb.append('}');
         return sb.toString();
     }

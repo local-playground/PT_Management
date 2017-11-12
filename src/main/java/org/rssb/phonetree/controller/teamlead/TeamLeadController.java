@@ -136,6 +136,7 @@ public class TeamLeadController extends AbstractController {
         teamLeadTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TeamLead>() {
             @Override
             public void changed(ObservableValue<? extends TeamLead> observable, TeamLead oldValue, TeamLead newValue) {
+                System.out.println("old value "+oldValue+" New value "+newValue);
                 if (oldValue == null && newValue == null)
                     return;
 
@@ -177,6 +178,7 @@ public class TeamLeadController extends AbstractController {
 
     @Override
     public void postProcess() {
+        System.out.println("Post process is called .....setting selection");
         teamLeadTableView.getSelectionModel().select(0);
     }
 
@@ -204,9 +206,9 @@ public class TeamLeadController extends AbstractController {
                     return;
                 }
             });
-        }else {
+        }/*else {
             teamLeadTableView.getSelectionModel().select(0);
-        }
+        }*/
     }
 
     @Override

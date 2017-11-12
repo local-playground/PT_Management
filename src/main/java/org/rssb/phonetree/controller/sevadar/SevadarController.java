@@ -229,7 +229,9 @@ public class SevadarController extends AbstractController {
     public void refresh() {
         TeamLead teamLead = (TeamLead) contextHolder.get(Constants.REQUEST_OBJ);
         List<Sevadar> sevadarList = teamLeadService.findSevadarListByTeamLeadId(teamLead.getTeamLeadId());
-        sevadarsTableView.getItems().clear();
+        if(sevadarsTableView.getItems()!=null){
+            sevadarsTableView.getItems().clear();
+        }
         ObservableList<Sevadar> sevadarObservableList = FXCollections.observableArrayList(sevadarList);
         sevadarsTableView.setItems(sevadarObservableList);
         sevadarsTableView.refresh();

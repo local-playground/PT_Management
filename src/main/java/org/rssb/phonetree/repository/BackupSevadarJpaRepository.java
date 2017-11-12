@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BackupSevadarJpaRepository extends JpaRepository<BackupSevadar,Integer>{
+    BackupSevadar findByFamilyFamilyId(int familyId);
     @Query("SELECT max (b.backupSevadarsId) from BackupSevadar b")
     Integer getMaxBackupSevadarId();
 

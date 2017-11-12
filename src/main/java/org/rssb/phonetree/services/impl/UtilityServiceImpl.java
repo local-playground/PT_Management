@@ -3,14 +3,17 @@ package org.rssb.phonetree.services.impl;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.common.SevaType;
+import org.rssb.phonetree.entity.BackupSevadar;
 import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
+import org.rssb.phonetree.services.BackupSevadarService;
 import org.rssb.phonetree.services.MemberService;
 import org.rssb.phonetree.services.SevadarService;
 import org.rssb.phonetree.services.TeamLeadService;
 import org.rssb.phonetree.services.UtilityService;
 import org.rssb.phonetree.status.ActionAlertType;
+import org.rssb.phonetree.status.BackupSevadarActionResponse;
 import org.rssb.phonetree.status.CommonActionResponse;
 import org.rssb.phonetree.status.SevadarActionResponse;
 import org.rssb.phonetree.status.TeamLeadActionResponse;
@@ -29,6 +32,9 @@ public class UtilityServiceImpl implements UtilityService {
 
     @Autowired
     private TeamLeadService teamLeadService;
+
+    @Autowired
+    private BackupSevadarService backupSevadarService;
 
     @Override
     public Response isMemberAvailableForSeva(int memberId, SevaType sevaType) {
@@ -84,6 +90,15 @@ public class UtilityServiceImpl implements UtilityService {
             return CommonUtil.createResponse(SevadarActionResponse.FAMILY_MEMBER_ALREADY_ASSIGNED_SEVADAR_SEVA,
                     new Object[]{CommonUtil.getFullName(member.get()), sevadar.get().getSevadarName()},
                     ActionAlertType.ERROR);
+        }
+
+        if(sevaType == SevaType.ADD_BACKUP_SEVADAR){
+            Optional<BackupSevadar> backupSevadarOptional = backupSevadarService.findBackupSevadarByMemberId(memberId);
+            if(backupSevadarOptional.isPresent()){
+                return CommonUtil.createResponse(BackupSevadarActionResponse.BACKUP_SEVADAR_ALREADY_EXISTS,
+                        new Object[]{CommonUtil.getFullName(backupSevadarOptional.get().getMember())},
+                        ActionAlertType.ERROR);
+            }
         }
         return CommonUtil.createResponse(CommonActionResponse.SUCCESS_MESSAGE,null,ActionAlertType.NONE);
     }

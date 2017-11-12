@@ -2,20 +2,22 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
+<?import org.rssb.phonetree.common.table.factory.BackupSevadarTableFormatter?>
+<?import java.lang.String?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0"
             prefWidth="700.0" styleClass="base" stylesheets="@../../styles/Styles.css"
-            xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+            xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.rssb.phonetree.controller.backup.sevadar.BackupSevadarController">
     <top>
         <VBox alignment="CENTER" BorderPane.alignment="CENTER">
             <BorderPane.margin>
@@ -34,8 +36,8 @@
                 </Label>
                 <HBox prefHeight="60.0" prefWidth="800.0" spacing="150.0" styleClass="action-button-bar">
                     <children>
-                        <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="108.0" styleClass="action-button"
-                                   text="ADD">
+                        <JFXButton fx:id="addBackupSevadarButton" buttonType="RAISED" onAction="#addBackupSevadar"
+                                   prefHeight="50.0" prefWidth="108.0" styleClass="action-button" text="ADD">
                             <graphic>
                                 <FontAwesomeIconView glyphName="USER_PLUS" size="30"/>
                             </graphic>
@@ -43,7 +45,8 @@
                                 <Cursor fx:constant="HAND"/>
                             </cursor>
                         </JFXButton>
-                        <JFXButton buttonType="RAISED" layoutX="15.0" layoutY="15.0" prefHeight="50.0" prefWidth="126.0"
+                        <JFXButton fx:id="removeBackupSevadarButton" buttonType="RAISED" layoutX="15.0" layoutY="15.0"
+                                   onAction="#removeBackupSevadar" prefHeight="50.0" prefWidth="126.0"
                                    styleClass="action-button" text="REMOVE">
                             <graphic>
                                 <FontAwesomeIconView glyphName="USER_TIMES" size="30"/>
@@ -52,8 +55,9 @@
                                 <Cursor fx:constant="HAND"/>
                             </cursor>
                         </JFXButton>
-                        <JFXButton buttonType="RAISED" layoutX="167.0" layoutY="15.0" prefHeight="50.0"
-                                   prefWidth="128.0" styleClass="action-button" text="ASSIGN">
+                        <JFXButton fx:id="assignToTeamLeadButton" buttonType="RAISED" layoutX="167.0" layoutY="15.0"
+                                   onAction="#assignToTeamLead" prefHeight="50.0" prefWidth="128.0"
+                                   styleClass="action-button" text="ASSIGN">
                             <graphic>
                                 <FontAwesomeIconView glyphName="REPLY" size="30"/>
                             </graphic>
@@ -70,12 +74,34 @@
         </VBox>
     </top>
     <center>
-        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <TableView fx:id="backupSevadarsTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn prefWidth="176.0" text="First Name"/>
-                <TableColumn prefWidth="177.0" text="Last Name"/>
-                <TableColumn prefWidth="185.0" text="Cell Phone"/>
-                <TableColumn prefWidth="160.0" text="Home Phone"/>
+                <TableColumn fx:id="firstNameTableColumn" prefWidth="166.0" text="First Name">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="firstName"/>
+                    </cellValueFactory>
+                    <cellFactory>
+                        <BackupSevadarTableFormatter formatColumn="firstName"></BackupSevadarTableFormatter>
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="lastNameTableColumn" prefWidth="169.0" text="Last Name">
+                    <cellFactory>
+                        <BackupSevadarTableFormatter formatColumn="lastName"></BackupSevadarTableFormatter>
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="cellPhoneTableColumn" prefWidth="202.0" text="Cell Phone">
+                    <cellFactory>
+                        <BackupSevadarTableFormatter formatColumn="cellPhone"></BackupSevadarTableFormatter>
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="assignedToTableColumn" prefWidth="162.0" text="Assigned To">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="assignedToTeamLead"/>
+                    </cellValueFactory>
+                    <cellFactory>
+                        <BackupSevadarTableFormatter formatColumn="assignedTo"></BackupSevadarTableFormatter>
+                    </cellFactory>
+                </TableColumn>
             </columns>
             <styleClass>
                 <String fx:value="font-16"/>

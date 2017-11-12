@@ -13,6 +13,9 @@ import org.rssb.phonetree.status.BackupSevadarActionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class BackupSevadarServiceImpl implements BackupSevadarService {
     @Autowired
@@ -21,6 +24,21 @@ public class BackupSevadarServiceImpl implements BackupSevadarService {
     @Autowired
     private MemberService memberService;
 
+
+    @Override
+    public List<BackupSevadar> findAllBackupSevadars() {
+        return backupSevadarJpaRepository.findAll();
+    }
+
+    @Override
+    public Optional<BackupSevadar> findBackupSevadarByMemberId(int memberId) {
+        return Optional.ofNullable(backupSevadarJpaRepository.findByMemberMemberId(memberId));
+    }
+
+    @Override
+    public Optional<BackupSevadar> findBackupSevadarByFamilyId(int familyId) {
+        return Optional.ofNullable(backupSevadarJpaRepository.findByFamilyFamilyId(familyId));
+    }
 
     @Override
     public Response addAsBackupSevadar(int memberId) {
