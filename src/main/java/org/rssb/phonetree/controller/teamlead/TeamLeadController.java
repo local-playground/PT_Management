@@ -26,6 +26,7 @@ import org.rssb.phonetree.domain.SearchResult;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
 import org.rssb.phonetree.services.TeamLeadService;
+import org.rssb.phonetree.status.ActionAlertType;
 import org.rssb.phonetree.status.SevadarActionResponse;
 import org.rssb.phonetree.status.TeamLeadActionResponse;
 import org.rssb.phonetree.ui.view.FxmlView;
@@ -161,13 +162,13 @@ public class TeamLeadController extends AbstractController {
                 new SimpleStringProperty(param.getValue().getMember().getHomePhone()));
 
         Map<String, EventHandler<ActionEvent>> contextMenuActionMap = new HashMap<>();
-        contextMenuActionMap.put("Add/Change Email Id",this::addTeamLeadEmailId);
+        contextMenuActionMap.put("Add/Change Email Id", this::addTeamLeadEmailId);
 
         teamLeadTableView.setRowFactory(new TableRowContextMenuFactory<>(contextMenuActionMap));
         refresh();
     }
 
-    private void addTeamLeadEmailId(ActionEvent event){
+    private void addTeamLeadEmailId(ActionEvent event) {
         List<TeamLead> teamLeadList = teamLeadTableView.getSelectionModel().getSelectedItems();
         ContextHolder contextHolder = createContextHolder(
                 new String[]{Constants.REQUEST_OBJ},
@@ -177,34 +178,43 @@ public class TeamLeadController extends AbstractController {
         stageManager.switchScene(FxmlView.TEAM_LEAD_ADD_EMAIL, null, contextHolder, true);
     }
 
-    public void makeTeamLeadsBackUp(){
+    public void makeTeamLeadsBackUp() {
         TeamLead teamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
         List<Sevadar> sevadarList = teamLead.getSevadarsList();
         Sevadar existingBackupLead = null;
         for (Sevadar sevadar : sevadarList) {
-            if(sevadar.getIsBackupForTeamLead()==1){
+            if (sevadar.getIsBackupForTeamLead() == 1) {
                 existingBackupLead = sevadar;
                 break;
             }
         }
         Sevadar sevadar = sevadarController.getSelected();
-        if(existingBackupLead!=null) {
+        if (existingBackupLead != null) {
             if (sevadar.getSevadarsId() == existingBackupLead.getSevadarsId()) {
                 CommonUtil.showNoActionNeededJFXDialog(this,
                         new Object[]{sevadar.getSevadarName(), teamLead.getTeamLeadName() + "'s"},
                         SevadarActionResponse.SEVADAR_IS_ALREADY_TEAM_LEAD_BACKUP);
                 return;
             }
-            /*CommonUtil.showConfirmationJFXDialog(this,
+            CommonUtil.showConfirmationJFXDialog(this,
                     new Object[]{sevadar.getSevadarName(), existingBackupLead.getSevadarName()},
                     SevadarActionResponse.SEVADAR_CONFIRM_BEFORE_CHANGE_TEAM_LEAD_BACKUP,
                     null,
                     contextHolder1 -> {
-                        Response response = sevadarService.makeTeamLeadsBackup(sevadar.getSevadarsId(),
-                                teamLead.getTeamLeadName(),teamLead.getTeamLeadId());
+                        for (Sevadar sevadar1 : sevadarList) {
+                            if(sevadar1.getSevadarsId() == sevadar.getSevadarsId()){
+                                sevadar1.setIsBackupForTeamLead(1);
+                            }else{
+                                sevadar1.setIsBackupForTeamLead(0);
+                            }
+                        }
+                        teamLead.setSevadarsList(sevadarList);
+                        teamLeadService.save(teamLead);
                         refresh();
-                        return response;
-                    });*/
+                        triggerChangeEvent();
+                        return CommonUtil.createResponse(SevadarActionResponse.SEVADAR_SUCCESSFULLY_CHANGED_AS_BACKUP_TEAM_LEAD,
+                                new Object[]{sevadar.getSevadarName(),teamLead.getTeamLeadName()}, ActionAlertType.INFORMATION);
+                    });
         }
 
     }
@@ -216,8 +226,8 @@ public class TeamLeadController extends AbstractController {
 
     private void triggerChangeEvent() {
         List<TeamLead> teamLeadsList = teamLeadTableView.getSelectionModel().getSelectedItems();
-        System.out.println("triggered event = "+ teamLeadsList.size());
-        if(teamLeadsList.size()==1) {
+        System.out.println("triggered event = " + teamLeadsList.size());
+        if (teamLeadsList.size() == 1) {
             ContextHolder contextHolder = createContextHolder(Constants.REQUEST_OBJ, teamLeadsList.get(0), null);
             sevadarController.setContextHolder(contextHolder);
             sevadarController.refresh();
