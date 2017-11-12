@@ -109,8 +109,7 @@ public class SevadarController extends AbstractController {
     }
 
     private void makeTeamLeadsBackUp(ActionEvent actionEvent) {
-        teamLeadController.makeTeamLeadsBackUp();
-        /*TeamLead teamLead = teamLeadController.getSelected();
+        TeamLead teamLead = teamLeadController.getSelected();
         List<Sevadar> sevadarList = teamLead.getSevadarsList();
         Sevadar existingBackupLead = null;
         for (Sevadar sevadar : sevadarList) {
@@ -135,10 +134,10 @@ public class SevadarController extends AbstractController {
                         Response response = sevadarService.makeTeamLeadsBackup(sevadar.getSevadarsId(),
                                 teamLead.getTeamLeadName(),teamLead.getTeamLeadId());
                         refresh();
+                        teamLeadController.refresh();
                         return response;
                     });
         }
-*/
     }
 
     private void addSevadarEmailId(ActionEvent actionEvent) {

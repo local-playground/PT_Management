@@ -23,11 +23,8 @@ import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.controller.sevadar.SevadarController;
 import org.rssb.phonetree.controller.teammanagement.TeamManagementController;
 import org.rssb.phonetree.domain.SearchResult;
-import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
 import org.rssb.phonetree.services.TeamLeadService;
-import org.rssb.phonetree.status.ActionAlertType;
-import org.rssb.phonetree.status.SevadarActionResponse;
 import org.rssb.phonetree.status.TeamLeadActionResponse;
 import org.rssb.phonetree.ui.view.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -178,47 +175,6 @@ public class TeamLeadController extends AbstractController {
         stageManager.switchScene(FxmlView.TEAM_LEAD_ADD_EMAIL, null, contextHolder, true);
     }
 
-    public void makeTeamLeadsBackUp() {
-        TeamLead teamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
-        List<Sevadar> sevadarList = teamLead.getSevadarsList();
-        Sevadar existingBackupLead = null;
-        for (Sevadar sevadar : sevadarList) {
-            if (sevadar.getIsBackupForTeamLead() == 1) {
-                existingBackupLead = sevadar;
-                break;
-            }
-        }
-        Sevadar sevadar = sevadarController.getSelected();
-        if (existingBackupLead != null) {
-            if (sevadar.getSevadarsId() == existingBackupLead.getSevadarsId()) {
-                CommonUtil.showNoActionNeededJFXDialog(this,
-                        new Object[]{sevadar.getSevadarName(), teamLead.getTeamLeadName() + "'s"},
-                        SevadarActionResponse.SEVADAR_IS_ALREADY_TEAM_LEAD_BACKUP);
-                return;
-            }
-            CommonUtil.showConfirmationJFXDialog(this,
-                    new Object[]{sevadar.getSevadarName(), existingBackupLead.getSevadarName()},
-                    SevadarActionResponse.SEVADAR_CONFIRM_BEFORE_CHANGE_TEAM_LEAD_BACKUP,
-                    null,
-                    contextHolder1 -> {
-                        for (Sevadar sevadar1 : sevadarList) {
-                            if(sevadar1.getSevadarsId() == sevadar.getSevadarsId()){
-                                sevadar1.setIsBackupForTeamLead(1);
-                            }else{
-                                sevadar1.setIsBackupForTeamLead(0);
-                            }
-                        }
-                        teamLead.setSevadarsList(sevadarList);
-                        teamLeadService.save(teamLead);
-                        refresh();
-                        triggerChangeEvent();
-                        return CommonUtil.createResponse(SevadarActionResponse.SEVADAR_SUCCESSFULLY_CHANGED_AS_BACKUP_TEAM_LEAD,
-                                new Object[]{sevadar.getSevadarName(),teamLead.getTeamLeadName()}, ActionAlertType.INFORMATION);
-                    });
-        }
-
-    }
-
     @Override
     public void postProcess() {
         teamLeadTableView.getSelectionModel().select(0);
@@ -236,10 +192,21 @@ public class TeamLeadController extends AbstractController {
 
     @Override
     public void refresh() {
+        TeamLead selectedTeamLead = teamLeadTableView.getSelectionModel().getSelectedItem();
         List<TeamLead> teamLeadList = teamLeadService.findAllTeamLeads();
         ObservableList<TeamLead> teamLeadsTableList = FXCollections.observableArrayList(teamLeadList);
         teamLeadTableView.setItems(teamLeadsTableList);
-        teamLeadTableView.getSelectionModel().select(0);
+        if(selectedTeamLead!=null){
+            teamLeadList.forEach(teamLead -> {
+                if(teamLead.getTeamLeadId()==selectedTeamLead.getTeamLeadId()){
+                    teamLeadTableView.getSelectionModel().select(teamLead);
+                    triggerChangeEvent();
+                    return;
+                }
+            });
+        }else {
+            teamLeadTableView.getSelectionModel().select(0);
+        }
     }
 
     @Override
