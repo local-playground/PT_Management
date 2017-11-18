@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface FamilyService {
     Optional<Family> findByFamilyId(int familyId);
     int getTotalFamiliesBySevadarId(int sevadarId);
+    int getTotalFamiliesByTeamLeadId(int teamLeadId);
     long getTotalFamiliesByTeamLeadAndSevadar(String teamLeadName,String sevadarName);
     void updateSevadarAndTeamLeadId(int newSevadarId,int newTeamLeadId,int whereSevadarId);
     void updateSevadarAndTeamLeadIdForFamilyId(int newSevadarId, int newTeamLeadId, int whereFamilyId);
@@ -21,5 +22,5 @@ public interface FamilyService {
     Response moveMemberUnderOtherFamily(int memberId,int otherFamilyId);
     List<CalledFamilyDetails> getFamiliesByTeamLeadAndSevadarName(String teamLeadName, String sevadarName);
     SevadarPhoneTreeList getSevadarPhoneTreeListByTeamLeadAndSevadarName(String teamLeadName, String sevadarName);
-
+    int getTotalFamiliesCount();
 }

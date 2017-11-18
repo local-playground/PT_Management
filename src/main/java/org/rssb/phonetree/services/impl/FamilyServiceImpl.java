@@ -57,6 +57,11 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
+    public int getTotalFamiliesByTeamLeadId(int teamLeadId) {
+        return familyJpaRepository.getTotalFamiliesByTeamLeadId(teamLeadId);
+    }
+
+    @Override
     public long getTotalFamiliesByTeamLeadAndSevadar(String teamLeadName, String sevadarName) {
        return namedQueryExecutor.executeSingleResultQuery("Family.findCalledFamiliesCountByTeamLeadAndSevadar",
                 new String[]{"teamLeadName","sevadarName"},
@@ -206,4 +211,8 @@ public class FamilyServiceImpl implements FamilyService {
         return sevadarPhoneTreeList;
     }
 
+    @Override
+    public int getTotalFamiliesCount() {
+        return familyJpaRepository.getTotalFamiliesCount();
+    }
 }

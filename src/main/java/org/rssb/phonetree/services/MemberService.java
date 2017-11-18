@@ -11,4 +11,7 @@ public interface MemberService {
     Optional<Member> findMember(int memberId);
     Response deleteMember(int memberId);
     void updateMemberFamilyId(int familyId,int memberId);
+    int getTotalSangatCount();
+    int getTotalSangatCountOnCallingList();
+    int getTotalSangatCountNotOnCallingList();
 }

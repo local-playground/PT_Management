@@ -62,5 +62,20 @@ public class MemberServiceImpl implements MemberService {
         memberJpaRepository.updateMemberFamilyId(familyId,memberId);
     }
 
+    @Override
+    public int getTotalSangatCount() {
+        return memberJpaRepository.getTotalSangatCount();
+    }
+
+    @Override
+    public int getTotalSangatCountOnCallingList() {
+        return memberJpaRepository.getTotalSangatCountOnCallingList();
+    }
+
+    @Override
+    public int getTotalSangatCountNotOnCallingList() {
+        return memberJpaRepository.getTotalSangatCountNotOnCallingList();
+    }
+
 
 }
