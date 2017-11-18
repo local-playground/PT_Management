@@ -76,7 +76,7 @@ public class PhoneTreeManagementActionsController extends AbstractController{
 
     @FXML
     void showDashboard(ActionEvent event) {
-
+        switchScreen(FxmlView.DASHBOARD.getFxmlFile());
     }
 
     @FXML

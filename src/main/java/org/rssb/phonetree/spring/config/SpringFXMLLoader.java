@@ -18,6 +18,20 @@ public class SpringFXMLLoader {
     private  ResourceBundle resourceBundle;
     @Autowired
     private  ApplicationContext context;
+
+    public Parent loadAndInvokePostProcess(String fxmlPath,ContextHolder contextHolder) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setControllerFactory(context::getBean);
+        loader.setResources(resourceBundle);
+        loader.setLocation(getClass().getResource(fxmlPath));
+        Parent parent = loader.load();
+        Object controller = loader.getController();
+        if(controller!=null && controller instanceof AbstractController) {
+            ((AbstractController)loader.getController()).setContextHolder(contextHolder);
+            ((AbstractController) loader.getController()).postProcess();
+        }
+        return parent;
+    }
     
     public Parent load(String fxmlPath) throws IOException {
         FXMLLoader loader = new FXMLLoader();

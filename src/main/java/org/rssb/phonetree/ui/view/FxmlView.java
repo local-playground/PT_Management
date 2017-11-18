@@ -205,6 +205,20 @@ public enum FxmlView {
         public boolean isAlwaysOnTop() {
             return true;
         }
+    },
+    DASHBOARD{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/dashboard/dashboard.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
     };
     
     public abstract String getFxmlFile();
