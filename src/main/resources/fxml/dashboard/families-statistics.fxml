@@ -13,9 +13,9 @@
     <children>
         <HBox layoutX="38.0" layoutY="35.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <children>
-                <Pane prefHeight="101.0" prefWidth="262.0" styleClass="base">
+                <Pane prefHeight="100.0" prefWidth="262.0" styleClass="base">
                     <children>
-                        <StackPane prefHeight="101.0" prefWidth="87.0" style="-fx-background-color: #01579b;">
+                        <StackPane prefHeight="111.0" prefWidth="87.0" style="-fx-background-color: #01579b;">
                             <children>
                                 <FontAwesomeIconView glyphName="USER" size="65" style="-fx-fill: white;" />
                             </children>
@@ -34,7 +34,7 @@
                 </Pane>
                 <Pane layoutX="25.0" layoutY="25.0" prefHeight="101.0" prefWidth="262.0" styleClass="base">
                     <children>
-                        <StackPane prefHeight="101.0" prefWidth="87.0" style="-fx-background-color: #f57c00;">
+                        <StackPane prefHeight="111.0" prefWidth="87.0" style="-fx-background-color: #f57c00;">
                             <children>
                                 <FontAwesomeIconView glyphName="GROUP" size="65" style="-fx-fill: white;" />
                             </children>
@@ -53,7 +53,7 @@
                 </Pane>
                 <Pane layoutX="337.0" layoutY="25.0" prefHeight="101.0" prefWidth="262.0" styleClass="base">
                     <children>
-                        <StackPane prefHeight="101.0" prefWidth="87.0" style="-fx-background-color: #43a047;">
+                        <StackPane prefHeight="111.0" prefWidth="87.0" style="-fx-background-color: #43a047;">
                             <children>
                                 <FontAwesomeIconView glyphName="GROUP" size="65" style="-fx-fill: white;" />
                             </children>
@@ -72,7 +72,7 @@
                 </Pane>
                 <Pane layoutX="649.0" layoutY="25.0" prefHeight="101.0" prefWidth="262.0" styleClass="base">
                     <children>
-                        <StackPane prefHeight="101.0" prefWidth="87.0" style="-fx-background-color: #e53935;">
+                        <StackPane prefHeight="111.0" prefWidth="87.0" style="-fx-background-color: #e53935;">
                             <children>
                                 <FontAwesomeIconView glyphName="GROUP" size="65" style="-fx-fill: white;" />
                             </children>
@@ -91,7 +91,7 @@
                 </Pane>
                 <Pane layoutX="961.0" layoutY="25.0" prefHeight="101.0" prefWidth="262.0" styleClass="base">
                     <children>
-                        <StackPane prefHeight="101.0" prefWidth="87.0" style="-fx-background-color: #8e24aa;">
+                        <StackPane prefHeight="111.0" prefWidth="87.0" style="-fx-background-color: #8e24aa;">
                             <children>
                                 <FontAwesomeIconView glyphName="GROUP" size="65" style="-fx-fill: white;" />
                             </children>

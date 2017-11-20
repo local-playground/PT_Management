@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="teamLeadContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="team-lead-container" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.dashboard.TeamLeadStatisticsController">
+   <children>
+      <VBox fx:id="teamLeadNameContainer" alignment="CENTER" layoutX="10.0" layoutY="13.571430206298828" prefHeight="175.0" prefWidth="104.0" spacing="10.0" styleClass="team-lead-name-container" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <FontAwesomeIconView glyphName="USER" size="60" style="-fx-fill: white;" />
+            <Label fx:id="teamLeadFirstNameLabel" alignment="CENTER" prefHeight="24.0" text="Anushka" textFill="WHITE">
+               <font>
+                  <Font name="Calibri" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="teamLeadLastNameLabel" text="Bhardwaj" textFill="WHITE">
+               <font>
+                  <Font name="Calibri" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <AnchorPane fx:id="teamLeadDetailContainer" layoutY="172.0" prefHeight="25.0" prefWidth="322.0" styleClass="team-lead-details-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="175.0">
+         <children>
+            <Label layoutX="48.0" layoutY="4.0" text="Show All Details" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Calibri" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label fx:id="teamLeadFamiliesCountLabel" layoutX="118.0" layoutY="14.0" text="200" textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="40.0" />
+         </font>
+      </Label>
+      <Label layoutX="115.0" layoutY="60.0" text="Families" textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="teamLeadSevadarsCountLabel" layoutX="138.0" layoutY="88.0" text="5" textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="40.0" />
+         </font>
+      </Label>
+      <Label layoutX="112.0" layoutY="134.0" text="Sevadars" textFill="WHITE">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

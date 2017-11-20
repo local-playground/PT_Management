@@ -1,10 +1,9 @@
 package org.rssb.phonetree.controller.dashboard;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.MouseEvent;
 import org.controlsfx.control.HyperlinkLabel;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.domain.DashboardTeamLeadsSummary;
@@ -16,13 +15,13 @@ import org.springframework.stereotype.Component;
 public class TeamLeadStatisticsController extends AbstractController{
 
     @FXML
-    private AnchorPane teamLeadContainer;
+    private Parent teamLeadContainer;
 
     @FXML
-    private VBox teamLeadNameContainer;
+    private Parent teamLeadNameContainer;
 
     @FXML
-    private AnchorPane teamLeadDetailContainer;
+    private Parent teamLeadDetailContainer;
 
     @FXML
     private Label teamLeadFirstNameLabel;
@@ -55,7 +54,7 @@ public class TeamLeadStatisticsController extends AbstractController{
     }
 
     @FXML
-    void showDetails(ActionEvent event) {
+    void showDetails(MouseEvent event) {
 
     }
 }

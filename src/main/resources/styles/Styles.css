@@ -560,14 +560,14 @@ Action Button Bar
 }
 
 .team-lead-container.style5{
-    -fx-background-color: #fafafa;
+    -fx-background-color: #00695c;
 }
 
 .team-lead-name-container.style5{
-    -fx-background-color:  #616161;
+    -fx-background-color:  #004d40;
 }
 .team-lead-details-container.style5 {
-    -fx-background-color:  #e0e0e0;
+    -fx-background-color:  #00bfa5;
 }
 
 .team-lead-container.style6{
