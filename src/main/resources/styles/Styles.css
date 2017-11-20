@@ -515,6 +515,83 @@ Action Button Bar
     -fx-font-weight: bold;
 }
 
+.team-lead-container.style1{
+    -fx-background-color: #0277bd;
+}
+
+.team-lead-name-container.style1{
+    -fx-background-color:  #01579b;
+}
+.team-lead-details-container.style1 {
+    -fx-background-color:  #0091ea;
+}
+
+.team-lead-container.style2{
+    -fx-background-color: #d32f2f;
+}
+
+.team-lead-name-container.style2{
+    -fx-background-color:  #b71c1c;
+}
+.team-lead-details-container.style2 {
+    -fx-background-color:  #d50000;
+}
+
+.team-lead-container.style3{
+    -fx-background-color: #388e3c;
+}
+
+.team-lead-name-container.style3{
+    -fx-background-color:  #1b5e20;
+}
+.team-lead-details-container.style3 {
+    -fx-background-color:  #00c853;
+}
+
+.team-lead-container.style4{
+    -fx-background-color: #f57c00;
+}
+
+.team-lead-name-container.style4{
+    -fx-background-color:  #e65100;
+}
+.team-lead-details-container.style4 {
+    -fx-background-color:  #ff6d00;
+}
+
+.team-lead-container.style5{
+    -fx-background-color: #fafafa;
+}
+
+.team-lead-name-container.style5{
+    -fx-background-color:  #616161;
+}
+.team-lead-details-container.style5 {
+    -fx-background-color:  #e0e0e0;
+}
+
+.team-lead-container.style6{
+    -fx-background-color: #303f9f;
+}
+
+.team-lead-name-container.style6{
+    -fx-background-color:  #1a237e;
+}
+.team-lead-details-container.style6 {
+    -fx-background-color:  #304ffe;
+}
+
+.team-lead-container{
+    -fx-background-color: #0277bd;
+}
+
+.team-lead-name-container{
+    -fx-background-color:  #01579b;
+}
+.team-lead-details-container {
+    -fx-background-color:  #0091ea;
+}
+
 
 
 

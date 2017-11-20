@@ -6,76 +6,112 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="151.0" prefWidth="1254.0" style="-fx-background-color: transparent;" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.dashboard.FamiliesStatisticsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="151.0" prefWidth="1600.0" style="-fx-background-color: transparent;" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.dashboard.FamiliesStatisticsController">
     <children>
         <HBox layoutX="38.0" layoutY="35.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-            <padding>
-                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-            </padding>
             <children>
                 <Pane prefHeight="101.0" prefWidth="262.0" styleClass="base">
                     <children>
-                        <Label fx:id="totalSangatLabel" layoutX="40.0" layoutY="9.0" text="1000">
+                        <StackPane prefHeight="101.0" prefWidth="87.0" style="-fx-background-color: #01579b;">
+                            <children>
+                                <FontAwesomeIconView glyphName="USER" size="65" style="-fx-fill: white;" />
+                            </children>
+                        </StackPane>
+                        <Label fx:id="totalSangatLabel" layoutX="119.0" layoutY="8.0" text="1000" textFill="#01579b">
                             <font>
                                 <Font name="Calibri" size="48.0" />
                             </font>
                         </Label>
-                        <Label layoutX="22.0" layoutY="64.0" prefHeight="28.0" prefWidth="160.0" text="Total Sangat">
+                        <Label layoutX="109.0" layoutY="60.0" prefHeight="28.0" prefWidth="160.0" text="Total Sangat" textFill="#01579b">
                             <font>
                                 <Font name="Calibri" size="24.0" />
                             </font>
                         </Label>
-                        <FontAwesomeIconView glyphName="USER" layoutX="199.0" layoutY="73.0" size="65" />
                     </children>
                 </Pane>
                 <Pane layoutX="25.0" layoutY="25.0" prefHeight="101.0" prefWidth="262.0" styleClass="base">
                     <children>
-                        <Label fx:id="totalFamiliesLabel" layoutX="40.0" layoutY="9.0" text="750">
+                        <StackPane prefHeight="101.0" prefWidth="87.0" style="-fx-background-color: #f57c00;">
+                            <children>
+                                <FontAwesomeIconView glyphName="GROUP" size="65" style="-fx-fill: white;" />
+                            </children>
+                        </StackPane>
+                        <Label fx:id="totalFamiliesLabel" layoutX="119.0" layoutY="8.0" text="750" textFill="#f57c00">
                             <font>
                                 <Font name="Calibri" size="48.0" />
                             </font>
                         </Label>
-                        <Label layoutX="22.0" layoutY="64.0" text="Total Families">
+                        <Label layoutX="109.0" layoutY="60.0" prefHeight="28.0" prefWidth="160.0" text="Total Families" textFill="#f57c00">
                             <font>
                                 <Font name="Calibri" size="24.0" />
                             </font>
                         </Label>
-                        <FontAwesomeIconView glyphName="GROUP" layoutX="178.0" layoutY="73.0" size="65" />
                     </children>
                 </Pane>
                 <Pane layoutX="337.0" layoutY="25.0" prefHeight="101.0" prefWidth="262.0" styleClass="base">
                     <children>
-                        <Label fx:id="totalFamiliesToCallLabel" layoutX="40.0" layoutY="9.0" text="700">
+                        <StackPane prefHeight="101.0" prefWidth="87.0" style="-fx-background-color: #43a047;">
+                            <children>
+                                <FontAwesomeIconView glyphName="GROUP" size="65" style="-fx-fill: white;" />
+                            </children>
+                        </StackPane>
+                        <Label fx:id="totalFamiliesToCallLabel" layoutX="119.0" layoutY="8.0" text="550" textFill="#43a047">
                             <font>
                                 <Font name="Calibri" size="48.0" />
                             </font>
                         </Label>
-                        <Label layoutX="8.0" layoutY="64.0" prefHeight="28.0" prefWidth="160.0" text="Families to call">
+                        <Label layoutX="109.0" layoutY="60.0" prefHeight="28.0" prefWidth="160.0" text="On Call List" textFill="#43a047">
                             <font>
                                 <Font name="Calibri" size="24.0" />
                             </font>
                         </Label>
-                        <FontAwesomeIconView glyphName="GROUP" layoutX="178.0" layoutY="73.0" size="65" />
                     </children>
                 </Pane>
                 <Pane layoutX="649.0" layoutY="25.0" prefHeight="101.0" prefWidth="262.0" styleClass="base">
                     <children>
-                        <Label fx:id="totalFamiliesNotOnCallLabel" layoutX="40.0" layoutY="9.0" text="55">
+                        <StackPane prefHeight="101.0" prefWidth="87.0" style="-fx-background-color: #e53935;">
+                            <children>
+                                <FontAwesomeIconView glyphName="GROUP" size="65" style="-fx-fill: white;" />
+                            </children>
+                        </StackPane>
+                        <Label fx:id="totalFamiliesNotOnCallLabel" layoutX="133.0" layoutY="8.0" text="55" textFill="#e53935">
                             <font>
                                 <Font name="Calibri" size="48.0" />
                             </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="64.0" text="Not on call">
+                        <Label layoutX="99.0" layoutY="60.0" prefHeight="28.0" prefWidth="160.0" text="Not On Call List" textFill="#e53935">
                             <font>
                                 <Font name="Calibri" size="24.0" />
                             </font>
                         </Label>
-                        <FontAwesomeIconView glyphName="GROUP" layoutX="170.0" layoutY="73.0" size="65" />
+                    </children>
+                </Pane>
+                <Pane layoutX="961.0" layoutY="25.0" prefHeight="101.0" prefWidth="262.0" styleClass="base">
+                    <children>
+                        <StackPane prefHeight="101.0" prefWidth="87.0" style="-fx-background-color: #8e24aa;">
+                            <children>
+                                <FontAwesomeIconView glyphName="GROUP" size="65" style="-fx-fill: white;" />
+                            </children>
+                        </StackPane>
+                        <Label fx:id="nonActiveFamiliesLabel" layoutX="133.0" layoutY="8.0" text="5" textFill="#8e24aa">
+                            <font>
+                                <Font name="Calibri" size="48.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="106.0" layoutY="60.0" prefHeight="28.0" prefWidth="119.0" text="Non Active" textFill="#8e24aa">
+                            <font>
+                                <Font name="Calibri" size="24.0" />
+                            </font>
+                        </Label>
                     </children>
                 </Pane>
             </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
         </HBox>
     </children>
 </AnchorPane>

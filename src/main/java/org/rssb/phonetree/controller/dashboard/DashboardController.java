@@ -36,22 +36,29 @@ public class DashboardController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Parent parent = loadFxml("/fxml/dashboard/families-statistics.fxml",null);
+        Parent parent = loadFxml("/fxml/dashboard/families-statistics.fxml", null);
         familiesSummaryPane.getChildren().add(parent);
         List<DashboardTeamLeadsSummary> dashboardTeamLeadsSummaryList = dashboardService.getDashboardTeamLeadsSummary();
-        for(DashboardTeamLeadsSummary dashboardTeamLeadsSummary: dashboardTeamLeadsSummaryList){
-            ContextHolder contextHolder = createContextHolder("DASHBOARD_TEAMLEAD_SUMMARY",dashboardTeamLeadsSummary,null);
-            Parent teamLeadSummaryParent = loadFxml("/fxml/dashboard/teamlead-statistics.fxml",contextHolder);
+        int cssId = 1;
+        for (DashboardTeamLeadsSummary dashboardTeamLeadsSummary : dashboardTeamLeadsSummaryList) {
+            ContextHolder contextHolder =
+                    createContextHolder(new String[]{"DASHBOARD_TEAMLEAD_SUMMARY", "CSS_ID"},
+                            new Object[]{dashboardTeamLeadsSummary, cssId}, null);
+            Parent teamLeadSummaryParent = loadFxml("/fxml/dashboard/teamlead-statistics.fxml", contextHolder);
             teamLeadSummaryPane.getChildren().add(teamLeadSummaryParent);
+            cssId++;
+            if(cssId>6){
+                cssId=1;
+            }
         }
     }
 
 
-    private Parent loadFxml(String fxmlFile,ContextHolder contextHolder) {
+    private Parent loadFxml(String fxmlFile, ContextHolder contextHolder) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
         Parent parent = null;
         try {
-            parent = springFXMLLoader.loadAndInvokePostProcess(fxmlFile,contextHolder);
+            parent = springFXMLLoader.loadAndInvokePostProcess(fxmlFile, contextHolder);
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
