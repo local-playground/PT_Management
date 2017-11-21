@@ -4,10 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardTeamLeadsSummary {
+    private int teamLeadId;
     private String firstName;
     private String lastName;
     private int totalFamilies;
+    private List<FamilyCount> familyCountList = new ArrayList<>();
+
     private int totalSevadars;
+
+    public int getTeamLeadId() {
+        return teamLeadId;
+    }
+
+    public void setTeamLeadId(int teamLeadId) {
+        this.teamLeadId = teamLeadId;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -24,8 +35,6 @@ public class DashboardTeamLeadsSummary {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    private List<FamilyCount> familyCountList = new ArrayList<>();
 
     public int getTotalFamilies() {
         return totalFamilies;

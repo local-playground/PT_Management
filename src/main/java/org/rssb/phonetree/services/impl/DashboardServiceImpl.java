@@ -46,6 +46,7 @@ public class DashboardServiceImpl implements DashboardService{
         List<TeamLead> teamLeadList = teamLeadService.findAllTeamLeads();
         for(TeamLead teamLead: teamLeadList){
             DashboardTeamLeadsSummary dashboardTeamLeadsSummary = new DashboardTeamLeadsSummary();
+            dashboardTeamLeadsSummary.setTeamLeadId(teamLead.getTeamLeadId());
             dashboardTeamLeadsSummary.setFirstName(teamLead.getMember().getFirstName());
             dashboardTeamLeadsSummary.setLastName(teamLead.getMember().getLastName());
             List<FamilyCount> familyCountList = sevadarService.getSevadarsCallingFamilyCountByTeamLeadId(teamLead.getTeamLeadId());

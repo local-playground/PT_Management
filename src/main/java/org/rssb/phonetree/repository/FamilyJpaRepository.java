@@ -16,7 +16,9 @@ public interface FamilyJpaRepository extends JpaRepository<Family,Integer> {
     @Query("SELECT count(f.familyId) from Family f Where f.sevadar.sevadarsId = :sevadarId")
     int getTotalFamiliesBySevadarId(@Param(value = "sevadarId") int sevadarId);
 
-    @Query("SELECT count(f.familyId) from Family f Where f.teamLead.teamLeadId = :teamLeadId")
+    @Query("SELECT count(f.familyId) from Family f Where f.teamLead.teamLeadId = :teamLeadId " +
+            " AND f.familyId = (SELECT distinct (mf.family.familyId) FROM f.membersList mf" +
+            " WHERE mf.onCallingList = org.rssb.phonetree.entity.emums.YesNo.YES)")
     int getTotalFamiliesByTeamLeadId(@Param(value = "teamLeadId") int teamLeadId);
 
 

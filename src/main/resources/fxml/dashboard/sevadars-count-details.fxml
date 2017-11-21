@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<TableView fx:id="sevadarsCountTableView" prefHeight="339.0" prefWidth="365.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+    <columns>
+        <TableColumn prefWidth="200.0" text="Sevadar Name">
+            <cellValueFactory>
+                <PropertyValueFactory property="name" />
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn prefWidth="163.0" text="Total Families">
+            <cellValueFactory>
+                <PropertyValueFactory property="count" />
+            </cellValueFactory>
+        </TableColumn>
+    </columns>
+</TableView>
