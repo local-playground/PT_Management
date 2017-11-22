@@ -4,6 +4,9 @@ package org.rssb.phonetree.services.impl;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.domain.CalledFamilyDetails;
+import org.rssb.phonetree.domain.DashboardBusRideSummary;
+import org.rssb.phonetree.domain.DashboardNameValueBasedSummary;
+import org.rssb.phonetree.domain.DashboardPhoneStatusSummary;
 import org.rssb.phonetree.domain.SevadarPhoneTreeList;
 import org.rssb.phonetree.entity.Family;
 import org.rssb.phonetree.entity.Member;
@@ -215,4 +218,33 @@ public class FamilyServiceImpl implements FamilyService {
     public int getTotalFamiliesCount() {
         return familyJpaRepository.getTotalFamiliesCount();
     }
+
+    @Override
+    public List<DashboardNameValueBasedSummary> getZipCodeCollectionSummary() {
+        return namedQueryExecutor.executeNamedNativeQuery("Family.nativeQuery.zipCodeCollectionSummary",
+                null,null);
+    }
+
+    @Override
+    public List<DashboardNameValueBasedSummary> getTotalAdultsAndChildrenAttendSNVSummary() {
+        return namedQueryExecutor.executeNamedNativeQuery("Family.nativeQuery.adultsAttendSNVSummary",
+                null,null);
+    }
+
+    @Override
+    public List<DashboardPhoneStatusSummary> getPhoneStatusSummary() {
+        return namedQueryExecutor.executeNamedQuery("Family.getDashboardPhoneStatusSummary",
+                "",
+                "",
+                DashboardPhoneStatusSummary.class);
+    }
+
+    @Override
+    public List<DashboardBusRideSummary> getBusRideNeededSummary() {
+        return namedQueryExecutor.executeNamedQuery("Family.getDashboardBusRideNeededSummary",
+                "",
+                "",
+                DashboardBusRideSummary.class);
+    }
+
 }

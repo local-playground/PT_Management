@@ -1,6 +1,7 @@
 package org.rssb.phonetree.entity;
 
 import org.rssb.phonetree.common.Constants;
+import org.rssb.phonetree.domain.DashboardNameValueBasedSummary;
 import org.rssb.phonetree.entity.converters.BusRideConverter;
 import org.rssb.phonetree.entity.converters.CallStatusConverter;
 import org.rssb.phonetree.entity.converters.YesNoConverter;
@@ -8,7 +9,26 @@ import org.rssb.phonetree.entity.emums.BusRide;
 import org.rssb.phonetree.entity.emums.CallStatus;
 import org.rssb.phonetree.entity.emums.YesNo;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.SqlResultSetMappings;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +80,7 @@ import java.util.List;
                         " AND f.sevadar.sevadarName = :sevadarName" +
                         " AND m.onCallingList = org.rssb.phonetree.entity.emums.YesNo.YES" +
                         " ORDER BY f.familyId, m.priority"),
-        @NamedQuery(name="Family.findCalledFamiliesCountByTeamLeadAndSevadar",
+        @NamedQuery(name = "Family.findCalledFamiliesCountByTeamLeadAndSevadar",
                 query = "SELECT distinct count(f) FROM Family f" +
                         " JOIN f.sevadar s" +
                         " JOIN f.teamLead t " +
@@ -68,19 +88,75 @@ import java.util.List;
                         " AND s.sevadarName = :sevadarName" +
                         " AND f.familyId = (SELECT distinct (mf.family.familyId) FROM f.membersList mf" +
                         " WHERE mf.onCallingList = org.rssb.phonetree.entity.emums.YesNo.YES)" +
-                        " GROUP BY t.teamLeadName,s.sevadarName")
-        /*@NamedQuery(name = "Family.getSevadarsCallingFamilyCountByTeamLeadIdNew",
-                query = "SELECT NEW org.rssb.phonetree.domain.FamilyCount(m.family.sevadar.sevadarName,count(m)) FROM " +
-                        " Member m " +
-                        " WHERE (SELECT org.rssb.phonetree.domain.FamilyCount(f.family.sevadar.sevadarName,count(f)) " +
-                        " FROM Member f WHERE " +
-                        " f.onCallingList = org.rssb.phonetree.entity.emums.YesNo.YES" +
-                        " AND f.family.teamLead.teamLeadId = :teamLeadId" +
-                        " GROUP BY f.family.sevadar.sevadarName)"
-                        )*/
+                        " GROUP BY t.teamLeadName,s.sevadarName"),
+        @NamedQuery(name = "Family.getDashboardPhoneStatusSummary",
+                query = "SELECT NEW org.rssb.phonetree.domain.DashboardPhoneStatusSummary(f.callStatus,count(f)) FROM " +
+                        " Family f " +
+                        " GROUP BY f.callStatus"),
+
+        @NamedQuery(name = "Family.getDashboardBusRideNeededSummary",
+                query = "SELECT NEW org.rssb.phonetree.domain.DashboardBusRideSummary(f.busRide,count(f)) FROM " +
+                        " Family f " +
+                        " GROUP BY f.busRide")
 
 })
 
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "Family.nativeQuery.zipCodeCollectionSummary",
+                query = "select \"Collected\" as name, count(*) as count from Family " +
+                        " where zipCode <> \"\"" +
+                        " UNION " +
+                        " select \"Missing\" as name, count(*) as count from Family " +
+                        " where zipCode = \"\"",
+                resultSetMapping = "zipCodeCollectionSummaryMapping"),
+
+        @NamedNativeQuery(name = "Family.nativeQuery.adultsAttendSNVSummary",
+                query = "Select \"Adults\" as name , Sum(NoOfAdults) as total from Family " +
+                        "UNION " +
+                        "Select \"Children\" as name , Sum(NoOfChildren) as total from Family",
+                resultSetMapping = "adultsAttendSNVSummaryMapping"),
+
+        @NamedNativeQuery(name = "Family.nativeQuery.busRideNeededSummary",
+                query = "SELECT \"Yes\" as name , count(*) as count from Family where BusRide = 'Yes'" +
+                        "UNION\n" +
+                        "SELECT \"No\" as name , count(*) as count from Family where BusRide = 'No'" +
+                        "UNION " +
+                        "SELECT \"MayBe\" as name , count(*) as count from Family where BusRide = 'May Be'",
+                resultSetMapping = "busRideNeededSummaryMapping")
+})
+
+@SqlResultSetMappings({
+        @SqlResultSetMapping(
+                name = "zipCodeCollectionSummaryMapping",
+                classes = @ConstructorResult(
+                        targetClass = DashboardNameValueBasedSummary.class,
+                        columns = {
+                                @ColumnResult(name = "name", type = String.class),
+                                @ColumnResult(name = "count", type = Integer.class)
+                        }
+                )
+        ),
+        @SqlResultSetMapping(
+                name = "adultsAttendSNVSummaryMapping",
+                classes = @ConstructorResult(
+                        targetClass = DashboardNameValueBasedSummary.class,
+                        columns = {
+                                @ColumnResult(name = "name", type = String.class),
+                                @ColumnResult(name = "total", type = Integer.class)
+                        }
+                )
+        ),
+        @SqlResultSetMapping(
+                name = "busRideNeededSummaryMapping",
+                classes = @ConstructorResult(
+                        targetClass = DashboardNameValueBasedSummary.class,
+                        columns = {
+                                @ColumnResult(name = "name", type = String.class),
+                                @ColumnResult(name = "count", type = Integer.class)
+                        }
+                )
+        )
+})
 
 public class Family implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -128,10 +204,10 @@ public class Family implements Serializable {
     private Sevadar sevadar;
 
     @OneToMany(mappedBy = "family", fetch = FetchType.LAZY,
-            cascade = {CascadeType.ALL},orphanRemoval = true)
+            cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Member> membersList = new ArrayList<>();
 
-    @Column(name="CsvFileFamilyId")
+    @Column(name = "CsvFileFamilyId")
     private int csvFileFamilyId;
 
     public Family() {
@@ -141,7 +217,7 @@ public class Family implements Serializable {
                   String town, String callSpecificTime, Integer noOfPassengers,
                   String comments, String internalNote, BusRide busRide,
                   CallStatus callStatus, YesNo active, YesNo canCallAnytime,
-                  YesNo SNVGuidelines,TeamLead teamLead, Sevadar sevadar,
+                  YesNo SNVGuidelines, TeamLead teamLead, Sevadar sevadar,
                   List<Member> membersList, int csvFileFamilyId) {
         this.zipCode = zipCode;
         this.noOfAdults = noOfAdults;

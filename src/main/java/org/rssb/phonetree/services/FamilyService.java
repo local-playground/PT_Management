@@ -2,6 +2,9 @@ package org.rssb.phonetree.services;
 
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.domain.CalledFamilyDetails;
+import org.rssb.phonetree.domain.DashboardBusRideSummary;
+import org.rssb.phonetree.domain.DashboardNameValueBasedSummary;
+import org.rssb.phonetree.domain.DashboardPhoneStatusSummary;
 import org.rssb.phonetree.domain.SevadarPhoneTreeList;
 import org.rssb.phonetree.entity.Family;
 
@@ -23,4 +26,8 @@ public interface FamilyService {
     List<CalledFamilyDetails> getFamiliesByTeamLeadAndSevadarName(String teamLeadName, String sevadarName);
     SevadarPhoneTreeList getSevadarPhoneTreeListByTeamLeadAndSevadarName(String teamLeadName, String sevadarName);
     int getTotalFamiliesCount();
+    List<DashboardNameValueBasedSummary> getZipCodeCollectionSummary();
+    List<DashboardNameValueBasedSummary> getTotalAdultsAndChildrenAttendSNVSummary();
+    List<DashboardPhoneStatusSummary> getPhoneStatusSummary();
+    List<DashboardBusRideSummary> getBusRideNeededSummary();
 }

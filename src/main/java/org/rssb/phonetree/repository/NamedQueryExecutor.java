@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -65,6 +66,20 @@ public class NamedQueryExecutor {
             typedQuery.setParameter(parameterName, parameterValue);
         }
         return typedQuery.getSingleResult();
+    }
+
+    public <T> List<T> executeNamedNativeQuery(String namedNativeQuery,String[] parameterNames,
+                                                  String[] parameterValues){
+        Query query = entityManager.createNamedQuery(namedNativeQuery);
+        if(parameterNames!=null && parameterNames.length!=0){
+            for (int index = 0; index < parameterNames.length; index++) {
+                String parameterName = parameterNames[index];
+                if (CommonUtil.isNotEmptyOrNull(parameterName)) {
+                    query.setParameter(parameterName, parameterValues[index]);
+                }
+            }
+        }
+        return query.getResultList();
     }
 
 }
