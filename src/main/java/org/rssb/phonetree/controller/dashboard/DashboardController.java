@@ -1,7 +1,6 @@
 package org.rssb.phonetree.controller.dashboard;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -9,12 +8,10 @@ import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.domain.DashboardTeamLeadsSummary;
 import org.rssb.phonetree.services.DashboardService;
-import org.rssb.phonetree.spring.config.SpringFXMLLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -29,10 +26,10 @@ public class DashboardController extends AbstractController {
     private FlowPane teamLeadSummaryPane;
 
     @Autowired
-    private SpringFXMLLoader springFXMLLoader;
-
-    @Autowired
     private DashboardService dashboardService;
+
+    @FXML
+    private FlowPane otherStatisticsHolderPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,17 +48,22 @@ public class DashboardController extends AbstractController {
                 cssId=1;
             }
         }
+
+        /*parent = loadFxml("/fxml/dashboard/phone-status-statistics.fxml", null);
+        otherStatisticsHolderPane.getChildren().addAll(parent);*/
+        parent = loadFxml("/fxml/dashboard/bus-ride-statistics.fxml", null);
+        otherStatisticsHolderPane.getChildren().addAll(parent);
+        /*parent = loadFxml("/fxml/dashboard/phone-status-statistics.fxml", null);
+        otherStatisticsHolderPane.getChildren().addAll(parent);*/
+        parent = loadFxml("/fxml/dashboard/bus-ride-statistics.fxml", null);
+        otherStatisticsHolderPane.getChildren().addAll(parent);
+        parent = loadFxml("/fxml/dashboard/bus-ride-statistics.fxml", null);
+        otherStatisticsHolderPane.getChildren().addAll(parent);
+        parent = loadFxml("/fxml/dashboard/bus-ride-statistics.fxml", null);
+        otherStatisticsHolderPane.getChildren().addAll(parent);
+
     }
 
 
-    private Parent loadFxml(String fxmlFile, ContextHolder contextHolder) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
-        Parent parent = null;
-        try {
-            parent = springFXMLLoader.loadAndInvokePostProcess(fxmlFile, contextHolder);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-        return parent;
-    }
+
 }

@@ -2,6 +2,7 @@ package org.rssb.phonetree.controller;
 
 import javafx.animation.FadeTransition;
 import javafx.event.Event;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -17,11 +18,13 @@ import org.rssb.phonetree.common.RootPanel;
 import org.rssb.phonetree.common.Selection;
 import org.rssb.phonetree.common.Validator;
 import org.rssb.phonetree.services.UtilityService;
+import org.rssb.phonetree.spring.config.SpringFXMLLoader;
 import org.rssb.phonetree.ui.view.StageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -31,6 +34,9 @@ public abstract class AbstractController implements
 
     protected Delegator delegator;
     protected ContextHolder contextHolder;
+
+    @Autowired
+    private SpringFXMLLoader springFXMLLoader;
 
     @Autowired
     @Lazy
@@ -126,6 +132,17 @@ public abstract class AbstractController implements
                 parentPane.setOpacity(value);
             }
         }
+    }
+
+    public Parent loadFxml(String fxmlFile, ContextHolder contextHolder) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
+        Parent parent = null;
+        try {
+            parent = springFXMLLoader.loadAndInvokePostProcess(fxmlFile, contextHolder);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+        return parent;
     }
 
 }

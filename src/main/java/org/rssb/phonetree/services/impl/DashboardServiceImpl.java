@@ -1,6 +1,9 @@
 package org.rssb.phonetree.services.impl;
 
+import org.rssb.phonetree.domain.DashboardBusRideSummary;
 import org.rssb.phonetree.domain.DashboardFamiliesSummary;
+import org.rssb.phonetree.domain.DashboardNameValueBasedSummary;
+import org.rssb.phonetree.domain.DashboardPhoneStatusSummary;
 import org.rssb.phonetree.domain.DashboardTeamLeadsSummary;
 import org.rssb.phonetree.domain.FamilyCount;
 import org.rssb.phonetree.entity.TeamLead;
@@ -57,6 +60,26 @@ public class DashboardServiceImpl implements DashboardService{
         }
 
         return dashboardTeamLeadsSummaryList;
+    }
+
+    @Override
+    public List<DashboardNameValueBasedSummary> getZipCodeCollectionSummary() {
+        return familyService.getZipCodeCollectionSummary();
+    }
+
+    @Override
+    public List<DashboardNameValueBasedSummary> getTotalAdultsAndChildrenAttendSNVSummary() {
+        return familyService.getTotalAdultsAndChildrenAttendSNVSummary();
+    }
+
+    @Override
+    public List<DashboardPhoneStatusSummary> getPhoneStatusSummary() {
+        return familyService.getPhoneStatusSummary();
+    }
+
+    @Override
+    public List<DashboardBusRideSummary> getBusRideNeededSummary() {
+        return familyService.getBusRideNeededSummary();
     }
 
 
