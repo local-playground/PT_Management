@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      spacing="10.0" styleClass="base" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.rssb.phonetree.controller.vacationplan.VacationPlanTemplateController">
+    <children>
+        <HBox spacing="5.0">
+            <children>
+                <Label fx:id="firstNameLabel" prefHeight="27.0" prefWidth="180.0" styleClass="h2" text="First Name"/>
+            </children>
+            <HBox.margin>
+                <Insets/>
+            </HBox.margin>
+        </HBox>
+        <HBox>
+            <children>
+                <VBox fx:id="vacationDatesTemplateHolder">
+                    <children>
+
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <HBox alignment="TOP_RIGHT" spacing="15.0">
+            <children>
+                <FontAwesomeIconView fx:id="addMoreVacationDatePicker" glyphName="PLUS"
+                                     onMouseClicked="#addMoreEmailIdTextField" size="30">
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </FontAwesomeIconView>
+                <FontAwesomeIconView fx:id="deleteEmptyVacationDatePicker" glyphName="MINUS"
+                                     onMouseClicked="#deleteEmptyEmailTextField" size="30">
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </FontAwesomeIconView>
+            </children>
+        </HBox>
+    </children>
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+    </padding>
+</HBox>
