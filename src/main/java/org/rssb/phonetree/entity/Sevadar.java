@@ -42,6 +42,10 @@ public class Sevadar implements Serializable {
     @Column(name = "EmailId")
     private String emailId;
 
+    /*@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "sevadarId")
+    private SevadarVacation sevadarVacation;*/
+
     public Sevadar() {
     }
 

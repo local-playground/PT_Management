@@ -49,17 +49,13 @@ public class DashboardController extends AbstractController {
             }
         }
 
-        /*parent = loadFxml("/fxml/dashboard/phone-status-statistics.fxml", null);
-        otherStatisticsHolderPane.getChildren().addAll(parent);*/
-        parent = loadFxml("/fxml/dashboard/bus-ride-statistics.fxml", null);
-        otherStatisticsHolderPane.getChildren().addAll(parent);
-        /*parent = loadFxml("/fxml/dashboard/phone-status-statistics.fxml", null);
-        otherStatisticsHolderPane.getChildren().addAll(parent);*/
-        parent = loadFxml("/fxml/dashboard/bus-ride-statistics.fxml", null);
+        parent = loadFxml("/fxml/dashboard/phone-status-statistics.fxml", null);
         otherStatisticsHolderPane.getChildren().addAll(parent);
         parent = loadFxml("/fxml/dashboard/bus-ride-statistics.fxml", null);
         otherStatisticsHolderPane.getChildren().addAll(parent);
-        parent = loadFxml("/fxml/dashboard/bus-ride-statistics.fxml", null);
+        parent = loadFxml("/fxml/dashboard/zip-code-statistics.fxml", null);
+        otherStatisticsHolderPane.getChildren().addAll(parent);
+        parent = loadFxml("/fxml/dashboard/adults-snv-statistics.fxml", null);
         otherStatisticsHolderPane.getChildren().addAll(parent);
 
     }

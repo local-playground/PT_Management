@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="340.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.dashboard.AdultsChildrenSNVStatisticsController">
+    <children>
+        <AnchorPane layoutY="7.0" prefHeight="45.0" prefWidth="400.0" AnchorPane.bottomAnchor="355.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label layoutX="8.0" layoutY="7.0" text="Adults/Children SNV Summary">
+                    <styleClass>
+                        <String fx:value="h1" />
+                        <String fx:value="bold" />
+                    </styleClass>
+                </Label>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="14.0" layoutY="72.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
+            <children>
+                <VBox alignment="TOP_CENTER" prefHeight="355.0" prefWidth="400.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="93.0" prefWidth="400.0" spacing="20.0">
+                            <padding>
+                                <Insets left="10.0" right="25.0" />
+                            </padding>
+                            <children>
+                                <FontAwesomeIconView glyphName="USER" size="45" style="-fx-fill: #43a047;" />
+                                <Label prefHeight="55.0" prefWidth="163.0" text="Adults" textFill="#43a047">
+                                    <font>
+                                        <Font name="Calibri" size="36.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="adultsCount" prefHeight="93.0" prefWidth="105.0" text="0" textFill="#43a047">
+                                    <font>
+                                        <Font name="Calibri" size="48.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="30.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="93.0" prefWidth="400.0" spacing="20.0">
+                            <padding>
+                                <Insets left="10.0" right="25.0" />
+                            </padding>
+                            <children>
+                                <FontAwesomeIconView glyphName="GROUP" size="45" style="-fx-fill: #e53935;" />
+                                <Label prefHeight="55.0" prefWidth="163.0" text="Children" textFill="#e53935">
+                                    <font>
+                                        <Font name="Calibri" size="36.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="childrenCount" prefHeight="93.0" prefWidth="105.0" text="0" textFill="#e53935">
+                                    <font>
+                                        <Font name="Calibri" size="48.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets left="5.0" right="5.0" top="20.0" />
+                    </padding>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

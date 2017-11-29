@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.dashboard.ZipCodeStatisticsController">
+    <children>
+        <AnchorPane layoutY="7.0" prefHeight="45.0" prefWidth="400.0" AnchorPane.bottomAnchor="355.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label layoutX="102.0" layoutY="7.0" text="Zip Code Summary">
+                    <styleClass>
+                        <String fx:value="h1" />
+                        <String fx:value="bold" />
+                    </styleClass>
+                </Label>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="14.0" layoutY="72.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
+            <children>
+                <VBox prefHeight="355.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="122.0" prefWidth="400.0" spacing="50.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="122.0" prefWidth="277.0" spacing="5.0">
+                                    <children>
+                                        <FontAwesomeIconView glyphName="CHECK_CIRCLE" size="60" style="-fx-fill: #43a047;" />
+                                        <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="154.0" text="Collected" textAlignment="CENTER" textFill="#43a047">
+                                            <font>
+                                                <Font name="Calibri" size="36.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <Label fx:id="collectedCount" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="35.0" layoutY="20.0" prefHeight="35.0" prefWidth="146.0" text="0" textAlignment="CENTER" textFill="#43a047">
+                                    <font>
+                                        <Font name="Calibri" size="48.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets left="25.0" right="25.0" />
+                            </padding>
+                        </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="122.0" prefWidth="400.0" spacing="50.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="122.0" prefWidth="277.0" spacing="5.0">
+                           <children>
+                              <FontAwesomeIconView glyphName="CHECK_CIRCLE" size="60" style="-fx-fill: #e53935;" />
+                              <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="154.0" text="Missing" textAlignment="CENTER" textFill="#e53935">
+                                 <font>
+                                    <Font name="Calibri" size="36.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Label fx:id="missingCount" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="35.0" layoutY="20.0" prefHeight="35.0" prefWidth="146.0" text="0" textAlignment="CENTER" textFill="#e53935">
+                           <font>
+                              <Font name="Calibri" size="48.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="25.0" right="25.0" />
+                     </padding>
+                  </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

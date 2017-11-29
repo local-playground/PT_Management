@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="335.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.dashboard.BusRideStatisticsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="340.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.dashboard.BusRideStatisticsController">
     <children>
         <AnchorPane layoutY="7.0" prefHeight="45.0" prefWidth="400.0" AnchorPane.bottomAnchor="355.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -33,12 +33,12 @@
                                       <FontAwesomeIconView glyphName="THUMBS_UP" size="45" style="-fx-fill: #43a047;" />
                                     <Label prefHeight="55.0" prefWidth="163.0" text="Yes" textFill="#43a047">
                                         <font>
-                                            <Font name="Calibri Bold" size="36.0" />
+                                            <Font name="Calibri" size="36.0" />
                                         </font>
                                     </Label>
                                 <Label fx:id="yesCount" prefHeight="93.0" prefWidth="105.0" text="200" textFill="#43a047">
                                     <font>
-                                        <Font name="Calibri Bold" size="48.0" />
+                                        <Font name="Calibri" size="48.0" />
                                     </font>
                                 </Label>
                             </children>
@@ -51,12 +51,12 @@
                         <FontAwesomeIconView glyphName="THUMBS_DOWN" size="45" style="-fx-fill: #e53935;" />
                         <Label prefHeight="55.0" prefWidth="163.0" text="No" textFill="#e53935">
                            <font>
-                              <Font name="Calibri Bold" size="36.0" />
+                              <Font name="Calibri" size="36.0" />
                            </font>
                         </Label>
                         <Label fx:id="noCount" prefHeight="93.0" prefWidth="105.0" text="200" textFill="#e53935">
                            <font>
-                              <Font name="Calibri Bold" size="48.0" />
+                              <Font name="Calibri" size="48.0" />
                            </font>
                         </Label>
                      </children>
@@ -69,12 +69,12 @@
                         <FontAwesomeIconView glyphName="ADJUST" size="45" style="-fx-fill: #3949ab;" />
                         <Label prefHeight="55.0" prefWidth="163.0" text="May Be" textFill="#3949ab">
                            <font>
-                              <Font name="Calibri Bold" size="36.0" />
+                              <Font name="Calibri" size="36.0" />
                            </font>
                         </Label>
                         <Label fx:id="mayBeCount" prefHeight="93.0" prefWidth="105.0" text="200" textFill="#3949ab">
                            <font>
-                              <Font name="Calibri Bold" size="48.0" />
+                              <Font name="Calibri" size="48.0" />
                            </font>
                         </Label>
                      </children>

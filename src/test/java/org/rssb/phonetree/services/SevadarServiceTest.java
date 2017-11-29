@@ -52,7 +52,7 @@ public class SevadarServiceTest extends ApplicationSetup{
 
     @Test
     public void findSevadarBySevadarId(){
-        Optional<Sevadar> sevadar = sevadarService.findSevadarBySevadarId(1);
+        Optional<Sevadar> sevadar = sevadarService.findSevadarBySevadarId(3);
         if(sevadar.isPresent()){
             System.out.println("Sevadar Name =" +sevadar.get().getSevadarName());
         }else{
