@@ -33,7 +33,7 @@ public class DashboardController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Parent parent = loadFxml("/fxml/dashboard/families-statistics.fxml", null);
+        Parent parent = loadFxml("/fxml/dashboard/families-statistics.fxml", null,null);
         familiesSummaryPane.getChildren().add(parent);
         List<DashboardTeamLeadsSummary> dashboardTeamLeadsSummaryList = dashboardService.getDashboardTeamLeadsSummary();
         int cssId = 1;
@@ -41,7 +41,7 @@ public class DashboardController extends AbstractController {
             ContextHolder contextHolder =
                     createContextHolder(new String[]{"DASHBOARD_TEAMLEAD_SUMMARY", "CSS_ID"},
                             new Object[]{dashboardTeamLeadsSummary, cssId}, null);
-            Parent teamLeadSummaryParent = loadFxml("/fxml/dashboard/teamlead-statistics.fxml", contextHolder);
+            Parent teamLeadSummaryParent = loadFxml("/fxml/dashboard/teamlead-statistics.fxml", contextHolder,null);
             teamLeadSummaryPane.getChildren().add(teamLeadSummaryParent);
             cssId++;
             if(cssId>6){
@@ -49,13 +49,13 @@ public class DashboardController extends AbstractController {
             }
         }
 
-        parent = loadFxml("/fxml/dashboard/phone-status-statistics.fxml", null);
+        parent = loadFxml("/fxml/dashboard/phone-status-statistics.fxml", null,null);
         otherStatisticsHolderPane.getChildren().addAll(parent);
-        parent = loadFxml("/fxml/dashboard/bus-ride-statistics.fxml", null);
+        parent = loadFxml("/fxml/dashboard/bus-ride-statistics.fxml", null,null);
         otherStatisticsHolderPane.getChildren().addAll(parent);
-        parent = loadFxml("/fxml/dashboard/zip-code-statistics.fxml", null);
+        parent = loadFxml("/fxml/dashboard/zip-code-statistics.fxml", null,null);
         otherStatisticsHolderPane.getChildren().addAll(parent);
-        parent = loadFxml("/fxml/dashboard/adults-snv-statistics.fxml", null);
+        parent = loadFxml("/fxml/dashboard/adults-snv-statistics.fxml", null,null);
         otherStatisticsHolderPane.getChildren().addAll(parent);
 
     }

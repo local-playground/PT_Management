@@ -2,27 +2,28 @@ package org.rssb.phonetree.controller.vacationplan;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.controller.AbstractController;
+import org.rssb.phonetree.domain.VacationDate;
 import org.rssb.phonetree.entity.SevadarVacation;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
 @Lazy
+@Scope("prototype")
 public class VacationPlanTemplateController extends AbstractController {
     private List<VacationDatesController> vacationDatesControllerList = new ArrayList<>();
 
@@ -47,20 +48,29 @@ public class VacationPlanTemplateController extends AbstractController {
         }
 
         if (sevadarVacation!=null) {
-            /*List<String> emailIdList = Arrays.asList(emailId.split(","));
-            for (int index = 0; index < emailIdList.size(); index++) {
-                String email = emailIdList.get(index);
-                int size = emailIdTextFieldsHolder.getChildren().size();
+            List<VacationDate> vacationDateList = sevadarVacation.getVacationPlan();
+            for (int index = 0; index < vacationDateList.size(); index++) {
+                VacationDate vacationDate = vacationDateList.get(index);
+                LocalDate startDate = vacationDate.getFromDate();
+                LocalDate endDate = vacationDate.getToDate();
+                int size = vacationDatesTemplateHolder.getChildren().size();
                 if (size <= index) {
-                    addMoreEmailIdTextField(null);
+                    addMoreVacationDatePicker(null);
                 }
-                TextFieldController textFieldController = textFieldControllerList.size() > index ?
-                        textFieldControllerList.get(index) : null;
 
-                if (textFieldController != null) {
-                    textFieldController.setText(email);
+                VacationDatesController vacationDatesController = vacationDatesControllerList.size() > index ?
+                        vacationDatesControllerList.get(index):null;
+
+                if(vacationDatesController!=null){
+                    vacationDatesController.setFromDate(startDate);
+                    vacationDatesController.setEndDate(endDate);
                 }
-            }*/
+
+            }
+        }
+
+        for(VacationDatesController controller:vacationDatesControllerList){
+            controller.validate();
         }
     }
 
@@ -87,12 +97,12 @@ public class VacationPlanTemplateController extends AbstractController {
 
 
     @FXML
-    void addMoreEmailIdTextField(MouseEvent event) {
-        vacationDatesTemplateHolder.getChildren().add(getHBox());
+    void addMoreVacationDatePicker(MouseEvent event) {
+        vacationDatesTemplateHolder.getChildren().add(loadFxml("/fxml/vacation-plan/vacation-date-picker.fxml",null,vacationDatesControllerList));
     }
 
     @FXML
-    void deleteEmptyEmailTextField(MouseEvent event) {
+    void deleteEmptyVacationDatePicker(MouseEvent event) {
         List<Node> nodeList = vacationDatesTemplateHolder.getChildren();
         int size = nodeList.size();
         for (int index = size - 1; index > 0; index--) {
@@ -107,20 +117,6 @@ public class VacationPlanTemplateController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        addMoreEmailIdTextField(null);
-    }
-
-    private HBox getHBox() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                "/fxml/email-text-field.fxml"));
-        HBox parent;
-        try {
-            parent = fxmlLoader.load();
-            VacationDatesController vacationDatesController = fxmlLoader.getController();
-            vacationDatesControllerList.add(vacationDatesController);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-        return parent;
+        addMoreVacationDatePicker(null);
     }
 }

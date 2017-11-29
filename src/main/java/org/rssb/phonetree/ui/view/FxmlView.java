@@ -219,6 +219,20 @@ public enum FxmlView {
         public boolean isAlwaysOnTop() {
             return true;
         }
+    },
+    VACATION_PLAN{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/vacation-plan/add-vacation-plan.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
     };
     
     public abstract String getFxmlFile();

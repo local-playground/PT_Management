@@ -31,13 +31,13 @@
         <HBox alignment="TOP_RIGHT" spacing="15.0">
             <children>
                 <FontAwesomeIconView fx:id="addMoreVacationDatePicker" glyphName="PLUS"
-                                     onMouseClicked="#addMoreEmailIdTextField" size="30">
+                                     onMouseClicked="#addMoreVacationDatePicker" size="30">
                     <cursor>
                         <Cursor fx:constant="HAND"/>
                     </cursor>
                 </FontAwesomeIconView>
                 <FontAwesomeIconView fx:id="deleteEmptyVacationDatePicker" glyphName="MINUS"
-                                     onMouseClicked="#deleteEmptyEmailTextField" size="30">
+                                     onMouseClicked="#deleteEmptyVacationDatePicker" size="30">
                     <cursor>
                         <Cursor fx:constant="HAND"/>
                     </cursor>

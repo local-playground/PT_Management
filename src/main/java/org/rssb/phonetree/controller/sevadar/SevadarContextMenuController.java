@@ -42,11 +42,11 @@ public class SevadarContextMenuController extends AbstractController {
     public void postProcess() {
         List<Sevadar> sevadarList = (List<Sevadar>) contextHolder.get(Constants.REQUEST_OBJ);
         for (Sevadar Sevadar : sevadarList) {
-            sevadarsEmailTemplateHolder.getChildren().add(getHBox(Sevadar));
+            sevadarsEmailTemplateHolder.getChildren().add(loadFxml(Sevadar));
         }
     }
 
-    private HBox getHBox(Sevadar sevadar) {
+    private HBox loadFxml(Sevadar sevadar) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 "/fxml/email-template.fxml"));
         HBox parent;
@@ -56,7 +56,6 @@ public class SevadarContextMenuController extends AbstractController {
             ContextHolder ctxHolder = createContextHolder(
                     new String[]{Constants.REQUEST_OBJ},
                     new Object[]{sevadar}, null);
-
             emailTemplate.setContextHolder(ctxHolder);
             emailTemplate.postProcess();
             emailTemplatesList.add(emailTemplate);

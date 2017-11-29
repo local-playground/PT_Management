@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
@@ -19,16 +20,19 @@ public class SpringFXMLLoader {
     @Autowired
     private  ApplicationContext context;
 
-    public Parent loadAndInvokePostProcess(String fxmlPath,ContextHolder contextHolder) throws IOException {
+    public <T> Parent loadAndInvokePostProcess(String fxmlPath, ContextHolder contextHolder, List<T> controllersList) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setControllerFactory(context::getBean);
         loader.setResources(resourceBundle);
         loader.setLocation(getClass().getResource(fxmlPath));
         Parent parent = loader.load();
-        Object controller = loader.getController();
+        T controller = loader.getController();
         if(controller!=null && controller instanceof AbstractController) {
             ((AbstractController)loader.getController()).setContextHolder(contextHolder);
             ((AbstractController) loader.getController()).postProcess();
+            if(controllersList!=null){
+                controllersList.add(controller);
+            }
         }
         return parent;
     }

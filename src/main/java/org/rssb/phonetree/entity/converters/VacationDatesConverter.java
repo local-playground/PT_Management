@@ -16,25 +16,6 @@ public class VacationDatesConverter implements AttributeConverter<List<VacationD
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
-   /* @Override
-    public String convertToDatabaseColumn(List<String> vacationDateList) {
-        if(CommonUtil.isCollectionEmpty(vacationDateList))
-            return "";
-
-        return vacationDateList
-                .stream()
-                .map(vacationDate -> vacationDate.toString())
-                .collect(Collectors.joining(","));
-    }
-
-    @Override
-    public List<String> convertToEntityAttribute(String s) {
-        if(CommonUtil.isEmptyOrNull(s)){
-            return new ArrayList<>();
-        }
-        return new ArrayList<>(Arrays.asList(s.split(",")));
-    }*/
-
     @Override
     public String convertToDatabaseColumn(List<VacationDate> vacationDateList) {
         if(CommonUtil.isCollectionEmpty(vacationDateList))

@@ -2,7 +2,6 @@ package org.rssb.phonetree.controller;
 
 import javafx.animation.FadeTransition;
 import javafx.event.Event;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -26,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
@@ -134,11 +134,10 @@ public abstract class AbstractController implements
         }
     }
 
-    public Parent loadFxml(String fxmlFile, ContextHolder contextHolder) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
+    public <T> Parent loadFxml(String fxmlFile, ContextHolder contextHolder,List<T> controllersList) {
         Parent parent = null;
         try {
-            parent = springFXMLLoader.loadAndInvokePostProcess(fxmlFile, contextHolder);
+            parent = springFXMLLoader.loadAndInvokePostProcess(fxmlFile, contextHolder,controllersList);
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }

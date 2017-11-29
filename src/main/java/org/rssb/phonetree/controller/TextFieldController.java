@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Lazy
-public class TextFieldController {
+public class TextFieldController extends AbstractController{
     @FXML
     private DecoratedTextField decoratedTextField;
 

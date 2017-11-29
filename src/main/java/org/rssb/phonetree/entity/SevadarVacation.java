@@ -35,18 +35,6 @@ public class SevadarVacation {
     @Convert(converter = VacationDatesConverter.class)
     private List<VacationDate> vacationPlan;
 
-    /*@Column(name = "vacationPlan")
-    @Convert(converter = VacationDatesConverter.class)
-    private List<String> vacationPlan;
-
-    public List<String> getVacationPlan() {
-        return vacationPlan;
-    }
-
-    public void setVacationPlan(List<String> vacationPlan) {
-        this.vacationPlan = vacationPlan;
-    }*/
-
     public int getSevadarsVacationId() {
         return sevadarsVacationId;
     }
