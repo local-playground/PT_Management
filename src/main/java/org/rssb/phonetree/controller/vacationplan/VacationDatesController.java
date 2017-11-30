@@ -9,6 +9,7 @@ import javafx.util.StringConverter;
 import org.controlsfx.control.PopOver;
 import org.rssb.phonetree.controller.AbstractController;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -19,6 +20,7 @@ import java.util.ResourceBundle;
 
 @Component
 @Lazy
+@Scope("prototype")
 public class VacationDatesController extends AbstractController {
     private PopOver popOver = new PopOver();
     private static final String pattern = "yyyy-MM-dd";
@@ -36,6 +38,7 @@ public class VacationDatesController extends AbstractController {
 
             @Override
             public String toString(LocalDate date) {
+                System.out.println("init - vacationStartDate toString() "+date);
                 if (date != null) {
                     return dateFormatter.format(date);
                 } else {
@@ -45,6 +48,7 @@ public class VacationDatesController extends AbstractController {
 
             @Override
             public LocalDate fromString(String string) {
+                System.out.println("init - vacationStartDate fromString() "+string);
                 if (string != null && !string.isEmpty()) {
                     return LocalDate.parse(string, dateFormatter);
                 } else {
@@ -94,6 +98,7 @@ public class VacationDatesController extends AbstractController {
 
     @Override
     public boolean validate() {
+        System.out.println("Start Date = "+vacationStartDate.getValue()+" End Date ="+vacationEndDate.getValue());
         if (isEmpty()) {
             return true;
         }
@@ -103,6 +108,8 @@ public class VacationDatesController extends AbstractController {
             if(vacationStartDate.getValue().isAfter(vacationEndDate.getValue())){
                 showPopover(vacationStartDate,"Vacation Start Date should less than End Date.");
                 return false;
+            }else{
+                System.out.println("no issue found..");
             }
         }
 

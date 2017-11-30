@@ -1,6 +1,7 @@
 package org.rssb.phonetree.controller.vacationplan;
 
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,6 +43,9 @@ public class AddVacationPlanController extends AbstractController {
     private JFXComboBox<TeamLead> teamLeadsComboBox;
 
     @FXML
+    private JFXButton saveButton;
+
+    @FXML
     private VBox teamVacationTimeHolder;
 
     private ObservableList<TeamLead> teamLeadObservableList;
@@ -66,6 +70,13 @@ public class AddVacationPlanController extends AbstractController {
 
             }
         });
+    }
+
+    @FXML
+    void saveData(ActionEvent event) {
+        for(VacationPlanTemplateController vacationPlanTemplateController:vacationPlanTemplateControllerList){
+            vacationPlanTemplateController.validate();
+        }
     }
 
     @FXML

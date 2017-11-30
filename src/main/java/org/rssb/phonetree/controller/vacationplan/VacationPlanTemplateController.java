@@ -69,9 +69,19 @@ public class VacationPlanTemplateController extends AbstractController {
             }
         }
 
+
+    }
+
+    @Override
+    public boolean validate() {
         for(VacationDatesController controller:vacationDatesControllerList){
-            controller.validate();
+            System.out.println("validating dates controller now...");
+            if(!controller.validate()){
+                return false;
+            }
         }
+        System.out.println("good --- validating dates controller now...");
+        return true;
     }
 
     public SevadarVacation getRequest() {
