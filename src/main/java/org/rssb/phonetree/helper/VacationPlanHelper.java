@@ -1,36 +1,33 @@
-package org.rssb.phonetree.entity.converters;
+package org.rssb.phonetree.helper;
 
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.domain.VacationDate;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Converter(autoApply = false)
-public class VacationDatesConverter implements AttributeConverter<List<VacationDate>,String>{
-
+public class VacationPlanHelper {
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
-    @Override
-    public String convertToDatabaseColumn(List<VacationDate> vacationDateList) {
+    public static String convertToDatabaseColumn(List<VacationDate> vacationDateList) {
         if(CommonUtil.isCollectionEmpty(vacationDateList))
             return "";
 
-        return vacationDateList
+        String str = vacationDateList
                 .stream()
-                .map(vacationDate -> vacationDate.toString())
+                .map(VacationDate::toString)
                 .collect(Collectors.joining(","));
+
+        System.out.println("converting list to String "+str);
+        return str;
     }
 
-    @Override
-    public List<VacationDate> convertToEntityAttribute(String s) {
+    public static List<VacationDate>  convertToEntityAttribute(String s) {
         if(CommonUtil.isEmptyOrNull(s)){
-            return new ArrayList<>();
+            return new ArrayList<VacationDate>();
         }
         System.out.println("Vacation dates from DB = " + s);
         List<VacationDate> vacationDateList = new ArrayList<>();
@@ -42,12 +39,11 @@ public class VacationDatesConverter implements AttributeConverter<List<VacationD
             System.out.println("working on from date - "+fromDate+ " todate - "+toDate);
 
             VacationDate vacationDate = new VacationDate();
-            /*vacationDate.setFromDate(fromDate);
-            vacationDate.setToDate(toDate);*/
             vacationDate.setFromDate(LocalDate.parse(fromDate, DateTimeFormatter.ofPattern(DATE_FORMAT)));
             vacationDate.setToDate(LocalDate.parse(toDate,DateTimeFormatter.ofPattern(DATE_FORMAT)));
             vacationDateList.add(vacationDate);
         }
+
         return vacationDateList;
     }
 }

@@ -24,4 +24,9 @@ public class SevadarVacationServiceImpl implements SevadarVacationService{
     public Optional<SevadarVacation> getSevadarVacationByTeamLeadId(int teamLeadId) {
         return Optional.ofNullable(sevadarVacationRepository.findByTeamLeadTeamLeadId(teamLeadId));
     }
+
+    @Override
+    public void save(SevadarVacation sevadarVacation) {
+        sevadarVacationRepository.saveAndFlush(sevadarVacation);
+    }
 }

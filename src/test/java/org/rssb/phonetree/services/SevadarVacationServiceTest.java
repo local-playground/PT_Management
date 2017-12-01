@@ -27,10 +27,10 @@ public class SevadarVacationServiceTest extends ApplicationSetup {
 
     @Test
     public void getSevadarVacationBySevadarId(){
-        Optional<SevadarVacation> sevadarVacation = sevadarVacationService.getSevadarVacationBySevadarId(3);
+        Optional<SevadarVacation> sevadarVacation = sevadarVacationService.getSevadarVacationBySevadarId(26);
         if(sevadarVacation.isPresent()){
             System.out.println(sevadarVacation.get());
-            List<VacationDate> vacationDateList = sevadarVacation.get().getVacationPlan();
+            List<VacationDate> vacationDateList = sevadarVacation.get().getVacationDateList();
 
             for(VacationDate vacationDate:vacationDateList){
                Period period = Period.between(vacationDate.getFromDate(),vacationDate.getToDate());

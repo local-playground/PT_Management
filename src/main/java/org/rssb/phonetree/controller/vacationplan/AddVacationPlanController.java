@@ -1,7 +1,6 @@
 package org.rssb.phonetree.controller.vacationplan;
 
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,7 +30,7 @@ import java.util.ResourceBundle;
 @Lazy
 public class AddVacationPlanController extends AbstractController {
 
-    private List<VacationPlanTemplateController> vacationPlanTemplateControllerList = new ArrayList<>();
+    private List<PerSevadarVacationPlanTemplateController> perSevadarVacationPlanTemplateControllerList = new ArrayList<>();
 
     @Autowired
     private TeamLeadService teamLeadService;
@@ -42,8 +41,8 @@ public class AddVacationPlanController extends AbstractController {
     @FXML
     private JFXComboBox<TeamLead> teamLeadsComboBox;
 
-    @FXML
-    private JFXButton saveButton;
+   /* @FXML
+    private JFXButton saveButton;*/
 
     @FXML
     private VBox teamVacationTimeHolder;
@@ -74,9 +73,21 @@ public class AddVacationPlanController extends AbstractController {
 
     @FXML
     void saveData(ActionEvent event) {
-        for(VacationPlanTemplateController vacationPlanTemplateController:vacationPlanTemplateControllerList){
-            vacationPlanTemplateController.validate();
+        for(PerSevadarVacationPlanTemplateController perSevadarVacationPlanTemplateController : perSevadarVacationPlanTemplateControllerList){
+            if(!perSevadarVacationPlanTemplateController.validate()){
+                return;
+            }
         }
+
+        for(PerSevadarVacationPlanTemplateController perSevadarVacationPlanTemplateController : perSevadarVacationPlanTemplateControllerList){
+            SevadarVacation sevadarVacation = perSevadarVacationPlanTemplateController.getRequest();
+            if(sevadarVacation!=null) {
+                sevadarVacationService.save(sevadarVacation);
+            }
+        }
+
+        perSevadarVacationPlanTemplateControllerList.forEach(PerSevadarVacationPlanTemplateController::refresh);
+
     }
 
     @FXML
@@ -84,7 +95,7 @@ public class AddVacationPlanController extends AbstractController {
         TeamLead teamLead = teamLeadsComboBox.getSelectionModel().getSelectedItem();
         List<Sevadar> sevadarList = teamLeadService.findSevadarListByTeamLeadName(teamLead.getTeamLeadName());
         teamVacationTimeHolder.getChildren().clear();
-        vacationPlanTemplateControllerList.clear();
+        perSevadarVacationPlanTemplateControllerList.clear();
         for (Sevadar sevadar : sevadarList) {
             Optional<SevadarVacation> sevadarVacationOptional = sevadarVacationService.getSevadarVacationBySevadarId(sevadar.getSevadarsId());
             SevadarVacation sevadarVacation = null;
@@ -92,12 +103,12 @@ public class AddVacationPlanController extends AbstractController {
                 sevadarVacation=sevadarVacationOptional.get();
             }
             ContextHolder ctxHolder = createContextHolder(
-                    new String[]{"SEVADAR_NAME", Constants.REQUEST_OBJ},
-                    new Object[]{sevadar.getSevadarName(),sevadarVacation},
+                    new String[]{"SEVADAR", Constants.REQUEST_OBJ},
+                    new Object[]{sevadar,sevadarVacation},
                     null);
             teamVacationTimeHolder.getChildren().add(
                     loadFxml("/fxml/vacation-plan/vacation-dates-template.fxml", ctxHolder,
-                            vacationPlanTemplateControllerList)
+                            perSevadarVacationPlanTemplateControllerList)
             );
 
         }

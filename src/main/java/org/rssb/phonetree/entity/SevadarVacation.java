@@ -1,10 +1,9 @@
 package org.rssb.phonetree.entity;
 
 import org.rssb.phonetree.domain.VacationDate;
-import org.rssb.phonetree.entity.converters.VacationDatesConverter;
+import org.rssb.phonetree.helper.VacationPlanHelper;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,8 +33,10 @@ public class SevadarVacation {
     private TeamLead teamLead;
 
     @Column(name = "vacationPlan")
-    @Convert(converter = VacationDatesConverter.class)
-    private List<VacationDate> vacationPlan;
+    private String vacationPlan;
+
+    @Transient
+    private List<VacationDate> vacationDateList = new ArrayList<>();
 
     public int getSevadarsVacationId() {
         return sevadarsVacationId;
@@ -59,19 +62,24 @@ public class SevadarVacation {
         this.teamLead = teamLead;
     }
 
-    public List<VacationDate> getVacationPlan() {
+
+    public String getVacationPlan() {
         return vacationPlan;
     }
 
-    public void setVacationPlan(List<VacationDate> vacationPlan) {
+    public void setVacationPlan(String vacationPlan) {
         this.vacationPlan = vacationPlan;
+    }
+
+    public List<VacationDate> getVacationDateList() {
+        return VacationPlanHelper.convertToEntityAttribute(this.getVacationPlan());
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("SevadarVacation{");
         sb.append("sevadarsVacationId=").append(sevadarsVacationId);
-        sb.append(", vacationPlan='").append(vacationPlan).append('\'');
+        //sb.append(", vacationPlan='").append(vacationPlan).append('\'');
         sb.append('}');
         return sb.toString();
     }

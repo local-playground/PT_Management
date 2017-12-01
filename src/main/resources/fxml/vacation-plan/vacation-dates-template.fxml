@@ -9,7 +9,7 @@
 
 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       spacing="10.0" styleClass="base" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.rssb.phonetree.controller.vacationplan.VacationPlanTemplateController">
+      fx:controller="org.rssb.phonetree.controller.vacationplan.PerSevadarVacationPlanTemplateController">
     <children>
         <HBox spacing="5.0">
             <children>
@@ -21,7 +21,7 @@
         </HBox>
         <HBox>
             <children>
-                <VBox fx:id="vacationDatesTemplateHolder">
+                <VBox fx:id="perSevadarVacationDatesTemplateHolder">
                     <children>
 
                     </children>

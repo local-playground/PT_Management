@@ -6,7 +6,7 @@
 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="75.0" spacing="20.0" styleClass="base" xmlns="http://javafx.com/javafx/8.0.111"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.rssb.phonetree.controller.vacationplan.VacationDatesController">
+      fx:controller="org.rssb.phonetree.controller.vacationplan.PerSevadarVacationDatesController">
     <children>
         <JFXDatePicker fx:id="vacationStartDate" defaultColor="#2e7c32b8"
                        prefHeight="40.0" prefWidth="165.0" promptText="Start Date"
