@@ -4,9 +4,15 @@ import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.domain.VacationDate;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class VacationPlanHelper {
@@ -16,27 +22,22 @@ public class VacationPlanHelper {
         if(CommonUtil.isCollectionEmpty(vacationDateList))
             return "";
 
-        String str = vacationDateList
+        return vacationDateList
                 .stream()
                 .map(VacationDate::toString)
                 .collect(Collectors.joining(","));
-
-        System.out.println("converting list to String "+str);
-        return str;
     }
 
     public static List<VacationDate>  convertToEntityAttribute(String s) {
         if(CommonUtil.isEmptyOrNull(s)){
             return new ArrayList<VacationDate>();
         }
-        System.out.println("Vacation dates from DB = " + s);
         List<VacationDate> vacationDateList = new ArrayList<>();
         String[] vacationDatesArray = s.split(",");
         for (String offDate : vacationDatesArray) {
             String[] fromToDates = offDate.split(":");
             String fromDate = fromToDates[0];
             String toDate = fromToDates[1];
-            System.out.println("working on from date - "+fromDate+ " todate - "+toDate);
 
             VacationDate vacationDate = new VacationDate();
             vacationDate.setFromDate(LocalDate.parse(fromDate, DateTimeFormatter.ofPattern(DATE_FORMAT)));
@@ -45,5 +46,123 @@ public class VacationPlanHelper {
         }
 
         return vacationDateList;
+    }
+
+    public static Set<String> convertVacatationDatesByDays(List<VacationDate> vacationDateList){
+        Set<String> vacationDatesSet = new TreeSet<>();
+        if(vacationDateList.isEmpty()){
+            return vacationDatesSet;
+        }
+
+        for(VacationDate vacationDate:vacationDateList){
+            LocalDate fromDate = vacationDate.getFromDate();
+            LocalDate endDate = vacationDate.getToDate();
+            long daysOff = ChronoUnit.DAYS.between(vacationDate.getFromDate(),vacationDate.getToDate());
+            for (int index = 0; index <= daysOff; index++) {
+                vacationDatesSet.add(fromDate.plusDays(index).format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
+            }
+        }
+        return vacationDatesSet;
+    }
+
+    public static Map<String,Map<String,String>> getSevadarAvailabilityDetails(List<VacationDate> vacationDateList){
+        Map<String, Map<String, String>> detailsMap = new HashMap<>();
+        int startMonth = 12;
+        int endMonth=12;
+
+        if(CommonUtil.isCollectionEmpty(vacationDateList)){
+            for (int index = startMonth; index <= endMonth; index++) {
+                Month month = Month.of(index);
+                Map<String, String> availabilityMap = getAvailabilityDetails(null,null,null);
+                detailsMap.put(month.name(), availabilityMap);
+            }
+
+            return detailsMap;
+        }
+
+
+        Set<String> vacationSetByDays = convertVacatationDatesByDays(vacationDateList);
+        for (int index = startMonth; index <= endMonth; index++) {
+            Month month = Month.of(index);
+            StringBuilder inDetails = new StringBuilder();
+            StringBuilder outDetails = new StringBuilder();
+            StringBuilder daysOut = new StringBuilder();
+            List<String> inList = new ArrayList<>();
+            List<String> outList = new ArrayList<>();
+            LocalDate localDate = LocalDate.of(2017, month, 1);
+            boolean isPreviousDayOut=false;
+            for(int daysInMonth=0;daysInMonth<month.maxLength();daysInMonth++){
+                String nextDate = localDate.plusDays(daysInMonth).format(DateTimeFormatter.ofPattern(DATE_FORMAT));
+                if(vacationSetByDays.contains(nextDate)){
+                    if(!isPreviousDayOut){
+                        strigifyDates(inDetails,inList,null);
+                    }
+                    outList.add(nextDate);
+                    isPreviousDayOut=true;
+                }else{
+                    if(isPreviousDayOut){
+                        strigifyDates(outDetails,outList,daysOut);
+                    }
+                    inList.add(nextDate);
+                    isPreviousDayOut=false;
+                }
+            }
+
+            strigifyDates(inDetails, inList,null);
+            strigifyDates(outDetails,outList,daysOut);
+
+            detailsMap.put(month.name(), getAvailabilityDetails(inDetails.toString(),outDetails.toString(),daysOut.toString()));
+        }
+
+        return detailsMap;
+    }
+
+    private static void strigifyDates(StringBuilder sb,List<String> list,StringBuilder daysOut){
+        if (CommonUtil.isCollectionEmpty(list)) {
+            return;
+        }
+
+        if(sb.length()!=0){
+            sb.append("\n");
+        }
+        if(list.size()==1) {
+            sb.append(String.join("-", list));
+            if(daysOut!=null) {
+                countDaysOut(daysOut,1);
+            }
+        }else{
+            String fromDate = list.get(0);
+            String toDate = list.get(list.size() - 1);
+            sb.append(String.join("-", fromDate, toDate));
+            if(daysOut!=null) {
+                long days = ChronoUnit.DAYS.between(LocalDate.parse(fromDate), LocalDate.parse(toDate));
+                countDaysOut(daysOut,days+1);
+            }
+        }
+        list.clear();
+    }
+
+
+    private static void countDaysOut(StringBuilder daysOut,long days){
+        long outTime = CommonUtil.convertStringToInt(daysOut.toString(), 0);
+        daysOut.setLength(0);
+        daysOut.append(outTime + days);
+    }
+
+    private static Map<String, String> getAvailabilityDetails(String inDetails,String outDetails,String daysOut) {
+        Map<String, String> availabilityMap = new HashMap<>();
+        if(CommonUtil.isEmptyOrNull(inDetails)){
+            inDetails="YES";
+        }
+        if(CommonUtil.isEmptyOrNull(outDetails)){
+            outDetails = "NO";
+        }
+        if(CommonUtil.isEmptyOrNull(daysOut)){
+            daysOut="0";
+        }
+        availabilityMap.putIfAbsent("IN",inDetails);
+        availabilityMap.putIfAbsent("OUT",outDetails);
+        availabilityMap.putIfAbsent("DAYS_OUT",daysOut);
+        return availabilityMap;
     }
 }

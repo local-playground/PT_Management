@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.rssb.phonetree.ApplicationSetup;
 import org.rssb.phonetree.domain.VacationDate;
 import org.rssb.phonetree.entity.SevadarVacation;
+import org.rssb.phonetree.helper.VacationPlanHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -11,7 +12,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -33,14 +33,16 @@ public class SevadarVacationServiceTest extends ApplicationSetup {
             List<VacationDate> vacationDateList = sevadarVacation.get().getVacationDateList();
 
             for(VacationDate vacationDate:vacationDateList){
-               Period period = Period.between(vacationDate.getFromDate(),vacationDate.getToDate());
+               /*Period period = Period.between(vacationDate.getFromDate(),vacationDate.getToDate());
                 System.out.print("Duration between "+vacationDate + " "+
                 " Years = "+period.getYears()+
                 " Months = "+period.getMonths()+
-                " days ="+period.getDays()+"\n");
+                " days ="+period.getDays()+"\n");*/
 
                 System.out.println("Chorono Unit days = "+ ChronoUnit.DAYS.between(vacationDate.getFromDate(),vacationDate.getToDate()));
             }
+
+            System.out.println(VacationPlanHelper.getSevadarAvailabilityDetails(vacationDateList));
         }else{
             System.out.println("Nothing found");
         }
