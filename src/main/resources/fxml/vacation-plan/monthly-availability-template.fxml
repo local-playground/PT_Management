@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<TableView fx:id="monthlyTableView" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="org.rssb.phonetree.controller.vacationplan.SevadarMonthlyAvailabilityController">
+    <columns>
+        <TableColumn fx:id="sevadarNameTableColumn" prefWidth="198.0" text="Name">
+            <cellValueFactory>
+                <PropertyValueFactory property="sevadarName"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn fx:id="monthNameTableColumn" prefWidth="279.0" text="APRIL">
+            <columns>
+                <TableColumn fx:id="availableTableColumn" prefWidth="141.0" text="AVAILABLE">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="availableDates"/>
+                    </cellValueFactory>
+                   <!-- <cellFactory>
+                        <SevadarsListTableFormatter
+                                formatColumn="familySeqNumber"></SevadarsListTableFormatter>
+                    </cellFactory>-->
+                </TableColumn>
+                <TableColumn fx:id="outTableColumn" prefWidth="137.0" text="OUT">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="outDates"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="daysOutTableColumn" prefWidth="91.0" text="DAYS OUT">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="totalDaysOut"/>
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableColumn>
+    </columns>
+</TableView>
