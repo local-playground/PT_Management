@@ -1,41 +1,53 @@
 package org.rssb.phonetree.controller.vacationplan;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
+import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.domain.SevadarsMonthlyAvailability;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 @Lazy
 @Scope("prototype")
 public class SevadarMonthlyAvailabilityController extends AbstractController {
     @FXML
-    private TableView<SevadarsMonthlyAvailability> monthlyTableView;
-
-    /*@FXML
-    private TableColumn<SevadarsMonthlyAvailability, String> sevadarNameTableColumn;
+    private Label monthNameLabel;
 
     @FXML
-    private TableColumn<SevadarsMonthlyAvailability, String> monthNameTableColumn;
+    private VBox availableDatesHolder;
 
     @FXML
-    private TableColumn<SevadarsMonthlyAvailability, String> availableTableColumn;
+    private VBox outDatesHolder;
 
     @FXML
-    private TableColumn<SevadarsMonthlyAvailability, String> outTableColumn;
+    private VBox daysOutDatesHolder;
 
-    @FXML
-    private TableColumn<SevadarsMonthlyAvailability, String> daysOutTableColumn;*/
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        /*ObservableList<SevadarsMonthlyAvailability> monthlyAvailabilityObservableList = FXCollections.observableList(sevadarsMonthlyAvailabilityList);
-        monthlyTableView.setItems(monthlyAvailabilityObservableList);*/
+    public void postProcess() {
+        SevadarsMonthlyAvailability sevadarsMonthlyAvailability = (SevadarsMonthlyAvailability) contextHolder.get(Constants.REQUEST_OBJ);
+        monthNameLabel.setText(sevadarsMonthlyAvailability.getMonthName());
+        availableDatesHolder.getChildren().add(getLabel(sevadarsMonthlyAvailability.getAvailableDates()));
+        outDatesHolder.getChildren().add(getLabel(sevadarsMonthlyAvailability.getOutDates()));
+        daysOutDatesHolder.getChildren().add(getLabel(String.valueOf(sevadarsMonthlyAvailability.getTotalDaysOut())));
+    }
+
+    private Label getLabel(String data){
+        List<String> datesList = Arrays.asList(data.split(","));
+        Label label = new Label(data);
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.join("\n", datesList));
+        System.out.println("Dates to show "+sb.toString());
+        label.setText(sb.toString());
+        label.setTextAlignment(TextAlignment.CENTER);
+        return label;
     }
 }

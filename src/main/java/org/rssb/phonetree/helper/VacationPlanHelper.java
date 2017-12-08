@@ -64,42 +64,63 @@ public class VacationPlanHelper {
         return vacationDatesSet;
     }
 
-    public static SevadarsMonthlyAvailability getSevadarAvailabilityDetails(String sevadarName,
-                                                                            List<VacationDate> vacationDateList,
-                                                                            Month month) {
-
+    public static List<SevadarsMonthlyAvailability> getSevadarAvailabilityDetails(String sevadarName,
+                                                                                  List<VacationDate> vacationDateList,
+                                                                                  LocalDate start,LocalDate end) {
+        List<SevadarsMonthlyAvailability> sevadarsMonthlyAvailabilityList = new ArrayList<>();
+        int startMonth = start.getMonth().getValue();
+        int endMonth = end.getMonth().getValue();
         if (CommonUtil.isCollectionEmpty(vacationDateList)) {
-            return getAvailabilityDetails(month.name(), sevadarName, null, null, null);
+            while(true){
+                Month month = Month.of(start.getMonth().getValue());
+                sevadarsMonthlyAvailabilityList.add(getAvailabilityDetails(month.name(), sevadarName, null, null, null));
+                if(start.getMonth().getValue()==end.getMonth().getValue()){
+                    break;
+                }
+                start = start.plusMonths(1);
+            }
+            return sevadarsMonthlyAvailabilityList;
         }
 
         Set<String> vacationSetByDays = convertVacatationDatesByDays(vacationDateList);
-        StringBuilder inDetails = new StringBuilder();
-        StringBuilder outDetails = new StringBuilder();
-        StringBuilder daysOut = new StringBuilder();
-        List<String> inList = new ArrayList<>();
-        List<String> outList = new ArrayList<>();
-        LocalDate localDate = LocalDate.of(2017, month, 1);
-        boolean isPreviousDayOut = false;
-        for (int daysInMonth = 0; daysInMonth < month.maxLength(); daysInMonth++) {
-            String nextDate = localDate.plusDays(daysInMonth).format(DateTimeFormatter.ofPattern(DATE_FORMAT));
-            if (vacationSetByDays.contains(nextDate)) {
-                if (!isPreviousDayOut) {
-                    strigifyDates(inDetails, inList, null);
+        while(true) {
+            Month month = Month.of(start.getMonth().getValue());
+            StringBuilder inDetails = new StringBuilder();
+            StringBuilder outDetails = new StringBuilder();
+            StringBuilder daysOut = new StringBuilder();
+            List<String> inList = new ArrayList<>();
+            List<String> outList = new ArrayList<>();
+            LocalDate localDate = LocalDate.of(2017, month, 1);
+            boolean isPreviousDayOut = false;
+            for (int daysInMonth = 0; daysInMonth < month.maxLength(); daysInMonth++) {
+                String nextDate = localDate.plusDays(daysInMonth).format(DateTimeFormatter.ofPattern(DATE_FORMAT));
+                if (vacationSetByDays.contains(nextDate)) {
+                    if (!isPreviousDayOut) {
+                        strigifyDates(inDetails, inList, null);
+                    }
+                    outList.add(nextDate);
+                    isPreviousDayOut = true;
+                } else {
+                    if (isPreviousDayOut) {
+                        strigifyDates(outDetails, outList, daysOut);
+                    }
+                    inList.add(nextDate);
+                    isPreviousDayOut = false;
                 }
-                outList.add(nextDate);
-                isPreviousDayOut = true;
-            } else {
-                if (isPreviousDayOut) {
-                    strigifyDates(outDetails, outList, daysOut);
-                }
-                inList.add(nextDate);
-                isPreviousDayOut = false;
             }
-        }
 
-        strigifyDates(inDetails, inList, null);
-        strigifyDates(outDetails, outList, daysOut);
-        return getAvailabilityDetails(month.name(), sevadarName, inDetails.toString(), outDetails.toString(), daysOut.toString());
+            strigifyDates(inDetails, inList, null);
+            strigifyDates(outDetails, outList, daysOut);
+
+            sevadarsMonthlyAvailabilityList.add(
+                    getAvailabilityDetails(month.name(), sevadarName, inDetails.toString(), outDetails.toString(), daysOut.toString())
+            );
+            if(start.getMonth().getValue()==end.getMonth().getValue()){
+                break;
+            }
+            start = start.plusMonths(1);
+        }
+        return sevadarsMonthlyAvailabilityList;
     }
 
     private static void strigifyDates(StringBuilder sb, List<String> list, StringBuilder daysOut) {
@@ -108,7 +129,7 @@ public class VacationPlanHelper {
         }
 
         if (sb.length() != 0) {
-            sb.append("\n");
+            sb.append(",");
         }
         if (list.size() == 1) {
             sb.append(String.join("-", list));
@@ -118,11 +139,13 @@ public class VacationPlanHelper {
         } else {
             String fromDate = list.get(0);
             String toDate = list.get(list.size() - 1);
-            sb.append(String.join("-", fromDate, toDate));
             if (daysOut != null) {
                 long days = ChronoUnit.DAYS.between(LocalDate.parse(fromDate), LocalDate.parse(toDate));
                 countDaysOut(daysOut, days + 1);
             }
+            fromDate = LocalDate.parse(fromDate).format(DateTimeFormatter.ofPattern("MM/dd"));
+            toDate = LocalDate.parse(toDate).format(DateTimeFormatter.ofPattern("MM/dd"));
+            sb.append(String.join(" - ", fromDate, toDate));
         }
         list.clear();
     }

@@ -223,7 +223,7 @@ public enum FxmlView {
     VACATION_PLAN{
         @Override
         public String getFxmlFile() {
-            return "/fxml/vacation-plan/add-vacation-plan.fxml";
+            return "/fxml/vacation-plan/view-vacation-plan.fxml";
         }
         @Override
         public boolean isFullScreen() {

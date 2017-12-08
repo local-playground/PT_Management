@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Month;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -43,9 +43,11 @@ public class SevadarVacationServiceTest extends ApplicationSetup {
                 System.out.println("Chorono Unit days = "+ ChronoUnit.DAYS.between(vacationDate.getFromDate(),vacationDate.getToDate()));
             }
 
+            LocalDate startMonth = LocalDate.of(2017, 12, 01);
+            LocalDate endMonth = LocalDate.of(2018, 03, 01);
             System.out.println(VacationPlanHelper.
                     getSevadarAvailabilityDetails(sevadarVacation.get().getSevadar().getSevadarName(),
-                            vacationDateList, Month.of(12)));
+                            vacationDateList, startMonth,endMonth));
         }else{
             System.out.println("Nothing found");
         }
