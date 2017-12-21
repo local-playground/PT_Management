@@ -220,7 +220,7 @@ public enum FxmlView {
             return true;
         }
     },
-    VACATION_PLAN{
+    VIEW_VACATION_PLAN{
         @Override
         public String getFxmlFile() {
             return "/fxml/vacation-plan/view-vacation-plan.fxml";
@@ -233,7 +233,36 @@ public enum FxmlView {
         public boolean isAlwaysOnTop() {
             return true;
         }
-    };
+    },
+    ADD_VACATION_PLAN{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/vacation-plan/add-vacation-plan.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
+    },
+    ADD_SNV_REPORT_DETAILS{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/snv-report/add-snv-report-response.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
+    }
+    ;
     
     public abstract String getFxmlFile();
     public abstract boolean isFullScreen();
