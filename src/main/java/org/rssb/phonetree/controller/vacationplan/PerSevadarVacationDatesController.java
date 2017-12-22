@@ -5,9 +5,9 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
 import org.controlsfx.control.PopOver;
 import org.rssb.phonetree.controller.AbstractController;
+import org.rssb.phonetree.custom.controls.LocalDateFormatter;
 import org.rssb.phonetree.domain.VacationDate;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -24,7 +23,7 @@ import java.util.ResourceBundle;
 @Scope("prototype")
 public class PerSevadarVacationDatesController extends AbstractController {
     private PopOver popOver = new PopOver();
-    private static final String pattern = "yyyy-MM-dd";
+   // private static final String pattern = "yyyy-MM-dd";
 
     @FXML
     private JFXDatePicker vacationStartDate;
@@ -34,7 +33,7 @@ public class PerSevadarVacationDatesController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        vacationStartDate.setConverter(new StringConverter<LocalDate>() {
+        /*vacationStartDate.setConverter(new StringConverter<LocalDate>() {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
 
             @Override
@@ -55,8 +54,11 @@ public class PerSevadarVacationDatesController extends AbstractController {
                 }
             }
         });
+*/
 
-        vacationEndDate.setConverter(new StringConverter<LocalDate>() {
+        vacationStartDate.setConverter(new LocalDateFormatter());
+        vacationEndDate.setConverter(new LocalDateFormatter());
+       /* vacationEndDate.setConverter(new StringConverter<LocalDate>() {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
 
             @Override
@@ -76,7 +78,7 @@ public class PerSevadarVacationDatesController extends AbstractController {
                     return null;
                 }
             }
-        });
+        });*/
     }
 
     public boolean isEmpty() {

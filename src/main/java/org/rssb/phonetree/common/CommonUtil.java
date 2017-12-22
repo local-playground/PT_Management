@@ -15,6 +15,9 @@ import org.rssb.phonetree.entity.Member;
 import org.rssb.phonetree.status.ActionAlertType;
 import org.rssb.phonetree.status.ActionResponseType;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -276,7 +279,38 @@ public class CommonUtil {
             showConfirmationJFXDialog(rootPanel,response,contextHolder,responseHandler);
         }
     }
+
+
+    public static boolean isValidDate(LocalDate localDate) {
+        if (localDate == null) {
+            return false;
+        }
+
+        try {
+            localDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+
+    }
+
+    public static boolean isValidTime(LocalTime localTime) {
+        if (localTime == null) {
+            return false;
+        }
+        try {
+            localTime.format(DateTimeFormatter.ofPattern(TIME_FORMAT));
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
     public static String getFullName(Member member){
         return member.getFirstName() + " " + member.getLastName();
     }
+
+    public static final String TIME_FORMAT = "HH:mm";
+    private static String DATE_FORMAT = "yyyy-MM-dd";
 }

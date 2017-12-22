@@ -5,61 +5,45 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import org.rssb.phonetree.custom.controls.DecoratedTextField?>
-<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      spacing="10.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.rssb.phonetree.controller.snvreport.PerSevadarSNVReportTemplateController">
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" styleClass="base" stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rssb.phonetree.controller.snvreport.PerSevadarSNVReportTemplateController">
     <children>
         <HBox alignment="CENTER" spacing="5.0">
             <children>
-                <Label fx:id="firstNameLabel" prefHeight="27.0" prefWidth="180.0" styleClass="h2" text="First Name"/>
+                <Label fx:id="firstNameLabel" prefHeight="27.0" prefWidth="180.0" styleClass="h2" text="First Name" />
             </children>
             <HBox.margin>
-                <Insets/>
+                <Insets />
             </HBox.margin>
         </HBox>
         <HBox alignment="CENTER">
             <children>
-                <DecoratedTextField fx:id="totalFamiliesTextField" leftGlyphIconLabelHeight="" leftGlyphIconName="GROUP"
-                                    leftGlyphIconSize="45" prefHeight="45.0" prefWidth="150.0" promptText="# Families"/>
+                <DecoratedTextField fx:id="totalFamiliesTextField" leftGlyphIconLabelHeight="" leftGlyphIconName="GROUP" leftGlyphIconSize="45" prefHeight="45.0" prefWidth="150.0" promptText="# Families" />
             </children>
         </HBox>
         <HBox alignment="CENTER" layoutX="215.0" layoutY="25.0">
             <children>
-                <JFXTimePicker fx:id="endTimeTextField" defaultColor="#458a4d" prefHeight="45.0" prefWidth="136.0"
-                               promptText="End Time"/>
-            </children>
-        </HBox>
-        <HBox alignment="CENTER" layoutX="375.0" layoutY="25.0">
-            <children>
-                <DecoratedTextField fx:id="totalReachedTextField" leftGlyphIconLabelHeight=""
-                                    leftGlyphIconName="CHECK_CIRCLE" leftGlyphIconSize="45" prefHeight="45.0"
-                                    prefWidth="150.0" promptText="# Reached"/>
+                <JFXTimePicker fx:id="endTimeTextField" defaultColor="#458a4d" prefHeight="45.0" prefWidth="136.0" promptText="End Time" />
             </children>
         </HBox>
         <HBox alignment="CENTER" layoutX="215.0" layoutY="25.0">
             <children>
-                <DecoratedTextField fx:id="totalVMTextField" leftGlyphIconLabelHeight="" leftGlyphIconName="TTY"
-                                    leftGlyphIconSize="45" prefHeight="45.0" prefWidth="150.0"
-                                    promptText="# Voice Msg"/>
+                <DecoratedTextField fx:id="totalVMTextField" leftGlyphIconLabelHeight="" leftGlyphIconName="TTY" leftGlyphIconSize="45" prefHeight="45.0" prefWidth="150.0" promptText="# Voice Msg" />
             </children>
         </HBox>
         <HBox alignment="CENTER" layoutX="535.0" layoutY="25.0">
             <children>
-                <DecoratedTextField fx:id="totalNonReachedTextField" leftGlyphIconLabelHeight=""
-                                    leftGlyphIconName="TIMES_CIRCLE" leftGlyphIconSize="45" prefHeight="45.0"
-                                    prefWidth="150.0" promptText="# Non Reach"/>
+                <DecoratedTextField fx:id="totalNonReachedTextField" leftGlyphIconLabelHeight="" leftGlyphIconName="TIMES_CIRCLE" leftGlyphIconSize="45" prefHeight="45.0" prefWidth="150.0" promptText="# Non Reach" />
             </children>
         </HBox>
         <HBox alignment="CENTER" layoutX="841.0" layoutY="25.0">
             <children>
-                <DecoratedTextField fx:id="totalVMTextField1" leftGlyphIconLabelHeight="" leftGlyphIconName="CLOCK_ALT"
-                                    leftGlyphIconSize="45" prefHeight="45.0" prefWidth="150.0" promptText="Time Taken"/>
+                <DecoratedTextField fx:id="timeTakenTextField" leftGlyphIconLabelHeight="" leftGlyphIconName="CLOCK_ALT" leftGlyphIconSize="45" prefHeight="45.0" prefWidth="150.0" promptText="Time Taken" />
             </children>
         </HBox>
 
     </children>
     <padding>
-        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
     </padding>
 </HBox>

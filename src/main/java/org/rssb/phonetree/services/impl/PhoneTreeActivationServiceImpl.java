@@ -6,6 +6,7 @@ import org.rssb.phonetree.domain.PhoneTreeActivationTeamLeadSummary;
 import org.rssb.phonetree.entity.PhoneTreeActivation;
 import org.rssb.phonetree.entity.PhoneTreeActivationDetail;
 import org.rssb.phonetree.entity.TeamLead;
+import org.rssb.phonetree.repository.PhoneTreeActivationDetailRepository;
 import org.rssb.phonetree.repository.PhoneTreeActivatonRepository;
 import org.rssb.phonetree.services.PhoneTreeActivationService;
 import org.rssb.phonetree.services.TeamLeadService;
@@ -21,6 +22,9 @@ public class PhoneTreeActivationServiceImpl implements PhoneTreeActivationServic
 
     @Autowired
     private PhoneTreeActivatonRepository phoneTreeActivatonRepository;
+
+    @Autowired
+    private PhoneTreeActivationDetailRepository phoneTreeActivationDetailRepository;
 
     @Autowired
     private TeamLeadService teamLeadService;
@@ -96,6 +100,28 @@ public class PhoneTreeActivationServiceImpl implements PhoneTreeActivationServic
     @Override
     public PhoneTreeActivationSummary getActivationSummary(String activationDate) {
         return phoneTreeActivatonRepository.getPhoneTreeActivationSummary(activationDate);
+    }
+
+    @Override
+    public PhoneTreeActivation save(PhoneTreeActivation phoneTreeActivation) {
+        return phoneTreeActivatonRepository.saveAndFlush(phoneTreeActivation);
+    }
+
+    @Override
+    public void savePhoneTreeActivationDetails(String activationDate,
+                                               List<PhoneTreeActivationDetail> phoneTreeActivationDetailList) {
+        Optional<PhoneTreeActivation> phoneTreeActivationOptional = getActivationDetailsByDate(activationDate);
+        PhoneTreeActivation phoneTreeActivation = null;
+        if(phoneTreeActivationOptional.isPresent()){
+            phoneTreeActivation = phoneTreeActivationOptional.get();
+        }
+
+        for(PhoneTreeActivationDetail phoneTreeActivationDetail:phoneTreeActivationDetailList){
+            phoneTreeActivationDetail.setPhoneTreeActivation(phoneTreeActivation);
+            //phoneTreeActivation.addPhoneTreeActivationDetail(phoneTreeActivationDetail);
+            phoneTreeActivationDetailRepository.saveAndFlush(phoneTreeActivationDetail);
+        }
+
     }
 
 }

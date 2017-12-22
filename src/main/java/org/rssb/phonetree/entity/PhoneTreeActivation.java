@@ -10,6 +10,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,7 +39,7 @@ public class PhoneTreeActivation {
     private String phoneTreeActivationTime;
 
     @OneToMany(mappedBy = "phoneTreeActivation", fetch = FetchType.LAZY)
-    private List<PhoneTreeActivationDetail> phoneTreeActivationDetailList;
+    private List<PhoneTreeActivationDetail> phoneTreeActivationDetailList = new ArrayList<>();
 
     @Column(name = "TotalSangat")
     private int totalSangat;
@@ -81,6 +82,10 @@ public class PhoneTreeActivation {
 
     public void setPhoneTreeActivationDetailList(List<PhoneTreeActivationDetail> phoneTreeActivationDetailList) {
         this.phoneTreeActivationDetailList = phoneTreeActivationDetailList;
+    }
+
+    public void addPhoneTreeActivationDetail(PhoneTreeActivationDetail phoneTreeActivationDetail){
+        phoneTreeActivationDetailList.add(phoneTreeActivationDetail);
     }
 
     @Override
