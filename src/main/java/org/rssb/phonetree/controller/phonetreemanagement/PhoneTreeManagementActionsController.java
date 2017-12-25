@@ -66,8 +66,9 @@ public class PhoneTreeManagementActionsController extends AbstractController{
 
     @FXML
     void prepareSNVReports(ActionEvent event) {
-        switchScreen(FxmlView.ADD_SNV_REPORT_DETAILS.getFxmlFile());
-        vacationPlanButton.requestFocus();
+        //switchScreen(FxmlView.ADD_SNV_REPORT_DETAILS.getFxmlFile());
+        switchScreen(FxmlView.VIEW_SNV_REPORT_DETAILS.getFxmlFile());
+        snvReportButton.requestFocus();
     }
 
     @FXML

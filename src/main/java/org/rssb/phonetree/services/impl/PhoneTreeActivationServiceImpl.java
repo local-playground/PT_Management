@@ -45,7 +45,7 @@ public class PhoneTreeActivationServiceImpl implements PhoneTreeActivationServic
     }
 
     @Override
-    public List<PhoneTreeActivationTeamLeadSummary> getActivationSummaryByDateAndTeamLeadId(String activationDate) {
+    public List<PhoneTreeActivationTeamLeadSummary> getTeamLeadsActivationSummaryByDate(String activationDate) {
         List<PhoneTreeActivationTeamLeadSummary> phoneTreeActivationTeamLeadSummaries = new ArrayList<>();
         List<TeamLead> teamLeadList = teamLeadService.findAllTeamLeads();
         for (TeamLead teamLead : teamLeadList) {

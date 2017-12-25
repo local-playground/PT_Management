@@ -261,6 +261,20 @@ public enum FxmlView {
         public boolean isAlwaysOnTop() {
             return true;
         }
+    },
+    VIEW_SNV_REPORT_DETAILS{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/snv-report/view-snv-report-response.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
     }
     ;
     

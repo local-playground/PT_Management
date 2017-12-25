@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<TableView fx:id="sevadarsSNVStatisticsReportTable" prefHeight="339.0" xmlns="http://javafx.com/javafx/8.0.111"
+           xmlns:fx="http://javafx.com/fxml/1">
+    <columns>
+        <TableColumn prefWidth="200.0" text="Sevadar Name">
+            <cellValueFactory>
+                <PropertyValueFactory property="fullName"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn prefWidth="133.0" text="Total Families">
+            <cellValueFactory>
+                <PropertyValueFactory property="totalFamilies"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn prefWidth="147.0" text="Voice Msg">
+            <cellValueFactory>
+                <PropertyValueFactory property="totalVMLeft"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn prefWidth="147.0" text="Not Reached">
+            <cellValueFactory>
+                <PropertyValueFactory property="totalNotReachedFamilies"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn prefWidth="122.0" text="Finished Time">
+            <cellValueFactory>
+                <PropertyValueFactory property="activationFinishedTime"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn prefWidth="172.0" text="Time Taken">
+            <cellValueFactory>
+                <PropertyValueFactory property="totalTimeTaken"/>
+            </cellValueFactory>
+        </TableColumn>
+    </columns>
+</TableView>

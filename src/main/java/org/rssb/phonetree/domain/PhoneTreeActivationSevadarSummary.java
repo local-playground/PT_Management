@@ -9,6 +9,11 @@ public class PhoneTreeActivationSevadarSummary {
     private int totalNotReachedFamilies;
     private int totalTimeTaken;
     private String activationFinishedTime;
+    private String fullName;
+
+    public String getFullName() {
+        return firstName +" "+ lastName;
+    }
 
     public int getSevadarId() {
         return sevadarId;

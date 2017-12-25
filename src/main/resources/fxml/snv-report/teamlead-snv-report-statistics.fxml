@@ -9,14 +9,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <AnchorPane fx:id="teamLeadContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="175.0" prefWidth="200.0" styleClass="team-lead-container"
+            minWidth="-Infinity" prefHeight="300.0" prefWidth="200.0" styleClass="team-lead-container"
             stylesheets="@../../styles/Styles.css" xmlns="http://javafx.com/javafx/8.0.111"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.rssb.phonetree.controller.dashboard.TeamLeadStatisticsController">
+            fx:controller="org.rssb.phonetree.controller.snvreport.TeamLeadSNVReportStatisticsController">
     <children>
-        <HBox fx:id="teamLeadNameContainer" layoutX="31.0" layoutY="6.0" prefHeight="65.0" prefWidth="250.0"
+        <HBox fx:id="teamLeadNameContainer" layoutX="31.0" layoutY="6.0" prefHeight="271.0" prefWidth="200.0"
               spacing="25.0" styleClass="team-lead-name-container" stylesheets="@../../styles/Styles.css"
-              AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.bottomAnchor="230.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
               AnchorPane.topAnchor="0.0">
             <children>
                 <FontAwesomeIconView glyphName="USER" size="60" style="-fx-fill: white;"/>
@@ -40,11 +40,11 @@
                 <Insets left="20.0"/>
             </padding>
         </HBox>
-        <HBox layoutX="22.0" layoutY="63.0" prefHeight="80.0" prefWidth="250.0" spacing="30.0"
-              AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="65.0">
+        <HBox layoutX="22.0" layoutY="70.0" prefHeight="202.0" prefWidth="200.0" spacing="10.0"
+              AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="70.0">
             <children>
-                <VBox>
+                <VBox alignment="CENTER">
                     <children>
                         <Label fx:id="teamLeadFamiliesCountLabel" text="200" textFill="WHITE">
                             <font>
@@ -58,28 +58,46 @@
                         </Label>
                     </children>
                 </VBox>
-                <VBox>
+                <VBox alignment="TOP_CENTER" prefHeight="202.0" prefWidth="108.0" spacing="25.0">
                     <children>
-                        <Label fx:id="teamLeadSevadarsCountLabel" text="5" textFill="WHITE">
-                            <font>
-                                <Font name="Calibri" size="40.0"/>
-                            </font>
-                        </Label>
-                        <Label text="Sevadars" textFill="WHITE">
-                            <font>
-                                <Font name="Calibri" size="20.0"/>
-                            </font>
-                        </Label>
+                        <VBox alignment="TOP_CENTER">
+                            <children>
+                                <Label fx:id="teamLeadVMLeftCount" text="5" textFill="WHITE">
+                                    <font>
+                                        <Font name="Calibri" size="40.0"/>
+                                    </font>
+                                </Label>
+                                <Label text="Voice Msg" textFill="WHITE">
+                                    <font>
+                                        <Font name="Calibri" size="20.0"/>
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER">
+                            <children>
+                                <Label fx:id="teamLeadNotReachedCount" text="5" textFill="WHITE">
+                                    <font>
+                                        <Font name="Calibri" size="40.0"/>
+                                    </font>
+                                </Label>
+                                <Label text="Not Reached" textFill="WHITE">
+                                    <font>
+                                        <Font name="Calibri" size="20.0"/>
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
                     </children>
                 </VBox>
             </children>
             <padding>
-                <Insets left="20.0"/>
+                <Insets left="10.0"/>
             </padding>
         </HBox>
-        <AnchorPane fx:id="teamLeadDetailContainer" layoutX="7.0" layoutY="145.0" prefHeight="34.0" prefWidth="200.0"
+        <AnchorPane fx:id="teamLeadDetailContainer" layoutX="7.0" layoutY="272.0" prefHeight="28.0" prefWidth="200.0"
                     styleClass="team-lead-details-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="145.0">
+                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="272.0">
             <children>
                 <Label fx:id="showDetails" layoutX="63.0" layoutY="5.0" onMouseClicked="#showDetails"
                        text="Show Details" textFill="WHITE">

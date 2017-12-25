@@ -58,7 +58,7 @@ public class PhoneTreeActivationServiceTest extends ApplicationSetup {
     @Test
     public void getActivationSummaryByDateAndTeamLeadId(){
         List<PhoneTreeActivationTeamLeadSummary> list =
-                phoneTreeActivationService.getActivationSummaryByDateAndTeamLeadId("2017-12-21");
+                phoneTreeActivationService.getTeamLeadsActivationSummaryByDate("2017-12-21");
 
         System.out.println(list);
 

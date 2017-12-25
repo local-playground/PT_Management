@@ -16,7 +16,7 @@ public interface PhoneTreeActivationService {
 
     Optional<List<PhoneTreeActivationDetail>> getActivationDetailsByDateAndTeamLeadId(String activationDate, int teamLeadId);
 
-    List<PhoneTreeActivationTeamLeadSummary> getActivationSummaryByDateAndTeamLeadId(String activationDate);
+    List<PhoneTreeActivationTeamLeadSummary> getTeamLeadsActivationSummaryByDate(String activationDate);
 
     PhoneTreeActivationSummary getActivationSummary(String activationDate);
 
