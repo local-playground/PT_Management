@@ -61,7 +61,8 @@ public class PhoneTreeManagementActionsController extends AbstractController{
 
     @FXML
     void createTeamChart(ActionEvent event) {
-
+        switchScreen(FxmlView.TEAM_CHART_DETAILS.getFxmlFile());
+        teamChartButton.requestFocus();
     }
 
     @FXML

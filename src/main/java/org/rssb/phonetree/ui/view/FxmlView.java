@@ -275,6 +275,20 @@ public enum FxmlView {
         public boolean isAlwaysOnTop() {
             return true;
         }
+    },
+    TEAM_CHART_DETAILS{
+        @Override
+        public String getFxmlFile() {
+            return "/fxml/team-chart/team-chart.fxml";
+        }
+        @Override
+        public boolean isFullScreen() {
+            return false;
+        }
+        @Override
+        public boolean isAlwaysOnTop() {
+            return true;
+        }
     }
     ;
     

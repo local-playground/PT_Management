@@ -32,3 +32,9 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 ---
+
+org:
+  rssb:
+    phonetree:
+      seceratery-name: Sanjay:Phanda:Secretory
+      admin-names: Rajesh:Khullar:Phone Tree Admin,Meena:Padnani:Team Lead Monitor,Vineet:Sharma:Phone Tree Admin
