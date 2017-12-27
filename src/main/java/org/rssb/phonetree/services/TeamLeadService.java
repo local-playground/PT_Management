@@ -1,6 +1,7 @@
 package org.rssb.phonetree.services;
 
 import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.domain.SevadarPersonalInformation;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
 
@@ -22,5 +23,6 @@ public interface TeamLeadService {
    String getTeamLeadStrigyfyInformation(String teamLeadName);
    String getBackupTeamLeadStringyfyInformation(String teamLeadName);
    void save(TeamLead teamLead);
-
+   SevadarPersonalInformation getTeamLeadInformation(String teamLeadName);
+   SevadarPersonalInformation getBackupTeamLeadInformation(String teamLeadName);
 }

@@ -2,6 +2,7 @@ package org.rssb.phonetree.services;
 
 import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.domain.FamilyCount;
+import org.rssb.phonetree.domain.SevadarPersonalInformation;
 import org.rssb.phonetree.entity.Sevadar;
 
 import java.util.List;
@@ -21,5 +22,6 @@ public interface SevadarService {
     Response swapSevadar(int sevadarIdToBeSwapped, int sevadarIdSwappedWith);
     List<FamilyCount> getSevadarsCallingFamilyCountByTeamLeadId(int teamLeadId);
     String getSevadarStrigyfyInformation(String sevadarName);
+    SevadarPersonalInformation getSevadarInformation(String sevadarName);
     Response makeTeamLeadsBackup(int sevadarId,String teamLeadName,int teamLeadId);
 }

@@ -7,6 +7,7 @@ import org.rssb.phonetree.domain.CalledFamilyDetails;
 import org.rssb.phonetree.domain.DashboardBusRideSummary;
 import org.rssb.phonetree.domain.DashboardNameValueBasedSummary;
 import org.rssb.phonetree.domain.DashboardPhoneStatusSummary;
+import org.rssb.phonetree.domain.SevadarPersonalInformation;
 import org.rssb.phonetree.domain.SevadarPhoneTreeList;
 import org.rssb.phonetree.entity.Family;
 import org.rssb.phonetree.entity.Member;
@@ -197,7 +198,10 @@ public class FamilyServiceImpl implements FamilyService {
                                                                                 String sevadarName) {
         String teamLeadDetails = teamLeadService.getTeamLeadStrigyfyInformation(teamLeadName);
         String backupTeamLeadDetails = teamLeadService.getBackupTeamLeadStringyfyInformation(teamLeadName);
+        SevadarPersonalInformation teamLeadPerosnalInformation = teamLeadService.getTeamLeadInformation(teamLeadName);
+        SevadarPersonalInformation backupTeamLeadPerosnalInformation = teamLeadService.getBackupTeamLeadInformation(teamLeadName);
         String sevadarDetails = sevadarService.getSevadarStrigyfyInformation(sevadarName);
+        SevadarPersonalInformation sevadarPersonalInformation = sevadarService.getSevadarInformation(sevadarName);
         List<CalledFamilyDetails> calledFamilyDetailsList = getFamiliesByTeamLeadAndSevadarName(teamLeadName,sevadarName);
 
         /*long familiesCount = calledFamilyDetailsList.stream()
@@ -205,9 +209,12 @@ public class FamilyServiceImpl implements FamilyService {
                 .count();*/
         long familiesCount = getTotalFamiliesByTeamLeadAndSevadar(teamLeadName,sevadarName);
         SevadarPhoneTreeList sevadarPhoneTreeList = new SevadarPhoneTreeList();
+        sevadarPhoneTreeList.setTeamLeadPersonalInformation(teamLeadPerosnalInformation);
+        sevadarPhoneTreeList.setBackupTeamLeadPersonalInformation(backupTeamLeadPerosnalInformation);
         sevadarPhoneTreeList.setTotalFamiliesToCall((int) familiesCount);
         sevadarPhoneTreeList.setTeamLeadDetails(teamLeadDetails);
         sevadarPhoneTreeList.setBackupTeamLeadDetails(backupTeamLeadDetails);
+        sevadarPhoneTreeList.setSevadarPersonalInformation(sevadarPersonalInformation);
         sevadarPhoneTreeList.setSevadarDetails(sevadarDetails);
         sevadarPhoneTreeList.setCalledFamilyDetailsList(calledFamilyDetailsList);
 

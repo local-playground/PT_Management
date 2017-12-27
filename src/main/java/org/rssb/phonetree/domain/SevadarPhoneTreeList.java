@@ -3,11 +3,38 @@ package org.rssb.phonetree.domain;
 import java.util.List;
 
 public class SevadarPhoneTreeList {
+    private SevadarPersonalInformation teamLeadPersonalInformation;
+    private SevadarPersonalInformation backupTeamLeadPersonalInformation;
+    private SevadarPersonalInformation sevadarPersonalInformation;
     private int totalFamiliesToCall;
     private String teamLeadDetails;
     private String backupTeamLeadDetails;
     private String sevadarDetails;
     private List<CalledFamilyDetails> calledFamilyDetailsList;
+
+    public SevadarPersonalInformation getTeamLeadPersonalInformation() {
+        return teamLeadPersonalInformation;
+    }
+
+    public void setTeamLeadPersonalInformation(SevadarPersonalInformation teamLeadPersonalInformation) {
+        this.teamLeadPersonalInformation = teamLeadPersonalInformation;
+    }
+
+    public SevadarPersonalInformation getSevadarPersonalInformation() {
+        return sevadarPersonalInformation;
+    }
+
+    public void setSevadarPersonalInformation(SevadarPersonalInformation sevadarPersonalInformation) {
+        this.sevadarPersonalInformation = sevadarPersonalInformation;
+    }
+
+    public SevadarPersonalInformation getBackupTeamLeadPersonalInformation() {
+        return backupTeamLeadPersonalInformation;
+    }
+
+    public void setBackupTeamLeadPersonalInformation(SevadarPersonalInformation backupTeamLeadPersonalInformation) {
+        this.backupTeamLeadPersonalInformation = backupTeamLeadPersonalInformation;
+    }
 
     public int getTotalFamiliesToCall() {
         return totalFamiliesToCall;
@@ -60,4 +87,5 @@ public class SevadarPhoneTreeList {
         sb.append('}');
         return sb.toString();
     }
+
 }

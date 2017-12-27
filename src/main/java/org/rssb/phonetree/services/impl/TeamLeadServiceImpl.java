@@ -242,6 +242,23 @@ public class TeamLeadServiceImpl implements TeamLeadService {
     public void save(TeamLead teamLead) {
         teamLeadJpaRepository.saveAndFlush(teamLead);
     }
+
+    @Override
+    public SevadarPersonalInformation getTeamLeadInformation(String teamLeadName) {
+        SevadarPersonalInformation sevadarPersonalInformation =
+                namedQueryExecutor.executeSingleResultQuery("TeamLead.personalInformation",
+                        "teamLeadName", teamLeadName, SevadarPersonalInformation.class);
+        return sevadarPersonalInformation;
+    }
+
+    @Override
+    public SevadarPersonalInformation getBackupTeamLeadInformation(String teamLeadName) {
+        SevadarPersonalInformation sevadarPersonalInformation =
+                namedQueryExecutor.executeSingleResultQuery("TeamLead.BackupTeamLeadPersonalInformation",
+                        "teamLeadName", teamLeadName, SevadarPersonalInformation.class);
+
+        return sevadarPersonalInformation;
+    }
 }
 
 

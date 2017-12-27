@@ -257,6 +257,14 @@ public class SevadarServiceImpl implements SevadarService {
     }
 
     @Override
+    public SevadarPersonalInformation getSevadarInformation(String sevadarName) {
+        SevadarPersonalInformation sevadarPersonalInformation =
+                namedQueryExecutor.executeSingleResultQuery("Sevadar.personalInformation",
+                        "sevadarName", sevadarName, SevadarPersonalInformation.class);
+        return sevadarPersonalInformation;
+    }
+
+    @Override
     public Response makeTeamLeadsBackup(int sevadarId, String teamLeadName,int teamLeadId) {
         sevadarJpaRepository.updateSevadarsForTeamLeadAsNoBackup(teamLeadId);
         sevadarJpaRepository.updateSevadarAsTeamLeadBackup(sevadarId);
