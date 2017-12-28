@@ -1,10 +1,11 @@
 package org.rssb.phonetree.domain;
 
+import org.rssb.phonetree.common.file.DocumentTableColumn;
 import org.rssb.phonetree.entity.emums.BusRide;
 import org.rssb.phonetree.entity.emums.CallStatus;
 import org.rssb.phonetree.entity.emums.YesNo;
 
-public class CalledFamilyDetails{
+public class CalledFamilyDetails {
     private int familySeqNumber;
     private int familyId;
     private int memberId;
@@ -19,7 +20,7 @@ public class CalledFamilyDetails{
     private int noOfPassengers;
     private YesNo SNVGuideLines;
 
-    public CalledFamilyDetails(int memberId,int familyId, String firstName, String lastName,
+    public CalledFamilyDetails(int memberId, int familyId, String firstName, String lastName,
                                String cellPhone, String homePhone, String workPhone,
                                String zipCode, CallStatus callStatus, BusRide busRide,
                                int noOfPassengers, YesNo SNVGuideLines) {
@@ -81,16 +82,36 @@ public class CalledFamilyDetails{
         return SNVGuideLines;
     }
 
-    public int getMemberId(){
+    public int getMemberId() {
         return memberId;
     }
 
-    public int getFamilySeqNumber(){
+    public int getFamilySeqNumber() {
         return familySeqNumber;
     }
 
-    public void setFamilySeqNumner(int familySeqNumber){
+    public void setFamilySeqNumner(int familySeqNumber) {
         this.familySeqNumber = familySeqNumber;
+    }
+
+    public String getColumnValue(DocumentTableColumn documentTableColumn) {
+        switch (documentTableColumn) {
+            case SEQ_NO:
+                if(familySeqNumber==0){
+                    return "";
+                }
+                return String.valueOf(familySeqNumber);
+            case FAMILY_INFORMATION:
+                return firstName +" "+lastName;
+            case TIME_OF_VM:
+                return "";
+            case TIME_OF_CALL:
+                return "";
+            case COMMENTS:
+                return "";
+        }
+
+        return "";
     }
 
     @Override

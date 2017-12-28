@@ -23,6 +23,7 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STBorder;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STPageOrientation;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
+import org.rssb.phonetree.common.file.DocumentTableColumn;
 import org.rssb.phonetree.common.file.DocumentWriter;
 import org.rssb.phonetree.common.file.ReportFormat;
 import org.rssb.phonetree.common.file.ReportName;
@@ -32,9 +33,19 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class AbstractWordDocumentWriter implements DocumentWriter{
     protected ReportName reportName;
+    protected List<DocumentTableColumn> documentTableColumns = Arrays.asList(
+            DocumentTableColumn.SEQ_NO,
+            DocumentTableColumn.FAMILY_INFORMATION,
+            DocumentTableColumn.TIME_OF_CALL,
+            DocumentTableColumn.TIME_OF_VM,
+            DocumentTableColumn.COMMENTS
+    );
+
 
     @Override
     public ReportFormat supportsReportFormat() {
