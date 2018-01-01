@@ -17,11 +17,15 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Component
 public class NormalPhoneTreeDocumentWriter extends AbstractWordDocumentWriter {
+
 
     public NormalPhoneTreeDocumentWriter() {
         this.reportName = ReportName.NORMAL_REPORT;
@@ -38,16 +42,29 @@ public class NormalPhoneTreeDocumentWriter extends AbstractWordDocumentWriter {
         document.createParagraph().createRun().addBreak();
         createFeedbackInformationTable(document);
         //Write the Document in file system
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(new File("C:\\Rajesh\\Sample\\createdocument.docx"));
+
+        String directoryName = listOutputDirectory+"\\"+
+                sevadarPhoneTreeList.getTeamLeadPersonalInformation().getName();
+        if(!Files.exists(Paths.get(directoryName))){
+            try {
+                Files.createDirectories(Paths.get(directoryName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String fileName = sevadarPhoneTreeList.getSevadarPersonalInformation().getName();
+        String path = directoryName+"\\"+fileName+".docx";
+
+        try (FileOutputStream out = new FileOutputStream(new File(path))){
             document.write(out);
-            out.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        addPasswordProtection(path);
     }
+
 
     private void createFeedbackInformationTable(XWPFDocument document) {
         XWPFRun run = document.createParagraph().createRun();
@@ -71,10 +88,10 @@ public class NormalPhoneTreeDocumentWriter extends AbstractWordDocumentWriter {
 
         for (int index = 0; index < numberOfRows; index++) {
             XWPFTableRow tableRow = table.getRow(index);
-            tableRow.setRepeatHeader(true);
             tableRow.setCantSplitRow(true);
             if (index == 0) {
                 populateColumnsData(tableRow, index, null);
+                tableRow.setRepeatHeader(true);
                 continue;
             }
             CalledFamilyDetails calledFamilyDetails = calledFamilyDetailsList.get(index - 1);

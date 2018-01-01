@@ -5,11 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
-import javafx.util.StringConverter;
 import org.rssb.phonetree.controller.AbstractController;
+import org.rssb.phonetree.custom.controls.SevadarComboBoxFormatter;
+import org.rssb.phonetree.custom.controls.TeamLeadComboBoxFormatter;
 import org.rssb.phonetree.domain.CalledFamilyDetails;
 import org.rssb.phonetree.domain.SevadarPhoneTreeList;
 import org.rssb.phonetree.entity.Sevadar;
@@ -60,7 +60,9 @@ public class SevadarsListController extends AbstractController {
         teamLeadsComboBox.getItems().addAll(teamLeadObservableList);
         sevadarsComboBox.setDisable(true);
 
-        teamLeadsComboBox.setConverter(new StringConverter<TeamLead>() {
+        teamLeadsComboBox.setConverter(new TeamLeadComboBoxFormatter(teamLeadObservableList));
+
+        /*teamLeadsComboBox.setConverter(new StringConverter<TeamLead>() {
             @Override
             public String toString(TeamLead teamLead) {
                 return teamLead.getTeamLeadName();
@@ -74,9 +76,10 @@ public class SevadarsListController extends AbstractController {
                         .findFirst().get();
 
             }
-        });
+        });*/
 
-        sevadarsComboBox.setConverter(new StringConverter<Sevadar>() {
+        sevadarsComboBox.setConverter(new SevadarComboBoxFormatter(sevadarObservableList));
+        /*sevadarsComboBox.setConverter(new StringConverter<Sevadar>() {
             @Override
             public String toString(Sevadar sevadar) {
                 return sevadar.getSevadarName();
@@ -90,7 +93,7 @@ public class SevadarsListController extends AbstractController {
                         .findFirst().get();
 
             }
-        });
+        });*/
     }
 
     @FXML

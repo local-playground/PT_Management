@@ -13,7 +13,11 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import org.rssb.phonetree.common.*;
+import org.rssb.phonetree.common.CommonUtil;
+import org.rssb.phonetree.common.Constants;
+import org.rssb.phonetree.common.ContextHolder;
+import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.common.SevaType;
 import org.rssb.phonetree.common.table.factory.TableRowContextMenuFactory;
 import org.rssb.phonetree.controller.AbstractController;
 import org.rssb.phonetree.controller.teamlead.TeamLeadController;
@@ -113,31 +117,40 @@ public class SevadarController extends AbstractController {
         List<Sevadar> sevadarList = teamLead.getSevadarsList();
         Sevadar existingBackupLead = null;
         for (Sevadar sevadar : sevadarList) {
-            if(sevadar.getIsBackupForTeamLead()==1){
+            if (sevadar.getIsBackupForTeamLead() == 1) {
                 existingBackupLead = sevadar;
                 break;
             }
         }
         Sevadar sevadar = sevadarsTableView.getSelectionModel().getSelectedItem();
-        if(existingBackupLead!=null) {
-            if (sevadar.getSevadarsId() == existingBackupLead.getSevadarsId()) {
-                CommonUtil.showNoActionNeededJFXDialog(this,
-                        new Object[]{sevadar.getSevadarName(), teamLead.getTeamLeadName() + "'s"},
-                        SevadarActionResponse.SEVADAR_IS_ALREADY_TEAM_LEAD_BACKUP);
-                return;
-            }
-            CommonUtil.showConfirmationJFXDialog(this,
-                    new Object[]{sevadar.getSevadarName(), existingBackupLead.getSevadarName()},
-                    SevadarActionResponse.SEVADAR_CONFIRM_BEFORE_CHANGE_TEAM_LEAD_BACKUP,
-                    null,
-                    contextHolder1 -> {
-                        Response response = sevadarService.makeTeamLeadsBackup(sevadar.getSevadarsId(),
-                                teamLead.getTeamLeadName(),teamLead.getTeamLeadId());
-                        refresh();
-                        teamLeadController.refresh();
-                        return response;
-                    });
+        if (existingBackupLead != null && sevadar.getSevadarsId() == existingBackupLead.getSevadarsId()) {
+            CommonUtil.showNoActionNeededJFXDialog(this,
+                    new Object[]{sevadar.getSevadarName(), teamLead.getTeamLeadName() + "'s"},
+                    SevadarActionResponse.SEVADAR_IS_ALREADY_TEAM_LEAD_BACKUP);
+            return;
         }
+
+        SevadarActionResponse sevadarActionResponse;
+        Object[] inputParams;
+        if (existingBackupLead != null) {
+            sevadarActionResponse = SevadarActionResponse.SEVADAR_CONFIRM_BEFORE_CHANGE_TEAM_LEAD_BACKUP;
+            inputParams = new Object[]{sevadar.getSevadarName(), existingBackupLead.getSevadarName()};
+        }else {
+            sevadarActionResponse = SevadarActionResponse.SEVADAR_CONFIRM_BEFORE_ASSIGN_TEAM_LEAD_BACKUP;
+            inputParams = new Object[]{sevadar.getSevadarName()};
+        }
+        CommonUtil.showConfirmationJFXDialog(this,
+                inputParams,
+                sevadarActionResponse,
+                null,
+                contextHolder1 -> {
+                    Response response = sevadarService.makeTeamLeadsBackup(sevadar.getSevadarsId(),
+                            teamLead.getTeamLeadName(), teamLead.getTeamLeadId());
+                    refresh();
+                    teamLeadController.refresh();
+                    return response;
+                });
+
     }
 
     private void addSevadarEmailId(ActionEvent actionEvent) {
@@ -229,7 +242,7 @@ public class SevadarController extends AbstractController {
     public void refresh() {
         TeamLead teamLead = (TeamLead) contextHolder.get(Constants.REQUEST_OBJ);
         List<Sevadar> sevadarList = teamLeadService.findSevadarListByTeamLeadId(teamLead.getTeamLeadId());
-        if(sevadarsTableView.getItems()!=null){
+        if (sevadarsTableView.getItems() != null) {
             sevadarsTableView.getItems().clear();
         }
         ObservableList<Sevadar> sevadarObservableList = FXCollections.observableArrayList(sevadarList);

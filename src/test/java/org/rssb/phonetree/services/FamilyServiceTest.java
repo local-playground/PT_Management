@@ -6,7 +6,6 @@ import org.rssb.phonetree.common.Response;
 import org.rssb.phonetree.common.file.DocumentWriter;
 import org.rssb.phonetree.common.file.DocumentWriterFactory;
 import org.rssb.phonetree.common.file.ReportFormat;
-import org.rssb.phonetree.common.file.ReportName;
 import org.rssb.phonetree.common.file.ReportType;
 import org.rssb.phonetree.domain.CalledFamilyDetails;
 import org.rssb.phonetree.domain.DashboardBusRideSummary;
@@ -88,7 +87,6 @@ public class FamilyServiceTest extends ApplicationSetup {
         System.out.println("data \n" + sevadarPhoneTreeList);
         ReportType reportType = new ReportType();
         reportType.setReportFormat(ReportFormat.WORD);
-        reportType.setReportName(ReportName.NORMAL_REPORT);
 
         DocumentWriter documentWriter = documentWriterFactory.getDocumentWriter(reportType).get();
         documentWriter.writeToFile(sevadarPhoneTreeList);

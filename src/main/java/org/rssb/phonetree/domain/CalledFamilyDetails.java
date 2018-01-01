@@ -1,5 +1,6 @@
 package org.rssb.phonetree.domain;
 
+import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.file.DocumentTableColumn;
 import org.rssb.phonetree.entity.emums.BusRide;
 import org.rssb.phonetree.entity.emums.CallStatus;
@@ -109,6 +110,22 @@ public class CalledFamilyDetails {
                 return "";
             case COMMENTS:
                 return "";
+            case BUS_RIDE:
+                if(busRide == BusRide.NO){
+                    return "";
+                }
+                return busRide.toString();
+            case NO_OF_PASSENGERS:
+                if(noOfPassengers == 0){
+                    return "";
+                }
+                return String.valueOf(noOfPassengers);
+            case ZIP_CODE:
+                if(CommonUtil.isEmptyOrNull(zipCode)){
+                    return "";
+                }
+                return zipCode;
+
         }
 
         return "";

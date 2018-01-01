@@ -11,12 +11,17 @@ public enum ReportFormat {
         this.format = format;
     }
 
-    public String getFormat(){
+    public String getFormat() {
         return this.format;
     }
 
-    public ReportFormat fromValue(String format){
-        return valueOf(format);
+    public static ReportFormat fromValue(String value) {
+        for (ReportFormat reportFormat : values()) {
+            if (reportFormat.format.equalsIgnoreCase(value))
+                return reportFormat;
+        }
+
+        return null;
     }
 
 }

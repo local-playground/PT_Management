@@ -14,8 +14,8 @@ public class DocumentWriterFactory {
 
     public  Optional<DocumentWriter> getDocumentWriter(ReportType reportType){
         for(DocumentWriter documentWriter:documentWriterList){
-            if(documentWriter.supportsReportFormat()==reportType.getReportFormat()
-                    && documentWriter.supportsReportName() == reportType.getReportName()){
+            if(documentWriter.supportsReportFormat()==reportType.getReportFormat()){
+                documentWriter.addColumnsToDocument(reportType.getDocumentTableColumnList());
                 return Optional.of(documentWriter);
             }
         }

@@ -38,3 +38,5 @@ org:
     phonetree:
       seceratery-name: Sanjay:Phanda:Secretory
       admin-names: Rajesh:Khullar:Phone Tree Admin,Meena:Padnani:Team Lead Monitor,Vineet:Sharma:Phone Tree Admin
+      file-password-protection: RSSBAA
+      list-output-directory: C:\Rajesh\Output\List

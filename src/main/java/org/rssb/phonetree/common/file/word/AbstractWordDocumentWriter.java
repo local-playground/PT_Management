@@ -1,6 +1,13 @@
 package org.rssb.phonetree.common.file.word;
 
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.openxml4j.opc.PackageAccess;
+import org.apache.poi.poifs.crypt.EncryptionInfo;
+import org.apache.poi.poifs.crypt.EncryptionMode;
+import org.apache.poi.poifs.crypt.Encryptor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.wp.usermodel.HeaderFooterType;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -28,7 +35,12 @@ import org.rssb.phonetree.common.file.DocumentWriter;
 import org.rssb.phonetree.common.file.ReportFormat;
 import org.rssb.phonetree.common.file.ReportName;
 import org.rssb.phonetree.domain.SevadarPhoneTreeList;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -36,6 +48,7 @@ import java.time.format.FormatStyle;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public abstract class AbstractWordDocumentWriter implements DocumentWriter{
     protected ReportName reportName;
     protected List<DocumentTableColumn> documentTableColumns = Arrays.asList(
@@ -43,8 +56,17 @@ public abstract class AbstractWordDocumentWriter implements DocumentWriter{
             DocumentTableColumn.FAMILY_INFORMATION,
             DocumentTableColumn.TIME_OF_CALL,
             DocumentTableColumn.TIME_OF_VM,
+            DocumentTableColumn.BUS_RIDE,
+            DocumentTableColumn.NO_OF_PASSENGERS,
+            DocumentTableColumn.ZIP_CODE,
             DocumentTableColumn.COMMENTS
     );
+
+    @Value("${org.rssb.phonetree.file-password-protection}")
+    private String usePassword;
+
+    @Value("${org.rssb.phonetree.list-output-directory}")
+    protected String listOutputDirectory;
 
 
     @Override
@@ -57,6 +79,50 @@ public abstract class AbstractWordDocumentWriter implements DocumentWriter{
     }
 
     protected void populateTeamLeadAndSevadarsInformation(SevadarPhoneTreeList sevadarPhoneTreeList){
+
+    }
+
+    @Override
+    public void addColumnsToDocument(List<DocumentTableColumn> documentTableColumnList) {
+        this.documentTableColumns = documentTableColumnList;
+    }
+
+    protected void addPasswordProtection(String filePath){
+        //Add password protection and encrypt the file
+        POIFSFileSystem fs = new POIFSFileSystem();
+        EncryptionInfo info = null;
+        try {
+            info = new EncryptionInfo(EncryptionMode.agile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("password to use "+usePassword);
+
+        Encryptor enc = info.getEncryptor();
+        enc.confirmPassword(usePassword);
+
+        OPCPackage opc = null;
+        try {
+            opc = OPCPackage.open(new File(filePath), PackageAccess.READ_WRITE);
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            OutputStream os = enc.getDataStream(fs);
+            opc.save(os);
+            opc.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try (FileOutputStream fos = new FileOutputStream(new File(filePath))){
+            fs.writeFilesystem(fos);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
