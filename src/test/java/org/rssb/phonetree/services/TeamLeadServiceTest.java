@@ -4,6 +4,11 @@ import org.junit.Test;
 import org.rssb.phonetree.ApplicationSetup;
 import org.rssb.phonetree.common.CommonUtil;
 import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.common.file.DocumentWriter;
+import org.rssb.phonetree.common.file.DocumentWriterFactory;
+import org.rssb.phonetree.common.file.ReportFormat;
+import org.rssb.phonetree.common.file.ReportName;
+import org.rssb.phonetree.common.file.ReportType;
 import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +19,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @DataJpaTest
@@ -24,6 +30,9 @@ public class TeamLeadServiceTest extends ApplicationSetup{
 
     @Autowired
     private TeamLeadService teamLeadService;
+
+    @Autowired
+    private DocumentWriterFactory documentWriterFactory;
 
     @Test
     public void findAllTeamLeads(){
@@ -130,6 +139,25 @@ public class TeamLeadServiceTest extends ApplicationSetup{
     public void getBackupTeamLeadStrigyfyInformation(){
         String information = teamLeadService.getBackupTeamLeadStringyfyInformation("Jyoti Israni");
         System.out.println("Got info\n"+information);
+    }
+
+    @Test
+    public void getAllTeamLeadAndSevadarsMap(){
+        Map<String, List<String>> map = teamLeadService.getAllTeamLeadAndSevadarsMap(true);
+        System.out.println("data "+map);
+    }
+
+    @Test
+    public void writeSNVSummaryinWordDocument(){
+        Map<String,List<String>> map=
+                teamLeadService.getAllTeamLeadAndSevadarsMap(true);
+
+        ReportType reportType = new ReportType();
+        reportType.setReportFormat(ReportFormat.WORD);
+        reportType.setReportName(ReportName.TEAM_CHART);
+
+        DocumentWriter documentWriter = documentWriterFactory.getDocumentWriter(reportType).get();
+        documentWriter.writeToFile(map);
     }
 
 }

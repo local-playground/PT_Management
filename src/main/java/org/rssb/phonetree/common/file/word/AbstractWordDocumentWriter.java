@@ -132,24 +132,28 @@ public abstract class AbstractWordDocumentWriter<T> implements DocumentWriter<T>
         XWPFTableCell cell = row.getCell(0);
         XWPFParagraph p = cell.getParagraphArray(0);
         p.setAlignment(ParagraphAlignment.LEFT);
-        writeTextToParagraph(p, "Ravi Gulati - (646) 236 - 2940",true,null,14);
+        writeTextToParagraph(p, "Ravi Gulati - (646) 236 - 2940", true, null, 14);
 
         cell = row.getCell(1);
         p = cell.getParagraphArray(0);
         p.setAlignment(ParagraphAlignment.CENTER);
-        writeTextToParagraph(p, "RSSB – PISCATAWAY CENTER - NJ",true,null,14);
+        writeTextToParagraph(p, "RSSB – PISCATAWAY CENTER - NJ", true, null, 14);
 
         cell = row.getCell(2);
         p = cell.getParagraphArray(0);
         p.setAlignment(ParagraphAlignment.RIGHT);
-        writeTextToParagraph(p, "Sanjay Phanda – (917) 750 - 7921",true,null,14);
+        writeTextToParagraph(p, "Sanjay Phanda – (917) 750 - 7921", true, null, 14);
 
         // Create a footer with a Paragraph
         XWPFFooter footer = document.createFooter(HeaderFooterType.DEFAULT);
         p = footer.createParagraph();
         writeTextToParagraph(p, "Updated on - " +
-                LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
-                true,null,12);
+                        LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
+                true, null, 12);
+    }
+
+    protected void setTableCellMargin(XWPFTable table, int topBottomCellMargin, int leftRightcellMargins) {
+        table.setCellMargins(topBottomCellMargin, leftRightcellMargins, topBottomCellMargin, leftRightcellMargins);
     }
 
     protected void setTableBorderType(STBorder.Enum border, XWPFTable table) {
@@ -176,12 +180,17 @@ public abstract class AbstractWordDocumentWriter<T> implements DocumentWriter<T>
         cttTable.setTblPr(pr);
     }
 
-    protected void createParagraphRunWithTex(XWPFParagraph p, String text) {
-        XWPFRun r = p.createRun();
-        r.setText(text);
-        r.setBold(true);
-        r.setFontFamily("Calibri");
-        r.setFontSize(14);
+    protected void setTableCellSpacing(XWPFTable table,int cellSpacingValue) {
+        CTTblPr ctTblPr = table.getCTTbl().getTblPr();
+
+        CTTblWidth ctTblWidth;
+        if (!ctTblPr.isSetTblCellSpacing()) {
+            ctTblWidth = ctTblPr.addNewTblCellSpacing();
+        } else {
+            ctTblWidth = ctTblPr.getTblCellSpacing();
+        }
+
+        ctTblWidth.setW(BigInteger.valueOf(cellSpacingValue));
     }
 
     protected void setPageSize(XWPFDocument document) {
@@ -212,78 +221,78 @@ public abstract class AbstractWordDocumentWriter<T> implements DocumentWriter<T>
         pageMar.setBottom(BigInteger.valueOf(0L));
     }
 
-    protected void writeTextToParagraph(XWPFParagraph paragraph,String text){
-        writeTextToParagraph(paragraph,text,false);
+    protected void writeTextToParagraph(XWPFParagraph paragraph, String text) {
+        writeTextToParagraph(paragraph, text, false);
     }
 
-    protected void writeTextToParagraph(XWPFParagraph paragraph,String text,boolean isBold){
-        writeTextToParagraph(paragraph,text,isBold,null);
+    protected void writeTextToParagraph(XWPFParagraph paragraph, String text, boolean isBold) {
+        writeTextToParagraph(paragraph, text, isBold, null);
     }
 
-    protected void writeTextToParagraph(XWPFParagraph paragraph,String text,boolean isBold,
-                                        ParagraphAlignment paragraphAlignment){
-        writeTextToParagraph(paragraph,text,isBold,paragraphAlignment,-1);
+    protected void writeTextToParagraph(XWPFParagraph paragraph, String text, boolean isBold,
+                                        ParagraphAlignment paragraphAlignment) {
+        writeTextToParagraph(paragraph, text, isBold, paragraphAlignment, -1);
     }
 
-    protected void writeTextToParagraph(XWPFParagraph paragraph,String text,boolean isBold,
-                                        ParagraphAlignment paragraphAlignment,int fontSize){
+    protected void writeTextToParagraph(XWPFParagraph paragraph, String text, boolean isBold,
+                                        ParagraphAlignment paragraphAlignment, int fontSize) {
 
-        if(paragraphAlignment!=null){
+        if (paragraphAlignment != null) {
             paragraph.setAlignment(paragraphAlignment);
         }
         XWPFRun r = paragraph.createRun();
-        if(isBold) {
+        if (isBold) {
             r.setBold(isBold);
         }
-        if(fontSize!=-1){
+        if (fontSize != -1) {
             r.setFontSize(fontSize);
         }
         r.setText(text);
 
     }
 
-    protected void writeTextToCell(XWPFTableCell cell, String styleName,String text) {
-        writeTextToCell(cell,text,styleName,null,false,-1,false,"");
+    protected void writeTextToCell(XWPFTableCell cell, String styleName, String text) {
+        writeTextToCell(cell, text, styleName, null, false, -1, false, "");
     }
 
-    protected void writeTextToCell(XWPFTableCell cell,boolean isBold,String text){
-        writeTextToCell(cell,isBold,-1,text);
+    protected void writeTextToCell(XWPFTableCell cell, boolean isBold, String text) {
+        writeTextToCell(cell, isBold, -1, text);
     }
 
-    protected void writeTextToCell(XWPFTableCell cell,boolean isBold,int fontSize,String text){
-        writeTextToCell(cell,text,null,null,isBold,fontSize,false,"");
+    protected void writeTextToCell(XWPFTableCell cell, boolean isBold, int fontSize, String text) {
+        writeTextToCell(cell, text, null, null, isBold, fontSize, false, "");
     }
 
-    protected void writeTextToCell(XWPFTableCell cell,boolean isBold,int fontSize,
-                               String text,ParagraphAlignment paragraphAlignment){
-        writeTextToCell(cell,text,null,paragraphAlignment,isBold,fontSize,false,"");
+    protected void writeTextToCell(XWPFTableCell cell, boolean isBold, int fontSize,
+                                   String text, ParagraphAlignment paragraphAlignment) {
+        writeTextToCell(cell, text, null, paragraphAlignment, isBold, fontSize, false, "");
     }
 
-    protected void writeTextToCell(XWPFTableCell cell,String text,boolean splitToken,String delimiter){
-        writeTextToCell(cell,text,null,null,false,-1,splitToken,delimiter);
+    protected void writeTextToCell(XWPFTableCell cell, String text, boolean splitToken, String delimiter) {
+        writeTextToCell(cell, text, null, null, false, -1, splitToken, delimiter);
     }
 
-    protected void writeTextToCell(XWPFTableCell cell,String text,String styleId,ParagraphAlignment paragraphAlignment,
-                                 boolean isBold,int fontSize,boolean splitToken,String delimiter){
+    protected void writeTextToCell(XWPFTableCell cell, String text, String styleId, ParagraphAlignment paragraphAlignment,
+                                   boolean isBold, int fontSize, boolean splitToken, String delimiter) {
 
         XWPFParagraph p = cell.getParagraphArray(0);
-        if(paragraphAlignment!=null){
+        if (paragraphAlignment != null) {
             p.setAlignment(paragraphAlignment);
         }
-        if(CommonUtil.isNotEmptyOrNull(styleId)){
+        if (CommonUtil.isNotEmptyOrNull(styleId)) {
             p.setStyle(styleId);
         }
         XWPFRun run = p.createRun();
-        if(isBold){
+        if (isBold) {
             run.setBold(true);
         }
 
-        if(fontSize!=-1){
+        if (fontSize != -1) {
             run.setFontSize(fontSize);
         }
 
-        if(splitToken){
-            if(CommonUtil.isNotEmptyOrNull(text)) {
+        if (splitToken) {
+            if (CommonUtil.isNotEmptyOrNull(text)) {
                 String[] str = text.split(delimiter);
                 int counter = 0;
                 for (String data : str) {
@@ -294,19 +303,19 @@ public abstract class AbstractWordDocumentWriter<T> implements DocumentWriter<T>
                     }
                     run.addBreak();
                 }
-            }else{
+            } else {
                 run.setText(text);
             }
-        }else{
+        } else {
             run.setText(text);
         }
 
     }
 
 
-    protected void writeToFile(String directoryName,String fileName,XWPFDocument document,boolean isPasswordProtected){
-        String finalDirectoryName = listOutputDirectory+"\\"+directoryName;
-        if(!Files.exists(Paths.get(directoryName))){
+    protected void writeToFile(String directoryName, String fileName, XWPFDocument document, boolean isPasswordProtected) {
+        String finalDirectoryName = listOutputDirectory + "\\" + directoryName;
+        if (!Files.exists(Paths.get(directoryName))) {
             try {
                 Files.createDirectories(Paths.get(finalDirectoryName));
             } catch (IOException e) {
@@ -314,31 +323,38 @@ public abstract class AbstractWordDocumentWriter<T> implements DocumentWriter<T>
             }
         }
 
-        String path = finalDirectoryName+"\\"+fileName+".docx";
+        String path = finalDirectoryName + "\\" + fileName + ".docx";
 
-        try (FileOutputStream out = new FileOutputStream(new File(path))){
+        try (FileOutputStream out = new FileOutputStream(new File(path))) {
             document.write(out);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(isPasswordProtected) {
+        if (isPasswordProtected) {
             addPasswordProtection(path);
         }
 
     }
 
-    protected void alignTableToTheCenterOfPage(XWPFTable table){
+    protected void alignTableToTheCenterOfPage(XWPFTable table) {
         table.getCTTbl().getTblPr().addNewJc().setVal(STJc.CENTER);
     }
 
 
     protected void addLineBreak(XWPFDocument document, int numberOfLines) {
         for (int index = 0; index < numberOfLines; index++) {
-            document.createParagraph().createRun().addBreak();
+            XWPFParagraph paragraph = document.createParagraph();
+            paragraph.setSpacingAfter(0);
+            paragraph.setSpacingBefore(0);
+            //paragraph.setSpacingBetween(1);
+            paragraph.createRun().addBreak();
         }
     }
 
+    protected void addTableStyle(XWPFTable table, String styleName) {
+        table.getCTTbl().getTblPr().addNewTblStyle().setVal(styleName);
+    }
 
      /*// Set the padding around text in the cells to 1/10th of an inch
         int pad = (int) (.1 * 1440);

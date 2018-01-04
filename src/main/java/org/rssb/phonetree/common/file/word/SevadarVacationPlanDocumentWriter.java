@@ -5,6 +5,7 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.rssb.phonetree.common.Constants;
 import org.rssb.phonetree.common.file.ReportName;
 import org.rssb.phonetree.domain.SevadarVacationPlan;
 import org.rssb.phonetree.domain.SevadarsMonthlyAvailability;
@@ -54,7 +55,7 @@ public class SevadarVacationPlanDocumentWriter
         paragraph.createRun().setText(sevadarName);
 
         XWPFTable table = document.createTable(vacationPlanList.size() + 2, 10);
-        table.getCTTbl().getTblPr().addNewTblStyle().setVal("GridTable4-Accent6");
+        addTableStyle(table, Constants.WORD_DOCUMENT_TABLE_STYLE_ID);
         setTableWidthToFullPage(table);
         populateHeaders(table);
         List<String> monthsList = getMonthsName(vacationPlanList.get(0));
@@ -65,6 +66,7 @@ public class SevadarVacationPlanDocumentWriter
             rowCounter++;
         }
     }
+
 
     private void populateHeaders(XWPFTable table){
         XWPFTableRow tableRow = table.getRow(1);

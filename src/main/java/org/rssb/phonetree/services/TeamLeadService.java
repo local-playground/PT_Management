@@ -6,6 +6,7 @@ import org.rssb.phonetree.entity.Sevadar;
 import org.rssb.phonetree.entity.TeamLead;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface TeamLeadService {
@@ -25,4 +26,5 @@ public interface TeamLeadService {
    void save(TeamLead teamLead);
    SevadarPersonalInformation getTeamLeadInformation(String teamLeadName);
    SevadarPersonalInformation getBackupTeamLeadInformation(String teamLeadName);
+   Map<String,List<String>> getAllTeamLeadAndSevadarsMap(boolean combineNames);
 }

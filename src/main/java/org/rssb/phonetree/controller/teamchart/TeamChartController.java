@@ -7,13 +7,11 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import org.rssb.phonetree.common.ConfigService;
 import org.rssb.phonetree.common.ContextHolder;
 import org.rssb.phonetree.controller.AbstractController;
-import org.rssb.phonetree.entity.Sevadar;
-import org.rssb.phonetree.entity.TeamLead;
 import org.rssb.phonetree.services.TeamLeadService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +19,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 @Component
 @Lazy
@@ -42,59 +40,39 @@ public class TeamChartController extends AbstractController {
     @FXML
     private FlowPane teamLeadHolder;
 
-    @Value("${org.rssb.phonetree.seceratery-name}")
-    private String secerateryName;
+    @Autowired
+    private ConfigService configService;
 
-    @Value("${org.rssb.phonetree.admin-names}")
-    private String adminNames;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("name = " + secerateryName);
         addSecretory();
         addAdmins();
 
+        Map<String, List<String>> teamLeadAndSevadarsMap = teamLeadService.getAllTeamLeadAndSevadarsMap(false);
 
-        List<TeamLead> teamLeadList = teamLeadService.findAllTeamLeads();
-
-        for (TeamLead teamLead : teamLeadList) {
+        teamLeadAndSevadarsMap.forEach((teamLead, sevadarsList) -> {
             VBox vBox = new VBox();
             vBox.setAlignment(Pos.TOP_CENTER);
             vBox.setSpacing(10);
 
             List<String> stringList = new ArrayList<>();
-            stringList.add(teamLead.getMember().getFirstName() + ":" +
-                    teamLead.getMember().getLastName() + ":" +
-                    "Team Lead");
-            List<Sevadar> sevadarList = teamLeadService.findSevadarListByTeamLeadId(teamLead.getTeamLeadId());
-            stringList.addAll(sevadarList
-                    .stream()
-                    .map(sevadar -> {
-                        String title = "Sevadar";
-                        if (sevadar.getIsBackupForTeamLead() == 1) {
-                            title = "Team Lead Backup";
-                        }
-                        return sevadar.getMember().getFirstName() + ":" +
-                                sevadar.getMember().getLastName() + ":" +
-                                title;
-                    })
-                    .collect(Collectors.toList())
-            );
-           /* stringList.addAll(teamLead.getSevadarsList().stream().map(sevadar -> sevadar.getMember().getFirstName() + ":" +
-                    sevadar.getMember().getLastName() + ":" +
-                    "Sevadar").collect(Collectors.toList()));*/
+            stringList.add(teamLead);
+            stringList.addAll(sevadarsList);
+
             createData(stringList, vBox);
             teamLeadHolder.getChildren().add(vBox);
-        }
+        });
     }
 
 
     private void addSecretory() {
-        createData(Arrays.asList(secerateryName.split(",")), secretoryBox);
+        createData(Arrays.asList(configService.getSecerateryName().split(",")), secretoryBox);
     }
 
     private void addAdmins() {
-        createData(Arrays.asList(adminNames.split(",")), adminsBox);
+        createData(Arrays.asList(configService.getAdminNames().split(",")), adminsBox);
     }
 
     private void createData(List<String> namesList, Pane node) {

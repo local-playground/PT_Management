@@ -20,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -258,6 +260,41 @@ public class TeamLeadServiceImpl implements TeamLeadService {
                         "teamLeadName", teamLeadName, SevadarPersonalInformation.class);
 
         return sevadarPersonalInformation;
+    }
+
+    @Override
+    public Map<String, List<String>> getAllTeamLeadAndSevadarsMap(boolean combineNames) {
+        Map<String, List<String>> teamLeadAndSevdarsMap = new HashMap<>();
+        List<TeamLead> teamLeadList = findAllTeamLeads();
+        for (TeamLead teamLead : teamLeadList) {
+            List<String> sevadarNamesList = new ArrayList<>();
+
+            teamLeadAndSevdarsMap.put(
+                    (!combineNames ?
+                            teamLead.getMember().getFirstName() + ":" +
+                                    teamLead.getMember().getLastName() + ":" +
+                                    "Team Lead" :
+                            CommonUtil.getFullName(teamLead.getMember()) + ":" + "Team Lead")
+                    , sevadarNamesList);
+            List<Sevadar> sevadarList = findSevadarListByTeamLeadId(teamLead.getTeamLeadId());
+            sevadarNamesList.addAll(sevadarList
+                    .stream()
+                    .map(sevadar -> {
+                        String title = "Sevadar";
+                        if (sevadar.getIsBackupForTeamLead() == 1) {
+                            title = "Team Lead Backup";
+                        }
+
+                        return (!combineNames ?
+                                sevadar.getMember().getFirstName() + ":" +
+                                        sevadar.getMember().getLastName() + ":" +
+                                        title :
+                                CommonUtil.getFullName(sevadar.getMember()) + ":" + title);
+                    })
+                    .collect(Collectors.toList())
+            );
+        }
+        return teamLeadAndSevdarsMap;
     }
 }
 

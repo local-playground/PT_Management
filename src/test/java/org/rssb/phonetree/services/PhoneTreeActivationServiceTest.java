@@ -70,9 +70,7 @@ public class PhoneTreeActivationServiceTest extends ApplicationSetup {
                 phoneTreeActivationService.getTeamLeadsActivationSummaryByDate("2017-12-21");
 
         System.out.println(list);
-
     }
-
 
     @Test
     public void getActivationSummary(){

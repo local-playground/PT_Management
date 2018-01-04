@@ -34,4 +34,5 @@ public interface Constants {
     double LOW_OPACITY=0.1;
     double FULL_OPACITY=1.0;
     String WORD_DOCUMENT_HEADING1_STYLE = "Heading1";
+    String WORD_DOCUMENT_TABLE_STYLE_ID="GridTable4-Accent6";
 }
