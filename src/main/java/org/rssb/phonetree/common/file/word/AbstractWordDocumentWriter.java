@@ -28,39 +28,34 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblBorders;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STBorder;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STPageOrientation;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
-import org.rssb.phonetree.common.file.DocumentTableColumn;
+import org.rssb.phonetree.common.CommonUtil;
+import org.rssb.phonetree.common.file.ColumnInformation;
 import org.rssb.phonetree.common.file.DocumentWriter;
 import org.rssb.phonetree.common.file.ReportFormat;
 import org.rssb.phonetree.common.file.ReportName;
-import org.rssb.phonetree.domain.SevadarPhoneTreeList;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public abstract class AbstractWordDocumentWriter implements DocumentWriter{
+public abstract class AbstractWordDocumentWriter<T> implements DocumentWriter<T> {
     protected ReportName reportName;
-    protected List<DocumentTableColumn> documentTableColumns = Arrays.asList(
-            DocumentTableColumn.SEQ_NO,
-            DocumentTableColumn.FAMILY_INFORMATION,
-            DocumentTableColumn.TIME_OF_CALL,
-            DocumentTableColumn.TIME_OF_VM,
-            DocumentTableColumn.BUS_RIDE,
-            DocumentTableColumn.NO_OF_PASSENGERS,
-            DocumentTableColumn.ZIP_CODE,
-            DocumentTableColumn.COMMENTS
-    );
+    protected List<ColumnInformation> documentTableColumns = new ArrayList<>();
 
     @Value("${org.rssb.phonetree.file-password-protection}")
     private String usePassword;
@@ -73,21 +68,18 @@ public abstract class AbstractWordDocumentWriter implements DocumentWriter{
     public ReportFormat supportsReportFormat() {
         return ReportFormat.WORD;
     }
+
     @Override
     public ReportName supportsReportName() {
         return reportName;
     }
 
-    protected void populateTeamLeadAndSevadarsInformation(SevadarPhoneTreeList sevadarPhoneTreeList){
-
-    }
-
     @Override
-    public void addColumnsToDocument(List<DocumentTableColumn> documentTableColumnList) {
+    public void addColumnsToDocument(List<ColumnInformation> documentTableColumnList) {
         this.documentTableColumns = documentTableColumnList;
     }
 
-    protected void addPasswordProtection(String filePath){
+    protected void addPasswordProtection(String filePath) {
         //Add password protection and encrypt the file
         POIFSFileSystem fs = new POIFSFileSystem();
         EncryptionInfo info = null;
@@ -97,7 +89,7 @@ public abstract class AbstractWordDocumentWriter implements DocumentWriter{
             e.printStackTrace();
         }
 
-        System.out.println("password to use "+usePassword);
+        System.out.println("password to use " + usePassword);
 
         Encryptor enc = info.getEncryptor();
         enc.confirmPassword(usePassword);
@@ -117,7 +109,7 @@ public abstract class AbstractWordDocumentWriter implements DocumentWriter{
             e.printStackTrace();
         }
 
-        try (FileOutputStream fos = new FileOutputStream(new File(filePath))){
+        try (FileOutputStream fos = new FileOutputStream(new File(filePath))) {
             fs.writeFilesystem(fos);
             fos.close();
         } catch (Exception e) {
@@ -132,7 +124,7 @@ public abstract class AbstractWordDocumentWriter implements DocumentWriter{
         XWPFTable headerTable = hdr.createTable(1, 3);
 
         //remove boder around table (outer, inner)
-        setTableBorderType(STBorder.NONE,headerTable);
+        setTableBorderType(STBorder.NONE, headerTable);
         setTableWidthToFullPage(headerTable);
 
         // Add paragraphs to the cells
@@ -140,25 +132,27 @@ public abstract class AbstractWordDocumentWriter implements DocumentWriter{
         XWPFTableCell cell = row.getCell(0);
         XWPFParagraph p = cell.getParagraphArray(0);
         p.setAlignment(ParagraphAlignment.LEFT);
-        createParagraphRunWithText(p,"Ravi Gulati - (646) 236 - 2940");
+        writeTextToParagraph(p, "Ravi Gulati - (646) 236 - 2940",true,null,14);
 
         cell = row.getCell(1);
         p = cell.getParagraphArray(0);
         p.setAlignment(ParagraphAlignment.CENTER);
-        createParagraphRunWithText(p,"RSSB – PISCATAWAY CENTER - NJ");
+        writeTextToParagraph(p, "RSSB – PISCATAWAY CENTER - NJ",true,null,14);
 
         cell = row.getCell(2);
         p = cell.getParagraphArray(0);
         p.setAlignment(ParagraphAlignment.RIGHT);
-        createParagraphRunWithText(p,"Sanjay Phanda – (917) 750 - 7921");
+        writeTextToParagraph(p, "Sanjay Phanda – (917) 750 - 7921",true,null,14);
 
         // Create a footer with a Paragraph
         XWPFFooter footer = document.createFooter(HeaderFooterType.DEFAULT);
         p = footer.createParagraph();
-        createParagraphRunWithText(p,"Updated on - "+ LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+        writeTextToParagraph(p, "Updated on - " +
+                LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
+                true,null,12);
     }
 
-    protected void setTableBorderType(STBorder.Enum border, XWPFTable table){
+    protected void setTableBorderType(STBorder.Enum border, XWPFTable table) {
         CTTbl ctTbl = table.getCTTbl();
         CTTblPr tblpro = ctTbl.getTblPr();
         CTTblBorders borders = tblpro.addNewTblBorders();
@@ -171,7 +165,8 @@ public abstract class AbstractWordDocumentWriter implements DocumentWriter{
         borders.addNewInsideV().setVal(border);
 
     }
-    protected void setTableWidthToFullPage(XWPFTable table){
+
+    protected void setTableWidthToFullPage(XWPFTable table) {
         CTTbl cttTable = table.getCTTbl();
         CTTblPr pr = cttTable.getTblPr();
         CTTblWidth tblW = pr.getTblW();
@@ -181,7 +176,7 @@ public abstract class AbstractWordDocumentWriter implements DocumentWriter{
         cttTable.setTblPr(pr);
     }
 
-    protected void createParagraphRunWithText(XWPFParagraph p,String text) {
+    protected void createParagraphRunWithTex(XWPFParagraph p, String text) {
         XWPFRun r = p.createRun();
         r.setText(text);
         r.setBold(true);
@@ -189,7 +184,7 @@ public abstract class AbstractWordDocumentWriter implements DocumentWriter{
         r.setFontSize(14);
     }
 
-    protected void setPageSize(XWPFDocument document){
+    protected void setPageSize(XWPFDocument document) {
         CTDocument1 document1 = document.getDocument();
         CTBody body = document1.getBody();
 
@@ -208,7 +203,7 @@ public abstract class AbstractWordDocumentWriter implements DocumentWriter{
         pageSize.setH(BigInteger.valueOf(12240));
 
         CTPageMar pageMar = section.getPgMar();
-        if(pageMar==null){
+        if (pageMar == null) {
             pageMar = section.addNewPgMar();
         }
         pageMar.setLeft(BigInteger.valueOf(720L));
@@ -217,6 +212,132 @@ public abstract class AbstractWordDocumentWriter implements DocumentWriter{
         pageMar.setBottom(BigInteger.valueOf(0L));
     }
 
+    protected void writeTextToParagraph(XWPFParagraph paragraph,String text){
+        writeTextToParagraph(paragraph,text,false);
+    }
+
+    protected void writeTextToParagraph(XWPFParagraph paragraph,String text,boolean isBold){
+        writeTextToParagraph(paragraph,text,isBold,null);
+    }
+
+    protected void writeTextToParagraph(XWPFParagraph paragraph,String text,boolean isBold,
+                                        ParagraphAlignment paragraphAlignment){
+        writeTextToParagraph(paragraph,text,isBold,paragraphAlignment,-1);
+    }
+
+    protected void writeTextToParagraph(XWPFParagraph paragraph,String text,boolean isBold,
+                                        ParagraphAlignment paragraphAlignment,int fontSize){
+
+        if(paragraphAlignment!=null){
+            paragraph.setAlignment(paragraphAlignment);
+        }
+        XWPFRun r = paragraph.createRun();
+        if(isBold) {
+            r.setBold(isBold);
+        }
+        if(fontSize!=-1){
+            r.setFontSize(fontSize);
+        }
+        r.setText(text);
+
+    }
+
+    protected void writeTextToCell(XWPFTableCell cell, String styleName,String text) {
+        writeTextToCell(cell,text,styleName,null,false,-1,false,"");
+    }
+
+    protected void writeTextToCell(XWPFTableCell cell,boolean isBold,String text){
+        writeTextToCell(cell,isBold,-1,text);
+    }
+
+    protected void writeTextToCell(XWPFTableCell cell,boolean isBold,int fontSize,String text){
+        writeTextToCell(cell,text,null,null,isBold,fontSize,false,"");
+    }
+
+    protected void writeTextToCell(XWPFTableCell cell,boolean isBold,int fontSize,
+                               String text,ParagraphAlignment paragraphAlignment){
+        writeTextToCell(cell,text,null,paragraphAlignment,isBold,fontSize,false,"");
+    }
+
+    protected void writeTextToCell(XWPFTableCell cell,String text,boolean splitToken,String delimiter){
+        writeTextToCell(cell,text,null,null,false,-1,splitToken,delimiter);
+    }
+
+    protected void writeTextToCell(XWPFTableCell cell,String text,String styleId,ParagraphAlignment paragraphAlignment,
+                                 boolean isBold,int fontSize,boolean splitToken,String delimiter){
+
+        XWPFParagraph p = cell.getParagraphArray(0);
+        if(paragraphAlignment!=null){
+            p.setAlignment(paragraphAlignment);
+        }
+        if(CommonUtil.isNotEmptyOrNull(styleId)){
+            p.setStyle(styleId);
+        }
+        XWPFRun run = p.createRun();
+        if(isBold){
+            run.setBold(true);
+        }
+
+        if(fontSize!=-1){
+            run.setFontSize(fontSize);
+        }
+
+        if(splitToken){
+            if(CommonUtil.isNotEmptyOrNull(text)) {
+                String[] str = text.split(delimiter);
+                int counter = 0;
+                for (String data : str) {
+                    run.setText(data);
+                    counter++;
+                    if (counter >= str.length) {
+                        break;
+                    }
+                    run.addBreak();
+                }
+            }else{
+                run.setText(text);
+            }
+        }else{
+            run.setText(text);
+        }
+
+    }
+
+
+    protected void writeToFile(String directoryName,String fileName,XWPFDocument document,boolean isPasswordProtected){
+        String finalDirectoryName = listOutputDirectory+"\\"+directoryName;
+        if(!Files.exists(Paths.get(directoryName))){
+            try {
+                Files.createDirectories(Paths.get(finalDirectoryName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String path = finalDirectoryName+"\\"+fileName+".docx";
+
+        try (FileOutputStream out = new FileOutputStream(new File(path))){
+            document.write(out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(isPasswordProtected) {
+            addPasswordProtection(path);
+        }
+
+    }
+
+    protected void alignTableToTheCenterOfPage(XWPFTable table){
+        table.getCTTbl().getTblPr().addNewJc().setVal(STJc.CENTER);
+    }
+
+
+    protected void addLineBreak(XWPFDocument document, int numberOfLines) {
+        for (int index = 0; index < numberOfLines; index++) {
+            document.createParagraph().createRun().addBreak();
+        }
+    }
 
 
      /*// Set the padding around text in the cells to 1/10th of an inch

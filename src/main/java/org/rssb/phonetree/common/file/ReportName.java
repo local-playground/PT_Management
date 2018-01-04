@@ -1,11 +1,12 @@
 package org.rssb.phonetree.common.file;
 
 public enum ReportName {
-    NORMAL_REPORT("Normal Phone Tree List"),
-    ZIP_CODE_REPORT("Phone Tree With ZipCode"),
-    BUS_RIDE_REPORT("Phone Tree With Bus Ride");
+    PHONE_TREE_LIST,
+    SNV_REPORT,
+    TEAM_CHART,
+    VACATION_SUMMARY;
 
-    private String type;
+    /*private String type;
 
     ReportName(String type) {
         this.type = type;
@@ -13,7 +14,7 @@ public enum ReportName {
 
     public String getType() {
         return this.type;
-    }
+    }*/
 
     public ReportName fromValue(String value){
         return valueOf(value);

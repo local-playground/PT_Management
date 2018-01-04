@@ -2,6 +2,12 @@ package org.rssb.phonetree.services;
 
 import org.junit.Test;
 import org.rssb.phonetree.ApplicationSetup;
+import org.rssb.phonetree.common.file.DocumentWriter;
+import org.rssb.phonetree.common.file.DocumentWriterFactory;
+import org.rssb.phonetree.common.file.ReportFormat;
+import org.rssb.phonetree.common.file.ReportName;
+import org.rssb.phonetree.common.file.ReportType;
+import org.rssb.phonetree.domain.SevadarVacationPlan;
 import org.rssb.phonetree.domain.VacationDate;
 import org.rssb.phonetree.entity.SevadarVacation;
 import org.rssb.phonetree.helper.VacationPlanHelper;
@@ -15,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @DataJpaTest
@@ -25,6 +32,9 @@ public class SevadarVacationServiceTest extends ApplicationSetup {
 
     @Autowired
     private SevadarVacationService sevadarVacationService;
+
+    @Autowired
+    private DocumentWriterFactory documentWriterFactory;
 
     @Test
     public void getSevadarVacationBySevadarId(){
@@ -61,5 +71,29 @@ public class SevadarVacationServiceTest extends ApplicationSetup {
         }else{
             System.out.println("Nothing found");
         }
+    }
+
+    @Test
+    public void getAllSevadarsVacationPlan(){
+        LocalDate startMonth = LocalDate.of(2017, 12, 01);
+        LocalDate endMonth = LocalDate.of(2018, 02, 01);
+        Map<String,List<SevadarVacationPlan>> vacationPlan=
+                sevadarVacationService.getAllSevadarsVacationPlan(startMonth,endMonth);
+        System.out.println(vacationPlan);
+    }
+
+    @Test
+    public void writeVacationSummaryinWordDocument(){
+        LocalDate startMonth = LocalDate.of(2017, 12, 01);
+        LocalDate endMonth = LocalDate.of(2018, 02, 01);
+        Map<String,List<SevadarVacationPlan>> vacationPlan=
+                sevadarVacationService.getAllSevadarsVacationPlan(startMonth,endMonth);
+
+        ReportType reportType = new ReportType();
+        reportType.setReportFormat(ReportFormat.WORD);
+        reportType.setReportName(ReportName.VACATION_SUMMARY);
+
+        DocumentWriter documentWriter = documentWriterFactory.getDocumentWriter(reportType).get();
+        documentWriter.writeToFile(vacationPlan);
     }
 }

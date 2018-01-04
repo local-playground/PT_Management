@@ -4,6 +4,16 @@ import java.util.List;
 
 public class ReportType {
     private ReportFormat reportFormat;
+    private ReportName reportName;
+
+    public ReportName getReportName() {
+        return reportName;
+    }
+
+    public void setReportName(ReportName reportName) {
+        this.reportName = reportName;
+    }
+
     private List<DocumentTableColumn> documentTableColumnList;
 
     public List<DocumentTableColumn> getDocumentTableColumnList() {

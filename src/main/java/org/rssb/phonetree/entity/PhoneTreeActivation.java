@@ -18,7 +18,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "PhoneTreeActivation.getPhoneTreeActivationSummary",
                 query="SELECT NEW org.rssb.phonetree.domain.PhoneTreeActivationSummary(" +
-                        "pta.phoneTreeActivationDate,pta.totalSangat," +
+                        "pta.phoneTreeActivationDate,pta.phoneTreeActivationTime,pta.totalSangat," +
                         "sum(ptad.totalFamiliesCalled),sum(ptad.totalVMLeft)," +
                         "sum(ptad.totalNotReachableFamilies), min(ptad.totalTimeTaken)," +
                         "max(ptad.totalTimeTaken), avg(ptad.totalTimeTaken)) FROM PhoneTreeActivation pta " +

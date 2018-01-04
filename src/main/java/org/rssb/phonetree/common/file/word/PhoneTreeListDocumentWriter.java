@@ -15,20 +15,14 @@ import org.rssb.phonetree.domain.SevadarPersonalInformation;
 import org.rssb.phonetree.domain.SevadarPhoneTreeList;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Component
-public class NormalPhoneTreeDocumentWriter extends AbstractWordDocumentWriter {
+public class PhoneTreeListDocumentWriter extends AbstractWordDocumentWriter<SevadarPhoneTreeList> {
 
-
-    public NormalPhoneTreeDocumentWriter() {
-        this.reportName = ReportName.NORMAL_REPORT;
+    public PhoneTreeListDocumentWriter() {
+        this.reportName = ReportName.PHONE_TREE_LIST;
     }
 
     @Override
@@ -36,33 +30,15 @@ public class NormalPhoneTreeDocumentWriter extends AbstractWordDocumentWriter {
         XWPFDocument document = new XWPFDocument();
         addHeaderAndFooter(document);
         createTeamLeadAndSevadarTable(sevadarPhoneTreeList, document);
-        document.createParagraph().createRun().addBreak();
+        addLineBreak(document,1);
         createFamilyInformationTable(sevadarPhoneTreeList, document);
-        document.createParagraph().createRun().addBreak();
-        document.createParagraph().createRun().addBreak();
+        addLineBreak(document,2);
         createFeedbackInformationTable(document);
         //Write the Document in file system
 
-        String directoryName = listOutputDirectory+"\\"+
-                sevadarPhoneTreeList.getTeamLeadPersonalInformation().getName();
-        if(!Files.exists(Paths.get(directoryName))){
-            try {
-                Files.createDirectories(Paths.get(directoryName));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        String fileName = sevadarPhoneTreeList.getSevadarPersonalInformation().getName();
-        String path = directoryName+"\\"+fileName+".docx";
-
-        try (FileOutputStream out = new FileOutputStream(new File(path))){
-            document.write(out);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        addPasswordProtection(path);
+        writeToFile(sevadarPhoneTreeList.getTeamLeadPersonalInformation().getName(),
+                sevadarPhoneTreeList.getSevadarPersonalInformation().getName(),
+                document, true);
     }
 
 
@@ -102,16 +78,16 @@ public class NormalPhoneTreeDocumentWriter extends AbstractWordDocumentWriter {
     private void populateColumnsData(XWPFTableRow row, int index, CalledFamilyDetails calledFamilyDetails) {
         if (index == 0) {
             for (int columns = 0; columns < documentTableColumns.size(); columns++) {
-                DocumentTableColumn documentTableColumn = documentTableColumns.get(columns);
+                DocumentTableColumn documentTableColumn = (DocumentTableColumn) documentTableColumns.get(columns);
                 XWPFTableCell cell = row.getCell(columns);
-                writeTextToCell(cell, ParagraphAlignment.CENTER, documentTableColumn.getColumnName(), 12);
+                writeTextToCell(cell, true, 12,documentTableColumn.getColumnName(),ParagraphAlignment.CENTER);
             }
             return;
         }
         for (int columns = 0; columns < documentTableColumns.size(); columns++) {
-            DocumentTableColumn documentTableColumn = documentTableColumns.get(columns);
+            DocumentTableColumn documentTableColumn = (DocumentTableColumn) documentTableColumns.get(columns);
             XWPFTableCell cell = row.getCell(columns);
-            writeFamilyInformation(cell, calledFamilyDetails,documentTableColumn);
+            writeFamilyInformation(cell, calledFamilyDetails, documentTableColumn);
         }
     }
 
@@ -127,40 +103,31 @@ public class NormalPhoneTreeDocumentWriter extends AbstractWordDocumentWriter {
         writeSevadarInformation(cell, run, sevadarPhoneTreeList.getBackupTeamLeadPersonalInformation(), "Backup Team Lead: ", 0);
 
         cell = tableRowOne.getCell(1);
-        writeTextToCell(cell, ParagraphAlignment.CENTER, "MASTER TREE", 18);
+        writeTextToCell(cell, true, 16, "MASTER TREE",ParagraphAlignment.CENTER);
 
         cell = tableRowOne.getCell(2);
-        writeSevadarInformation(cell, null, sevadarPhoneTreeList.getSevadarPersonalInformation(), "Sevadar", 0);
+        writeSevadarInformation(cell, null, sevadarPhoneTreeList.getSevadarPersonalInformation(), "Sevadar: ", 0);
 
 
         //create second row
         XWPFTableRow tableRowTwo = table.getRow(1);
 
         cell = tableRowTwo.getCell(0);
-        writeTextToCell(cell, ParagraphAlignment.LEFT, "Time Notified: ", 11);
+        writeTextToCell(cell, true, 12, "Time Notified: ",ParagraphAlignment.LEFT);
 
         cell = tableRowTwo.getCell(1);
-        writeTextToCell(cell, ParagraphAlignment.CENTER, "No. of families to call " + sevadarPhoneTreeList.getTotalFamiliesToCall(), 14);
+        writeTextToCell(cell, true, 14, "No. of families to call " + sevadarPhoneTreeList.getTotalFamiliesToCall(),ParagraphAlignment.CENTER);
 
         cell = tableRowTwo.getCell(2);
-        writeTextToCell(cell, ParagraphAlignment.LEFT, "Feedback Time: ", 11);
+        writeTextToCell(cell, true, 12, "Feedback Time: ",ParagraphAlignment.LEFT);
     }
 
-    private void writeTextToCell(XWPFTableCell cell, ParagraphAlignment alignment, String text, int fontSize) {
-        XWPFParagraph p = cell.getParagraphArray(0);
-        p.setAlignment(alignment);
-        XWPFRun run = p.createRun();
-        run.setBold(true);
-        run.setFontFamily("Calibri");
-        run.setFontSize(fontSize);
-        run.setText(text);
-    }
 
     private XWPFRun writeSevadarInformation(XWPFTableCell cell,
                                             XWPFRun run,
                                             SevadarPersonalInformation sevadarPersonalInformation,
                                             String title, int numberOfBreaks) {
-        XWPFParagraph p = null;
+        XWPFParagraph p;
         cell.getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(5040));
         if (run == null) {
             p = cell.getParagraphArray(0);
@@ -185,20 +152,20 @@ public class NormalPhoneTreeDocumentWriter extends AbstractWordDocumentWriter {
     private void writeFamilyInformation(XWPFTableCell cell,
                                         CalledFamilyDetails calledFamilyDetails,
                                         DocumentTableColumn documentTableColumn) {
-        XWPFParagraph p = p = cell.getParagraphArray(0);
+        XWPFParagraph p = cell.getParagraphArray(0);
         p.setAlignment(ParagraphAlignment.LEFT);
         XWPFRun run = p.createRun();
 
         run.setFontFamily("Calibri");
         run.setFontSize(11);
 
-        if(documentTableColumn.getColumnWidth()!=null) {
+        if (documentTableColumn.getColumnWidth() != null) {
             cell.getCTTc().addNewTcPr().addNewTcW().setW(documentTableColumn.getColumnWidth());
         }
 
         if (documentTableColumn == DocumentTableColumn.FAMILY_INFORMATION) {
-            run.setText((calledFamilyDetails.getFirstName() + " " +calledFamilyDetails.getLastName()).toUpperCase());
-            if(CommonUtil.isNotEmptyOrNull(calledFamilyDetails.getCellPhone())) {
+            run.setText((calledFamilyDetails.getFirstName() + " " + calledFamilyDetails.getLastName()).toUpperCase());
+            if (CommonUtil.isNotEmptyOrNull(calledFamilyDetails.getCellPhone())) {
                 run.addBreak();
                 run.setText("C: " + calledFamilyDetails.getCellPhone());
             }
@@ -210,7 +177,7 @@ public class NormalPhoneTreeDocumentWriter extends AbstractWordDocumentWriter {
                 run.addBreak();
                 run.setText("W: " + calledFamilyDetails.getWorkPhone());
             }
-        }else{
+        } else {
             run.setText(calledFamilyDetails.getColumnValue(documentTableColumn));
         }
 

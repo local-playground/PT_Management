@@ -1,6 +1,7 @@
 package org.rssb.phonetree.services;
 
 
+import org.rssb.phonetree.domain.PhoneTreeActivationReport;
 import org.rssb.phonetree.domain.PhoneTreeActivationSummary;
 import org.rssb.phonetree.domain.PhoneTreeActivationTeamLeadSummary;
 import org.rssb.phonetree.entity.PhoneTreeActivation;
@@ -23,4 +24,7 @@ public interface PhoneTreeActivationService {
     PhoneTreeActivation save(PhoneTreeActivation phoneTreeActivation);
 
     void savePhoneTreeActivationDetails(String activationDate,List<PhoneTreeActivationDetail> phoneTreeActivationDetailList);
+
+    PhoneTreeActivationReport getPhoneTreeActivationReport(String activationDate);
+
 }

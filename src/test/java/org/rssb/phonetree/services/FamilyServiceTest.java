@@ -3,9 +3,11 @@ package org.rssb.phonetree.services;
 import org.junit.Test;
 import org.rssb.phonetree.ApplicationSetup;
 import org.rssb.phonetree.common.Response;
+import org.rssb.phonetree.common.file.DocumentTableColumn;
 import org.rssb.phonetree.common.file.DocumentWriter;
 import org.rssb.phonetree.common.file.DocumentWriterFactory;
 import org.rssb.phonetree.common.file.ReportFormat;
+import org.rssb.phonetree.common.file.ReportName;
 import org.rssb.phonetree.common.file.ReportType;
 import org.rssb.phonetree.domain.CalledFamilyDetails;
 import org.rssb.phonetree.domain.DashboardBusRideSummary;
@@ -19,6 +21,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @DataJpaTest
@@ -87,8 +90,16 @@ public class FamilyServiceTest extends ApplicationSetup {
         System.out.println("data \n" + sevadarPhoneTreeList);
         ReportType reportType = new ReportType();
         reportType.setReportFormat(ReportFormat.WORD);
+        reportType.setReportName(ReportName.PHONE_TREE_LIST);
+        List<DocumentTableColumn> tableColumnList = Arrays.asList(
+                DocumentTableColumn.SEQ_NO,
+                DocumentTableColumn.FAMILY_INFORMATION,
+                DocumentTableColumn.TIME_OF_CALL,
+                DocumentTableColumn.TIME_OF_VM,
+                DocumentTableColumn.COMMENTS);
 
         DocumentWriter documentWriter = documentWriterFactory.getDocumentWriter(reportType).get();
+        documentWriter.addColumnsToDocument(tableColumnList);
         documentWriter.writeToFile(sevadarPhoneTreeList);
     }
 

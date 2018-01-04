@@ -3,6 +3,7 @@ package org.rssb.phonetree.domain;
 public class PhoneTreeActivationSummary {
     private String activationDate;
     private int totalSangat;
+    private String activationTime;
     private long totalFamiliesCalled;
     private long totalVMLeft;
     private long toalNotReachableFamilies;
@@ -11,11 +12,12 @@ public class PhoneTreeActivationSummary {
     private int maximumTimeTaken;
     private double averageTimeTaken;
 
-    public PhoneTreeActivationSummary(String activationDate, int totalSangat,
+    public PhoneTreeActivationSummary(String activationDate, String activationTime,int totalSangat,
                                         long totalFamiliesCalled, long totalVMLeft,
                                         long toalNotReachableFamilies, int minimumTimeTaken,
                                         int maximumTimeTaken, double averageTimeTaken) {
         this.activationDate = activationDate;
+        this.activationTime=activationTime;
         this.totalSangat = totalSangat;
         this.totalFamiliesCalled = totalFamiliesCalled;
         this.totalVMLeft = totalVMLeft;
@@ -23,6 +25,13 @@ public class PhoneTreeActivationSummary {
         this.minimumTimeTaken = minimumTimeTaken;
         this.maximumTimeTaken = maximumTimeTaken;
         this.averageTimeTaken = averageTimeTaken;
+    }
+    public String getActivationTime() {
+        return activationTime;
+    }
+
+    public void setActivationTime(String activationTime) {
+        this.activationTime = activationTime;
     }
 
     public String getActivationDate() {
@@ -61,6 +70,7 @@ public class PhoneTreeActivationSummary {
     public String toString() {
         final StringBuilder sb = new StringBuilder("PhoneTreeActivationSummary{");
         sb.append("activationDate='").append(activationDate).append('\'');
+        sb.append("activationTime='").append(activationTime).append('\'');
         sb.append(", totalSangat=").append(totalSangat);
         sb.append(", totalFamiliesCalled=").append(totalFamiliesCalled);
         sb.append(", totalVMLeft=").append(totalVMLeft);

@@ -1,5 +1,6 @@
 package org.rssb.phonetree.services.impl;
 
+import org.rssb.phonetree.domain.PhoneTreeActivationReport;
 import org.rssb.phonetree.domain.PhoneTreeActivationSevadarSummary;
 import org.rssb.phonetree.domain.PhoneTreeActivationSummary;
 import org.rssb.phonetree.domain.PhoneTreeActivationTeamLeadSummary;
@@ -122,6 +123,15 @@ public class PhoneTreeActivationServiceImpl implements PhoneTreeActivationServic
             phoneTreeActivationDetailRepository.saveAndFlush(phoneTreeActivationDetail);
         }
 
+    }
+
+    @Override
+    public PhoneTreeActivationReport getPhoneTreeActivationReport(String activationDate) {
+        PhoneTreeActivationReport phoneTreeActivationReport = new PhoneTreeActivationReport();
+        phoneTreeActivationReport.setPhoneTreeActivationSummary(getActivationSummary(activationDate));
+        phoneTreeActivationReport.setPhoneTreeActivationTeamLeadSummaryList(getTeamLeadsActivationSummaryByDate(activationDate));
+
+        return phoneTreeActivationReport;
     }
 
 }

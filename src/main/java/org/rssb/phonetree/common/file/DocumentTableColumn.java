@@ -2,7 +2,7 @@ package org.rssb.phonetree.common.file;
 
 import java.math.BigInteger;
 
-public enum DocumentTableColumn {
+public enum DocumentTableColumn implements ColumnInformation{
     SEQ_NO("Seq No") {
         @Override
         public String getColumnName() {
@@ -236,11 +236,11 @@ public enum DocumentTableColumn {
         return null;
     }
 
-    public abstract String getColumnName();
+    /*public abstract String getColumnName();
 
     public abstract BigInteger getColumnWidth();
 
     public abstract int getColumnOrder();
 
-    public abstract boolean isSelected();
+    public abstract boolean isSelected();*/
 }

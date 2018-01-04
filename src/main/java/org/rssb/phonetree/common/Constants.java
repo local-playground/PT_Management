@@ -33,4 +33,5 @@ public interface Constants {
     String PARENT_PANE = "PARENT_PANE";
     double LOW_OPACITY=0.1;
     double FULL_OPACITY=1.0;
+    String WORD_DOCUMENT_HEADING1_STYLE = "Heading1";
 }

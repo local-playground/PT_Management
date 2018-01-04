@@ -2,6 +2,12 @@ package org.rssb.phonetree.services;
 
 import org.junit.Test;
 import org.rssb.phonetree.ApplicationSetup;
+import org.rssb.phonetree.common.file.DocumentWriter;
+import org.rssb.phonetree.common.file.DocumentWriterFactory;
+import org.rssb.phonetree.common.file.ReportFormat;
+import org.rssb.phonetree.common.file.ReportName;
+import org.rssb.phonetree.common.file.ReportType;
+import org.rssb.phonetree.domain.PhoneTreeActivationReport;
 import org.rssb.phonetree.domain.PhoneTreeActivationSummary;
 import org.rssb.phonetree.domain.PhoneTreeActivationTeamLeadSummary;
 import org.rssb.phonetree.entity.PhoneTreeActivation;
@@ -24,6 +30,9 @@ public class PhoneTreeActivationServiceTest extends ApplicationSetup {
 
     @Autowired
     private PhoneTreeActivationService phoneTreeActivationService;
+
+    @Autowired
+    private DocumentWriterFactory documentWriterFactory;
 
 
     @Test
@@ -68,7 +77,20 @@ public class PhoneTreeActivationServiceTest extends ApplicationSetup {
     @Test
     public void getActivationSummary(){
         PhoneTreeActivationSummary phoneTreeActivationSummary =
-                phoneTreeActivationService.getActivationSummary("2017-12-21");
+                phoneTreeActivationService.getActivationSummary("2017-12-22");
         System.out.println(phoneTreeActivationSummary);
+    }
+
+    @Test
+    public void writeSNVSummaryinWordDocument(){
+        PhoneTreeActivationReport phoneTreeActivationReport =
+                phoneTreeActivationService.getPhoneTreeActivationReport("2017-12-22");
+
+        ReportType reportType = new ReportType();
+        reportType.setReportFormat(ReportFormat.WORD);
+        reportType.setReportName(ReportName.SNV_REPORT);
+
+        DocumentWriter documentWriter = documentWriterFactory.getDocumentWriter(reportType).get();
+        documentWriter.writeToFile(phoneTreeActivationReport);
     }
 }

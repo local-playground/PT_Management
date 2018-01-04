@@ -95,8 +95,8 @@ public class PhoneTreeManagementActionsController extends AbstractController{
 
     @FXML
     void showSevadarsAvailability(ActionEvent event) {
-        //switchScreen(FxmlView.VACATION_PLAN.getFxmlFile());
-        switchScreen(FxmlView.ADD_VACATION_PLAN.getFxmlFile());
+        switchScreen(FxmlView.VIEW_VACATION_PLAN.getFxmlFile());
+        //switchScreen(FxmlView.ADD_VACATION_PLAN.getFxmlFile());
         vacationPlanButton.requestFocus();
     }
 
